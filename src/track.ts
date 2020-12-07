@@ -1,6 +1,6 @@
 import * as _ from 'lodash';
 import * as mm from 'music-metadata';
-const execPromise = require('child-process-promise').exec;
+import { execWithProgress } from './asyncChild';
 
 export interface ITrackInfo {
   track?: number;
@@ -19,12 +19,25 @@ export interface ITrackInfo {
   duration?: number;
 }
 
+export const makeTime = (milli: number) => `${Math.floor(milli / 60000)}:${("0" + Math.floor(milli / 1000) % 60).substr(-2)}`; 
+
 export const play = async (track: string) => {
-  const result = await execPromise(`/usr/bin/afplay ${track}`)
-    .catch((caught: Error) => ({ error: caught }));
-  if (result.error) {
-    console.error(`Error playing track ${track}: ${result.error.message}`);
+  const info = await getInfo(track);
+  const total = (info.duration || 1) * 1000;
+  const totalFmt = makeTime(total);
+  console.log(` ${info.composer?.join(' and ')}: ${info.title}`);
+  try {
+    await doPlay(track, (elapsed: number) => {
+      process.stdout.write(` ${makeTime(elapsed)} of ${totalFmt} (${Math.floor(elapsed * 100 / total)}%)`);
+      process.stdout.cursorTo(0);
+    });
+  } catch (e) {
+    console.error(`Error playing track ${track}: ${e.message}`);
   }
+};
+
+export const doPlay = async (track: string, notifyFunc: (elapsed:number) => void | Promise<void>) => {
+  execWithProgress(`/usr/bin/afplay "${track.replace(/"/g, '\\"')}"`, notifyFunc);
 };
 
 export const info = async (track:string) => {
