@@ -30,6 +30,7 @@
   },
   "dependencies": {
     "@types/lodash": "^4.14.165",
+    "chalk": "^4.1.0",
     "child-process-promise": "^2.2.1",
     "commander": "^6.2.0",
     "lodash": "^4.17.20",

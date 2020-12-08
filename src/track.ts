@@ -1,6 +1,7 @@
 import * as _ from 'lodash';
 import * as mm from 'music-metadata';
 import { execWithProgress } from './asyncChild';
+const chalk = require('chalk');
 
 export interface ITrackInfo {
   track?: number;
@@ -21,14 +22,24 @@ export interface ITrackInfo {
 
 export const makeTime = (milli: number) => `${Math.floor(milli / 60000)}:${("0" + Math.floor(milli / 1000) % 60).substr(-2)}`; 
 
+export const makeBar = (width: number, pct: number) => {
+  const ticks = Math.floor(Math.max(0,Math.min(width, Math.floor(width * pct))));
+  const togo = width - ticks;
+  const shade = '\u2592';
+  return `${ticks ? chalk.inverse(' '.repeat(ticks)) : ''}${togo ? shade.repeat(togo) : ''}`;
+};
+
 export const play = async (track: string) => {
   const info = await getInfo(track);
   const total = (info.duration || 1) * 1000;
   const totalFmt = makeTime(total);
-  console.log(` ${info.composer?.join(' and ')}: ${info.title}`);
+  const maxWidth = process.stdout.columns || 80;
+  const barWidth = maxWidth - 24;
+  console.log(` ${info.composer?.join(' and ')}: ${info.title} - ${info.artists?.join(' and ')}`.slice(-maxWidth));
   try {
     await doPlay(track, (elapsed: number) => {
-      process.stdout.write(` ${makeTime(elapsed)} of ${totalFmt} (${Math.floor(elapsed * 100 / total)}%)`);
+      const pct = elapsed / total;
+      process.stdout.write(` ${makeBar(barWidth, pct)} ${makeTime(elapsed)} of ${totalFmt} (${Math.floor(pct * 100)}%)`);
       process.stdout.cursorTo(0);
     });
   } catch (e) {
@@ -37,7 +48,7 @@ export const play = async (track: string) => {
 };
 
 export const doPlay = async (track: string, notifyFunc: (elapsed:number) => void | Promise<void>) => {
-  execWithProgress(`/usr/bin/afplay "${track.replace(/"/g, '\\"')}"`, notifyFunc);
+  return execWithProgress(`/usr/bin/afplay -q 1 "${track.replace(/"/g, '\\"')}"`, notifyFunc);
 };
 
 export const info = async (track:string) => {
