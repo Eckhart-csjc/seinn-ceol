@@ -2,6 +2,7 @@ import * as _ from 'lodash';
 import * as mm from 'music-metadata';
 import { execWithProgress } from './asyncChild';
 const chalk = require('chalk');
+const execPromise = require('child-process-promise').exec;
 
 export interface ITrackInfo {
   track?: number;
@@ -20,6 +21,76 @@ export interface ITrackInfo {
   duration?: number;
 }
 
+interface IPlayState {
+  isPlaying: boolean;   // Currently playing a track (even if paused)
+  paused: number;       // Number of milliseconds track has been paused (prior to any current pause)
+  beginPause: number;   // Epoch (ms) of the beginning of any current pause (0 if not paused)
+}
+
+const playState: IPlayState = {
+  isPlaying: false,
+  paused: 0,
+  beginPause: 0,
+};
+
+interface IKey {
+  name?: string;
+  ctrl: boolean;
+  meta: boolean;
+  shift: boolean;
+  sequence: string;
+}
+
+const keyFncs: Record<string, (key: IKey) => void> = {
+  h: doHelp,
+  p: doPause,
+  q: doQuit,
+  r: doResume,
+  s: doSkip,
+};
+
+process.stdin.on('keypress', (ch, key) => {
+  const keyFnc = keyFncs[key.sequence];
+  if (keyFnc) {
+    keyFnc(key);
+  }
+});
+
+function doHelp(key: IKey) {
+  process.stdout.clearLine(0);
+  console.log('h = help, p = pause, q = quit, r = resume, s = skip');
+}
+
+function doPause(key: IKey) {
+  if (!playState.isPlaying || playState.beginPause) {
+    return;
+  }
+  execPromise("sh -c 'if pid=`pgrep afplay`; then kill -17 $pid; fi'");
+  playState.beginPause = Date.now();
+}
+
+function doQuit(key: IKey) {
+  doSkip(key);
+  process.exit(0);
+}
+
+function doResume(key: IKey) {
+  if (!playState.isPlaying || !playState.beginPause) {
+    return;
+  }
+  playState.paused += Date.now() - playState.beginPause;
+  playState.beginPause = 0;
+  execPromise("sh -c 'if pid=`pgrep afplay`; then kill -19 $pid; fi'");
+}
+
+function doSkip(key: IKey) {
+  if (!playState.isPlaying) {
+    return;
+  }
+  execPromise("sh -c 'if pid=`pgrep afplay`; then kill $pid; fi'");
+  playState.isPlaying = false;
+}
+
 export const makeTime = (milli: number) => `${Math.floor(milli / 60000)}:${("0" + Math.floor(milli / 1000) % 60).substr(-2)}`; 
 
 export const makeBar = (width: number, pct: number) => {
@@ -30,6 +101,9 @@ export const makeBar = (width: number, pct: number) => {
 };
 
 export const play = async (track: string) => {
+  if (playState.isPlaying) {
+    console.error(`Already playing`);
+  }
   const info = await getInfo(track);
   const total = (info.duration || 1) * 1000;
   const totalFmt = makeTime(total);
@@ -38,17 +112,26 @@ export const play = async (track: string) => {
   console.log(` ${info.composer?.join(' and ')}: ${info.title} - ${info.artists?.join(' and ')}`.slice(-maxWidth));
   try {
     await doPlay(track, (elapsed: number) => {
-      const pct = elapsed / total;
-      process.stdout.write(` ${makeBar(barWidth, pct)} ${makeTime(elapsed)} of ${totalFmt} (${Math.floor(pct * 100)}%)`);
+      if (playState.beginPause) {
+        return;
+      }
+      const netElapsed = elapsed - playState.paused;
+      const pct = netElapsed / total;
+      process.stdout.write(` ${makeBar(barWidth, pct)} ${makeTime(netElapsed)} of ${totalFmt} (${Math.floor(pct * 100)}%)`);
       process.stdout.cursorTo(0);
     });
   } catch (e) {
     console.error(`Error playing track ${track}: ${e.message}`);
+  } finally {
+    playState.isPlaying = false;
   }
 };
 
 export const doPlay = async (track: string, notifyFunc: (elapsed:number) => void | Promise<void>) => {
-  return execWithProgress(`/usr/bin/afplay -q 1 "${track.replace(/"/g, '\\"')}"`, notifyFunc);
+  playState.isPlaying = true;
+  playState.paused = 0;
+  playState.beginPause = 0;
+  return execWithProgress(`/usr/bin/afplay -q 1 "${track.replace(/"/,'\\"')}"`, notifyFunc);
 };
 
 export const info = async (track:string) => {
