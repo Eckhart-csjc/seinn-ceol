@@ -1,6 +1,7 @@
 import * as _ from 'lodash';
 import * as mm from 'music-metadata';
-import { execWithProgress } from './asyncChild';
+import { spawnWithProgress } from './asyncChild';
+import { IKey } from './keypress';
 const chalk = require('chalk');
 const execPromise = require('child-process-promise').exec;
 
@@ -32,14 +33,6 @@ const playState: IPlayState = {
   paused: 0,
   beginPause: 0,
 };
-
-interface IKey {
-  name?: string;
-  ctrl: boolean;
-  meta: boolean;
-  shift: boolean;
-  sequence: string;
-}
 
 const keyFncs: Record<string, (key: IKey) => void> = {
   h: doHelp,
@@ -131,7 +124,7 @@ export const doPlay = async (track: string, notifyFunc: (elapsed:number) => void
   playState.isPlaying = true;
   playState.paused = 0;
   playState.beginPause = 0;
-  return execWithProgress(`/usr/bin/afplay -q 1 "${track.replace(/"/,'\\"')}"`, notifyFunc);
+  return spawnWithProgress(`/usr/bin/afplay`, [`-q`,`1`,track], notifyFunc);
 };
 
 export const info = async (track:string) => {
