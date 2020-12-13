@@ -3,6 +3,10 @@ import * as keypress  from './keypress';
 import * as track from './track';
 
 keypress.init();
+keypress.addKey({
+  key: { sequence: 'q' },
+  func: () => process.exit(0),
+});
 
 program
   .version(require('../package.json').version)

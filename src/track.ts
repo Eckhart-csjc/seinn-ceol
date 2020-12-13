@@ -1,7 +1,8 @@
 import * as _ from 'lodash';
 import * as mm from 'music-metadata';
 import { spawnWithProgress } from './asyncChild';
-import { IKey } from './keypress';
+import { IKey, IKeyMapping } from './keypress';
+import * as keypress from './keypress';
 const chalk = require('chalk');
 const execPromise = require('child-process-promise').exec;
 
@@ -34,20 +35,13 @@ const playState: IPlayState = {
   beginPause: 0,
 };
 
-const keyFncs: Record<string, (key: IKey) => void> = {
-  h: doHelp,
-  p: doPause,
-  q: doQuit,
-  r: doResume,
-  s: doSkip,
-};
-
-process.stdin.on('keypress', (ch, key) => {
-  const keyFnc = keyFncs[key.sequence];
-  if (keyFnc) {
-    keyFnc(key);
-  }
-});
+const playKeys: IKeyMapping[] = [
+  { key: {sequence: 'h'}, func: doHelp },
+  { key: {sequence: 'p'}, func: doPause },
+  { key: {sequence: 'q'}, func: doQuit },
+  { key: {sequence: 'r'}, func: doResume },
+  { key: {sequence: 's'}, func: doSkip },
+];
 
 function doHelp(key: IKey) {
   process.stdout.clearLine(0);
@@ -64,7 +58,6 @@ function doPause(key: IKey) {
 
 function doQuit(key: IKey) {
   doSkip(key);
-  process.exit(0);
 }
 
 function doResume(key: IKey) {
@@ -124,7 +117,9 @@ export const doPlay = async (track: string, notifyFunc: (elapsed:number) => void
   playState.isPlaying = true;
   playState.paused = 0;
   playState.beginPause = 0;
-  return spawnWithProgress(`/usr/bin/afplay`, [`-q`,`1`,track], notifyFunc);
+  playKeys.forEach((km) => keypress.addKey(km));
+  await spawnWithProgress(`/usr/bin/afplay`, [`-q`,`1`,track], notifyFunc);
+  playKeys.forEach((km) => keypress.removeKey(km));
 };
 
 export const info = async (track:string) => {
