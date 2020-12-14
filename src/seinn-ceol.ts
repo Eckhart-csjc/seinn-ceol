@@ -4,6 +4,10 @@ import * as track from './track';
 
 keypress.init();
 keypress.addKey({
+  key: { sequence: 'h' },
+  func: () => console.log('h = help, q = quit'),
+});
+keypress.addKey({
   key: { sequence: 'q' },
   func: () => process.exit(0),
 });
