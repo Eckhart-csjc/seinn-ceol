@@ -1,5 +1,6 @@
 import { program } from 'commander';
 import * as keypress  from './keypress';
+import { play } from './play';
 import * as track from './track';
 
 keypress.init();
@@ -17,9 +18,15 @@ program
   ;
 
 program
+  .command('add [tracks...]')
+  .description('add track(s) to the library')
+  .action(track.add)
+  ;
+
+program
   .command('play <track>')
   .description('play a track of music from a file')
-  .action(track.play)
+  .action(play)
   ;
 
 program
