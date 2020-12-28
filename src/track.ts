@@ -1,8 +1,8 @@
 import * as fs from 'fs';
 import * as _ from 'lodash';
 import * as mm from 'music-metadata';
-import * as os from 'os';
 import * as path from 'path';
+import { ArrayFileHandler } from './array-file-handler';
 
 export interface ITrackInfo {
   track?: number;
@@ -30,6 +30,8 @@ export interface ITrack extends ITrackInfo {
 export interface ITrackUpdater extends Partial<ITrack> {
   trackPath: string;
 }
+
+const trackFile = new ArrayFileHandler<ITrack>('tracks.json');
 
 export const add = async (tracks:string[]) => {
   try {
@@ -72,41 +74,13 @@ const makeTrack = async (trackPath: string, info?: ITrackInfo): Promise<ITrack> 
   };
 };
 
-const getDefaultPath = () => {
-  const folderPath = path.resolve(os.homedir(), './Music/seinn-ceol');
-  if (!fs.existsSync(folderPath)) {
-    fs.mkdirSync(folderPath, { recursive: true, mode: 0o744 });
-  }
-  return folderPath;
-};
-
-const makeFilename = (basename: string, pathOverride?: string) => path.resolve(path.join(pathOverride ?? getDefaultPath(), basename));
-
-const fetchTracks = (pathOverride?: string): ITrack[] => {
-  const trackFilename = makeFilename('tracks.json', pathOverride);
-  if (fs.existsSync(trackFilename)) {
-    return JSON.parse(fs.readFileSync(trackFilename, { encoding: 'utf8' })) as ITrack[];
-  }
-  return [];
-};
-
-const findTrack = (trackPath: string, pathOverride?: string) => {
+const findTrack = (trackPath: string) => {
   const tp = path.resolve(trackPath);
-  return _.find(fetchTracks(pathOverride), (track) => track.trackPath === tp);
+  return _.find(trackFile.fetch(), (track) => track.trackPath === tp);
 };
 
-const writeTracks = (tracks: ITrack[], pathOverride?: string) => {
-  const trackFilename = makeFilename('tracks.json', pathOverride);
-  const tmpFilename = `${trackFilename}.tmp`;
-  if (fs.existsSync(tmpFilename)) {
-    fs.rmSync(tmpFilename);
-  }
-  fs.appendFileSync(tmpFilename, JSON.stringify(tracks, undefined, 2), { encoding: 'utf8' });
-  fs.renameSync(tmpFilename, trackFilename);
-};
-
-const addTracks = async (tracks: string[], pathOverride?: string): Promise<ITrack[]> => {
-  const existing = fetchTracks(pathOverride);
+const addTracks = async (tracks: string[]): Promise<ITrack[]> => {
+  const existing = trackFile.fetch();
   const newTracks = await tracks.reduce<Promise<ITrack[]>>(async (acc, track) => {
     const accum = await acc;
     const trackPath = path.resolve(track);
@@ -120,23 +94,23 @@ const addTracks = async (tracks: string[], pathOverride?: string): Promise<ITrac
       ];
     }
   }, Promise.resolve(existing));
-  writeTracks(newTracks);
+  trackFile.save(newTracks);
   return _.difference(newTracks, existing);
 };
 
-const updateTrack = (updates: ITrackUpdater, pathOverride?: string) => {
-  const tracks = fetchTracks(pathOverride);
+const updateTrack = (updates: ITrackUpdater) => {
+  const tracks = trackFile.fetch();
   const oldTrack = _.find(tracks, (track) => track.trackPath === updates.trackPath);
   if (oldTrack) {
     _.merge(oldTrack, updates);     // mutates oldTrack, and thus tracks (this is to maintain track order)
-    writeTracks(tracks);
+    trackFile.save(tracks);
   } else {
     console.warn(`Track "${updates.trackPath}" not in library -- not updating`);
   }
 };
 
-export const bumpPlays = (trackPath: string, pathOverride?: string) => {
-  const oldTrack = findTrack(trackPath, pathOverride);
+export const bumpPlays = (trackPath: string) => {
+  const oldTrack = findTrack(trackPath);
   if (oldTrack) {
     updateTrack({
       trackPath: oldTrack.trackPath,
