@@ -27,6 +27,11 @@ export interface ITrack extends ITrackInfo {
   plays: number;
 }
 
+export interface ITrackStats {
+  nTracks: number;
+  totalTime: number;
+}
+
 export interface ITrackUpdater extends Partial<ITrack> {
   trackPath: string;
 }
@@ -63,6 +68,14 @@ export const getInfo = async (track:string) : Promise<ITrackInfo> => {
     duration: p.format.duration,
   };
 }
+
+export const stats = (tracks?: ITrack[]): ITrackStats => (tracks ?? trackFile.fetch()).reduce<ITrackStats>((accum, track) => ({
+  nTracks: accum.nTracks + 1,
+  totalTime: accum.totalTime + (track.duration ?? 0),
+}), {
+  nTracks: 0,
+  totalTime: 0,
+});
 
 const makeTrack = async (trackPath: string, info?: ITrackInfo): Promise<ITrack> => {
   const trackInfo = info ?? await getInfo(trackPath);

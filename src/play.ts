@@ -2,7 +2,8 @@ import { spawnWithProgress } from './asyncChild';
 import { IKey, IKeyMapping } from './keypress';
 import * as keypress from './keypress';
 import { bumpPlays, getInfo } from './track';
-const chalk = require('chalk');
+import { makeBar, makeTime } from './util';
+
 const execPromise = require('child-process-promise').exec;
 
 interface IPlayState {
@@ -58,15 +59,6 @@ function doSkip(key: IKey) {
   execPromise("sh -c 'if pid=`pgrep afplay`; then kill $pid; fi'");
   playState.isPlaying = false;
 }
-
-export const makeTime = (milli: number) => `${Math.floor(milli / 60000)}:${("0" + Math.floor(milli / 1000) % 60).substr(-2)}`; 
-
-export const makeBar = (width: number, pct: number) => {
-  const ticks = Math.floor(Math.max(0,Math.min(width, Math.floor(width * pct))));
-  const togo = width - ticks;
-  const shade = '\u2592';
-  return `${ticks ? chalk.inverse(' '.repeat(ticks)) : ''}${togo ? shade.repeat(togo) : ''}`;
-};
 
 export const play = async (track: string) => {
   if (playState.isPlaying) {

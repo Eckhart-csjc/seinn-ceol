@@ -1,6 +1,7 @@
 import { program } from 'commander';
 import * as keypress  from './keypress';
 import { play } from './play';
+import { stats } from './stats';
 import * as track from './track';
 
 keypress.init();
@@ -24,15 +25,21 @@ program
   ;
 
 program
+  .command('info <track>')
+  .description('get track information from a file')
+  .action(track.info)
+  ;
+
+program
   .command('play <track>')
   .description('play a track of music from a file')
   .action(play)
   ;
 
 program
-  .command('info <track>')
-  .description('get track information from a file')
-  .action(track.info)
+  .command('stats')
+  .description('get general statistics')
+  .action(stats)
   ;
 
 const main = async () => {

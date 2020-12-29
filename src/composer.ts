@@ -11,6 +11,10 @@ export interface IComposer {
   died?: string;      // Valid dayjs input, or undefined is still living
 }
 
+export interface IComposerStats {
+  nComposers: number;
+}
+
 const composerFile = new ArrayFileHandler<IComposer>('composers.json');
 
 const indexComposers = () => composerFile.fetch().reduce<Record<string,IComposer>>((accum, composer) => ({
@@ -24,3 +28,10 @@ export const suggest = (name: string) => _.sortBy(composerFile.fetch().map((comp
   distance: [ levenshtein(composer.name, name), ...composer.aliases.map((alias) => levenshtein(alias,name))].sort()[0],
   composer,
 })), ['distance']);
+
+export const stats = (): IComposerStats => {
+  const composers = composerFile.fetch();
+  return {
+    nComposers: composers.length,
+  };
+};
