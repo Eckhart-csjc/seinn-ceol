@@ -24,6 +24,7 @@ export interface IComposerStats {
 
 const ADD = '<add new>';
 const SKIP = '<skip for now>';
+const VIEW = '<view tracks>';
 
 const composerFile = new ArrayFileHandler<IComposer>('composers.json');
 
@@ -101,15 +102,31 @@ export const resolveAll = async () => {
   }, Promise.resolve());
 };
 
-export const resolve = async (name: string, tracks?: track.ITrack[]) => {
-  const options = [SKIP, ADD, ...suggest(name)];
+export const resolve = async (name: string, tracks: track.ITrack[]): Promise<void> => {
+  const options = [SKIP, VIEW, ADD, ...suggest(name)];
   const { option } = await inquirer.prompt([
     {
       name: 'option',
       type: 'list',
-      default: options[Math.min(options.length - 1, 2)],   // First suggestion or ADD
+      default: options[Math.min(options.length - 1, 3)],   // First suggestion or ADD
       choices: options,
       message: name,
     }
   ]);
+  switch (option) {
+    case SKIP:
+      return;
+
+    case ADD:
+      // TODO:
+      break;
+
+    case VIEW:
+      console.log(tracks.map((t) => _.pick(t, ['title', 'album', 'artists'])));
+      return resolve(name, tracks);
+
+    default:
+      // TODO:
+      break;
+  }
 };
