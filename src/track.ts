@@ -38,6 +38,8 @@ export interface ITrackUpdater extends Partial<ITrack> {
 
 const trackFile = new ArrayFileHandler<ITrack>('tracks.json');
 
+export const fetchAll = () => trackFile.fetch();
+
 export const add = async (tracks:string[]) => {
   try {
     const newTracks = await addTracks(tracks);
@@ -69,7 +71,7 @@ export const getInfo = async (track:string) : Promise<ITrackInfo> => {
   };
 }
 
-export const stats = (tracks?: ITrack[]): ITrackStats => (tracks ?? trackFile.fetch()).reduce<ITrackStats>((accum, track) => ({
+export const stats = (tracks?: ITrack[]): ITrackStats => (tracks ?? fetchAll()).reduce<ITrackStats>((accum, track) => ({
   nTracks: accum.nTracks + 1,
   totalTime: accum.totalTime + (track.duration ?? 0),
 }), {
@@ -89,11 +91,11 @@ const makeTrack = async (trackPath: string, info?: ITrackInfo): Promise<ITrack> 
 
 const findTrack = (trackPath: string) => {
   const tp = path.resolve(trackPath);
-  return _.find(trackFile.fetch(), (track) => track.trackPath === tp);
+  return _.find(fetchAll(), (track) => track.trackPath === tp);
 };
 
 const addTracks = async (tracks: string[]): Promise<ITrack[]> => {
-  const existing = trackFile.fetch();
+  const existing = fetchAll();
   const newTracks = await tracks.reduce<Promise<ITrack[]>>(async (acc, track) => {
     const accum = await acc;
     const trackPath = path.resolve(track);
@@ -112,7 +114,7 @@ const addTracks = async (tracks: string[]): Promise<ITrack[]> => {
 };
 
 const updateTrack = (updates: ITrackUpdater) => {
-  const tracks = trackFile.fetch();
+  const tracks = fetchAll();
   const oldTrack = _.find(tracks, (track) => track.trackPath === updates.trackPath);
   if (oldTrack) {
     _.merge(oldTrack, updates);     // mutates oldTrack, and thus tracks (this is to maintain track order)

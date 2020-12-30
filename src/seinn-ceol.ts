@@ -2,6 +2,7 @@ import { program } from 'commander';
 import * as keypress  from './keypress';
 import { play } from './play';
 import { stats } from './stats';
+import * as composer from './composer';
 import * as track from './track';
 
 keypress.init();
@@ -22,6 +23,12 @@ program
   .command('add [tracks...]')
   .description('add track(s) to the library')
   .action(track.add)
+  ;
+
+program
+  .command('resolve-composers')
+  .description('Resolve composers for tracks whose composer is not on file')
+  .action(composer.resolveAll)
   ;
 
 program
