@@ -13,6 +13,7 @@ export interface IKeyMapping {
 }
 
 let keyMappings = [] as IKeyMapping[];
+let active: boolean = false;
 
 const keysMatch = (k1: Partial<IKey>, k2: Partial<IKey>) =>
   k1.name === k2.name &&
@@ -45,6 +46,9 @@ export const removeKey = (keyMapping: IKeyMapping) => {
   keyMappings = keyMappings.filter((km) => !keyMappingsMatch(keyMapping, km));
 }
 
+export const suspend = () => active = false;
+export const resume = () => active = true;
+
 export const init = () => {
   const readline = require('readline');
   readline.emitKeypressEvents(process.stdin);
@@ -52,7 +56,10 @@ export const init = () => {
     process.stdin.setRawMode(true);
   }
   process.stdin.on('keypress', (c: string, key: IKey) => {
-    keyMappings.filter((km) => keyMappingApplies(key, km))
-    .map((km) => km.func(key));
+    if (active) {
+      keyMappings.filter((km) => keyMappingApplies(key, km))
+      .map((km) => km.func(key));
+    }
   })
+  resume();
 };

@@ -1,9 +1,10 @@
-import * as dayjs from 'dayjs';
 import * as inquirer from 'inquirer';
 import * as _ from 'lodash';
 import { ArrayFileHandler } from './array-file-handler';
+import * as keypress from './keypress';
 import * as track from './track';
 
+const dayjs = require('dayjs');
 const levenshtein = require('js-levenshtein');
 const pluralize = require('pluralize');
 
@@ -49,36 +50,39 @@ const checkAliases = (composer: IComposer, composers: IComposer[]) => {
   return composer.aliases.map<IComposer | undefined>((alias) => index[alias]).filter((c) => !!c && c !== composer);
 }
   
-export const add = (composer: IComposer) => {
+export const add = (composer: IComposer): boolean => {
   const composers = fetchAll();
   const existing = find(composer.name, composers);
   if (existing) {
     console.error(`Composer ${composer.name} already exists`, existing);
-    return;
+    return false;
   }
   const existingAliases = checkAliases(composer, composers);
   if (existingAliases.length > 0) {
     console.error(`The following aliases for this composer already exist`, existingAliases);
-    return;
+    return false;
   }
   composerFile.save([...composers, composer]);
+  return true;
 };
 
-export const update = (updates: IComposerUpdater) => {
+export const update = (updates: IComposerUpdater): boolean => {
   const composers = fetchAll();
   const existing = find(updates.name, composers);
   if (!existing) {
     console.error(`No composer named ${updates.name} found to update`);
+    return false;
   }
   _.merge(existing, updates);
   if (updates.aliases) {
     const existingAliases = checkAliases(existing, composers);
     if (existingAliases.length > 0) {
       console.error(`The following aliases for this composer already exist`, existingAliases);
-      return;
+      return false;
     }
   }
   composerFile.save(composers);
+  return true;
 };
 
 export const stats = (): IComposerStats => {
@@ -86,6 +90,60 @@ export const stats = (): IComposerStats => {
   return {
     nComposers: composers.length,
   };
+};
+
+const getValues = async (known: Partial<IComposer>, index: Record<string, IComposer>, existing?: IComposer): Promise<IComposer | undefined> => {
+  keypress.suspend();
+  const responses = await inquirer.prompt([
+    { 
+      name: 'name', 
+      type: 'input', 
+      message: 'Name:', 
+      default: known.name, 
+      validate: (val) => !val ? 'Composer name is reuired' : (index[val] && index[val] !== existing) ? 'Composer name already in use' : true,
+      askAnswered: true,
+    },
+    {
+      name: 'born',
+      type: 'input',
+      message: 'Born:',
+      default: known.born,
+      validate: (val) => (!!val && dayjs(val).year != NaN) ? true : 'Invalid date',
+      askAnswered: true,
+    },
+    {
+      name: 'died',
+      type: 'input',
+      message: 'Died (blank if still living):',
+      default: known.died,
+      validate: (val) => (!val || dayjs(val).year != NaN) ? true : 'Invalid date',
+      askAnswered: true,
+    },
+    {
+      name: 'action',
+      type: 'list',
+      message: 'How does it look?',
+      choices: ['OK', 'Redo', 'Cancel'],
+      default: 'OK',
+      askAnswered: true,
+    }
+  ]);
+  keypress.resume();
+  const aliases = known.aliases ?? [] as string[];
+  const newVersion = {
+    name: responses.name,
+    aliases: (known.name && known.name !== responses.name) ? _.uniq([ ...aliases, known.name]) : aliases,
+    born: responses.born,
+    died: responses.died,
+  };
+  switch (responses.action) {
+    case 'OK':
+      return newVersion;
+
+    case 'Redo':
+      return getValues(newVersion, index, existing);
+  }
+  return undefined;
 };
 
 export const resolveAll = async () => {
@@ -98,12 +156,18 @@ export const resolveAll = async () => {
   console.log(`${pluralize('composer', names.length, true)} to resolve, ${pluralize('track', tracksSansComposer.length, true)} with no composer`);
   return names.reduce(async (acc, name) => {
     await acc;
-    return resolve(name, byComposer[name]);
+    await resolve(name, byComposer[name]);
   }, Promise.resolve());
 };
 
-export const resolve = async (name: string, tracks: track.ITrack[]): Promise<void> => {
-  const options = [SKIP, VIEW, ADD, ...suggest(name)];
+export const resolve = async (name: string, tracks: track.ITrack[]): Promise<boolean> => {
+  console.log('');
+  const index = indexComposers();
+  if (index[name]) {
+    console.log(`Found ${name} -- skipping`);
+    return true;
+  }
+  const options = [SKIP, VIEW, ADD, ...suggest(name).map((s) => s.composer.name)];
   const { option } = await inquirer.prompt([
     {
       name: 'option',
@@ -113,20 +177,31 @@ export const resolve = async (name: string, tracks: track.ITrack[]): Promise<voi
       message: name,
     }
   ]);
+  console.log(option);
   switch (option) {
-    case SKIP:
-      return;
+    case SKIP: {
+      return false;
+    }
 
-    case ADD:
-      // TODO:
-      break;
+    case ADD: {
+      const composer = await getValues({ name }, index);
+      return composer && add(composer) || resolve(name, tracks);
+    }
 
-    case VIEW:
+    case VIEW: {
       console.log(tracks.map((t) => _.pick(t, ['title', 'album', 'artists'])));
       return resolve(name, tracks);
+    }
 
-    default:
-      // TODO:
+    default: {
+      const composer = index[option];
+      if (composer) {
+        update({ name: composer.name, aliases: _.uniq([...composer.aliases || [], name]) });
+      } else {
+        console.error(`Could not find existing composer ${option}`);
+      }
       break;
+    }
   }
+  return false;
 };
