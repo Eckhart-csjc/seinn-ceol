@@ -68,8 +68,9 @@ export const play = async (track: string) => {
   const total = (info.duration || 1) * 1000;
   const totalFmt = makeTime(total);
   const maxWidth = process.stdout.columns || 80;
-  const barWidth = maxWidth - 24;
-  console.log(` ${info.composer?.join(' and ')}: ${info.title} - ${info.artists?.join(' and ')}`.slice(-maxWidth));
+  const barWidth = maxWidth - totalFmt.length * 2 - 15;
+  process.stdout.clearLine(0);
+  console.log(`${info.composer?.join(' and ')}: ${info.title} - ${info.artists?.join(' and ')}`.slice(-maxWidth));
   try {
     await doPlay(track, (elapsed: number) => {
       if (playState.beginPause) {

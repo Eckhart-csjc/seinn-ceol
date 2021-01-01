@@ -31,7 +31,7 @@ const composerFile = new ArrayFileHandler<IComposer>('composers.json');
 
 export const fetchAll = () => composerFile.fetch();
 
-const indexComposers = (composers?: IComposer[]) => 
+export const indexComposers = (composers?: IComposer[]) => 
   (composers ?? fetchAll())
     .reduce<Record<string,IComposer>>((accum, composer) => ({
        ...accum,

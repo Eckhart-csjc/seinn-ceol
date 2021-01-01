@@ -9,7 +9,7 @@ export const makeTime = (milli: number) => {
     const val = accum.rem % op.d;
     const rem = Math.floor((accum.rem - val) / op.d);
     return {
-      nums: (val || rem) ? [ `0${val}`.substr(-2), ...accum.nums ] : accum.nums,
+      nums: (val || rem || op.d === 60) ? [ `0${val}`.substr(-2), ...accum.nums ] : accum.nums,
       rem,
     }
   }, { nums: [], rem: Math.floor(milli / 1000) });

@@ -44,6 +44,12 @@ program
   ;
 
 program
+  .command('play-library')
+  .description('play tracks from the library')
+  .action(async () => track.playLibrary(['composerKey.born','composerKey.died','composerKey.name','album','disk','track']))
+  ;
+
+program
   .command('stats')
   .description('get general statistics')
   .action(stats)

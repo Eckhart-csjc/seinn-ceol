@@ -3,6 +3,9 @@ import * as _ from 'lodash';
 import * as mm from 'music-metadata';
 import * as path from 'path';
 import { ArrayFileHandler } from './array-file-handler';
+import * as composer from './composer';
+import { IComposer } from './composer';
+import { play } from './play';
 
 export interface ITrackInfo {
   track?: number;
@@ -25,6 +28,10 @@ export interface ITrack extends ITrackInfo {
   trackPath: string;
   composerKey?: string;
   plays: number;
+}
+
+export interface ITrackSort extends Omit<ITrack, 'composerKey'> {
+  composerKey?: IComposer;
 }
 
 export interface ITrackStats {
@@ -132,4 +139,24 @@ export const bumpPlays = (trackPath: string) => {
       plays: oldTrack.plays + 1,
     });
   }
+};
+
+export const sort = (sortKeys: string[]): ITrackSort[] => {
+  const composerIndex = composer.indexComposers();
+  return _.sortBy(
+    fetchAll().map((t) => ({
+      ..._.omit(t, 'composerKey'),
+      composerKey: t.composerKey ? composerIndex[t.composerKey] : undefined,
+    })),
+    sortKeys,
+  );
+};
+
+export const playLibrary = async (sortKeys: string[]): Promise<void> => {
+  const sorted = sort(sortKeys);
+  await sorted.reduce(async (accum, track): Promise<void> => {
+    await accum;
+    return play(track.trackPath)
+  }, Promise.resolve());
+  return playLibrary(sortKeys);     // Recurse to repeat
 };
