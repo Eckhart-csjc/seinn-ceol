@@ -9,10 +9,10 @@ const levenshtein = require('js-levenshtein');
 const pluralize = require('pluralize');
 
 export interface IComposer {
-  name: string;       // Name as key
-  aliases: string[];  // Other ways of representing name
-  born: string;       // Valid dayjs input
-  died?: string;      // Valid dayjs input, or undefined is still living
+  name: string;                // Name as key
+  aliases: string[];           // Other ways of representing name
+  born: string | number;       // Valid dayjs input
+  died?: string | number;      // Valid dayjs input, or undefined is still living
 }
 
 export interface IComposerUpdater extends Partial<IComposer> {
@@ -149,14 +149,21 @@ const getValues = async (known: Partial<IComposer>, index: Record<string, ICompo
 export const resolveAll = async () => {
   const index = indexComposers();
   const tracks = track.fetchAll();
-  const tracksToResolve = tracks.filter((t) => t.composerKey && !index[t.composerKey]);
-  const tracksSansComposer = tracks.filter((t) => !t.composerKey);
+  const tracksSansComposer = tracks.filter((t) => !t.composerKey || t.composerKey === 'Anonymous');
+  const anonToResolve = tracksSansComposer.filter((t) => !t.compositionDate);
+  const tracksToResolve = _.difference(tracks, tracksSansComposer).filter((t) => t.composerKey && !index[t.composerKey]);
   const byComposer = _.groupBy(tracksToResolve, 'composerKey');
   const names = Object.keys(byComposer);
-  console.log(`${pluralize('composer', names.length, true)} to resolve, ${pluralize('track', tracksSansComposer.length, true)} with no composer`);
-  return names.reduce(async (acc, name) => {
+  console.log(`${pluralize('composer', names.length, true)} to resolve, ${pluralize('track', anonToResolve.length, true)} with no composer and no composition date`);
+  await names.reduce(async (acc, name) => {
     await acc;
     await resolve(name, byComposer[name]);
+  }, Promise.resolve());
+  console.log('');
+  console.log('Anonymous works');
+  await anonToResolve.reduce(async (acc, t) => {
+    await acc;
+    await track.resolveAnonymous(t);
   }, Promise.resolve());
 };
 

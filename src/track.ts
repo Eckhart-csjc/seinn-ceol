@@ -1,4 +1,5 @@
 import * as fs from 'fs';
+import * as inquirer from 'inquirer';
 import * as _ from 'lodash';
 import * as mm from 'music-metadata';
 import * as path from 'path';
@@ -6,6 +7,8 @@ import { ArrayFileHandler } from './array-file-handler';
 import * as composer from './composer';
 import { IComposer } from './composer';
 import { play } from './play';
+
+const dayjs = require('dayjs');
 
 export interface ITrackInfo {
   track?: number;
@@ -28,10 +31,11 @@ export interface ITrack extends ITrackInfo {
   trackPath: string;
   composerKey?: string;
   plays: number;
+  compositionDate?: string;
 }
 
 export interface ITrackSort extends Omit<ITrack, 'composerKey'> {
-  composerKey?: IComposer;
+  composerKey?: Partial<IComposer>;
 }
 
 export interface ITrackStats {
@@ -144,19 +148,69 @@ export const bumpPlays = (trackPath: string) => {
 export const sort = (sortKeys: string[]): ITrackSort[] => {
   const composerIndex = composer.indexComposers();
   return _.sortBy(
-    fetchAll().map((t) => ({
-      ..._.omit(t, 'composerKey'),
-      composerKey: t.composerKey ? composerIndex[t.composerKey] : undefined,
-    })),
+    fetchAll().map((t) => {
+      const composer = t.composerKey && (t.composerKey !== 'Anonymous') ? composerIndex[t.composerKey] : undefined;
+      const composerKey = (composer ? {
+          ..._.omit(composer, ["born", "died"]),
+          born: new Date(dayjs(composer.born)).getTime(),
+          died: new Date(dayjs(composer.died)).getTime(),
+        } : undefined) ?? {
+          name: t.composerKey ?? 'Anonymous',
+          born: new Date(dayjs(t.compositionDate)).getTime(),
+          died: new Date(dayjs(t.compositionDate)).getTime(),
+        };
+      return {
+        ..._.omit(t, 'composerKey'),
+        composerKey
+      }
+    }),
     sortKeys,
   );
 };
 
-export const playLibrary = async (sortKeys: string[]): Promise<void> => {
-  const sorted = sort(sortKeys);
-  await sorted.reduce(async (accum, track): Promise<void> => {
-    await accum;
-    return play(track.trackPath)
-  }, Promise.resolve());
-  return playLibrary(sortKeys);     // Recurse to repeat
-};
+export const resolveAnonymous = async (track: ITrack) => {
+  console.log('');
+  console.log(_.pick(track, ['title', 'album', 'artists']));
+  const SKIP = 'skip for now';
+  const COMPOSER = 'enter composer name';
+  const DATE = 'enter composition date';
+  const options = [SKIP, COMPOSER, DATE];
+  const { option } = await inquirer.prompt([
+    {
+      name: 'option',
+      type: 'list',
+      default: options[0],
+      choices: options,
+    }
+  ]);
+  switch (option) {
+    case SKIP:
+      return;
+
+    case COMPOSER: {
+      const { composerKey } = await inquirer.prompt([
+        {
+          name: 'composerKey',
+          type: 'input',
+          default: track.composerKey,
+        }
+      ]);
+      if (composerKey && composerKey !== track.composerKey) {
+        updateTrack({ trackPath: track.trackPath, composerKey });
+      }
+    };
+
+    case DATE: {
+      const { compositionDate } = await inquirer.prompt([
+        {
+          name: 'compositionDate',
+          type: 'input',
+          default: track.compositionDate,
+        }
+      ]);
+      if (compositionDate && compositionDate !== track.compositionDate) {
+        updateTrack({ trackPath: track.trackPath, compositionDate });
+      }
+    }
+  }
+}

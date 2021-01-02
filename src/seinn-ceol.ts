@@ -1,6 +1,7 @@
 import { program } from 'commander';
 import * as keypress  from './keypress';
 import { play } from './play';
+import * as playlist from './playlist';
 import { stats } from './stats';
 import * as composer from './composer';
 import * as track from './track';
@@ -44,9 +45,9 @@ program
   ;
 
 program
-  .command('play-library')
-  .description('play tracks from the library')
-  .action(async () => track.playLibrary(['composerKey.born','composerKey.died','composerKey.name','album','disk','track']))
+  .command('play-list <name>')
+  .description('play tracks from a playlist')
+  .action(playlist.playList)
   ;
 
 program
