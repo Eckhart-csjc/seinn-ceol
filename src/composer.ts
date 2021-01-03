@@ -40,8 +40,17 @@ export const indexComposers = (composers?: IComposer[]) =>
     }), {} as Record<string,IComposer>);
 
 export const find = (name: string, composers?: IComposer[]) => indexComposers(composers)[name];
+
+const getDistance = (a:string, b:string) => {
+  const bw = b.split(/[ -&,]/).filter((w) => !!w);
+  const scores = _.flatten(a.split(' ').filter((w) => !!w).map((w) => bw.map((w2) => levenshtein(w, w2)))).sort();
+  const halfpt = (scores.length > 1) ? Math.floor(scores.length / 2) : 1;
+  const score = scores.slice(0, halfpt).reduce((acc, s) => acc + s, 0) / halfpt;
+  console.log(`${a} <=> ${b} = ${score}`);
+};
+
 export const suggest = (name: string) => _.sortBy(fetchAll().map((composer:IComposer) => ({
-  distance: [ levenshtein(composer.name, name), ...composer.aliases.map((alias) => levenshtein(alias,name))].sort()[0],
+  distance: [ getDistance(name, composer.name), ...composer.aliases.map((alias) => getDistance(name, alias))].sort()[0],
   composer,
 })), ['distance']);
 

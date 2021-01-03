@@ -4,6 +4,7 @@ import * as keypress from './keypress';
 import { bumpPlays, getInfo } from './track';
 import { makeBar, makeTime } from './util';
 
+const chalk = require('chalk');
 const execPromise = require('child-process-promise').exec;
 
 interface IPlayState {
@@ -17,6 +18,8 @@ const playState: IPlayState = {
   paused: 0,
   beginPause: 0,
 };
+
+export const isPlaying = () => playState.isPlaying;
 
 const playKeys: IKeyMapping[] = [
   { key: {sequence: 'h'}, func: doHelp },
@@ -36,6 +39,8 @@ function doPause(key: IKey) {
     return;
   }
   execPromise("sh -c 'if pid=`pgrep afplay`; then kill -17 $pid; fi'");
+  process.stdout.write(chalk.yellow(' [PAUSED]'));
+  process.stdout.cursorTo(0);
   playState.beginPause = Date.now();
 }
 
