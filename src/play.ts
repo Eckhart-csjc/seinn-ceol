@@ -83,7 +83,7 @@ export const play = async (track: string) => {
       }
       const netElapsed = elapsed - playState.paused;
       const pct = netElapsed / total;
-      process.stdout.write(` ${makeBar(barWidth, pct)} ${makeTime(netElapsed)} of ${totalFmt} (${Math.floor(pct * 100)}%)`);
+      process.stdout.write(chalk.dim(` ${makeBar(barWidth, pct)} ${makeTime(netElapsed)} of ${totalFmt} (${Math.floor(pct * 100)}%)`));
       process.stdout.cursorTo(0);
     });
   } catch (e) {

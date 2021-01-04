@@ -19,6 +19,7 @@ export const makeTime = (milli: number) => {
 export const makeBar = (width: number, pct: number) => {
   const ticks = Math.floor(Math.max(0,Math.min(width, Math.floor(width * pct))));
   const togo = width - ticks;
+  const block = '\u2588';
   const shade = '\u2592';
-  return `${ticks ? chalk.inverse(' '.repeat(ticks)) : ''}${togo ? shade.repeat(togo) : ''}`;
+  return `${ticks ? block.repeat(ticks) : ''}${togo ? shade.repeat(togo) : ''}`;
 };
