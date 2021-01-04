@@ -6,10 +6,12 @@ import { stats } from './stats';
 import * as composer from './composer';
 import * as track from './track';
 
+const chalk = require('chalk');
+
 keypress.init();
 keypress.addKey({
   key: { sequence: 'h' },
-  func: () => console.log('h = help, q = quit'),
+  func: () => console.log(chalk.grey('h = help, q = quit')),
 });
 keypress.addKey({
   key: { sequence: 'q' },

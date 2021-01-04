@@ -173,7 +173,7 @@ export const resolveAll = async () => {
   const byComposer = _.groupBy(tracksToResolve, 'composerKey');
   const names = Object.keys(byComposer);
   console.log(`${pluralize('composer', names.length, true)} to resolve, ${pluralize('track', anonToResolve.length, true)} with no composer and no composition date`);
-  await names.reduce(async (acc, name) => {
+  await names.sort().reduce(async (acc, name) => {
     await acc;
     await resolve(name, byComposer[name]);
   }, Promise.resolve());

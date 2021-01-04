@@ -38,15 +38,15 @@ export const save = (playlist: IPlayList) => {
 let afterTrackAction: AfterTrackAction = AfterTrackAction.Next;
 
 const doHelp = (key: IKey) => {
-  process.stdout.write(isPlaying() ? 
+  process.stdout.write(chalk.grey(isPlaying() ? 
     'P = pause after current, Q = Quit after current, ' : 
-    'r = resume, ');      // Prefixed to help from main
+    'r = resume, '));      // Prefixed to help from main
 }
 
 const doPauseAfter = (key: IKey) => {
   if (afterTrackAction !== AfterTrackAction.Pause) {
     process.stdout.clearLine(0);
-    console.log(`Will pause after current track (press 'r' to cancel)`);
+    console.log(chalk.grey(`Will pause after current track (press 'r' to cancel)`));
     afterTrackAction = AfterTrackAction.Pause;
   }
 };
@@ -55,7 +55,7 @@ const doResume = (key: IKey) => {
   if (afterTrackAction !== AfterTrackAction.Next) {
     if (isPlaying()) {
       process.stdout.clearLine(0);
-      console.log(`${(afterTrackAction === AfterTrackAction.Pause) ? 'Pause' : 'Quit'} after current track canceled`);
+      console.log(chalk.grey(`${(afterTrackAction === AfterTrackAction.Pause) ? 'Pause' : 'Quit'} after current track canceled`));
     }
     afterTrackAction = AfterTrackAction.Next;
   }
@@ -65,7 +65,7 @@ const doQuitAfter = (key: IKey) => {
   if (afterTrackAction !== AfterTrackAction.Quit) {
     if (isPlaying()) {
       process.stdout.clearLine(0);
-      console.log(`Will quit after current track (press 'r' or 'P' to cancel)`);
+      console.log(chalk.grey(`Will quit after current track (press 'r' or 'P' to cancel)`));
     }
     afterTrackAction = AfterTrackAction.Quit;
   }
@@ -84,6 +84,7 @@ const afterTrack = async (name: string): Promise<void> => {
       return playList(name);
 
     case AfterTrackAction.Pause:
+      process.stdout.clearLine(0);
       process.stdout.write(chalk.yellow(' [PAUSED]'));
       process.stdout.cursorTo(0);
       await new Promise((resolve, reject) => setTimeout(resolve, 500));

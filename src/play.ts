@@ -31,7 +31,7 @@ const playKeys: IKeyMapping[] = [
 
 function doHelp(key: IKey) {
   process.stdout.clearLine(0);
-  process.stdout.write('p = pause, r = resume, s = skip, ');      // Prefixed to help from main
+  process.stdout.write(chalk.grey('p = pause, r = resume, s = skip, '));      // Prefixed to help from main
 }
 
 function doPause(key: IKey) {
