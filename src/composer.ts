@@ -41,16 +41,23 @@ export const indexComposers = (composers?: IComposer[]) =>
 
 export const find = (name: string, composers?: IComposer[]) => indexComposers(composers)[name];
 
+const splitWords = (s: string) => s.split(/[ \-&,]/);
+
 const getDistance = (a:string, b:string) => {
-  const bw = b.split(/[ -&,]/).filter((w) => !!w);
-  const scores = _.flatten(a.split(' ').filter((w) => !!w).map((w) => bw.map((w2) => levenshtein(w, w2)))).sort();
-  const halfpt = (scores.length > 1) ? Math.floor(scores.length / 2) : 1;
-  const score = scores.slice(0, halfpt).reduce((acc, s) => acc + s, 0) / halfpt;
-  console.log(`${a} <=> ${b} = ${score}`);
+  const bw = splitWords(b).filter((w) => !!w);
+  const scores = _.flatten(splitWords(a).filter((w) => !!w).map((w) => bw.map((w2) => levenshtein(w, w2)))).sort();
+  const score = scores.slice(0, 2).reduce((acc, s) => acc + s, 0) / 2;
+  return score;
 };
 
+const getBestDistance = (name: string, composer: IComposer) => {
+  const distances = [ getDistance(name, composer.name), ...composer.aliases.map((alias) => getDistance(name, alias)) ];
+  const best = distances.sort()[0];
+  return best;
+}
+
 export const suggest = (name: string) => _.sortBy(fetchAll().map((composer:IComposer) => ({
-  distance: [ getDistance(name, composer.name), ...composer.aliases.map((alias) => getDistance(name, alias))].sort()[0],
+  distance: getBestDistance(name, composer),
   composer,
 })), ['distance']);
 
@@ -155,10 +162,12 @@ const getValues = async (known: Partial<IComposer>, index: Record<string, ICompo
   return undefined;
 };
 
+const isAnon = (name: string | undefined) => !name || name === 'Anonymous' || name === 'Traditional' || name === 'Traditionel';
+
 export const resolveAll = async () => {
   const index = indexComposers();
   const tracks = track.fetchAll();
-  const tracksSansComposer = tracks.filter((t) => !t.composerKey || t.composerKey === 'Anonymous');
+  const tracksSansComposer = tracks.filter((t) => isAnon(t.composerKey));
   const anonToResolve = tracksSansComposer.filter((t) => !t.compositionDate);
   const tracksToResolve = _.difference(tracks, tracksSansComposer).filter((t) => t.composerKey && !index[t.composerKey]);
   const byComposer = _.groupBy(tracksToResolve, 'composerKey');
