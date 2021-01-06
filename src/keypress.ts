@@ -1,3 +1,4 @@
+import * as _ from 'lodash';
 
 export interface IKey {
   name?: string;
@@ -10,6 +11,7 @@ export interface IKey {
 export interface IKeyMapping {
   key: Partial<IKey>;           // Any element not specified is ignored when matching
   func: (key: IKey) => any;     // Return value is ignored
+  help?: string;                // Short description for help text
 }
 
 let keyMappings = [] as IKeyMapping[];
@@ -62,4 +64,15 @@ export const init = () => {
     }
   })
   resume();
+};
+
+export const makeHelpText = (): string[] => {
+  const byKey = 
+    _.groupBy(
+      keyMappings.filter((keyMapping) => !!keyMapping.help), 
+      "key.sequence"
+    );
+  return Object.keys(byKey)
+    .sort()
+    .map((k) => `${k} - ${byKey[k].map((km) => km.help).join(' & ')}`);
 };

@@ -11,11 +11,13 @@ const chalk = require('chalk');
 keypress.init();
 keypress.addKey({
   key: { sequence: 'h' },
-  func: () => console.log(chalk.grey('h = help, q = quit')),
+  func: () => console.log(chalk.grey(keypress.makeHelpText().join(', '))),
+  help: 'help',
 });
 keypress.addKey({
   key: { sequence: 'q' },
   func: () => process.exit(0),
+  help: 'quit',
 });
 
 program

@@ -22,17 +22,9 @@ const playState: IPlayState = {
 export const isPlaying = () => playState.isPlaying;
 
 const playKeys: IKeyMapping[] = [
-  { key: {sequence: 'h'}, func: doHelp },
-  { key: {sequence: 'p'}, func: doPause },
   { key: {sequence: 'q'}, func: doQuit },
-  { key: {sequence: 'r'}, func: doResume },
-  { key: {sequence: 's'}, func: doSkip },
+  { key: {sequence: 's'}, func: doSkip, help: 'skip' },
 ];
-
-function doHelp(key: IKey) {
-  process.stdout.clearLine(0);
-  process.stdout.write(chalk.grey('p = pause, r = resume, s = skip, '));      // Prefixed to help from main
-}
 
 function doPause(key: IKey) {
   if (!playState.isPlaying || playState.beginPause) {

@@ -37,12 +37,6 @@ export const save = (playlist: IPlayList) => {
 
 let afterTrackAction: AfterTrackAction = AfterTrackAction.Next;
 
-const doHelp = (key: IKey) => {
-  process.stdout.write(chalk.grey(isPlaying() ? 
-    'P = pause after current, Q = Quit after current, ' : 
-    'r = resume, '));      // Prefixed to help from main
-}
-
 const doPauseAfter = (key: IKey) => {
   if (afterTrackAction !== AfterTrackAction.Pause) {
     process.stdout.clearLine(0);
@@ -72,10 +66,9 @@ const doQuitAfter = (key: IKey) => {
 };
 
 const playListKeys: IKeyMapping[] = [
-  { key: {sequence: 'h'}, func: doHelp },
-  { key: {sequence: 'P'}, func: doPauseAfter },
-  { key: {sequence: 'r'}, func: doResume },
-  { key: {sequence: 'Q'}, func: doQuitAfter },
+  { key: {sequence: 'r'}, func: doResume, help: 'cancel pause/quit'},
+  { key: {sequence: 'Q'}, func: doQuitAfter, help: 'quit after current track' },
+  { key: {sequence: 'P'}, func: doPauseAfter, help: 'pause after current track' },
 ];
 
 const afterTrack = async (name: string): Promise<void> => {
