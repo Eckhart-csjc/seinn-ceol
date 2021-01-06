@@ -6,6 +6,7 @@ import * as path from 'path';
 import { ArrayFileHandler } from './array-file-handler';
 import * as composer from './composer';
 import { IComposer } from './composer';
+import * as keypress from './keypress';
 import { play } from './play';
 
 const dayjs = require('dayjs');
@@ -179,7 +180,7 @@ export const resolveAnonymous = async (track: ITrack) => {
     {
       name: 'option',
       type: 'list',
-      default: options[0],
+      default: SKIP,
       choices: options,
     }
   ]);
@@ -188,6 +189,7 @@ export const resolveAnonymous = async (track: ITrack) => {
       return;
 
     case COMPOSER: {
+      keypress.suspend();
       const { composerKey } = await inquirer.prompt([
         {
           name: 'composerKey',
@@ -195,12 +197,15 @@ export const resolveAnonymous = async (track: ITrack) => {
           default: track.composerKey,
         }
       ]);
+      keypress.resume();
       if (composerKey && composerKey !== track.composerKey) {
         updateTrack({ trackPath: track.trackPath, composerKey });
       }
+      return;
     };
 
     case DATE: {
+      keypress.suspend();
       const { compositionDate } = await inquirer.prompt([
         {
           name: 'compositionDate',
@@ -208,9 +213,11 @@ export const resolveAnonymous = async (track: ITrack) => {
           default: track.compositionDate,
         }
       ]);
+      keypress.resume();
       if (compositionDate && compositionDate !== track.compositionDate) {
         updateTrack({ trackPath: track.trackPath, compositionDate });
       }
+      return;
     }
   }
 }

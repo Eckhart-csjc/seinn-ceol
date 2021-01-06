@@ -162,7 +162,7 @@ const getValues = async (known: Partial<IComposer>, index: Record<string, ICompo
   return undefined;
 };
 
-const isAnon = (name: string | undefined) => !name || name === 'Anonymous' || name === 'Traditional' || name === 'Traditionel';
+const isAnon = (name: string | undefined) => !name || name === 'Anonymous' || name === 'Traditional' || name === 'Traditionnel';
 
 export const resolveAll = async () => {
   const index = indexComposers();
@@ -192,12 +192,12 @@ export const resolve = async (name: string, tracks: track.ITrack[]): Promise<boo
     console.log(`Found ${name} -- skipping`);
     return true;
   }
-  const options = [SKIP, VIEW, ADD, ...suggest(name).map((s) => s.composer.name)];
+  const options = [VIEW, ADD, SKIP, ...suggest(name).map((s) => s.composer.name)];
   const { option } = await inquirer.prompt([
     {
       name: 'option',
       type: 'list',
-      default: options[Math.min(options.length - 1, 3)],   // First suggestion or ADD
+      default: SKIP,
       choices: options,
       message: name,
     }
