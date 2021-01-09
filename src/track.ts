@@ -91,7 +91,7 @@ export const stats = (tracks?: ITrack[]): ITrackStats => (tracks ?? fetchAll()).
   totalTime: 0,
 });
 
-const makeTrack = async (trackPath: string, info?: ITrackInfo): Promise<ITrack> => {
+export const makeTrack = async (trackPath: string, info?: ITrackInfo): Promise<ITrack> => {
   const trackInfo = info ?? await getInfo(trackPath);
   return {
     trackPath,
@@ -101,7 +101,7 @@ const makeTrack = async (trackPath: string, info?: ITrackInfo): Promise<ITrack> 
   };
 };
 
-const findTrack = (trackPath: string) => {
+export const findTrack = (trackPath: string) => {
   const tp = path.resolve(trackPath);
   return _.find(fetchAll(), (track) => track.trackPath === tp);
 };
