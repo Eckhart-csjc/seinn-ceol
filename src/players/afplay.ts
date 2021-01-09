@@ -57,8 +57,11 @@ export const play = async (track: ITrack) => {
   const barWidth = maxWidth - totalFmt.length * 2 - 15;
   process.stdout.clearLine(0);
   console.log(`${track.composerKey || 'Unknown'}: ${track.title} - ${track.artists?.join(' and ')}`.slice(-maxWidth));
+  playState.paused = 0;
+  playState.beginPause = 0;
+  playKeys.forEach((km) => keypress.addKey(km));
   try {
-    await doPlay(track.trackPath, (elapsed: number) => {
+    await spawnWithProgress(`/usr/bin/afplay`, [`-q`,`1`,track.trackPath], (elapsed: number) => {
       if (playState.beginPause) {
         return;
       }
@@ -69,13 +72,7 @@ export const play = async (track: ITrack) => {
     });
   } catch (e) {
     console.error(`Error playing track ${track.trackPath}: ${e.message}`);
+  } finally {
+    playKeys.forEach((km) => keypress.removeKey(km));
   }
-};
-
-export const doPlay = async (track: string, notifyFunc: (elapsed:number) => void | Promise<void>) => {
-  playState.paused = 0;
-  playState.beginPause = 0;
-  playKeys.forEach((km) => keypress.addKey(km));
-  await spawnWithProgress(`/usr/bin/afplay`, [`-q`,`1`,track], notifyFunc);
-  playKeys.forEach((km) => keypress.removeKey(km));
 };
