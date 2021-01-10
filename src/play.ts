@@ -43,6 +43,6 @@ export const play = async (track: ITrack | string): Promise<void> => {
   playState.isPlaying = true;
   await player.play(track);
   playState.isPlaying = false;
-  playKeys.map((km) => keypress.addKey(km));
+  playKeys.map((km) => keypress.removeKey(km));
   bumpPlays(track.trackPath);
 }
