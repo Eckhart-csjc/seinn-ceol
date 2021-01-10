@@ -1,5 +1,7 @@
 import { getSettings } from './config';
-import { bumpPlays, findTrack, ITrack, makeTrack } from './track';
+import * as keypress from './keypress';
+import { SegOut } from './segout';
+import { bumpPlays, findTrack, formatInfo, ITrack, makeTrack, } from './track';
 
 export interface IPlayer {
   play: (track: ITrack) => Promise<void>;
@@ -24,8 +26,23 @@ export const play = async (track: ITrack | string): Promise<void> => {
   if (playState.isPlaying) {
     console.error(`Already playing`);
   }
+  const playKeys: keypress.IKeyMapping[] = [
+    { 
+      key: {sequence: 'i'}, 
+      func: (key: keypress.IKey) =>  {
+        process.stdout.cursorTo(0);
+        process.stdout.clearLine(0);
+        const o = new SegOut();
+        formatInfo(track).map((i) => o.add(i, ' | '));
+        o.nl();
+      },
+      help: 'info on track/composer',
+    },
+  ];
+  playKeys.map((km) => keypress.addKey(km));
   playState.isPlaying = true;
   await player.play(track);
   playState.isPlaying = false;
+  playKeys.map((km) => keypress.addKey(km));
   bumpPlays(track.trackPath);
 }

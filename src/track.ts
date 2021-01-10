@@ -8,6 +8,7 @@ import * as composer from './composer';
 import { IComposer } from './composer';
 import * as keypress from './keypress';
 import { play } from './play';
+import { makeTime } from './util';
 
 const dayjs = require('dayjs');
 
@@ -146,25 +147,32 @@ export const bumpPlays = (trackPath: string) => {
   }
 };
 
+export const makeTrackSort = (
+  t: ITrack, 
+  composerIndex?: Record<string, IComposer>
+): ITrackSort => {
+    const c = t.composerKey && (t.composerKey !== 'Anonymous') ? 
+      (composerIndex ? composerIndex[t.composerKey] : composer.find(t.composerKey)) : 
+      undefined;
+    const composerKey = (c ? {
+        ..._.omit(c, ["born", "died"]),
+        born: new Date(dayjs(c.born)).getTime(),
+        died: new Date(dayjs(c.died)).getTime(),
+      } : undefined) ?? {
+        name: t.composerKey ?? 'Anonymous',
+        born: new Date(dayjs(t.compositionDate)).getTime(),
+        died: new Date(dayjs(t.compositionDate)).getTime(),
+      };
+    return {
+      ..._.omit(t, 'composerKey'),
+      composerKey
+    };
+};
+
 export const sort = (sortKeys: string[]): ITrackSort[] => {
   const composerIndex = composer.indexComposers();
   return _.sortBy(
-    fetchAll().map((t) => {
-      const composer = t.composerKey && (t.composerKey !== 'Anonymous') ? composerIndex[t.composerKey] : undefined;
-      const composerKey = (composer ? {
-          ..._.omit(composer, ["born", "died"]),
-          born: new Date(dayjs(composer.born)).getTime(),
-          died: new Date(dayjs(composer.died)).getTime(),
-        } : undefined) ?? {
-          name: t.composerKey ?? 'Anonymous',
-          born: new Date(dayjs(t.compositionDate)).getTime(),
-          died: new Date(dayjs(t.compositionDate)).getTime(),
-        };
-      return {
-        ..._.omit(t, 'composerKey'),
-        composerKey
-      }
-    }),
+    fetchAll().map((t) => makeTrackSort(t, composerIndex)),
     sortKeys,
   );
 };
@@ -221,3 +229,16 @@ export const resolveAnonymous = async (track: ITrack) => {
     }
   }
 }
+
+export const formatInfo = (t: ITrack): string[] => [
+  `Title: ${t.title || '?'}`,
+  composer.formatInfo(t.composer, t.composerKey),
+  ...(t.compositionDate ? [ `Composition Date: ${t.compositionDate}` ] : []),
+  `Album: ${t.album || '?'}`,
+  ...((t.nDisks && t.nDisks > 1) ? [ `Disk ${t.disk} of ${t.nDisks}` ] : []),
+  ...(t.nTracks ? [ `Track ${t.track} of ${t.nTracks}` ] : []),
+  ...(t.artists ? [ `Artist: ${t.artists.join(' & ')}` ] : []),
+  ...(t.date ? [ `Date: ${t.date}` ] : []),
+  `Duration: ${makeTime((t.duration ?? 1) * 1000)}`,
+  `Plays: ${t.plays}`,
+];
