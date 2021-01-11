@@ -10,11 +10,13 @@ const execPromise = require('child-process-promise').exec;
 interface IPlayState {
   paused: number;       // Number of milliseconds track has been paused (prior to any current pause)
   beginPause: number;   // Epoch (ms) of the beginning of any current pause (0 if not paused)
+  skipped: boolean;
 }
 
 const playState: IPlayState = {
   paused: 0,
   beginPause: 0,
+  skipped: false,
 };
 
 const playKeys: IKeyMapping[] = [
@@ -48,6 +50,7 @@ function doResume(key: IKey) {
 
 function doSkip(key: IKey) {
   execPromise("sh -c 'if pid=`pgrep afplay`; then kill $pid; fi'");
+  playState.skipped = true;
 }
 
 export const play = async (track: ITrack) => {
@@ -59,6 +62,7 @@ export const play = async (track: ITrack) => {
   console.log(`${track.composerKey || 'Unknown'}: ${track.title} - ${track.artists?.join(' and ')}`.slice(-maxWidth));
   playState.paused = 0;
   playState.beginPause = 0;
+  playState.skipped = false;
   playKeys.forEach((km) => keypress.addKey(km));
   try {
     await spawnWithProgress(`/usr/bin/afplay`, [`-q`,`1`,track.trackPath], (elapsed: number) => {
@@ -72,7 +76,9 @@ export const play = async (track: ITrack) => {
     });
   } catch (e) {
     console.error(`Error playing track ${track.trackPath}: ${e.message}`);
+    playState.skipped = true;
   } finally {
     playKeys.forEach((km) => keypress.removeKey(km));
   }
+  return !playState.skipped;
 };

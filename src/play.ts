@@ -4,7 +4,7 @@ import { SegOut } from './segout';
 import { bumpPlays, findTrack, formatInfo, ITrack, makeTrack, } from './track';
 
 export interface IPlayer {
-  play: (track: ITrack) => Promise<void>;
+  play: (track: ITrack) => Promise<boolean>;  // true == played to completion
 }
 
 interface IPlayState {
@@ -41,8 +41,9 @@ export const play = async (track: ITrack | string): Promise<void> => {
   ];
   playKeys.map((km) => keypress.addKey(km));
   playState.isPlaying = true;
-  await player.play(track);
+  if (await player.play(track)) {
+    bumpPlays(track.trackPath);
+  }
   playState.isPlaying = false;
   playKeys.map((km) => keypress.removeKey(km));
-  bumpPlays(track.trackPath);
 }
