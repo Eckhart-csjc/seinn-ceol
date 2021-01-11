@@ -238,7 +238,7 @@ export const formatInfo = (t: ITrack): string[] => [
   ...((t.nDisks && t.nDisks > 1) ? [ `Disk ${t.disk} of ${t.nDisks}` ] : []),
   ...(t.nTracks ? [ `Track ${t.track} of ${t.nTracks}` ] : []),
   ...(t.artists ? [ `Artist: ${t.artists.join(' & ')}` ] : []),
-  ...(t.date ? [ `Date: ${t.date}` ] : []),
+  ...(t.date ? [ dayjs(t.date).format('MMMM D, YYYY') ] : []),
   `Duration: ${makeTime((t.duration ?? 1) * 1000)}`,
   `Plays: ${t.plays}`,
 ];

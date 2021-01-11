@@ -33,7 +33,7 @@ export const play = async (track: ITrack | string): Promise<void> => {
         process.stdout.cursorTo(0);
         process.stdout.clearLine(0);
         const o = new SegOut();
-        formatInfo(track).map((i) => o.add(i, ' | '));
+        formatInfo(track).map((i) => o.add(i, ' | ', " \u2192 "));
         o.nl();
       },
       help: 'info on track/composer',
