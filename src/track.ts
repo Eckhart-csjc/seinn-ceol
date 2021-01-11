@@ -33,6 +33,7 @@ export interface ITrack extends ITrackInfo {
   trackPath: string;
   composerKey?: string;
   plays: number;
+  lastPlayed?: string;
   compositionDate?: string;
 }
 
@@ -143,6 +144,7 @@ export const bumpPlays = (trackPath: string) => {
     updateTrack({
       trackPath: oldTrack.trackPath,
       plays: oldTrack.plays + 1,
+      lastPlayed: dayjs().toString(),
     });
   }
 };
@@ -241,4 +243,5 @@ export const formatInfo = (t: ITrack): string[] => [
   ...(t.date ? [ dayjs(t.date).format('MMMM D, YYYY') ] : []),
   `Duration: ${makeTime((t.duration ?? 1) * 1000)}`,
   `Plays: ${t.plays}`,
+  ...(t.lastPlayed ? [`Last played: ${t.lastPlayed}`] : []),
 ];
