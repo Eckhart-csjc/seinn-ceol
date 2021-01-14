@@ -1,11 +1,10 @@
 import * as _ from 'lodash';
 import { ArrayFileHandler } from './array-file-handler';
+import { applyThemeSetting } from './config';
 import { IKey, IKeyMapping } from './keypress';
 import * as keypress from './keypress';
 import { isPlaying, play } from './play';
 import * as track from './track';
-
-const chalk = require('chalk');
 
 export interface IPlayList {
   name: string;           // Play list name
@@ -40,7 +39,7 @@ let afterTrackAction: AfterTrackAction = AfterTrackAction.Next;
 const doPauseAfter = (key: IKey) => {
   if (afterTrackAction !== AfterTrackAction.Pause) {
     process.stdout.clearLine(0);
-    console.log(chalk.grey(`Will pause after current track (press 'r' to cancel)`));
+    console.log(applyThemeSetting(`Will pause after current track (press 'r' to cancel)`, 'notification'));
     afterTrackAction = AfterTrackAction.Pause;
   }
 };
@@ -49,7 +48,7 @@ const doResume = (key: IKey) => {
   if (afterTrackAction !== AfterTrackAction.Next) {
     if (isPlaying()) {
       process.stdout.clearLine(0);
-      console.log(chalk.grey(`${(afterTrackAction === AfterTrackAction.Pause) ? 'Pause' : 'Quit'} after current track canceled`));
+      console.log(applyThemeSetting(`${(afterTrackAction === AfterTrackAction.Pause) ? 'Pause' : 'Quit'} after current track canceled`, 'notification'));
     }
     afterTrackAction = AfterTrackAction.Next;
   }
@@ -59,7 +58,7 @@ const doQuitAfter = (key: IKey) => {
   if (afterTrackAction !== AfterTrackAction.Quit) {
     if (isPlaying()) {
       process.stdout.clearLine(0);
-      console.log(chalk.grey(`Will quit after current track (press 'r' or 'P' to cancel)`));
+      console.log(applyThemeSetting(`Will quit after current track (press 'r' or 'P' to cancel)`, 'notification'));
     }
     afterTrackAction = AfterTrackAction.Quit;
   }
@@ -78,7 +77,7 @@ const afterTrack = async (name: string): Promise<void> => {
 
     case AfterTrackAction.Pause:
       process.stdout.clearLine(0);
-      process.stdout.write(chalk.yellow(' [PAUSED]'));
+      process.stdout.write(applyThemeSetting(' [PAUSED]', 'paused'));
       process.stdout.cursorTo(0);
       await new Promise((resolve, reject) => setTimeout(resolve, 500));
       return afterTrack(name);

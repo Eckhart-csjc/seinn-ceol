@@ -1,10 +1,10 @@
 import { spawnWithProgress } from '../asyncChild';
+import { applyThemeSetting } from '../config';
 import { IKey, IKeyMapping } from '../keypress';
 import * as keypress from '../keypress';
 import { ITrack } from '../track';
-import { makeBar, makeTime } from '../util';
+import { makeProgressBar, makeTime } from '../util';
 
-const chalk = require('chalk');
 const execPromise = require('child-process-promise').exec;
 
 interface IPlayState {
@@ -30,7 +30,7 @@ function doPause(key: IKey) {
     return;
   }
   execPromise("sh -c 'if pid=`pgrep afplay`; then kill -17 $pid; fi'");
-  process.stdout.write(chalk.yellow(' [PAUSED]'));
+  process.stdout.write(applyThemeSetting(' [PAUSED]', 'paused'));
   process.stdout.cursorTo(0);
   playState.beginPause = Date.now();
 }
@@ -71,7 +71,7 @@ export const play = async (track: ITrack) => {
       }
       const netElapsed = elapsed - playState.paused;
       const pct = netElapsed / total;
-      process.stdout.write(chalk.dim(` ${makeBar(barWidth, pct)} ${makeTime(netElapsed)} of ${totalFmt} (${Math.floor(pct * 100)}%)`));
+      process.stdout.write(` ${makeProgressBar(barWidth, pct)} ${makeTime(netElapsed)} of ${totalFmt} (${Math.floor(pct * 100)}%)`);
       process.stdout.cursorTo(0);
     });
   } catch (e) {

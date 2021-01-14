@@ -1,4 +1,4 @@
-const chalk = require('chalk');
+import { applyThemeSetting } from './config';
 
 export const makeTime = (milli: number) => {
   const result = [
@@ -16,10 +16,13 @@ export const makeTime = (milli: number) => {
   return `${ result.rem ? result.rem + ' days, ' : ''}${result.nums.join(':')}`;
 };
 
-export const makeBar = (width: number, pct: number) => {
+export const makeProgressBar = (width: number, pct: number) => {
   const ticks = Math.floor(Math.max(0,Math.min(width, Math.floor(width * pct))));
   const togo = width - ticks;
   const block = '\u2588';
   const shade = '\u2592';
-  return `${ticks ? block.repeat(ticks) : ''}${togo ? shade.repeat(togo) : ''}`;
+  return applyThemeSetting(
+    `${ticks ? block.repeat(ticks) : ''}${togo ? shade.repeat(togo) : ''}`,
+    'progressBar'
+  );
 };

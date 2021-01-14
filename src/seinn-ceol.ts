@@ -1,19 +1,18 @@
 import { program } from 'commander';
+import { applyThemeSetting } from './config';
+import * as composer from './composer';
 import * as keypress  from './keypress';
 import { play } from './play';
 import * as playlist from './playlist';
 import { stats } from './stats';
-import * as composer from './composer';
 import * as track from './track';
-
-const chalk = require('chalk');
 
 keypress.init();
 keypress.addKey({
   key: { sequence: 'h' },
   func: () => { 
     process.stdout.clearLine(0); 
-    console.log(chalk.grey(keypress.makeHelpText().join(', ')));
+    console.log(applyThemeSetting(keypress.makeHelpText().join(', '), 'help'));
   },
   help: 'help',
 });
