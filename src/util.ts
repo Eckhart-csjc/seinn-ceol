@@ -1,4 +1,13 @@
-import { applyThemeSetting } from './config';
+import { applyThemeSetting, Theming } from './config';
+
+export const print = (text: string, theme?: Theming) =>
+  process.stdout.write(applyThemeSetting(text, theme));
+
+export const printLn = (text: string, theme?: Theming) =>
+  console.log(applyThemeSetting(text, theme));
+
+export const error = (text: string) => console.error(applyThemeSetting(text, 'error'));
+export const warning = (text: string) => console.warn(applyThemeSetting(text, 'warning'));
 
 export const makeTime = (milli: number) => {
   const result = [

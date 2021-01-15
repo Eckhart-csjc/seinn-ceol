@@ -6,13 +6,14 @@ import { play } from './play';
 import * as playlist from './playlist';
 import { stats } from './stats';
 import * as track from './track';
+import { printLn } from './util';
 
 keypress.init();
 keypress.addKey({
   key: { sequence: 'h' },
   func: () => { 
     process.stdout.clearLine(0); 
-    console.log(applyThemeSetting(keypress.makeHelpText().join(', '), 'help'));
+    printLn(keypress.makeHelpText().join(', '), 'help');
   },
   help: 'help',
 });

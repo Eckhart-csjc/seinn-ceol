@@ -1,9 +1,8 @@
 import { spawnWithProgress } from '../asyncChild';
-import { applyThemeSetting } from '../config';
 import { IKey, IKeyMapping } from '../keypress';
 import * as keypress from '../keypress';
 import { ITrack } from '../track';
-import { makeProgressBar, makeTime } from '../util';
+import { error, makeProgressBar, makeTime, print, printLn } from '../util';
 
 const execPromise = require('child-process-promise').exec;
 
@@ -30,7 +29,7 @@ function doPause(key: IKey) {
     return;
   }
   execPromise("sh -c 'if pid=`pgrep afplay`; then kill -17 $pid; fi'");
-  process.stdout.write(applyThemeSetting(' [PAUSED]', 'paused'));
+  print(' [PAUSED]', 'paused');
   process.stdout.cursorTo(0);
   playState.beginPause = Date.now();
 }
@@ -59,7 +58,7 @@ export const play = async (track: ITrack) => {
   const maxWidth = process.stdout.columns || 80;
   const barWidth = maxWidth - totalFmt.length * 2 - 15;
   process.stdout.clearLine(0);
-  console.log(`${track.composerKey || 'Unknown'}: ${track.title} - ${track.artists?.join(' and ')}`.slice(-maxWidth));
+  printLn(`${track.composerKey || 'Unknown'}: ${track.title} - ${track.artists?.join(' and ')}`.slice(-maxWidth));
   playState.paused = 0;
   playState.beginPause = 0;
   playState.skipped = false;
@@ -71,11 +70,13 @@ export const play = async (track: ITrack) => {
       }
       const netElapsed = elapsed - playState.paused;
       const pct = netElapsed / total;
-      process.stdout.write(` ${makeProgressBar(barWidth, pct)} ${makeTime(netElapsed)} of ${totalFmt} (${Math.floor(pct * 100)}%)`);
+      print(' ');
+      print(makeProgressBar(barWidth, pct));
+      print(` ${makeTime(netElapsed)} of ${totalFmt} (${Math.floor(pct * 100)}%)`, 'progressText');
       process.stdout.cursorTo(0);
     });
   } catch (e) {
-    console.error(`Error playing track ${track.trackPath}: ${e.message}`);
+    error(`Error playing track ${track.trackPath}: ${e.message}`);
     playState.skipped = true;
   } finally {
     playKeys.forEach((km) => keypress.removeKey(km));
