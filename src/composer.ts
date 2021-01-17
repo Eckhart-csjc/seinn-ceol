@@ -3,6 +3,7 @@ import * as _ from 'lodash';
 import { ArrayFileHandler } from './array-file-handler';
 import * as keypress from './keypress';
 import * as track from './track';
+import { error, notification, printLn, warning } from './util';
 
 const dayjs = require('dayjs');
 const levenshtein = require('js-levenshtein');
@@ -70,12 +71,12 @@ export const add = (composer: IComposer): boolean => {
   const composers = fetchAll();
   const existing = find(composer.name, composers);
   if (existing) {
-    console.error(`Composer ${composer.name} already exists`, existing);
+    error(`Composer ${composer.name} already exists`, existing);
     return false;
   }
   const existingAliases = checkAliases(composer, composers);
   if (existingAliases.length > 0) {
-    console.error(`The following aliases for this composer already exist`, existingAliases);
+    error(`The following aliases for this composer already exist`, existingAliases);
     return false;
   }
   composerFile.save([...composers, composer]);
@@ -86,14 +87,14 @@ export const update = (updates: IComposerUpdater): boolean => {
   const composers = fetchAll();
   const existing = find(updates.name, composers);
   if (!existing) {
-    console.error(`No composer named ${updates.name} found to update`);
+    error(`No composer named ${updates.name} found to update`);
     return false;
   }
   _.merge(existing, updates);
   if (updates.aliases) {
     const existingAliases = checkAliases(existing, composers);
     if (existingAliases.length > 0) {
-      console.error(`The following aliases for this composer already exist`, existingAliases);
+      error(`The following aliases for this composer already exist`, existingAliases);
       return false;
     }
   }
@@ -172,13 +173,13 @@ export const resolveAll = async () => {
   const tracksToResolve = _.difference(tracks, tracksSansComposer).filter((t) => t.composerKey && !index[t.composerKey]);
   const byComposer = _.groupBy(tracksToResolve, 'composerKey');
   const names = Object.keys(byComposer);
-  console.log(`${pluralize('composer', names.length, true)} to resolve, ${pluralize('track', anonToResolve.length, true)} with no composer and no composition date`);
+  notification(`${pluralize('composer', names.length, true)} to resolve, ${pluralize('track', anonToResolve.length, true)} with no composer and no composition date`);
   await names.sort().reduce(async (acc, name) => {
     await acc;
     await resolve(name, byComposer[name]);
   }, Promise.resolve());
-  console.log('');
-  console.log('Anonymous works');
+  printLn('');
+  notification('Anonymous works');
   await anonToResolve.reduce(async (acc, t) => {
     await acc;
     await track.resolveAnonymous(t);
@@ -186,10 +187,10 @@ export const resolveAll = async () => {
 };
 
 export const resolve = async (name: string, tracks: track.ITrack[]): Promise<boolean> => {
-  console.log('');
+  printLn('');
   const index = indexComposers();
   if (index[name]) {
-    console.log(`Found ${name} -- skipping`);
+    warning(`Found ${name} -- skipping`);
     return true;
   }
   const options = [VIEW, ADD, SKIP, ...suggest(name).map((s) => s.composer.name)];
@@ -202,7 +203,7 @@ export const resolve = async (name: string, tracks: track.ITrack[]): Promise<boo
       message: name,
     }
   ]);
-  console.log(option);
+  notification(option);
   switch (option) {
     case SKIP: {
       return false;
@@ -214,7 +215,7 @@ export const resolve = async (name: string, tracks: track.ITrack[]): Promise<boo
     }
 
     case VIEW: {
-      console.log(tracks.map((t) => _.pick(t, ['title', 'album', 'artists'])));
+      notification(tracks.map((t) => _.pick(t, ['title', 'album', 'artists'])));
       return resolve(name, tracks);
     }
 
@@ -223,7 +224,7 @@ export const resolve = async (name: string, tracks: track.ITrack[]): Promise<boo
       if (composer) {
         update({ name: composer.name, aliases: _.uniq([...composer.aliases || [], name]) });
       } else {
-        console.error(`Could not find existing composer ${option}`);
+        error(`Could not find existing composer ${option}`);
       }
       break;
     }

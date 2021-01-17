@@ -7,6 +7,7 @@ export interface IThemeSettings {
 };
 
 export interface ITheme {
+  detail?: IThemeSettings;             // Track information detail
   error?: IThemeSettings;              // Text of error messages
   help?: IThemeSettings;               // Help text
   notification?: IThemeSettings;       // Notification of actions by app

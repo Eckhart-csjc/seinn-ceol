@@ -6,8 +6,15 @@ export const print = (text: string, theme?: Theming) =>
 export const printLn = (text: string, theme?: Theming) =>
   console.log(applyThemeSetting(text, theme));
 
-export const error = (text: string) => console.error(applyThemeSetting(text, 'error'));
-export const warning = (text: string) => console.warn(applyThemeSetting(text, 'warning'));
+export const error = (...args: any[]) => 
+  console.error(...args.map((a: any) => 
+    (typeof a === 'string') ? applyThemeSetting(a, 'error') : a));
+export const warning = (...args: any) =>
+  console.warn(...args.map((a: any) => 
+    (typeof a === 'string') ? applyThemeSetting(a, 'warning') : a));
+export const notification = (...args: any) =>
+  console.log(...args.map((a: any) => 
+    (typeof a === 'string') ? applyThemeSetting(a, 'notification') : a));
 
 export const makeTime = (milli: number) => {
   const result = [

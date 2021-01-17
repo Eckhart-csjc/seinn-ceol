@@ -2,6 +2,7 @@ import { getSettings } from './config';
 import * as keypress from './keypress';
 import { SegOut } from './segout';
 import { bumpPlays, findTrack, formatInfo, ITrack, makeTrack, } from './track';
+import { warning } from './util';
 
 export interface IPlayer {
   play: (track: ITrack) => Promise<boolean>;  // true == played to completion
@@ -24,7 +25,7 @@ export const play = async (track: ITrack | string): Promise<void> => {
   const playerName = getSettings().player;
   const player: IPlayer = require(`./players/${playerName}`);
   if (playState.isPlaying) {
-    console.error(`Already playing`);
+    warning(`Already playing`);
   }
   const playKeys: keypress.IKeyMapping[] = [
     { 
@@ -33,7 +34,7 @@ export const play = async (track: ITrack | string): Promise<void> => {
         process.stdout.cursorTo(0);
         process.stdout.clearLine(0);
         const o = new SegOut();
-        formatInfo(track).map((i) => o.add(i, ' | ', " \u2192 "));
+        formatInfo(track).map((i) => o.add(i, ' | ', " \u2192 ", "detail"));
         o.nl();
       },
       help: 'info on track/composer',

@@ -8,7 +8,7 @@ import * as composer from './composer';
 import { IComposer } from './composer';
 import * as keypress from './keypress';
 import { play } from './play';
-import { makeTime } from './util';
+import { error, makeTime, notification, printLn, warning } from './util';
 
 const dayjs = require('dayjs');
 
@@ -37,8 +37,31 @@ export interface ITrack extends ITrackInfo {
   compositionDate?: string;
 }
 
-export interface ITrackSort extends Omit<ITrack, 'composerKey'> {
-  composerKey?: Partial<IComposer>;
+export interface ITrackSort extends ITrack {
+  composerDetail?: IComposer;
+  composerBornSort?: number;
+  composerDiedSort?: number;
+}
+
+export interface ITrackDisplay {
+  index: number;
+  track: string;     // N of M
+  disk: string;      // N of M
+  title: string;
+  artists: string;   // A [& B]...
+  composer: string;  // A [& B]...
+  composerKey: string;
+  composerName: string;
+  composerBorn: string;
+  composerDied: string;
+  album: string;
+  genre: string;
+  year: string;
+  date: string;      // Month D, YYYY
+  copyright: string;
+  duration: string;  // [DDDD days, ][H:]MM:SS
+  plays: string;
+  lastPlayed: string;  // YYYY-M-D h:mma
 }
 
 export interface ITrackStats {
@@ -57,18 +80,18 @@ export const fetchAll = () => trackFile.fetch();
 export const add = async (tracks:string[]) => {
   try {
     const newTracks = await addTracks(tracks);
-    console.log(newTracks.map((track) => `Added "${track.title}"`).join("\n"));
+    notification(newTracks.map((track) => `Added "${track.title}"`).join("\n"));
   } catch (e) {
-    console.error(`Error adding tracks: ${e.message}`);
+    error(`Error adding tracks: ${e.message}`);
   }
 };
 
 export const info = async (track:string) => {
   try {
     const tags = await getInfo(track);
-    console.log(tags);
+    notification(tags);
   } catch (e) {
-    console.error(`Error retrieving info from track ${track}: ${e.message}`);
+    error(`Error retrieving info from track ${track}: ${e.message}`);
   }
 };
 
@@ -114,7 +137,7 @@ const addTracks = async (tracks: string[]): Promise<ITrack[]> => {
     const accum = await acc;
     const trackPath = path.resolve(track);
     if (_.find(accum, (e) => e.trackPath === trackPath)) {
-      console.log(`Track ${trackPath} previously added -- skipped`);
+      warning(`Track ${trackPath} previously added -- skipped`);
       return accum;
     } else {
       return [
@@ -134,7 +157,7 @@ const updateTrack = (updates: ITrackUpdater) => {
     _.merge(oldTrack, updates);     // mutates oldTrack, and thus tracks (this is to maintain track order)
     trackFile.save(tracks);
   } else {
-    console.warn(`Track "${updates.trackPath}" not in library -- not updating`);
+    warning(`Track "${updates.trackPath}" not in library -- not updating`);
   }
 };
 
@@ -153,21 +176,14 @@ export const makeTrackSort = (
   t: ITrack, 
   composerIndex?: Record<string, IComposer>
 ): ITrackSort => {
-    const c = t.composerKey && (t.composerKey !== 'Anonymous') ? 
+    const composerDetail = t.composerKey ? 
       (composerIndex ? composerIndex[t.composerKey] : composer.find(t.composerKey)) : 
       undefined;
-    const composerKey = (c ? {
-        ..._.omit(c, ["born", "died"]),
-        born: new Date(dayjs(c.born)).getTime(),
-        died: new Date(dayjs(c.died)).getTime(),
-      } : undefined) ?? {
-        name: t.composerKey ?? 'Anonymous',
-        born: new Date(dayjs(t.compositionDate)).getTime(),
-        died: new Date(dayjs(t.compositionDate)).getTime(),
-      };
     return {
-      ..._.omit(t, 'composerKey'),
-      composerKey
+      ...t,
+      composerDetail,
+      composerBornSort: new Date(dayjs(composerDetail?.born ?? t?.compositionDate)).getTime(),
+      composerDiedSort: new Date(dayjs(composerDetail?.died ?? t?.compositionDate)).getTime(),
     };
 };
 
@@ -180,8 +196,8 @@ export const sort = (sortKeys: string[]): ITrackSort[] => {
 };
 
 export const resolveAnonymous = async (track: ITrack) => {
-  console.log('');
-  console.log(_.pick(track, ['title', 'album', 'artists']));
+  printLn('');
+  notification(_.pick(track, ['title', 'album', 'artists']));
   const SKIP = 'skip for now';
   const COMPOSER = 'enter composer name';
   const DATE = 'enter composition date';
@@ -245,3 +261,26 @@ export const formatInfo = (t: ITrack): string[] => [
   `Plays: ${t.plays}`,
   ...(t.lastPlayed ? [`Last played: ${t.lastPlayed}`] : []),
 ];
+
+export const makeDisplay = (t: ITrackSort, index: number): ITrackDisplay => {
+  return {
+    index,
+    track: t.track ? `${t.track}${t.nTracks ? ':'+t.nTracks : ''}` : '',
+    disk: t.disk ? `${t.disk}${t.nDisks ? ':'+t.nDisks : ''}` : '',
+    title: t.title ?? '',
+    artists: t.artists?.join(' & ') ?? '',
+    composer: t.composer?.join(' & ') ?? '',
+    composerKey: t.composerKey ?? '',
+    composerName: t.composerDetail?.name ?? '',
+    composerBorn: `${t.composerDetail?.born ?? ''}`,
+    composerDied: `${t.composerDetail?.died ?? ''}`,
+    album: t.album ?? '',
+    genre: t.genre?.join(', ') ?? '',
+    year: `${t.year ?? ''}`,
+    date: t.date ? dayjs(t.date).format('MMMM D, YYYY') : '',
+    copyright: t.copyright ?? '',
+    duration: t.duration ? makeTime(t.duration) : '',
+    plays: `${t.plays || 0}`,
+    lastPlayed: t.lastPlayed ? dayjs(t.lastPlayed).format('YYYY-M-D h:mma') : '',
+  };
+};

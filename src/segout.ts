@@ -1,3 +1,6 @@
+import { Theming } from './config';
+import { print, printLn } from './util';
+
 export class SegOut {
   
   lastCol: number;
@@ -6,26 +9,33 @@ export class SegOut {
     this.lastCol = 0;
   }
 
-  public add(text: string, sep?: string, prefix?: string) {
+  public add(
+    text: string,         // Text to add
+    sep?: string,         // Any separator between segments
+    prefix?: string,      // Any prefix for each line
+    theme?: Theming,      // Any theming for the segment
+    sepTheme?: Theming,   // Any theming for the separator
+    prefixTheme?: Theming,// Any theming for the prefix
+  ) {
     if (this.lastCol > 0 && 
       (this.lastCol + text.length + (sep?.length || 0) > process.stdout.columns)) {
       this.nl();
     }
     if (this.lastCol > 0) {
       if (sep) {
-        process.stdout.write(sep);
+        print(sep, sepTheme);
         this.lastCol += sep.length;
       }
     } else if (prefix) {
-      process.stdout.write(prefix);
+      print(prefix, prefixTheme);
       this.lastCol += prefix.length;
     }
-    process.stdout.write(text);
+    print(text, theme);
     this.lastCol += text.length;
   }
 
   public nl() {
-    console.log('');      // New line
+    printLn('');
     this.lastCol = 0;
   }
 

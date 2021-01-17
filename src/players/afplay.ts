@@ -57,8 +57,6 @@ export const play = async (track: ITrack) => {
   const totalFmt = makeTime(total);
   const maxWidth = process.stdout.columns || 80;
   const barWidth = maxWidth - totalFmt.length * 2 - 15;
-  process.stdout.clearLine(0);
-  printLn(`${track.composerKey || 'Unknown'}: ${track.title} - ${track.artists?.join(' and ')}`.slice(-maxWidth));
   playState.paused = 0;
   playState.beginPause = 0;
   playState.skipped = false;
