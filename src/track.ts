@@ -270,8 +270,8 @@ const makeDateDisplay = (input: string | number | undefined) =>
 export const makeDisplay = (t: ITrackSort, index: number): ITrackDisplay => {
   return {
     index,
-    track: t.track ? `${t.track}${t.nTracks ? ':'+t.nTracks : ''}` : '',
-    disk: t.disk ? `${t.disk}${t.nDisks ? ':'+t.nDisks : ''}` : '',
+    track: t.track ? `${t.track}${t.nTracks ? '/'+t.nTracks : ''}` : '',
+    disk: t.disk ? `${t.disk}${t.nDisks ? '/'+t.nDisks : ''}` : '',
     title: t.title ?? '',
     artists: t.artists?.join(' & ') ?? '',
     composer: t.composer?.join(' & ') ?? '',

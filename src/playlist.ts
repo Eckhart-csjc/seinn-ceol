@@ -8,6 +8,8 @@ import { SegOut } from './segout';
 import * as track from './track';
 import { error, notification, print } from './util';
 
+type Justification = 'left' | 'center' | 'right';
+
 export interface IPlayList {
   name: string;           // Play list name
   orderBy: string[];      // ITrackSort keys for order of play
@@ -26,6 +28,7 @@ export interface IPlayListColumn {
   width?: string;         // "N", "N%", or range of these separated by ":" (both optional)
   theming?: Theming;      // Theming override for this column only
   hdrTheming?: Theming;   // Theming override for header 
+  justification?: Justification;    // Justification of both column and header (def = left)
 };
 
 const playListFile = new ArrayFileHandler<IPlayList>('playlists.json');
@@ -115,7 +118,7 @@ const doPlayList = async (name: string, plays: number) : Promise<void> => {
   const lastIndex = playlist.lastPlayed ? _.findIndex(sorted, (track) => track.trackPath === playlist.lastPlayed) : -1;
   const nextIndex = (lastIndex >= sorted.length - 1) ? 0 : lastIndex + 1; 
   const next = sorted[nextIndex];
-  if (plays % (process.stdout.rows || 1) === 0) {
+  if (plays % Math.max(1, (process.stdout.rows || 0) - 3) === 0) {
     displayHeaders(playlist);
   }
   displayColumns(playlist, next, nextIndex);
@@ -158,7 +161,7 @@ const displayHeaders = (playlist: IPlayList) => {
   const sep = playlist.separator || '|';
   playlist.columns.map((c) => 
     o.add(
-      setWidth(c.header ?? '', c.width ?? '', sep.length),
+      setWidth(c.header ?? '', c.width ?? '', sep.length, c.justification),
       sep, 
       undefined,
       c.hdrTheming ?? playlist.hdrTheming ?? c.theming ?? playlist.theming,
@@ -175,26 +178,31 @@ const formatColumn = (
 ) => {
   try {
     const text = _.template(column.template)(displays);
-    return setWidth(text, column.width ?? '', sepLength);
+    return setWidth(text, column.width ?? '', sepLength, column.justification);
   } catch (e) {
     return 'ERR!';
   }
 }
 
-const setWidth = (text: string, width: string, sepLength: number) => {
+const setWidth = (
+  text: string, 
+  width: string, 
+  sepLength: number, 
+  justification?: Justification
+) => {
   if (!width) {
     return text;
   }
   const widths = width.split(':');
   if (widths.length === 1) {
-    return padOrTruncate(text, Math.max(0,parseWidth(widths[0], sepLength)));
+    return padOrTruncate(text, Math.max(0,parseWidth(widths[0], sepLength)), justification);
   } else {
     const [ minWidth, maxWidth ] = widths.slice(0,2)
       .map((w) => parseWidth(w, sepLength));
     return (maxWidth > 0 && maxWidth < text.length) ?
-      padOrTruncate(text, maxWidth) :
+      padOrTruncate(text, maxWidth, justification) :
       (minWidth > text.length) ?
-        padOrTruncate(text, minWidth) :
+        padOrTruncate(text, minWidth, justification) :
         text;
   }
 };
@@ -209,7 +217,22 @@ const parseWidth = (widthText: string, sepLength: number): number => {
   }
 };
 
-const padOrTruncate = (text: string, width: number) =>
-  (width < text.length) ?
-    text.slice(0,width) :
-    (text + ' '.repeat(width - text.length));
+const padOrTruncate = (text: string, width: number, justification?: Justification) =>
+  ((justification ?? 'left') === 'left') ?
+    ((width < text.length) ?
+      text.slice(0,width) :
+      (text + ' '.repeat(width - text.length))
+    ) :
+    (justification === 'right') ?
+      ((width < text.length) ?
+        text.slice(-width) :
+        (' '.repeat(width - text.length) + text)
+      ) :
+      (justification === 'center') ?
+        ((width < text.length) ?
+          text.slice(Math.floor((text.length - width) / 2), width) :
+          (' '.repeat(Math.floor((width - text.length) / 2)) + 
+            text + ' '.repeat(Math.ceil((width - text.length) / 2))
+          )
+        ) :
+          'ERR: justification';
