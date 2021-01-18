@@ -1,3 +1,4 @@
+import { notification } from './util';
 import * as _ from 'lodash';
 
 export interface IKey {
@@ -16,6 +17,7 @@ export interface IKeyMapping {
 
 let keyMappings = [] as IKeyMapping[];
 let active: boolean = false;
+let logging: boolean = false;
 
 const keysMatch = (k1: Partial<IKey>, k2: Partial<IKey>) =>
   k1.name === k2.name &&
@@ -51,13 +53,17 @@ export const removeKey = (keyMapping: IKeyMapping) => {
 export const suspend = () => active = false;
 export const resume = () => active = true;
 
-export const init = () => {
+export const init = (log: boolean = false) => {
+  logging = log;
   const readline = require('readline');
   readline.emitKeypressEvents(process.stdin);
   if (process.stdin.isTTY) {
     process.stdin.setRawMode(true);
   }
   process.stdin.on('keypress', (c: string, key: IKey) => {
+    if (logging) {
+      notification(c, key);
+    }
     if (active) {
       keyMappings.filter((km) => keyMappingApplies(key, km))
       .map((km) => km.func(key));
