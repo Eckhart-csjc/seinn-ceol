@@ -6,7 +6,7 @@ import * as keypress from './keypress';
 import { isPlaying, play } from './play';
 import { SegOut } from './segout';
 import * as track from './track';
-import { error, notification, print } from './util';
+import { error, getRowsPrinted, notification, print } from './util';
 
 type Justification = 'left' | 'center' | 'right';
 
@@ -54,6 +54,7 @@ export const save = (playlist: IPlayList) => {
 };
 
 let afterTrackAction: AfterTrackAction = AfterTrackAction.Next;
+let lastHeaderRow: number = 0;
 
 const doPauseAfter = (key: IKey) => {
   if (afterTrackAction !== AfterTrackAction.Pause) {
@@ -118,7 +119,7 @@ const doPlayList = async (name: string, plays: number) : Promise<void> => {
   const lastIndex = playlist.lastPlayed ? _.findIndex(sorted, (track) => track.trackPath === playlist.lastPlayed) : -1;
   const nextIndex = (lastIndex >= sorted.length - 1) ? 0 : lastIndex + 1; 
   const next = sorted[nextIndex];
-  if (plays % Math.max(1, (process.stdout.rows || 0) - 3) === 0) {
+  if (lastHeaderRow === 0 || (getRowsPrinted() - lastHeaderRow) >= (process.stdout.rows-3)) {
     displayHeaders(playlist);
   }
   displayColumns(playlist, next, nextIndex);
@@ -169,6 +170,7 @@ const displayHeaders = (playlist: IPlayList) => {
     )
   );
   o.nl();
+  lastHeaderRow = getRowsPrinted();
 }
 
 const formatColumn = (

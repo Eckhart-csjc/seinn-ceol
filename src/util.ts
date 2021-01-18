@@ -1,20 +1,32 @@
 import { applyThemeSetting, Theming } from './config';
 
+let rowsPrinted: number = 0;
+export const getRowsPrinted = () => rowsPrinted;
+export const bumpRowsPrinted = (nLines: number = 1) => rowsPrinted += nLines;
+
 export const print = (text: string, theme?: Theming) =>
   process.stdout.write(applyThemeSetting(text, theme));
 
-export const printLn = (text: string, theme?: Theming) =>
+export const printLn = (text: string, theme?: Theming) => {
   console.log(applyThemeSetting(text, theme));
+  bumpRowsPrinted();
+}
 
-export const error = (...args: any[]) => 
+export const error = (...args: any[]) => {
   console.error(...args.map((a: any) => 
     (typeof a === 'string') ? applyThemeSetting(a, 'error') : a));
-export const warning = (...args: any) =>
+  bumpRowsPrinted();      // Potentially innacurate, but as good as we can guess
+}
+export const warning = (...args: any) => {
   console.warn(...args.map((a: any) => 
     (typeof a === 'string') ? applyThemeSetting(a, 'warning') : a));
-export const notification = (...args: any) =>
+  bumpRowsPrinted();
+}
+export const notification = (...args: any) => {
   console.log(...args.map((a: any) => 
     (typeof a === 'string') ? applyThemeSetting(a, 'notification') : a));
+  bumpRowsPrinted();
+}
 
 export const makeTime = (milli: number) => {
   const result = [
