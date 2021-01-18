@@ -57,7 +57,7 @@ export interface ITrackDisplay {
   album: string;
   genre: string;
   year: string;
-  date: string;      // Month D, YYYY
+  date: string;
   copyright: string;
   duration: string;  // [DDDD days, ][H:]MM:SS
   plays: string;
@@ -262,6 +262,11 @@ export const formatInfo = (t: ITrack): string[] => [
   ...(t.lastPlayed ? [`Last played: ${t.lastPlayed}`] : []),
 ];
 
+const makeDateDisplay = (input: string | number | undefined) =>
+  input ?
+    ((typeof input === 'string' && input.length < 8) ? input : dayjs(input).format('YYYY-MM-DD'))
+  : '';
+
 export const makeDisplay = (t: ITrackSort, index: number): ITrackDisplay => {
   return {
     index,
@@ -272,12 +277,12 @@ export const makeDisplay = (t: ITrackSort, index: number): ITrackDisplay => {
     composer: t.composer?.join(' & ') ?? '',
     composerKey: t.composerKey ?? '',
     composerName: t.composerDetail?.name ?? '',
-    composerBorn: `${t.composerDetail?.born ?? ''}`,
-    composerDied: `${t.composerDetail?.died ?? ''}`,
+    composerBorn: makeDateDisplay(t.composerDetail?.born),
+    composerDied: makeDateDisplay(t.composerDetail?.died),
     album: t.album ?? '',
     genre: t.genre?.join(', ') ?? '',
     year: `${t.year ?? ''}`,
-    date: t.date ? dayjs(t.date).format('MMMM D, YYYY') : '',
+    date: makeDateDisplay(t.date),
     copyright: t.copyright ?? '',
     duration: t.duration ? makeTime(t.duration) : '',
     plays: `${t.plays || 0}`,

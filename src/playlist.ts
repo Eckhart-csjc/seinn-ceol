@@ -17,6 +17,7 @@ export interface IPlayList {
   hdrTheming?: Theming;   // Theming for header
   separator?: string;     // Column separator (default is '|')
   separatorTheming?: Theming; // Theming for separator
+  hdrSeparatorTheming?: Theming; // Theming for separator in header
 }
 
 export interface IPlayListColumn {
@@ -160,8 +161,8 @@ const displayHeaders = (playlist: IPlayList) => {
       setWidth(c.header ?? '', c.width ?? '', sep.length),
       sep, 
       undefined,
-      c.theming ?? playlist.theming,
-      playlist.separatorTheming ?? playlist.theming,
+      c.hdrTheming ?? playlist.hdrTheming ?? c.theming ?? playlist.theming,
+      playlist.hdrSeparatorTheming ?? playlist.hdrTheming ?? playlist.separatorTheming ?? playlist.theming,
     )
   );
   o.nl();
