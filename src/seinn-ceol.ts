@@ -34,6 +34,12 @@ program
   ;
 
 program
+  .command('add-all <directory>')
+  .description('add all files in a directory (and sub-directories)')
+  .action(track.addAll)
+  ;
+
+program
   .command('resolve-composers')
   .description('Resolve composers for tracks whose composer is not on file')
   .action(composer.resolveAll)

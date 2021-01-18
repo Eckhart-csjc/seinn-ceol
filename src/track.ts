@@ -86,6 +86,25 @@ export const add = async (tracks:string[]) => {
   }
 };
 
+const gatherFiles = (dir: string, incoming: string[] = []): string[] => {
+  try {
+    const entries = fs.readdirSync(dir);
+    return entries.reduce((accum, file) => {
+      const fullName = path.resolve(dir, file);
+      const stat = fs.statSync(fullName);
+      return stat.isDirectory() ?
+        [ ...accum, ...gatherFiles(fullName) ] :
+        (stat.isFile() ? [ ...accum, fullName ] : accum);
+    }, incoming);
+  } catch (e) {
+    error(`Could not read directory ${dir}: ${e.message}`);
+    return incoming;
+  }
+}
+
+export const addAll = async (directory: string) => 
+  add(gatherFiles(path.resolve(directory)));
+
 export const info = async (track:string) => {
   try {
     const tags = await getInfo(track);
@@ -140,10 +159,16 @@ const addTracks = async (tracks: string[]): Promise<ITrack[]> => {
       warning(`Track ${trackPath} previously added -- skipped`);
       return accum;
     } else {
-      return [
-        ...accum,
-        await makeTrack(trackPath),
-      ];
+      try {
+        const t = await makeTrack(trackPath);
+        return [
+          ...accum,
+          t,
+        ];
+      } catch (e) {
+        error(`Track ${trackPath} is not an audio file we can use`);
+        return accum;
+      }
     }
   }, Promise.resolve(existing));
   trackFile.save(newTracks);
