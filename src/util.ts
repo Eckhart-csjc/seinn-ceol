@@ -41,6 +41,9 @@ export const makeTime = (milli: number) => {
       rem,
     }
   }, { nums: [], rem: Math.floor(milli / 1000) });
+  if (result.nums[0]?.startsWith('0')) {
+    result.nums[0] = result.nums[0].slice(1);   // No leading 0 on first time element
+  }
   return `${ result.rem ? result.rem + ' days, ' : ''}${result.nums.join(':')}`;
 };
 

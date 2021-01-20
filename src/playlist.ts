@@ -97,7 +97,7 @@ const afterTrack = async (name: string, plays: number): Promise<void> => {
 
     case AfterTrackAction.Pause:
       process.stdout.clearLine(0);
-      print(' [PAUSED]', 'paused');
+      print(' Paused', 'paused');
       process.stdout.cursorTo(0);
       await new Promise((resolve, reject) => setTimeout(resolve, 500));
       return afterTrack(name, plays);

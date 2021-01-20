@@ -59,9 +59,9 @@ export interface ITrackDisplay {
   year: string;
   date: string;
   copyright: string;
-  duration: string;  // [DDDD days, ][H:]MM:SS
+  duration: string;
   plays: string;
-  lastPlayed: string;  // YYYY-M-D h:mma
+  lastPlayed: string;
 }
 
 export interface ITrackStats {
@@ -289,8 +289,21 @@ export const formatInfo = (t: ITrack): string[] => [
 
 const makeDateDisplay = (input: string | number | undefined) =>
   input ?
-    ((typeof input === 'string' && input.length < 8) ? input : dayjs(input).format('YYYY-MM-DD'))
+    ((typeof input === 'string' && input.length <= 8) ? input : dayjs(input).format('YYYY-MM-DD'))
   : '';
+
+const makeLastPlayedDisplay = (input?: string) => {
+  if (input) {
+    const dt = dayjs(input);
+    const now = dayjs();
+    return (now.diff(dt, 'years') > 0) ?
+      dt.format('YYYY MMM D') :
+      (now.diff(dt, 'days') > 0) ?
+        dt.format('MMM D') :
+        dt.format('H:MMa');
+  }
+  return '';
+}
 
 export const makeDisplay = (t: ITrackSort, index: number): ITrackDisplay => {
   return {
@@ -309,8 +322,8 @@ export const makeDisplay = (t: ITrackSort, index: number): ITrackDisplay => {
     year: `${t.year ?? ''}`,
     date: makeDateDisplay(t.date),
     copyright: t.copyright ?? '',
-    duration: t.duration ? makeTime(t.duration) : '',
+    duration: t.duration ? makeTime(t.duration * 1000) : '',
     plays: `${t.plays || 0}`,
-    lastPlayed: t.lastPlayed ? dayjs(t.lastPlayed).format('YYYY-M-D h:mma') : '',
+    lastPlayed: makeLastPlayedDisplay(t.lastPlayed),
   };
 };
