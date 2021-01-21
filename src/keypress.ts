@@ -72,11 +72,14 @@ export const init = (log: boolean = false) => {
   resume();
 };
 
+const keyText = (k: Partial<IKey>): string => 
+  `${k.ctrl ? '^' : ''}${k.meta ? '\u2318' : ''}${(k.shift ? k.name?.toUpperCase() : k.name) ?? k.sequence}`;
+
 export const makeHelpText = (): string[] => {
   const byKey = 
     _.groupBy(
       keyMappings.filter((keyMapping) => !!keyMapping.help), 
-      'key.name'
+      (km) => keyText(km.key)
     );
   return Object.keys(byKey)
     .sort()

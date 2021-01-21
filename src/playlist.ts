@@ -86,8 +86,8 @@ const doQuitAfter = (key: IKey) => {
 
 const playListKeys: IKeyMapping[] = [
   { key: {name: 'r'}, func: doResume, help: 'cancel pause/quit'},
-  { key: {name: 'Q'}, func: doQuitAfter, help: 'quit after current track' },
-  { key: {name: 'P'}, func: doPauseAfter, help: 'pause after current track' },
+  { key: {name: 'q', shift: true}, func: doQuitAfter, help: 'quit after current track' },
+  { key: {name: 'p', shift: true}, func: doPauseAfter, help: 'pause after current track' },
 ];
 
 const afterTrack = async (name: string, plays: number): Promise<void> => {
