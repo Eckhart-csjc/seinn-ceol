@@ -85,9 +85,9 @@ const doQuitAfter = (key: IKey) => {
 };
 
 const playListKeys: IKeyMapping[] = [
-  { key: {sequence: 'r'}, func: doResume, help: 'cancel pause/quit'},
-  { key: {sequence: 'Q'}, func: doQuitAfter, help: 'quit after current track' },
-  { key: {sequence: 'P'}, func: doPauseAfter, help: 'pause after current track' },
+  { key: {name: 'r'}, func: doResume, help: 'cancel pause/quit'},
+  { key: {name: 'Q'}, func: doQuitAfter, help: 'quit after current track' },
+  { key: {name: 'P'}, func: doPauseAfter, help: 'pause after current track' },
 ];
 
 const afterTrack = async (name: string, plays: number): Promise<void> => {
@@ -210,7 +210,7 @@ const setWidth = (
 };
 
 const parseWidth = (widthText: string, sepLength: number): number => {
-  const p = widthText.match(/(\d+)%/);
+  const p = widthText.match(/([\d.]+)%/);
   if (p) {
     const pct = Number(p[1]);
     return Math.round(process.stdout.columns * pct / 100) - sepLength;
@@ -219,20 +219,24 @@ const parseWidth = (widthText: string, sepLength: number): number => {
   }
 };
 
+const ELLIPSIS = '\u2026';
+
 const padOrTruncate = (text: string, width: number, justification?: Justification) =>
+  (width < 1) ? ELLIPSIS :
   ((justification ?? 'left') === 'left') ?
     ((width < text.length) ?
-      text.slice(0,width) :
+      text.slice(0,width-1) + ELLIPSIS :
       (text + ' '.repeat(width - text.length))
     ) :
     (justification === 'right') ?
       ((width < text.length) ?
-        text.slice(-width) :
+        (ELLIPSIS + text.slice(1-width)) :
         (' '.repeat(width - text.length) + text)
       ) :
       (justification === 'center') ?
         ((width < text.length) ?
-          text.slice(Math.floor((text.length - width) / 2), width) :
+          ((text.length - width) >= 2 ? ELLIPSIS : '') +
+            text.slice(Math.floor((text.length - width) / 2), width - 1) + ELLIPSIS :
           (' '.repeat(Math.floor((width - text.length) / 2)) + 
             text + ' '.repeat(Math.ceil((width - text.length) / 2))
           )

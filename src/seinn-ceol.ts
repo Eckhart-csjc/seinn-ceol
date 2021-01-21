@@ -10,7 +10,7 @@ import { printLn } from './util';
 
 keypress.init();
 keypress.addKey({
-  key: { sequence: 'h' },
+  key: { name: 'h' },
   func: () => { 
     process.stdout.clearLine(0); 
     printLn(keypress.makeHelpText().join(', '), 'help');
@@ -18,7 +18,7 @@ keypress.addKey({
   help: 'help',
 });
 keypress.addKey({
-  key: { sequence: 'q' },
+  key: { name: 'q' },
   func: () => process.exit(0),
   help: 'quit',
 });

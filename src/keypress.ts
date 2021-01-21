@@ -76,7 +76,7 @@ export const makeHelpText = (): string[] => {
   const byKey = 
     _.groupBy(
       keyMappings.filter((keyMapping) => !!keyMapping.help), 
-      "key.sequence"
+      'key.name'
     );
   return Object.keys(byKey)
     .sort()

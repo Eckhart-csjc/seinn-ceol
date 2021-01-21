@@ -29,7 +29,7 @@ export const play = async (track: ITrack | string): Promise<void> => {
   }
   const playKeys: keypress.IKeyMapping[] = [
     { 
-      key: {sequence: 'i'}, 
+      key: {name: 'i'}, 
       func: (key: keypress.IKey) =>  {
         process.stdout.cursorTo(0);
         process.stdout.clearLine(0);
