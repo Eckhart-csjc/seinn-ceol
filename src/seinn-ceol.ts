@@ -18,7 +18,7 @@ keypress.addKey({
   help: 'help',
 });
 keypress.addKey({
-  key: { name: 'q' },
+  key: { sequence: 'q' },
   func: () => process.exit(0),
   help: 'quit',
 });

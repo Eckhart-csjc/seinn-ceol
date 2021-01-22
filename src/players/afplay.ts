@@ -19,8 +19,8 @@ const playState: IPlayState = {
 };
 
 const playKeys: IKeyMapping[] = [
-  { key: {name: 'q'}, func: doQuit },
-  { key: {name: 's'}, func: doSkip, help: 'skip' },
+  { key: {sequence: 'q'}, func: doQuit },
+  { key: {sequence: 's'}, func: doSkip, help: 'skip' },
 ];
 
 // This is currently disabled, because afplay can only suspend output, not actually pause
