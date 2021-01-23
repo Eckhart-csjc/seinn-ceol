@@ -16,6 +16,7 @@ export interface IKeyMapping {
 }
 
 let keyMappings = [] as IKeyMapping[];
+let initialized: boolean = false;
 let active: boolean = false;
 let logging: boolean = false;
 
@@ -55,6 +56,11 @@ export const resume = () => active = true;
 
 export const init = (log: boolean = false) => {
   logging = log;
+  resume();
+  if (initialized) {
+    return;
+  }
+  initialized = true;
   const readline = require('readline');
   readline.emitKeypressEvents(process.stdin);
   if (process.stdin.isTTY) {
@@ -69,7 +75,6 @@ export const init = (log: boolean = false) => {
       .map((km) => km.func(key));
     }
   })
-  resume();
 };
 
 const keyText = (k: Partial<IKey>): string => 
