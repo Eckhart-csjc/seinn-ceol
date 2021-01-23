@@ -10,7 +10,7 @@ export class FileHandler<T> {
   public fetch(): T | undefined {
     const filename = this.makeFilename(this.baseFilename, this.pathOverride);
     if (fs.existsSync(filename)) {
-      return JSON.parse(fs.readFileSync(filename, { encoding: 'utf8' })) as T;
+      return JSON.parse(fs.readFileSync(filename, { encoding: 'utf8' }).normalize()) as T;
     }
     return undefined;
   }
