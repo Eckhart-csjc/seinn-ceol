@@ -60,8 +60,14 @@ function doSkip(key: IKey) {
   killPlayer();
 }
 
-function killPlayer() {
+async function killPlayer() {
   execPromise("sh -c 'if pid=`pgrep afplay`; then kill $pid; fi'");
+}
+
+export const stop = async () => {
+  playState.skipped = true;
+  await killPlayer();
+  return true;
 }
 
 export const play = async (track: ITrack): Promise<boolean> => {

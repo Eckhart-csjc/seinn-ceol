@@ -6,6 +6,7 @@ import { warning } from './util';
 
 export interface IPlayer {
   play: (track: ITrack) => Promise<boolean>;  // true == played to completion
+  stop: () => Promise<boolean>;               // true == stopped
 }
 
 interface IPlayState {
@@ -18,12 +19,20 @@ const playState: IPlayState = {
 
 export const isPlaying = () => playState.isPlaying;
 
-export const play = async (track: ITrack | string): Promise<void> => {
-  if (typeof track === 'string') {
-    return play(findTrack(track) || await makeTrack(track));
-  }
+export const getPlayer = (): IPlayer => {
   const playerName = getSettings().player;
-  const player: IPlayer = require(`./players/${playerName}`);
+  return require(`./players/${playerName}`);
+};
+
+export const stopPlaying = async () => playState.isPlaying ? await getPlayer().stop() : true;
+
+export const play = async (track: ITrack | string): Promise<void> => { doPlay(track); }
+
+export const doPlay = async (track: ITrack | string): Promise<boolean> => {
+  if (typeof track === 'string') {
+    return doPlay(findTrack(track) || await makeTrack(track));
+  }
+  const player = getPlayer();
   if (playState.isPlaying) {
     warning(`Already playing`);
   }
@@ -42,9 +51,11 @@ export const play = async (track: ITrack | string): Promise<void> => {
   ];
   playKeys.map((km) => keypress.addKey(km));
   playState.isPlaying = true;
-  if (await player.play(track)) {
+  const played = await player.play(track);
+  if (played) {
     bumpPlays(track.trackPath);
   }
   playState.isPlaying = false;
   playKeys.map((km) => keypress.removeKey(km));
+  return played;
 }

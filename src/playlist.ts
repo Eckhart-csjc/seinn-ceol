@@ -3,7 +3,7 @@ import { ArrayFileHandler } from './array-file-handler';
 import { Theming } from './config';
 import { IKey, IKeyMapping } from './keypress';
 import * as keypress from './keypress';
-import { isPlaying, play } from './play';
+import { isPlaying, stopPlaying, doPlay } from './play';
 import { SegOut } from './segout';
 import * as track from './track';
 import { error, getRowsPrinted, notification, print } from './util';
@@ -64,6 +64,19 @@ const doPauseAfter = (key: IKey) => {
   }
 };
 
+const doPrevious = async (name: string, trackPath: string) => {
+  const playlist = find(name);
+  if (playlist) {
+    const sorted = track.sort(playlist.orderBy);
+    const index = _.findIndex(sorted, (track) => track.trackPath === trackPath);
+    const prevPrevIndex = index >= 2 ? index - 2 : sorted.length + index - 2;
+    const prevPrev = sorted[prevPrevIndex];
+    save({ ...playlist, lastPlayed: prevPrev.trackPath });
+    afterTrackAction = AfterTrackAction.Next;
+    await stopPlaying();
+  }
+};
+
 const doResume = (key: IKey) => {
   if (afterTrackAction !== AfterTrackAction.Next) {
     if (isPlaying()) {
@@ -83,12 +96,6 @@ const doQuitAfter = (key: IKey) => {
     afterTrackAction = AfterTrackAction.Quit;
   }
 };
-
-const playListKeys: IKeyMapping[] = [
-  { key: {sequence: 'r'}, func: doResume, help: 'cancel pause/quit'},
-  { key: {sequence: 'Q', shift: true}, func: doQuitAfter, help: 'quit after current track' },
-  { key: {sequence: 'P', shift: true}, func: doPauseAfter, help: 'pause after current track' },
-];
 
 const afterTrack = async (name: string, plays: number): Promise<void> => {
   switch (afterTrackAction) {
@@ -125,10 +132,23 @@ const doPlayList = async (name: string, plays: number) : Promise<void> => {
   displayColumns(playlist, next, nextIndex);
   const trackPath = next.trackPath;
   afterTrackAction = AfterTrackAction.Next;
+
+  const playListKeys: IKeyMapping[] = [
+    { key: {sequence: '^'}, func: (key: IKey) => doPrevious(name, trackPath), help: 'previous track' },
+    { key: {sequence: 'r'}, func: doResume, help: 'cancel pause/quit'},
+    { key: {sequence: 'Q', shift: true}, func: doQuitAfter, help: 'quit after current track' },
+    { key: {sequence: 'P', shift: true}, func: doPauseAfter, help: 'pause after current track' },
+  ];
   playListKeys.forEach((km) => keypress.addKey(km));
-  await play(trackPath);
-  save({ ...playlist, lastPlayed: trackPath });
-  return afterTrack(name, plays + 1);
+  if (await doPlay(trackPath)) {
+    const pl = find(name);      // Refresh in case of edits in the mean time
+    if (pl) {
+      save({ ...pl, lastPlayed: trackPath });
+    }
+  }
+  await afterTrack(name, plays + 1);
+  playListKeys.forEach((km) => keypress.removeKey(km));
+  return;
 };
 
 const displayColumns = (playlist: IPlayList, t: track.ITrack, index: number) => {

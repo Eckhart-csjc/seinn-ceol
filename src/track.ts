@@ -41,6 +41,7 @@ export interface ITrackSort extends ITrack {
   composerDetail?: IComposer;
   composerBornSort?: number;
   composerDiedSort?: number;
+  albumOrder?: number;
 }
 
 export interface ITrackDisplay {
@@ -204,11 +205,13 @@ export const makeTrackSort = (
     const composerDetail = t.composerKey ? 
       (composerIndex ? composerIndex[t.composerKey] : composer.find(t.composerKey)) : 
       undefined;
+    const leadingNum = parseInt(path.basename(t.trackPath), 10);
     return {
       ...t,
       composerDetail,
       composerBornSort: new Date(dayjs(composerDetail?.born ?? t?.compositionDate)).getTime(),
       composerDiedSort: new Date(dayjs(composerDetail?.died ?? t?.compositionDate)).getTime(),
+      albumOrder: (leadingNum === NaN) ? ((t.disk ?? 0) * 1000 + (t.track ?? 1)) : leadingNum,
     };
 };
 

@@ -1,6 +1,7 @@
 import * as fs from 'fs';
 import * as os from 'os';
 import * as path from 'path';
+import { error } from './util';
 
 export class FileHandler<T> {
 
@@ -10,7 +11,12 @@ export class FileHandler<T> {
   public fetch(): T | undefined {
     const filename = this.makeFilename(this.baseFilename, this.pathOverride);
     if (fs.existsSync(filename)) {
-      return JSON.parse(fs.readFileSync(filename, { encoding: 'utf8' }).normalize()) as T;
+      try {
+        return JSON.parse(fs.readFileSync(filename, { encoding: 'utf8' }).normalize()) as T;
+      } catch (e) {
+        error(`Error reading and parsing file ${filename}: ${e.message}`);
+        process.exit(1);
+      }
     }
     return undefined;
   }

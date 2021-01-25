@@ -48,7 +48,7 @@ export const applyThemeSetting = (text: string, element?: Theming) =>
 
 const applyChalks = (chalks: string[], text: string) => {
   const chalkString = chalks.reverse().reduce(
-    (accum, c) => `{${c} ${accum}}`, text.replaceAll(/[{}]/g, '')
+    (accum, c) => `{${c} ${accum}}`, text.replaceAll('}', '\\}')
   );
   return eval('chalk`' + chalkString + '`');
 }
