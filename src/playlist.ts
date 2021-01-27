@@ -6,14 +6,14 @@ import * as keypress from './keypress';
 import { isPlaying, stopPlaying, doPlay } from './play';
 import { SegOut } from './segout';
 import * as track from './track';
-import { error, getRowsPrinted, notification, print } from './util';
+import { error, getRowsPrinted, notification, print, warning } from './util';
 
 type Justification = 'left' | 'center' | 'right';
 
 export interface IPlayList {
   name: string;           // Play list name
   orderBy: string[];      // ITrackSort keys for order of play
-  lastPlayed?: string;    // trackPath of track ast played (undefined to start from the top)
+  current?: string;       // trackPath of track started (undefined to start from the top)
   columns?: IPlayListColumn[];  // Columns to display
   theming?: Theming;       // General theming for display
   hdrTheming?: Theming;   // Theming for header
@@ -36,6 +36,7 @@ const playListFile = new ArrayFileHandler<IPlayList>('playlists.json');
 enum AfterTrackAction {
   Next,
   Pause,
+  Previous,
   Quit,
 }
 
@@ -56,6 +57,11 @@ export const save = (playlist: IPlayList) => {
 let afterTrackAction: AfterTrackAction = AfterTrackAction.Next;
 let lastHeaderRow: number = 0;
 
+const doNext = (key: IKey) => {
+  afterTrackAction = AfterTrackAction.Next;
+  stopPlaying();
+};
+
 const doPauseAfter = (key: IKey) => {
   if (afterTrackAction !== AfterTrackAction.Pause) {
     process.stdout.clearLine(0);
@@ -64,17 +70,9 @@ const doPauseAfter = (key: IKey) => {
   }
 };
 
-const doPrevious = async (name: string, trackPath: string) => {
-  const playlist = find(name);
-  if (playlist) {
-    const sorted = track.sort(playlist.orderBy);
-    const index = _.findIndex(sorted, (track) => track.trackPath === trackPath);
-    const prevPrevIndex = index >= 2 ? index - 2 : sorted.length + index - 2;
-    const prevPrev = sorted[prevPrevIndex];
-    save({ ...playlist, lastPlayed: prevPrev.trackPath });
-    afterTrackAction = AfterTrackAction.Next;
-    await stopPlaying();
-  }
+const doPrevious = (key: IKey) => {
+  afterTrackAction = AfterTrackAction.Previous;
+  stopPlaying();
 };
 
 const doResume = (key: IKey) => {
@@ -99,63 +97,100 @@ const doQuitAfter = (key: IKey) => {
 
 const afterTrack = async (name: string, plays: number): Promise<void> => {
   switch (afterTrackAction) {
-    case AfterTrackAction.Next:
-      return doPlayList(name, plays);
+    case AfterTrackAction.Next: {
+      const playlist = find(name);
+      if (!playlist) {
+        error(`Playlist ${name} no longer exists`);
+        process.exit(0);
+      }
+      const sorted = track.sort(playlist.orderBy);
+      const lastIndex = playlist.current ? 
+        _.findIndex(sorted, (tr) => tr.trackPath === playlist.current) :
+        -1;
+      if (lastIndex < 0) {
+        warning(`Current track not found in playlist, going to first`);
+      }
+      const nextIndex = (lastIndex >= sorted.length - 1) ? 0 : lastIndex + 1; 
+      return doPlayList(name, plays, sorted[nextIndex]);
+    }
 
-    case AfterTrackAction.Pause:
+    case AfterTrackAction.Pause: {
       process.stdout.clearLine(0);
       print(' Paused', 'paused');
       process.stdout.cursorTo(0);
       await new Promise((resolve, reject) => setTimeout(resolve, 500));
       return afterTrack(name, plays);
+    }
 
-    case AfterTrackAction.Quit:
+    case AfterTrackAction.Previous: {
+      const playlist = find(name);
+      if (!playlist) {
+        error(`Playlist ${name} no longer exists`);
+        process.exit(0);
+      }
+      const sorted = track.sort(playlist.orderBy);
+      const lastIndex = playlist.current ? 
+        _.findIndex(sorted, (tr) => tr.trackPath === playlist.current) :
+        -1;
+      if (lastIndex < 0) {
+        warning(`Current track not found in playlist, going to last`);
+      }
+      const prevIndex = (lastIndex <= 0) ? sorted.length - 1 : lastIndex - 1; 
+      return doPlayList(name, plays, sorted[prevIndex]);
+    }
+
+    case AfterTrackAction.Quit: {
       process.exit(0);
+    }
   }
 };
 
 export const playList = async (name: string) => doPlayList(name, 0);
 
-const doPlayList = async (name: string, plays: number) : Promise<void> => {
+export const getCurrentTrack = (playlist: IPlayList) =>
+  playlist.current ? 
+    (track.findTrack(playlist.current) ?? getTrackByIndex(playlist, 0)) :
+    getTrackByIndex(playlist, 0);
+
+const getTrackByIndex = (playlist: IPlayList, index: number) => track.sort(playlist.orderBy)[index];
+
+const getTrackIndex = (playlist: IPlayList, t: track.ITrackSort) =>
+  _.findIndex(track.sort(playlist.orderBy), (tr) => tr.trackPath === t.trackPath);
+
+const doPlayList = async (name: string, plays: number, nextTrack?: track.ITrackSort) : Promise<void> => {
   const playlist = find(name);
   if (!playlist) {
     error(`Could not find playlist "${name}"`);
     return;
   }
-  const sorted = track.sort(playlist.orderBy);
-  const lastIndex = playlist.lastPlayed ? _.findIndex(sorted, (track) => track.trackPath === playlist.lastPlayed) : -1;
-  const nextIndex = (lastIndex >= sorted.length - 1) ? 0 : lastIndex + 1; 
-  const next = sorted[nextIndex];
+  const theTrack = nextTrack ?? getCurrentTrack(playlist);
   if (lastHeaderRow === 0 || (getRowsPrinted() - lastHeaderRow) >= (process.stdout.rows-3)) {
     displayHeaders(playlist);
   }
-  displayColumns(playlist, next, nextIndex);
-  const trackPath = next.trackPath;
+  displayColumns(playlist, theTrack);
+  const trackPath = theTrack.trackPath;
+  save({ ...playlist, current: trackPath });
   afterTrackAction = AfterTrackAction.Next;
 
   const playListKeys: IKeyMapping[] = [
-    { key: {sequence: '^'}, func: (key: IKey) => doPrevious(name, trackPath), help: 'previous track' },
+    { key: {sequence: 'j'}, func: doNext, help: 'next track' },
+    { key: {sequence: 'k'}, func: doPrevious, help: 'previous track' },
     { key: {sequence: 'r'}, func: doResume, help: 'cancel pause/quit'},
     { key: {sequence: 'Q', shift: true}, func: doQuitAfter, help: 'quit after current track' },
-    { key: {sequence: 'P', shift: true}, func: doPauseAfter, help: 'pause after current track' },
+    { key: {name: 'p'}, func: doPauseAfter, help: 'pause after current track' },
   ];
   playListKeys.forEach((km) => keypress.addKey(km));
-  if (await doPlay(trackPath)) {
-    const pl = find(name);      // Refresh in case of edits in the mean time
-    if (pl) {
-      save({ ...pl, lastPlayed: trackPath });
-    }
-  }
+  await doPlay(trackPath);
   await afterTrack(name, plays + 1);
   playListKeys.forEach((km) => keypress.removeKey(km));
   return;
 };
 
-const displayColumns = (playlist: IPlayList, t: track.ITrack, index: number) => {
+const displayColumns = (playlist: IPlayList, t: track.ITrackSort) => {
   if (!playlist.columns) {
     return;
   }
-  const displays = track.makeDisplay(t, index);
+  const displays = track.makeDisplay(t, getTrackIndex(playlist, t));
   const o = new SegOut();
   process.stdout.cursorTo(0);
   process.stdout.clearLine(0);

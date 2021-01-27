@@ -206,12 +206,19 @@ export const makeTrackSort = (
       (composerIndex ? composerIndex[t.composerKey] : composer.find(t.composerKey)) : 
       undefined;
     const leadingNum = parseInt(path.basename(t.trackPath), 10);
+    const basename = path.basename(t.trackPath);
+    const m1 = basename.match(/^(\d*)(?:-(\d*))? /);
+    const [d, tr] = m1 ? (
+      m1[2] ?
+        [ parseInt(m1[1], 10), parseInt(m1[2], 10) ] :
+        [ 0, parseInt(m1[1], 10) ]
+    ) : [ (t.disk ?? 0), (t.track ?? 1) ];    // Disk/track info is often incorrect
     return {
       ...t,
       composerDetail,
       composerBornSort: new Date(dayjs(composerDetail?.born ?? t?.compositionDate)).getTime(),
       composerDiedSort: new Date(dayjs(composerDetail?.died ?? t?.compositionDate)).getTime(),
-      albumOrder: (leadingNum === NaN) ? ((t.disk ?? 0) * 1000 + (t.track ?? 1)) : leadingNum,
+      albumOrder: d * 10000 + tr,
     };
 };
 

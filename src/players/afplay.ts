@@ -9,21 +9,20 @@ const execPromise = require('child-process-promise').exec;
 interface IPlayState {
   paused: number;       // Number of milliseconds track has been paused (prior to any current pause)
   beginPause: number;   // Epoch (ms) of the beginning of any current pause (0 if not paused)
-  skipped: boolean;
+  killed: boolean;
   replay: boolean;
 }
 
 const playState: IPlayState = {
   paused: 0,
   beginPause: 0,
-  skipped: false,
+  killed: false,
   replay: false,
 };
 
 const playKeys: IKeyMapping[] = [
   { key: {sequence: 'q'}, func: doQuit },
   { key: {sequence: 'R'}, func: doReplay, help: 'replay' },
-  { key: {sequence: 's'}, func: doSkip, help: 'skip' },
 ];
 
 // This is currently disabled, because afplay can only suspend output, not actually pause
@@ -38,7 +37,7 @@ function doPause(key: IKey) {
 }
 
 function doQuit(key: IKey) {
-  doSkip(key);
+  killPlayer();
 }
 
 function doResume(key: IKey) {
@@ -55,17 +54,12 @@ function doReplay(key: IKey) {
   killPlayer();
 }
 
-function doSkip(key: IKey) {
-  playState.skipped = true;
-  killPlayer();
-}
-
 async function killPlayer() {
   execPromise("sh -c 'if pid=`pgrep afplay`; then kill $pid; fi'");
+  playState.killed = true;
 }
 
 export const stop = async () => {
-  playState.skipped = true;
   await killPlayer();
   return true;
 }
@@ -77,7 +71,7 @@ export const play = async (track: ITrack): Promise<boolean> => {
   const barWidth = maxWidth - totalFmt.length * 2 - 15;
   playState.paused = 0;
   playState.beginPause = 0;
-  playState.skipped = false;
+  playState.killed = false;
   playState.replay = false;
   playKeys.forEach((km) => keypress.addKey(km));
   try {
@@ -97,9 +91,9 @@ export const play = async (track: ITrack): Promise<boolean> => {
     }
   } catch (e) {
     error(`Error playing track ${track.trackPath}: ${e.message}`);
-    playState.skipped = true;
+    playState.killed = true;
   } finally {
     playKeys.forEach((km) => keypress.removeKey(km));
   }
-  return !playState.skipped;
+  return !playState.killed;
 };
