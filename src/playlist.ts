@@ -180,8 +180,8 @@ const doPlayList = async (name: string, plays: number, nextTrack?: track.ITrackS
     { key: {name: 'p'}, func: doPauseAfter, help: 'pause after current track' },
   ];
   playListKeys.forEach((km) => keypress.addKey(km));
-  await doPlay(trackPath);
-  await afterTrack(name, plays + 1);
+  const finished = await doPlay(trackPath);
+  await afterTrack(name, plays + (finished ? 1 : 0));
   playListKeys.forEach((km) => keypress.removeKey(km));
   return;
 };
