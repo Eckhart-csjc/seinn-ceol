@@ -339,3 +339,37 @@ export const makeDisplay = (t: ITrackSort, index: number): ITrackDisplay => {
     lastPlayed: makeLastPlayedDisplay(t.lastPlayed),
   };
 };
+
+export const removeDeleted = async () => {
+  const tracks = trackFile.fetch();
+  const reduced = tracks.reduce((accum, t) => {
+    try {
+      fs.statSync(t.trackPath);
+    } catch (e) {
+      if (e.code === 'ENOENT') {
+        notification(`Removing ${t.trackPath}`);
+        return accum;
+      } else {
+        warning(`Could not stat ${t.trackPath} -- not removing
+${e.message}`);
+      }
+    }
+    return [...accum, t];
+  }, [] as ITrack[]);
+  if (reduced.length < tracks.length) {
+    const { commit } = await inquirer.prompt({
+      type: 'confirm',
+      name: 'commit',
+      message: 'Commit these changes?',
+      default: false,
+    });
+    if (commit) {
+      trackFile.save(reduced);
+      notification(`Changes saved`);
+    } else {
+      notification(`Changes discarded`);
+    }
+  } else {
+    notification(`No tracks to remove`);
+  }
+};

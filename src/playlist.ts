@@ -148,9 +148,11 @@ const afterTrack = async (name: string, plays: number): Promise<void> => {
 export const playList = async (name: string) => doPlayList(name, 0);
 
 export const getCurrentTrack = (playlist: IPlayList) =>
-  playlist.current ? 
-    (track.findTrack(playlist.current) ?? getTrackByIndex(playlist, 0)) :
-    getTrackByIndex(playlist, 0);
+  track.makeTrackSort(
+    playlist.current ? 
+      (track.findTrack(playlist.current) ?? getTrackByIndex(playlist, 0)) :
+      getTrackByIndex(playlist, 0)
+    );
 
 const getTrackByIndex = (playlist: IPlayList, index: number) => track.sort(playlist.orderBy)[index];
 

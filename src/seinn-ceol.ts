@@ -40,12 +40,6 @@ program
   ;
 
 program
-  .command('resolve-composers')
-  .description('Resolve composers for tracks whose composer is not on file')
-  .action(composer.resolveAll)
-  ;
-
-program
   .command('info <track>')
   .description('get track information from a file')
   .action(track.info)
@@ -61,6 +55,18 @@ program
   .command('play-list <name>')
   .description('play tracks from a playlist')
   .action(playlist.playList)
+  ;
+
+program
+  .command('remove-deleted')
+  .description('Remove deleted track files from the tracks list')
+  .action(track.removeDeleted)
+  ;
+
+program
+  .command('resolve-composers')
+  .description('Resolve composers for tracks whose composer is not on file')
+  .action(composer.resolveAll)
   ;
 
 program
