@@ -1,4 +1,8 @@
 import { applyThemeSetting, Theming } from './config';
+import * as _ from 'lodash';
+const pluralize = require('pluralize');
+
+export type Justification = 'left' | 'center' | 'right';
 
 let rowsPrinted: number = 0;
 export const getRowsPrinted = () => rowsPrinted;
@@ -44,16 +48,40 @@ export const makeTime = (milli: number) => {
   if (result.nums[0]?.startsWith('0')) {
     result.nums[0] = result.nums[0].slice(1);   // No leading 0 on first time element
   }
-  return `${ result.rem ? result.rem + ' days, ' : ''}${result.nums.join(':')}`;
+  return `${ result.rem ? pluralize('day', result.rem, true) + ', ' : ''}${result.nums.join(':')}`;
 };
 
 export const makeProgressBar = (width: number, pct: number) => {
   const ticks = Math.floor(Math.max(0,Math.min(width, Math.floor(width * pct))));
   const togo = width - ticks;
   const block = '\u2588';
-  const shade = '\u2592';
+  const shade = '\u2591';
   return applyThemeSetting(
     `${ticks ? block.repeat(ticks) : ''}${togo ? shade.repeat(togo) : ''}`,
     'progressBar'
   );
 };
+
+const ELLIPSIS = '\u2026';
+
+export const padOrTruncate = (text: string, width: number, justification?: Justification) =>
+  (width < 1) ? ELLIPSIS :
+  ((justification ?? 'left') === 'left') ?
+    ((width < text.length) ?
+      text.slice(0,width-1) + ELLIPSIS :
+      (text + ' '.repeat(width - text.length))
+    ) :
+    (justification === 'right') ?
+      ((width < text.length) ?
+        (ELLIPSIS + text.slice(1-width)) :
+        (' '.repeat(width - text.length) + text)
+      ) :
+      (justification === 'center') ?
+        ((width < text.length) ?
+          ((text.length - width) >= 2 ? ELLIPSIS : '') +
+            text.slice(Math.floor((text.length - width) / 2), width - 1) + ELLIPSIS :
+          (' '.repeat(Math.floor((width - text.length) / 2)) + 
+            text + ' '.repeat(Math.ceil((width - text.length) / 2))
+          )
+        ) :
+          'ERR: justification';

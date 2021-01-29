@@ -293,7 +293,7 @@ export const formatInfo = (t: ITrack): string[] => [
   ...(t.artists ? [ `Artist: ${t.artists.join(' & ')}` ] : []),
   ...(t.date ? [ dayjs(t.date).format('MMMM D, YYYY') ] : []),
   ...(t.copyright ? [ t.copyright ] : []),
-  ...(t.genre ? [ `Genre: ${t.genre.join(', ')}}` ] : []),
+  ...(t.genre ? [ `Genre: ${t.genre.join(', ')}` ] : []),
   `Duration: ${makeTime((t.duration ?? 1) * 1000)}`,
   `Plays: ${t.plays}`,
   ...(t.lastPlayed ? [`Last played: ${t.lastPlayed}`] : []),

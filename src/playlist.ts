@@ -6,9 +6,15 @@ import * as keypress from './keypress';
 import { isPlaying, stopPlaying, doPlay } from './play';
 import { SegOut } from './segout';
 import * as track from './track';
-import { error, getRowsPrinted, notification, print, warning } from './util';
-
-type Justification = 'left' | 'center' | 'right';
+import { 
+  error, 
+  getRowsPrinted, 
+  Justification, 
+  notification, 
+  padOrTruncate, 
+  print, 
+  warning 
+} from './util';
 
 export interface IPlayList {
   name: string;           // Play list name
@@ -275,27 +281,3 @@ const parseWidth = (widthText: string, sepLength: number): number => {
     return parseInt(widthText, 10);
   }
 };
-
-const ELLIPSIS = '\u2026';
-
-const padOrTruncate = (text: string, width: number, justification?: Justification) =>
-  (width < 1) ? ELLIPSIS :
-  ((justification ?? 'left') === 'left') ?
-    ((width < text.length) ?
-      text.slice(0,width-1) + ELLIPSIS :
-      (text + ' '.repeat(width - text.length))
-    ) :
-    (justification === 'right') ?
-      ((width < text.length) ?
-        (ELLIPSIS + text.slice(1-width)) :
-        (' '.repeat(width - text.length) + text)
-      ) :
-      (justification === 'center') ?
-        ((width < text.length) ?
-          ((text.length - width) >= 2 ? ELLIPSIS : '') +
-            text.slice(Math.floor((text.length - width) / 2), width - 1) + ELLIPSIS :
-          (' '.repeat(Math.floor((width - text.length) / 2)) + 
-            text + ' '.repeat(Math.ceil((width - text.length) / 2))
-          )
-        ) :
-          'ERR: justification';

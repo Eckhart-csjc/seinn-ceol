@@ -22,6 +22,14 @@ export interface IComposerUpdater extends Partial<IComposer> {
 
 export interface IComposerStats {
   nComposers: number;
+  detail: IComposerStatsDetail[];
+}
+
+export interface IComposerStatsDetail {
+  name: string;
+  nTracks: number;
+  albums: string[];
+  totalTime: number;
 }
 
 const ADD = '<add new>';
@@ -104,8 +112,30 @@ export const update = (updates: IComposerUpdater): boolean => {
 
 export const stats = (): IComposerStats => {
   const composers = fetchAll();
+  const index = indexComposers(composers);
+  const tracks = track.fetchAll();
+  const detailByComposer = tracks.reduce((accum, t) => {
+    const c = t.composerKey ? index[t.composerKey] : undefined;
+    const name = c?.name ?? 'Unknown';
+    const curr = accum[name] ?? {
+      name,
+      nTracks: 0,
+      albums: [],
+      totalTime: 0,
+    }
+    return {
+      ...accum,
+      [name]: {
+        ...curr,
+        nTracks: curr.nTracks + 1,
+        albums: t.album ? _.uniq([ ...curr.albums, t.album ]) : curr.albums,
+        totalTime: curr.totalTime + (t.duration ?? 0),
+      },
+    };
+  }, {} as Record<string, IComposerStatsDetail>);
   return {
     nComposers: composers.length,
+    detail: _.values(detailByComposer),
   };
 };
 
