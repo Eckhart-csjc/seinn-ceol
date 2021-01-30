@@ -51,15 +51,13 @@ export const makeTime = (milli: number) => {
   return `${ result.rem ? pluralize('day', result.rem, true) + ', ' : ''}${result.nums.join(':')}`;
 };
 
-export const makeProgressBar = (width: number, pct: number) => {
+export const makeProgressBar = (width: number, pct: number, text: string = '') => {
+  const body = padOrTruncate(text, width, 'center');
   const ticks = Math.floor(Math.max(0,Math.min(width, Math.floor(width * pct))));
   const togo = width - ticks;
-  const block = '\u2588';
-  const shade = '\u2591';
-  return applyThemeSetting(
-    `${ticks ? block.repeat(ticks) : ''}${togo ? shade.repeat(togo) : ''}`,
-    'progressBar'
-  );
+  const ticksBar = applyThemeSetting(body.slice(0, ticks), 'progressBar');
+  const togoBar = applyThemeSetting(body.slice(ticks), 'progressBackground');
+  return `${ticksBar}${togoBar}`;
 };
 
 const ELLIPSIS = '\u2026';

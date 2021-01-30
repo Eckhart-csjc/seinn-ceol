@@ -7,14 +7,14 @@ export interface IThemeSettings {
 };
 
 export interface ITheme {
-  detail?: IThemeSettings;             // Track information detail
-  error?: IThemeSettings;              // Text of error messages
-  help?: IThemeSettings;               // Help text
-  notification?: IThemeSettings;       // Notification of actions by app
-  paused?: IThemeSettings;             // [PAUSED] message
-  progressBar?: IThemeSettings;        // Progress bar while playing
-  progressText?: IThemeSettings;       // Text associated with progress bar
-  warning?: IThemeSettings;            // Text of warnings
+  detail?: IThemeSettings;                // Track information detail
+  error?: IThemeSettings;                 // Text of error messages
+  help?: IThemeSettings;                  // Help text
+  notification?: IThemeSettings;          // Notification of actions by app
+  paused?: IThemeSettings;                // [PAUSED] message
+  progressBar?: IThemeSettings;           // Progress bar while playing
+  progressBackground?: IThemeSettings;    // The unfilled portion of the progress bar
+  warning?: IThemeSettings;               // Text of warnings
 }
 
 export type ThemeElement = keyof ITheme;
@@ -47,6 +47,9 @@ export const applyThemeSetting = (text: string, element?: Theming) =>
     text;
 
 const applyChalks = (chalks: string[], text: string) => {
+  if (text.length < 1) {
+    return text;
+  }
   const chalkString = chalks.reverse().reduce(
     (accum, c) => `{${c} ${accum}}`, text.replaceAll('}', '\\}')
   );

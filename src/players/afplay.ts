@@ -83,7 +83,7 @@ export const play = async (track: ITrack, earlyReturn: number = 0): Promise<bool
       const pct = netElapsed / total;
       print(' ');
       print(makeProgressBar(barWidth, pct));
-      print(` ${makeTime(netElapsed)} of ${totalFmt} (${Math.floor(pct * 100)}%)`, 'progressText');
+      print(` ${makeTime(netElapsed)} of ${totalFmt} (${Math.floor(pct * 100)}%)`);
       process.stdout.cursorTo(0);
     }, 1000, ((track.duration ?? 0) * 1000) - earlyReturn);
     if (playState.replay) {

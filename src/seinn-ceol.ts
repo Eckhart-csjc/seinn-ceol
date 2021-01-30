@@ -1,5 +1,5 @@
 import { program } from 'commander';
-import { applyThemeSetting } from './config';
+import { getSettings } from './config';
 import * as composer from './composer';
 import * as keypress  from './keypress';
 import { play } from './play';
@@ -8,6 +8,7 @@ import { stats } from './stats';
 import * as track from './track';
 import { printLn } from './util';
 
+getSettings();      // Make sure we can read config.json, even if we don't need it yet
 keypress.init();
 keypress.addKey({
   key: { name: 'h' },
