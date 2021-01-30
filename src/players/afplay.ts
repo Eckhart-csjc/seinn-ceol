@@ -55,7 +55,7 @@ function doReplay(key: IKey) {
 }
 
 async function killPlayer() {
-  execPromise("sh -c 'if pid=`pgrep afplay`; then kill $pid; fi'");
+  execPromise("pkill afplay || true");
   playState.killed = true;
 }
 
