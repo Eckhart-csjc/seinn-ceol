@@ -20,6 +20,7 @@ export interface IPlayList {
   name: string;           // Play list name
   orderBy: string[];      // ITrackSort keys for order of play
   current?: string;       // trackPath of track started (undefined to start from the top)
+  trackOverlap?: number;  // Milliseconds to shave off end of track before advancing
   columns?: IPlayListColumn[];  // Columns to display
   theming?: Theming;       // General theming for display
   hdrTheming?: Theming;   // Theming for header
@@ -146,7 +147,20 @@ const afterTrack = async (name: string, plays: number): Promise<void> => {
     }
 
     case AfterTrackAction.Quit: {
-      process.exit(0);
+      // First, queue up the next track for when we start again
+      const playlist = find(name);
+      if (!playlist) {
+        error(`Playlist ${name} no longer exists`);
+        process.exit(0);
+      }
+      const sorted = track.sort(playlist.orderBy);
+      const lastIndex = playlist.current ? 
+        _.findIndex(sorted, (tr) => tr.trackPath === playlist.current) :
+        -1;
+      const nextIndex = (lastIndex >= sorted.length - 1) ? 0 : lastIndex + 1; 
+      const nextTrack = sorted[nextIndex];
+      save({ ...playlist, current: nextTrack!.trackPath });
+      process.exit(0);    // Then exit
     }
   }
 };
@@ -188,7 +202,7 @@ const doPlayList = async (name: string, plays: number, nextTrack?: track.ITrackS
     { key: {name: 'p'}, func: doPauseAfter, help: 'pause after current track' },
   ];
   playListKeys.forEach((km) => keypress.addKey(km));
-  const finished = await doPlay(trackPath);
+  const finished = await doPlay(theTrack, playlist.trackOverlap ?? 0);
   await afterTrack(name, plays + (finished ? 1 : 0));
   playListKeys.forEach((km) => keypress.removeKey(km));
   return;

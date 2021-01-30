@@ -30,16 +30,24 @@ export const spawnWithProgress = async (
   cmd: string, 
   args: string[],
   notifyFunc: (elapsed: number) => void | Promise<void>, 
-  notifyInterval: number = 1000
+  notifyInterval: number = 1000,
+  resolveBy: number = 0
 ): Promise<void> => new Promise((resolve, reject) => {
   const start = Date.now();
   const timer = setInterval(() => {
     const elapsed = Date.now() - start;
     notifyFunc(elapsed);
   }, notifyInterval);
+  const resolveTimer = resolveBy ? setTimeout(() => {
+    clearInterval(timer);
+    resolve();
+  }, resolveBy) : undefined;
   const p = spawn(cmd, args, { stdio: 'ignore' });
   p.on('close', () => {
     clearInterval(timer);
+    if (resolveTimer) {
+      clearTimeout(resolveTimer);
+    }
     resolve();
   });
   p.on('error', (err: Error) => {

@@ -5,8 +5,11 @@ import { bumpPlays, findTrack, formatInfo, ITrack, makeTrack, } from './track';
 import { warning } from './util';
 
 export interface IPlayer {
-  play: (track: ITrack) => Promise<boolean>;  // true == played to completion
-  stop: () => Promise<boolean>;               // true == stopped
+  play: (
+    track: ITrack,                // Track to play
+    earlyReturn?: number,         // How soon before track length to return (ms)
+  ) => Promise<boolean>;          // true == played to completion (or earlyReturn)
+  stop: () => Promise<boolean>;   // true == stopped
 }
 
 interface IPlayState {
@@ -28,9 +31,12 @@ export const stopPlaying = async () => playState.isPlaying ? await getPlayer().s
 
 export const play = async (track: ITrack | string): Promise<void> => { doPlay(track); }
 
-export const doPlay = async (track: ITrack | string): Promise<boolean> => {
+export const doPlay = async (
+  track: ITrack | string,         // Track, or trackpath
+  earlyReturn: number = 0,        // Milliseconds to subtract from duration for return
+): Promise<boolean> => {
   if (typeof track === 'string') {
-    return doPlay(findTrack(track) || await makeTrack(track));
+    return doPlay(findTrack(track) || await makeTrack(track), earlyReturn);
   }
   const player = getPlayer();
   if (playState.isPlaying) {
@@ -51,7 +57,7 @@ export const doPlay = async (track: ITrack | string): Promise<boolean> => {
   ];
   playKeys.map((km) => keypress.addKey(km));
   playState.isPlaying = true;
-  const played = await player.play(track);
+  const played = await player.play(track, earlyReturn);
   if (played) {
     bumpPlays(track.trackPath);
   }

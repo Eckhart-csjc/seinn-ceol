@@ -64,7 +64,7 @@ export const stop = async () => {
   return true;
 }
 
-export const play = async (track: ITrack): Promise<boolean> => {
+export const play = async (track: ITrack, earlyReturn: number = 0): Promise<boolean> => {
   const total = (track.duration || 1) * 1000;
   const totalFmt = makeTime(total);
   const maxWidth = process.stdout.columns || 80;
@@ -85,7 +85,7 @@ export const play = async (track: ITrack): Promise<boolean> => {
       print(makeProgressBar(barWidth, pct));
       print(` ${makeTime(netElapsed)} of ${totalFmt} (${Math.floor(pct * 100)}%)`, 'progressText');
       process.stdout.cursorTo(0);
-    });
+    }, 1000, ((track.duration ?? 0) * 1000) - earlyReturn);
     if (playState.replay) {
       return play(track);
     }
