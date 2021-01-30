@@ -68,7 +68,7 @@ export const play = async (track: ITrack, earlyReturn: number = 0): Promise<bool
   const total = (track.duration || 1) * 1000;
   const totalFmt = makeTime(total);
   const maxWidth = process.stdout.columns || 80;
-  const barWidth = maxWidth - totalFmt.length * 2 - 15;
+  const barWidth = maxWidth - 1;
   playState.paused = 0;
   playState.beginPause = 0;
   playState.killed = false;
@@ -82,8 +82,8 @@ export const play = async (track: ITrack, earlyReturn: number = 0): Promise<bool
       const netElapsed = elapsed - playState.paused;
       const pct = netElapsed / total;
       print(' ');
-      print(makeProgressBar(barWidth, pct));
-      print(` ${makeTime(netElapsed)} of ${totalFmt} (${Math.floor(pct * 100)}%)`);
+      print(makeProgressBar(barWidth, pct,
+        `${makeTime(netElapsed)} of ${totalFmt} (${Math.floor(pct * 100)}%)`));
       process.stdout.cursorTo(0);
     }, 1000, ((track.duration ?? 0) * 1000) - earlyReturn);
     if (playState.replay) {
