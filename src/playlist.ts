@@ -7,12 +7,13 @@ import { isPlaying, stopPlaying, doPlay } from './play';
 import { SegOut } from './segout';
 import * as track from './track';
 import { 
+  addProgressSuffix,
   error, 
   getRowsPrinted, 
   Justification, 
-  notification, 
   padOrTruncate, 
   print, 
+  removeProgressSuffix,
   warning 
 } from './util';
 
@@ -64,6 +65,8 @@ export const save = (playlist: IPlayList) => {
 let afterTrackAction: AfterTrackAction = AfterTrackAction.Next;
 let lastHeaderRow: number = 0;
 
+const makeAfterMsg = (action: string) => ` - will ${action} at end of track`;
+
 const doNext = (key: IKey) => {
   afterTrackAction = AfterTrackAction.Next;
   stopPlaying();
@@ -71,8 +74,12 @@ const doNext = (key: IKey) => {
 
 const doPauseAfter = (key: IKey) => {
   if (afterTrackAction !== AfterTrackAction.Pause) {
-    process.stdout.clearLine(0);
-    notification(`Will pause after current track (press 'r' to cancel)`);
+    if (isPlaying()) {
+      if (afterTrackAction === AfterTrackAction.Quit) {
+        removeProgressSuffix(makeAfterMsg('quit'));
+      }
+      addProgressSuffix(makeAfterMsg('pause'));
+    }
     afterTrackAction = AfterTrackAction.Pause;
   }
 };
@@ -85,8 +92,7 @@ const doPrevious = (key: IKey) => {
 const doResume = (key: IKey) => {
   if (afterTrackAction !== AfterTrackAction.Next) {
     if (isPlaying()) {
-      process.stdout.clearLine(0);
-      notification(`${(afterTrackAction === AfterTrackAction.Pause) ? 'Pause' : 'Quit'} after current track canceled`);
+      removeProgressSuffix(makeAfterMsg(afterTrackAction === AfterTrackAction.Pause ? 'pause' : 'quit'))
     }
     afterTrackAction = AfterTrackAction.Next;
   }
@@ -95,8 +101,10 @@ const doResume = (key: IKey) => {
 const doQuitAfter = (key: IKey) => {
   if (afterTrackAction !== AfterTrackAction.Quit) {
     if (isPlaying()) {
-      process.stdout.clearLine(0);
-      notification(`Will quit after current track (press 'r' or 'P' to cancel)`);
+      if (afterTrackAction === AfterTrackAction.Pause) {
+        removeProgressSuffix(makeAfterMsg('pause'));
+      }
+      addProgressSuffix(makeAfterMsg('quit'));
     }
     afterTrackAction = AfterTrackAction.Quit;
   }
@@ -122,8 +130,9 @@ const afterTrack = async (name: string, plays: number): Promise<void> => {
     }
 
     case AfterTrackAction.Pause: {
-      process.stdout.clearLine(0);
-      print(' Paused', 'paused');
+      removeProgressSuffix(makeAfterMsg('pause'));
+      process.stdout.cursorTo(0);
+      print(padOrTruncate(' Paused', process.stdout.columns, 'center'), 'paused');
       process.stdout.cursorTo(0);
       await new Promise((resolve, reject) => setTimeout(resolve, 500));
       return afterTrack(name, plays);
@@ -147,6 +156,7 @@ const afterTrack = async (name: string, plays: number): Promise<void> => {
     }
 
     case AfterTrackAction.Quit: {
+      removeProgressSuffix(makeAfterMsg('quit'));
       // First, queue up the next track for when we start again
       const playlist = find(name);
       if (!playlist) {

@@ -5,6 +5,8 @@ const pluralize = require('pluralize');
 export type Justification = 'left' | 'center' | 'right';
 
 let rowsPrinted: number = 0;
+let barSuffix: string = '';
+
 export const getRowsPrinted = () => rowsPrinted;
 export const bumpRowsPrinted = (nLines: number = 1) => rowsPrinted += nLines;
 
@@ -52,13 +54,16 @@ export const makeTime = (milli: number) => {
 };
 
 export const makeProgressBar = (width: number, pct: number, text: string = '') => {
-  const body = padOrTruncate(text, width, 'center');
+  const body = padOrTruncate(text + barSuffix, width, 'center');
   const ticks = Math.floor(Math.max(0,Math.min(width, Math.floor(width * pct))));
   const togo = width - ticks;
   const ticksBar = applyThemeSetting(body.slice(0, ticks), 'progressBar');
   const togoBar = applyThemeSetting(body.slice(ticks), 'progressBackground');
   return `${ticksBar}${togoBar}`;
 };
+
+export const addProgressSuffix = (suffix: string) => barSuffix += suffix;
+export const removeProgressSuffix = (suffix: string) => barSuffix = barSuffix.replace(suffix, '');
 
 const ELLIPSIS = '\u2026';
 
