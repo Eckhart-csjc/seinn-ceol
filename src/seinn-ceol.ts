@@ -72,7 +72,10 @@ program
 
 program
   .command('stats')
-  .description('get general statistics')
+  .option('-s, --summary', 'summary')
+  .option('-c, --composers <order>', 'List composers ordered by time|tracks|albums')
+  .option('-l, --limit <n>', 'Limit lists to n items')
+  .description('get statistics')
   .action(stats)
   ;
 
