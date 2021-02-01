@@ -93,6 +93,8 @@ const doResume = (key: IKey) => {
   if (afterTrackAction !== AfterTrackAction.Next) {
     if (isPlaying()) {
       removeProgressSuffix(makeAfterMsg(afterTrackAction === AfterTrackAction.Pause ? 'pause' : 'quit'))
+    } else {
+      process.stdout.clearLine(0);    // Erase paused message so we know we did it
     }
     afterTrackAction = AfterTrackAction.Next;
   }
