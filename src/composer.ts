@@ -267,7 +267,7 @@ export const formatInfo = (composer?: string[], composerKey?: string) => {
   const c = composerKey ? find(composerKey) : undefined;
   const aliases = [
     (c?.name !== name) ? c?.name : undefined,
-    ...(c?.aliases ?? []),
+    ...(c?.aliases.filter((a) => a !== composerKey) ?? []),
   ].filter((a) => !!a);
   return `Composer: ${name}${aliases.length > 0 ? ' (' + aliases.join(', ') + ')' : ''}, born: ${c?.born ?? '?'}${c?.died ? ' died: ' + c?.died : ''}`;
 }
