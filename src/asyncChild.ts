@@ -52,6 +52,9 @@ export const spawnWithProgress = async (
   });
   p.on('error', (err: Error) => {
     clearInterval(timer);
+    if (resolveTimer) {
+      clearTimeout(resolveTimer);
+    }
     reject(err);
   });
 });
