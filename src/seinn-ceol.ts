@@ -30,12 +30,16 @@ program
 
 program
   .command('add [tracks...]')
+  .option('--noError', `ignore files that are not music tracks without error`)
+  .option('--noWarn', `ignore previously added tracks without warning`)
   .description('add track(s) to the library')
   .action(track.add)
   ;
 
 program
   .command('add-all <directory>')
+  .option('--noError', `ignore files that are not music tracks without error`)
+  .option('--noWarn', `ignore previously added tracks without warning`)
   .description('add all files in a directory (and sub-directories)')
   .action(track.addAll)
   ;

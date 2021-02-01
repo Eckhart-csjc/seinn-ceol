@@ -11,6 +11,7 @@ import { play } from './play';
 import { error, makeTime, notification, printLn, warning } from './util';
 
 const dayjs = require('dayjs');
+const pluralize = require('pluralize');
 
 export interface ITrackInfo {
   track?: number;
@@ -78,10 +79,11 @@ const trackFile = new ArrayFileHandler<ITrack>('tracks.json');
 
 export const fetchAll = () => trackFile.fetch();
 
-export const add = async (tracks:string[]) => {
+export const add = async (tracks:string[], options: { noError: boolean, noWarn: boolean }) => {
   try {
-    const newTracks = await addTracks(tracks);
+    const newTracks = await addTracks(tracks, options.noWarn, options.noError);
     notification(newTracks.map((track) => `Added "${track.title}"`).join("\n"));
+    notification(`${pluralize('track', newTracks.length, true)} added`);
   } catch (e) {
     error(`Error adding tracks: ${e.message}`);
   }
@@ -103,8 +105,8 @@ const gatherFiles = (dir: string, incoming: string[] = []): string[] => {
   }
 }
 
-export const addAll = async (directory: string) => 
-  add(gatherFiles(path.resolve(directory)));
+export const addAll = async (directory: string, options: { noError: boolean, noWarn: boolean }) => 
+  add(gatherFiles(path.resolve(directory)), options);
 
 export const info = async (track:string) => {
   try {
@@ -117,7 +119,7 @@ export const info = async (track:string) => {
 
 export const getInfo = async (track:string) : Promise<ITrackInfo> => {
   const p = await mm.parseFile(track);
-  const c = p.common;
+  const c = _.mapValues(p.common, (v) => (typeof v === 'string') ? v.normalize() : v) as any;
   return {
     track: c.track.no || undefined,
     nTracks: c.track.of || undefined,
@@ -151,23 +153,31 @@ export const findTrack = (trackPath: string) => {
   return _.find(fetchAll(), (track) => track.trackPath === tp);
 };
 
-const addTracks = async (tracks: string[]): Promise<ITrack[]> => {
+const addTracks = async (
+  tracks: string[], 
+  noWarn?: boolean, 
+  noError?: boolean
+): Promise<ITrack[]> => {
   const existing = fetchAll();
   const newTracks = await tracks.reduce<Promise<ITrack[]>>(async (acc, track) => {
     const accum = await acc;
-    const trackPath = path.resolve(track);
+    const trackPath = path.resolve(track.normalize());
     if (_.find(accum, (e) => e.trackPath === trackPath)) {
-      warning(`Track ${trackPath} previously added -- skipped`);
+      if (!noWarn) {
+        warning(`Track ${trackPath} previously added -- skipped`);
+      }
       return accum;
     } else {
       try {
-        const t = await makeTrack(trackPath);
+        const t = await makeTrack(trackPath, undefined);
         return [
           ...accum,
           t,
         ];
       } catch (e) {
-        error(`Track ${trackPath} is not an audio file we can use`);
+        if (!noError) {
+          error(`Track ${trackPath} is not an audio file we can use`);
+        }
         return accum;
       }
     }
