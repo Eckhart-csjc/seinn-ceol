@@ -1,9 +1,8 @@
-import * as inquirer from 'inquirer';
 import * as _ from 'lodash';
 import { ArrayFileHandler } from './array-file-handler';
 import * as keypress from './keypress';
 import * as track from './track';
-import { error, notification, printLn, warning } from './util';
+import { ask, error, notification, printLn, warning } from './util';
 
 const dayjs = require('dayjs');
 const levenshtein = require('js-levenshtein');
@@ -141,13 +140,13 @@ export const stats = (): IComposerStats => {
 
 const getValues = async (known: Partial<IComposer>, index: Record<string, IComposer>, existing?: IComposer): Promise<IComposer | undefined> => {
   keypress.suspend();
-  const responses = await inquirer.prompt([
+  const responses = await ask([
     { 
       name: 'name', 
       type: 'input', 
       message: 'Name:', 
       default: known.name, 
-      validate: (val) => !val ? 'Composer name is reuired' : (index[val] && index[val] !== existing) ? 'Composer name already in use' : true,
+      validate: (val:string) => !val ? 'Composer name is required' : (index[val] && index[val] !== existing) ? 'Composer name already in use' : true,
       askAnswered: true,
     },
     {
@@ -155,7 +154,7 @@ const getValues = async (known: Partial<IComposer>, index: Record<string, ICompo
       type: 'input',
       message: 'Born:',
       default: known.born,
-      validate: (val) => (!!val && dayjs(val).year != NaN) ? true : 'Invalid date',
+      validate: (val:string) => (!!val && dayjs(val).year != NaN) ? true : 'Invalid date',
       askAnswered: true,
     },
     {
@@ -163,7 +162,7 @@ const getValues = async (known: Partial<IComposer>, index: Record<string, ICompo
       type: 'input',
       message: 'Died (blank if still living):',
       default: known.died,
-      validate: (val) => (!val || dayjs(val).year != NaN) ? true : 'Invalid date',
+      validate: (val:string) => (!val || dayjs(val).year != NaN) ? true : 'Invalid date',
       askAnswered: true,
     },
     {
@@ -224,7 +223,7 @@ export const resolve = async (name: string, tracks: track.ITrack[]): Promise<boo
     return true;
   }
   const options = [VIEW, ADD, SKIP, ...suggest(name).map((s) => s.composer.name)];
-  const { option } = await inquirer.prompt([
+  const { option } = await ask([
     {
       name: 'option',
       type: 'list',

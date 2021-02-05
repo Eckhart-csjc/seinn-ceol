@@ -1,5 +1,4 @@
 import * as fs from 'fs';
-import * as inquirer from 'inquirer';
 import * as _ from 'lodash';
 import * as mm from 'music-metadata';
 import * as path from 'path';
@@ -7,8 +6,17 @@ import { ArrayFileHandler } from './array-file-handler';
 import * as composer from './composer';
 import { IComposer } from './composer';
 import * as keypress from './keypress';
-import { play } from './play';
-import { error, makeTime, notification, printLn, warning } from './util';
+import { doPlay, stopPlaying } from './play';
+import { 
+  addProgressSuffix, 
+  ask, 
+  error, 
+  makeTime, 
+  notification, 
+  printLn, 
+  removeProgressSuffix, 
+  warning 
+} from './util';
 
 const dayjs = require('dayjs');
 const pluralize = require('pluralize');
@@ -240,14 +248,15 @@ export const sort = (sortKeys: string[]): ITrackSort[] => {
   );
 };
 
-export const resolveAnonymous = async (track: ITrack) => {
+export const resolveAnonymous = async (track: ITrack): Promise<void> => {
   printLn('');
   notification(_.pick(track, ['title', 'album', 'artists']));
   const SKIP = 'skip for now';
+  const PLAY = 'play track';
   const COMPOSER = 'enter composer name';
   const DATE = 'enter composition date';
-  const options = [SKIP, COMPOSER, DATE];
-  const { option } = await inquirer.prompt([
+  const options = [SKIP, PLAY, COMPOSER, DATE];
+  const { option } = await ask([
     {
       name: 'option',
       type: 'list',
@@ -259,9 +268,24 @@ export const resolveAnonymous = async (track: ITrack) => {
     case SKIP:
       return;
 
+    case PLAY: {
+      const esc = { 
+        key: { name: 'escape' }, 
+        func: (k: keypress.IKey) => stopPlaying(),
+        help: 'stop playing'
+      };
+      keypress.addKey(esc);
+      const suffix = ' - press esc to stop';
+      addProgressSuffix(suffix);
+      await doPlay(track, 0);
+      removeProgressSuffix(suffix);
+      keypress.removeKey(esc);
+      return resolveAnonymous(track);
+    }
+
     case COMPOSER: {
       keypress.suspend();
-      const { composerKey } = await inquirer.prompt([
+      const { composerKey } = await ask([
         {
           name: 'composerKey',
           type: 'input',
@@ -273,11 +297,11 @@ export const resolveAnonymous = async (track: ITrack) => {
         updateTrack({ trackPath: track.trackPath, composerKey });
       }
       return;
-    };
+    }
 
     case DATE: {
       keypress.suspend();
-      const { compositionDate } = await inquirer.prompt([
+      const { compositionDate } = await ask([
         {
           name: 'compositionDate',
           type: 'input',
@@ -367,7 +391,7 @@ ${e.message}`);
     return [...accum, t];
   }, [] as ITrack[]);
   if (reduced.length < tracks.length) {
-    const { commit } = await inquirer.prompt({
+    const { commit } = await ask({
       type: 'confirm',
       name: 'commit',
       message: 'Commit these changes?',

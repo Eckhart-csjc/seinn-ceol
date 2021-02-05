@@ -54,6 +54,15 @@ export const removeKey = (keyMapping: IKeyMapping) => {
 export const suspend = () => active = false;
 export const resume = () => active = true;
 
+export const fixTTY = () => {
+  const readline = require('readline');
+  readline.emitKeypressEvents(process.stdin);
+  if (process.stdin.isTTY) {
+    process.stdin.setRawMode(true);
+  }
+  process.stdin.resume();
+};
+
 export const init = (log: boolean = false) => {
   logging = log;
   resume();
@@ -61,11 +70,7 @@ export const init = (log: boolean = false) => {
     return;
   }
   initialized = true;
-  const readline = require('readline');
-  readline.emitKeypressEvents(process.stdin);
-  if (process.stdin.isTTY) {
-    process.stdin.setRawMode(true);
-  }
+  fixTTY();
   process.stdin.on('keypress', (c: string, key: IKey) => {
     if (logging) {
       notification(c, key);

@@ -29,7 +29,7 @@ export const getPlayer = (): IPlayer => {
 
 export const stopPlaying = async () => playState.isPlaying ? await getPlayer().stop() : true;
 
-export const play = async (track: ITrack | string): Promise<void> => { doPlay(track); }
+export const play = async (track: ITrack | string): Promise<void> => { await doPlay(track); }
 
 export const doPlay = async (
   track: ITrack | string,         // Track, or trackpath

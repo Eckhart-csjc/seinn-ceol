@@ -1,5 +1,7 @@
-import { applyThemeSetting, Theming } from './config';
 import * as _ from 'lodash';
+import { applyThemeSetting, Theming } from './config';
+import { fixTTY } from './keypress';
+const inquirer = require('inquirer');
 const pluralize = require('pluralize');
 
 export type Justification = 'left' | 'center' | 'right';
@@ -34,6 +36,12 @@ export const notification = (...args: any) => {
   bumpRowsPrinted();
 }
 
+export const ask = async (questions: any): Promise<any> => {
+  const response = await inquirer.prompt(questions);
+  fixTTY();
+  return response;
+}
+
 export const makeTime = (milli: number) => {
   const result = [
     { t: '', d: 60 },
@@ -50,7 +58,7 @@ export const makeTime = (milli: number) => {
   if (result.nums[0]?.startsWith('0')) {
     result.nums[0] = result.nums[0].slice(1);   // No leading 0 on first time element
   }
-  return `${ result.rem ? pluralize('day', result.rem, true) + ', ' : ''}${result.nums.join(':')}`;
+  return `${ result.rem ? result.rem + 'd+' : ''}${result.nums.join(':')}`;
 };
 
 export const makeProgressBar = (width: number, pct: number, text: string = '') => {
