@@ -5,8 +5,15 @@ import * as _ from 'lodash';
 
 const pluralize = require('pluralize');
 
+const counts: Record<string, (d: composer.IComposerStatsDetail) => number> = {
+  'time': (d) => d.totalTime * 1000,
+  'tracks': (d) => d.nTracks,
+  'albums': (d) => d.albums.length,
+  'plays': (d) => d.totalPlays,
+};
+
 export const stats = (
-  options: {summary?: boolean, composers?: string, limit?: number}
+  options: {summary?: boolean, composer?: string, composers?: string, limit?: number}
 ) => {
   const trackStats = track.stats();
   const composerStats = composer.stats();
@@ -14,13 +21,18 @@ export const stats = (
     printLn(`${pluralize('track', trackStats.nTracks, true)} from ${pluralize('composer', composerStats.nComposers, true)}, Total time: ${makeTime(trackStats.totalTime * 1000)}`);
     printLn('');
   }
+  if (options.composer) {
+    const lc = options.composer.toLowerCase();
+    const cStats = composerStats.detail.filter((c) => 
+      !!_.find([c.name, ...c.aliases], (n) => n.toLowerCase().includes(lc)));
+    cStats.map((c) => {
+      printLn(`${c.name} has ${pluralize('track', c.nTracks, true)} on ${pluralize('album', c.albums.length, true)} totaling ${makeTime(c.totalTime * 1000)}`);
+      printLn(`  ${pluralize('Album', c.albums.length)}:`);
+      c.albums.sort().map((a) => printLn(`    ${a}`));
+      printLn('');
+    });
+  }
   if (options.composers) {
-    const counts: Record<string, (d: composer.IComposerStatsDetail) => number> = {
-      'time': (d) => d.totalTime * 1000,
-      'tracks': (d) => d.nTracks,
-      'albums': (d) => d.albums.length,
-      'plays': (d) => d.totalPlays,
-    };
     const orderer = counts[options.composers];
     if (!orderer) {
       error(`Invalid option for --composers ("time", "tracks", "plays", or "albums" expected)`);

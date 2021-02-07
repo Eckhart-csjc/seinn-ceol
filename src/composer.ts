@@ -26,6 +26,7 @@ export interface IComposerStats {
 
 export interface IComposerStatsDetail {
   name: string;
+  aliases: string[];
   nTracks: number;
   albums: string[];
   totalTime: number;
@@ -119,6 +120,7 @@ export const stats = (): IComposerStats => {
     const name = c?.name ?? 'Unknown';
     const curr = accum[name] ?? {
       name,
+      aliases: c?.aliases ?? [],
       nTracks: 0,
       albums: [],
       totalTime: 0,

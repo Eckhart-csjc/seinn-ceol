@@ -81,6 +81,7 @@ program
 program
   .command('stats')
   .option('-s, --summary', 'summary')
+  .option('-C, --composer <partial-name>', 'All statistics for specific composers')
   .option('-c, --composers <order>', 'List composers ordered by time|tracks|albums|plays')
   .option('-l, --limit <n>', 'Limit lists to n items')
   .description('get statistics')
