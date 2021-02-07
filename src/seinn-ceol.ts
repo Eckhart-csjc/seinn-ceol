@@ -10,19 +10,23 @@ import { printLn } from './util';
 
 getSettings();      // Make sure we can read config.json, even if we don't need it yet
 keypress.init();
-keypress.addKey({
-  key: { name: 'h' },
-  func: () => { 
-    process.stdout.clearLine(0); 
-    printLn(keypress.makeHelpText().join(', '), 'help');
-  },
-  help: 'help',
-});
-keypress.addKey({
-  key: { sequence: 'q' },
-  func: () => process.exit(0),
-  help: 'quit',
-});
+keypress.addKeys(
+  keypress.makeKeys([
+    {
+      name: 'help',
+      func: () => { 
+        process.stdout.clearLine(0); 
+        printLn(keypress.makeHelpText().join(', '), 'help');
+      },
+      help: 'help',
+    },
+    {
+      name: 'quit',
+      func: () => process.exit(0),
+      help: 'quit',
+    }
+  ])
+);
 
 program
   .version(require('../package.json').version)
@@ -77,7 +81,7 @@ program
 program
   .command('stats')
   .option('-s, --summary', 'summary')
-  .option('-c, --composers <order>', 'List composers ordered by time|tracks|albums')
+  .option('-c, --composers <order>', 'List composers ordered by time|tracks|albums|plays')
   .option('-l, --limit <n>', 'Limit lists to n items')
   .description('get statistics')
   .action(stats)

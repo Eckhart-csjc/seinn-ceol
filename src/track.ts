@@ -269,17 +269,14 @@ export const resolveAnonymous = async (track: ITrack): Promise<void> => {
       return;
 
     case PLAY: {
-      const esc = { 
-        key: { name: 'escape' }, 
+      const playKeys = keypress.makeKeys([{ 
+        name: 'stop', 
         func: (k: keypress.IKey) => stopPlaying(),
         help: 'stop playing'
-      };
-      keypress.addKey(esc);
-      const suffix = ' - press esc to stop';
-      addProgressSuffix(suffix);
+      }]);
+      keypress.addKeys(playKeys);
       await doPlay(track, 0);
-      removeProgressSuffix(suffix);
-      keypress.removeKey(esc);
+      keypress.removeKeys(playKeys);
       return resolveAnonymous(track);
     }
 

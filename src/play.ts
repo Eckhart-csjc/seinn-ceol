@@ -42,9 +42,9 @@ export const doPlay = async (
   if (playState.isPlaying) {
     warning(`Already playing`);
   }
-  const playKeys: keypress.IKeyMapping[] = [
+  const playKeys = keypress.makeKeys([
     { 
-      key: {name: 'i'}, 
+      name: 'info',
       func: (key: keypress.IKey) =>  {
         process.stdout.cursorTo(0);
         process.stdout.clearLine(0);
@@ -54,14 +54,14 @@ export const doPlay = async (
       },
       help: 'info on track/composer',
     },
-  ];
-  playKeys.map((km) => keypress.addKey(km));
+  ]);
+  keypress.addKeys(playKeys);
   playState.isPlaying = true;
   const played = await player.play(track, earlyReturn);
   if (played) {
     bumpPlays(track.trackPath);
   }
   playState.isPlaying = false;
-  playKeys.map((km) => keypress.removeKey(km));
+  keypress.removeKeys(playKeys);
   return played;
 }

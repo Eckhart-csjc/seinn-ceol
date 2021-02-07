@@ -1,3 +1,4 @@
+import { getKey, IKeyAssignments } from './config';
 import { notification } from './util';
 import * as _ from 'lodash';
 
@@ -9,10 +10,16 @@ export interface IKey {
   sequence: string;
 }
 
+export interface IKeyMaker {
+  name: keyof IKeyAssignments;
+  func: (key: IKey) => any;
+  help?: string;
+}
+
 export interface IKeyMapping {
   key: Partial<IKey>;           // Any element not specified is ignored when matching
   func: (key: IKey) => any;     // Return value is ignored
-  help?: string;                // Short description for help text
+  help?: string;                // Short description of the function for help text
 }
 
 let keyMappings = [] as IKeyMapping[];
@@ -41,14 +48,30 @@ const keyMappingApplies = (key: IKey, keyMapping: IKeyMapping) =>
 const findKeyMapping = (keyMapping: IKeyMapping): IKeyMapping[] =>
   keyMappings.filter((km) => keyMappingsMatch(keyMapping, km));
 
+export const makeKeys = (makers: IKeyMaker[]): IKeyMapping[] =>
+  makers.map((maker) => ({ 
+    key: getKey(maker.name), 
+    ..._.pick(maker, ['func', 'help']) 
+  })).filter((km) => !!km.key) as IKeyMapping[];
+
+export const addKeys = (keys: IKeyMapping[]) =>
+  keys.map((km) => addKey(km));
+
+export const removeKeys = (keys: IKeyMapping[]) =>
+  keys.map((km) => removeKey(km));
+
 export const addKey = (keyMapping: IKeyMapping) => {
   if (findKeyMapping(keyMapping).length < 1) {
     keyMappings = [ keyMapping, ...keyMappings ];
-  }       // Silently fails if mapping already exists
+    return true;
+  }
+  return false;
 }
 
 export const removeKey = (keyMapping: IKeyMapping) => {
+  const old = keyMappings;
   keyMappings = keyMappings.filter((km) => !keyMappingsMatch(keyMapping, km));
+  return old.length > keyMappings.length;
 }
 
 export const suspend = () => active = false;

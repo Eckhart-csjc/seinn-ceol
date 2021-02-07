@@ -1,4 +1,5 @@
 import { FileHandler } from './file-handler';
+import { IKey } from './keypress';
 
 const chalk = require('chalk');
 
@@ -17,20 +18,58 @@ export interface ITheme {
   warning?: IThemeSettings;               // Text of warnings
 }
 
+export interface IKeyAssignments {
+  help?: Partial<IKey>;
+  info?: Partial<IKey>;
+  nextTrack?: Partial<IKey>;
+  pauseAfterTrack?: Partial<IKey>;
+  previousTrack?: Partial<IKey>;
+  quit?: Partial<IKey>;
+  quitAfterTrack?: Partial<IKey>;
+  rewind?: Partial<IKey>;
+  resume?: Partial<IKey>;
+  stop?: Partial<IKey>;
+}
+
+const defaultKeyAssignments: IKeyAssignments = {
+  help: { sequence: 'h' },
+  info: { sequence: 'i' },
+  nextTrack: { sequence: 'j' },
+  pauseAfterTrack: { name: 'p' },
+  previousTrack: { sequence: 'k' },
+  quit: { sequence: 'q' },
+  quitAfterTrack: { sequence: 'Q' },
+  rewind: { sequence: 'R' },
+  resume: { sequence: 'r' },
+  stop: { sequence: 's' },
+};
+
 export type ThemeElement = keyof ITheme;
 export type Theming = ThemeElement | IThemeSettings;
 
 export interface IConfig {
   player: string;
   theme?: ITheme;
+  keyAssignments?: IKeyAssignments;
 }
 
-export const getSettings = ():IConfig => {
-  const settingsFile = new FileHandler<IConfig>('config.json');
-  return settingsFile.fetch() ?? {
-    player: 'afplay',
-  };
+const defaultConfig: IConfig = {
+  player: 'afplay',
+  keyAssignments: defaultKeyAssignments,
 };
+
+export const getSettings = (): IConfig => {
+  const settingsFile = new FileHandler<IConfig>('config.json');
+  const settings = settingsFile.fetch();
+  return settings ?
+    { ...defaultConfig, ...settings } :
+    defaultConfig;
+};
+
+export const getKey = (name: keyof IKeyAssignments) => getKeyAssignments()[name];
+
+export const getKeyAssignments = (): IKeyAssignments => 
+  getSettings().keyAssignments ?? defaultKeyAssignments;
 
 export const getTheme = () => 
   getSettings().theme || {} as Record<string, IThemeSettings>;

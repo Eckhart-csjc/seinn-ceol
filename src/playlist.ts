@@ -1,7 +1,7 @@
 import * as _ from 'lodash';
 import { ArrayFileHandler } from './array-file-handler';
 import { Theming } from './config';
-import { IKey, IKeyMapping } from './keypress';
+import { IKey } from './keypress';
 import * as keypress from './keypress';
 import { isPlaying, stopPlaying, doPlay } from './play';
 import { SegOut } from './segout';
@@ -64,6 +64,7 @@ export const save = (playlist: IPlayList) => {
 
 let afterTrackAction: AfterTrackAction = AfterTrackAction.Next;
 let lastHeaderRow: number = 0;
+let wasStopped: boolean = false;
 
 const makeAfterMsg = (action: string) => ` - will ${action} at end of track`;
 
@@ -100,6 +101,14 @@ const doResume = (key: IKey) => {
   }
 };
 
+const doStop = (key: IKey) => {
+  if (isPlaying()) {
+    afterTrackAction = AfterTrackAction.Pause;
+    stopPlaying();
+    wasStopped = true;
+  }
+};
+
 const doQuitAfter = (key: IKey) => {
   if (afterTrackAction !== AfterTrackAction.Quit) {
     if (isPlaying()) {
@@ -127,7 +136,9 @@ const afterTrack = async (name: string, plays: number): Promise<void> => {
       if (lastIndex < 0) {
         warning(`Current track not found in playlist, going to first`);
       }
-      const nextIndex = (lastIndex >= sorted.length - 1) ? 0 : lastIndex + 1; 
+      const nextIndex = wasStopped ? 
+        Math.max(0, lastIndex) :
+        (lastIndex >= sorted.length - 1) ? 0 : lastIndex + 1; 
       return doPlayList(name, plays, sorted[nextIndex]);
     }
 
@@ -201,22 +212,26 @@ const doPlayList = async (name: string, plays: number, nextTrack?: track.ITrackS
   if (lastHeaderRow === 0 || (getRowsPrinted() - lastHeaderRow) >= (process.stdout.rows-3)) {
     displayHeaders(playlist);
   }
-  displayColumns(playlist, theTrack);
+  if (!wasStopped) {
+    displayColumns(playlist, theTrack);
+  }
+  wasStopped = false;
   const trackPath = theTrack.trackPath;
   save({ ...playlist, current: trackPath });
   afterTrackAction = AfterTrackAction.Next;
 
-  const playListKeys: IKeyMapping[] = [
-    { key: {sequence: 'j'}, func: doNext, help: 'next track' },
-    { key: {sequence: 'k'}, func: doPrevious, help: 'previous track' },
-    { key: {sequence: 'r'}, func: doResume, help: 'cancel pause/quit'},
-    { key: {sequence: 'Q', shift: true}, func: doQuitAfter, help: 'quit after current track' },
-    { key: {name: 'p'}, func: doPauseAfter, help: 'pause after current track' },
-  ];
-  playListKeys.forEach((km) => keypress.addKey(km));
+  const playListKeys = keypress.makeKeys([
+    { name: 'nextTrack', func: doNext, help: 'next track' },
+    { name: 'previousTrack', func: doPrevious, help: 'previous track' },
+    { name: 'resume', func: doResume, help: 'resume play'},
+    { name: 'quitAfterTrack', func: doQuitAfter, help: 'quit after current track' },
+    { name: 'pauseAfterTrack', func: doPauseAfter, help: 'pause after current track' },
+    { name: 'stop', func: doStop, help: 'stop playing' },
+  ]);
+  keypress.addKeys(playListKeys);
   const finished = await doPlay(theTrack, playlist.trackOverlap ?? 0);
   await afterTrack(name, plays + (finished ? 1 : 0));
-  playListKeys.forEach((km) => keypress.removeKey(km));
+  keypress.removeKeys(playListKeys);
   return;
 };
 

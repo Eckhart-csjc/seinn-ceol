@@ -19,10 +19,11 @@ export const stats = (
       'time': (d) => d.totalTime * 1000,
       'tracks': (d) => d.nTracks,
       'albums': (d) => d.albums.length,
+      'plays': (d) => d.totalPlays,
     };
     const orderer = counts[options.composers];
     if (!orderer) {
-      error(`Invalid option for --composers ("time", "tracks", or "albums" expected)`);
+      error(`Invalid option for --composers ("time", "tracks", "plays", or "albums" expected)`);
       return;
     }
     const counted: Array<{n: number; name: string;}> = 

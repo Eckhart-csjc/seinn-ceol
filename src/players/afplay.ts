@@ -10,20 +10,20 @@ interface IPlayState {
   paused: number;       // Number of milliseconds track has been paused (prior to any current pause)
   beginPause: number;   // Epoch (ms) of the beginning of any current pause (0 if not paused)
   killed: boolean;
-  replay: boolean;
+  rewind: boolean;
 }
 
 const playState: IPlayState = {
   paused: 0,
   beginPause: 0,
   killed: false,
-  replay: false,
+  rewind: false,
 };
 
-const playKeys: IKeyMapping[] = [
-  { key: {sequence: 'q'}, func: doQuit },
-  { key: {sequence: 'R'}, func: doReplay, help: 'replay' },
-];
+const playKeys = keypress.makeKeys([
+  { name: 'quit', func: doQuit },
+  { name: 'rewind', func: doRewind, help: 'rewind current track' },
+]);
 
 // This is currently disabled, because afplay can only suspend output, not actually pause
 function doPause(key: IKey) {
@@ -49,8 +49,8 @@ function doResume(key: IKey) {
   execPromise("sh -c 'if pid=`pgrep afplay`; then kill -19 $pid; fi'");
 }
 
-function doReplay(key: IKey) {
-  playState.replay = true;
+function doRewind(key: IKey) {
+  playState.rewind = true;
   killPlayer();
 }
 
@@ -72,8 +72,8 @@ export const play = async (track: ITrack, earlyReturn: number = 0): Promise<bool
   playState.paused = 0;
   playState.beginPause = 0;
   playState.killed = false;
-  playState.replay = false;
-  playKeys.forEach((km) => keypress.addKey(km));
+  playState.rewind = false;
+  keypress.addKeys(playKeys);
   try {
     await spawnWithProgress(`/usr/bin/afplay`, [`-q`,`1`,track.trackPath], (elapsed: number) => {
       if (playState.beginPause) {
@@ -86,14 +86,14 @@ export const play = async (track: ITrack, earlyReturn: number = 0): Promise<bool
         `${makeTime(netElapsed)} of ${totalFmt} (${Math.floor(pct * 100)}%)`));
       process.stdout.cursorTo(0);
     }, 100, ((track.duration ?? 0) * 1000) - earlyReturn);
-    if (playState.replay) {
+    if (playState.rewind) {
       return play(track);
     }
   } catch (e) {
     error(`Error playing track ${track.trackPath}: ${e.message}`);
     playState.killed = true;
   } finally {
-    playKeys.forEach((km) => keypress.removeKey(km));
+    keypress.removeKeys(playKeys);
   }
   return !playState.killed;
 };

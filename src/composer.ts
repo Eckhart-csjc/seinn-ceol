@@ -29,6 +29,7 @@ export interface IComposerStatsDetail {
   nTracks: number;
   albums: string[];
   totalTime: number;
+  totalPlays: number;
 }
 
 const ADD = '<add new>';
@@ -121,6 +122,7 @@ export const stats = (): IComposerStats => {
       nTracks: 0,
       albums: [],
       totalTime: 0,
+      totalPlays: 0,
     }
     return {
       ...accum,
@@ -129,6 +131,7 @@ export const stats = (): IComposerStats => {
         nTracks: curr.nTracks + 1,
         albums: t.album ? _.uniq([ ...curr.albums, t.album ]) : curr.albums,
         totalTime: curr.totalTime + (t.duration ?? 0),
+        totalPlays: curr.totalPlays + t.plays,
       },
     };
   }, {} as Record<string, IComposerStatsDetail>);
