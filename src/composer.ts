@@ -24,13 +24,24 @@ export interface IComposerStats {
   detail: IComposerStatsDetail[];
 }
 
-export interface IComposerStatsDetail {
+export interface IGroupStats {
   name: string;
-  aliases: string[];
   nTracks: number;
-  albums: string[];
   totalTime: number;
   totalPlays: number;
+}
+
+export interface IArtistStats extends IGroupStats {
+}
+
+export interface IAlbumStats extends IGroupStats {
+  artists?: IArtistStats[];
+}
+
+export interface IComposerStatsDetail extends IGroupStats {
+  aliases: string[];
+  albums: IAlbumStats[];
+  artists: IArtistStats[];
 }
 
 const ADD = '<add new>';
@@ -122,18 +133,20 @@ export const stats = (): IComposerStats => {
       name,
       aliases: c?.aliases ?? [],
       nTracks: 0,
-      albums: [],
       totalTime: 0,
       totalPlays: 0,
+      albums: [],
+      artists: [],
     }
     return {
       ...accum,
       [name]: {
         ...curr,
         nTracks: curr.nTracks + 1,
-        albums: t.album ? _.uniq([ ...curr.albums, t.album ]) : curr.albums,
         totalTime: curr.totalTime + (t.duration ?? 0),
         totalPlays: curr.totalPlays + t.plays,
+        albums: addAlbumStats(curr.albums, t),
+        artists: addArtistStats(curr.artists, t),
       },
     };
   }, {} as Record<string, IComposerStatsDetail>);
@@ -141,6 +154,58 @@ export const stats = (): IComposerStats => {
     nComposers: composers.length,
     detail: _.values(detailByComposer),
   };
+};
+
+const addGroupStats = <T extends IGroupStats>(
+  groups: T[], 
+  name: string, 
+  t: track.ITrack,
+  more?: (group: IGroupStats, t: track.ITrack) => T,
+) => {
+  const existing = _.find(groups, (a) => a.name === name);
+  if (existing) {
+    const modified = {
+      ...existing,
+      nTracks: existing.nTracks + 1,
+      totalTime: existing.totalTime + (t.duration ?? 0),
+      totalPlays: existing.totalPlays + t.plays,
+    }
+    return [
+      ...groups.filter((g) => g !== existing),
+      more ? more(modified, t) : modified,
+    ];
+  }
+  const newOne = {
+    name,
+    nTracks: 1,
+    totalTime: (t.duration ?? 0),
+    totalPlays: t.plays,
+  };
+  return [
+    ...groups,
+    more ? more(newOne, t) : newOne,
+  ];
+}
+
+const addArtistStats = (artists: IArtistStats[], t: track.ITrack): IArtistStats[] => 
+  t.artists ? t.artists.reduce(
+    (accum, artist) => addGroupStats<IArtistStats>(accum, artist, t),
+    artists
+  ) : artists;
+
+const addAlbumStats = (albums: IAlbumStats[], t: track.ITrack): IAlbumStats[] => {
+  if (t.album) {
+    return addGroupStats<IAlbumStats>(
+      albums, 
+      t.album, 
+      t, 
+      (album: IAlbumStats, t: track.ITrack): IAlbumStats => ({
+        ...album,
+        artists: addArtistStats(album.artists || [], t),
+      }),
+    );
+  }
+  return albums;
 };
 
 const getValues = async (known: Partial<IComposer>, index: Record<string, IComposer>, existing?: IComposer): Promise<IComposer | undefined> => {

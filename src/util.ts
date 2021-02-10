@@ -36,6 +36,34 @@ export const notification = (...args: any) => {
   bumpRowsPrinted();
 }
 
+export const printColumns = (output: string[][], justification?: Justification[]) => {
+  const widths = output.reduce((accum: number[], row) =>
+    row.reduce((acc: number[], col, ndx) => {
+      acc[ndx] = Math.max(acc[ndx] ?? 0, col.length + 1);
+      return acc;
+    }, accum), [] as number[]);
+  let totalWidth = widths.reduce((acc, col) => acc + col, 0);
+  if (!totalWidth) {
+    return;
+  }
+  if (totalWidth > process.stdout.columns) {
+    const diff = totalWidth - process.stdout.columns;
+    if (widths[0] - 10 > diff) {
+      widths[0] = widths[0] - diff;
+      totalWidth = totalWidth - diff;
+    }
+  }
+  const finalWidths = (totalWidth > process.stdout.columns) ?
+    widths.map((w) => Math.floor(w * process.stdout.columns / totalWidth)) :
+    widths;
+  const just = finalWidths.map(
+    (w,ndx) => justification ? justification[ndx] ?? 'left' : 'left'
+  );
+  output.forEach((row) =>
+    printLn(row.map((col, ndx) => padOrTruncate(col, finalWidths[ndx], just[ndx])).join(''))
+  );
+}
+
 export const ask = async (questions: any): Promise<any> => {
   const response = await inquirer.prompt(questions);
   fixTTY();

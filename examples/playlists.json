@@ -1,0 +1,102 @@
+[
+  {
+    "name": "composersByBirth",
+    "trackOverlap": 1500,
+    "columns": [
+      {
+        "header": "#",
+        "template": "${index}",
+        "width": "3%",
+        "justification": "right"
+      },
+      {
+        "header": "Composer",
+        "template": "${composer}",
+        "width": "14%"
+      },
+      {
+        "header": "Born",
+        "template": "${composerBorn}",
+        "width": "5.6%",
+        "justification": "center"
+      },
+      {
+        "header": "Died",
+        "template": "${composerDied}",
+        "width": "5.6%",
+        "justification": "center"
+      },
+      {
+        "header": "Title",
+        "template": "${title}",
+        "width": "25%"
+      },
+      {
+        "header": "Artist",
+        "template": "${artists}",
+        "width": "10%"
+      },
+      {
+        "header": "Album",
+        "template": "${album}",
+        "width": "18%"
+      },
+      {
+        "header": "Disk",
+        "template": "${disk}",
+        "width": "3%",
+        "justification": "center"
+      },
+      {
+        "header": "Track",
+        "template": "${track}",
+        "width": "4%",
+        "justification": "center"
+      },
+      {
+        "header": "Time",
+        "template": "${duration}",
+        "width": "3%",
+        "justification": "right"
+      },
+      {
+        "header": "Plays",
+        "template": "${plays}",
+        "width": "3%",
+        "justification": "right"
+      },
+      {
+        "header": "Last played",
+        "template": "${lastPlayed}",
+        "width": "6%",
+        "justification": "right"
+      }
+    ],
+    "separator": "│",
+    "hdrTheming": {
+      "chalk": [
+        "italic",
+        "underline",
+        "blueBright"
+      ]
+    },
+    "separatorTheming": {
+      "chalk": [
+        "gray"
+      ]
+    },
+    "hdrSeparatorTheming": {
+      "chalk": [
+        "gray"
+      ]
+    },
+    "orderBy": [
+      "composerBornSort",
+      "composerDiedSort",
+      "composerDetail.name",
+      "album",
+      "albumOrder"
+    ],
+    "current": "/Users/eckhart/Music/iTunes/iTunes Media/Music/Avison Ensemble/Vivaldi_ Concerti Opus 8, Including 'The Four Seasons'/2-05 Violin Concerto in G minor, Op.8, No.8, RV.332 - Largo.m4a"
+  }
+]

@@ -1,6 +1,6 @@
 import * as composer from './composer';
 import * as track from './track';
-import { error, makeTime, padOrTruncate, print, printLn } from './util';
+import { error, makeTime, padOrTruncate, print, printColumns, printLn } from './util';
 import * as _ from 'lodash';
 
 const pluralize = require('pluralize');
@@ -26,9 +26,29 @@ export const stats = (
     const cStats = composerStats.detail.filter((c) => 
       !!_.find([c.name, ...c.aliases], (n) => n.toLowerCase().includes(lc)));
     cStats.map((c) => {
-      printLn(`${c.name} has ${pluralize('track', c.nTracks, true)} on ${pluralize('album', c.albums.length, true)} totaling ${makeTime(c.totalTime * 1000)}`);
-      printLn(`  ${pluralize('Album', c.albums.length)}:`);
-      c.albums.sort().map((a) => printLn(`    ${a}`));
+      printLn(`${c.name} has ${pluralize('track', c.nTracks, true)} on ${pluralize('album', c.albums.length, true)} totaling ${makeTime(c.totalTime * 1000)}; total plays: ${c.totalPlays}`);
+      const rows = [] as string[][];
+      const pushStats = (stats: composer.IGroupStats, prefix: string) => {
+        rows.push([
+          prefix + stats.name,
+          `${stats.nTracks}`,
+          makeTime(stats.totalTime * 1000),
+          `${stats.totalPlays}`,
+        ]);
+      };
+      rows.push(['  Album/Artist', 'Tracks', 'Time', 'Plays']);
+      rows.push(['  ------------', '------', '----', '-----']);
+      _.orderBy(c.albums, ['name']).map((a) => {
+        pushStats(a, '  ');
+        _.orderBy(a.artists, ['name']).map((t) => pushStats(t, '    '));
+        rows.push(['']);
+      });
+      rows.push(['']);
+      rows.push(['  Artist', 'Tracks', 'Time', 'Plays']);
+      rows.push(['  ------', '------', '----', '-----']);
+      _.orderBy(c.artists, ['name']).map((t) => pushStats(t, '  '));
+      printLn('');
+      printColumns(rows, ['left', 'right', 'right', 'right']);
       printLn('');
     });
   }

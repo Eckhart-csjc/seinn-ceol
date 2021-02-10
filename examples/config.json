@@ -1,0 +1,50 @@
+{
+  "player": "afplay",
+  "theme": {
+    "detail": {
+      "chalk": [
+        "rgb(100,255,220)"
+      ]
+    },
+    "error": {
+      "chalk": [
+        "redBright"
+      ]
+    },
+    "help": {
+      "chalk": [
+        "rgb(200,200,255)"
+      ]
+    },
+    "notification": {
+      "chalk": [
+        "rgb(150,150,255)",
+        "italic"
+      ]
+    },
+    "paused": {
+      "chalk": [
+        "bgYellow",
+        "italic",
+        "black"
+      ]
+    },
+    "progressBar": {
+      "chalk": [
+        "black",
+        "bgRgb(120,190,170)"
+      ]
+    },
+    "progressBackground": {
+      "chalk": [
+        "bgRgb(0,80,60)",
+        "rgb(120,190,170)"
+      ]
+    },
+    "warning": {
+      "chalk": [
+        "yellow"
+      ]
+    }
+  }
+}
