@@ -46,7 +46,7 @@ export const stats = (
   const rows = [
     [ `  ${groups.map(headerCaps).join('/')}`, `Tracks`, `Time`, `Plays`],
     [ `` ],
-    ...formatGroup(stats, orderBy),
+    ...formatGroup(stats, orderBy, options.limit),
   ];
   printColumns(rows, ['left', 'right', 'right', 'right']);
 };
@@ -96,6 +96,7 @@ const addGroupStats = (
 const formatGroup = (
   stats: IGroupStats, 
   orderBy: keyof IGroupStats, 
+  limit: number = 0,
   indent: number = 0
 ): string[][] => {
   const base = [ 
@@ -110,8 +111,10 @@ const formatGroup = (
       [ orderBy ], 
       [ (orderBy === 'name') ? 'asc' : 'desc']
     )
-      .reduce(
-        (accum, group) => [ ...accum, ...formatGroup(group, orderBy, indent + 2) ],
-        [ base ]
-      ) : [ base ];
+    .slice(0, limit || Infinity)
+    .reduce(
+      (accum, group) => [ ...accum, ...formatGroup(group, orderBy, limit, indent + 2) ],
+      [ base ]
+    ) 
+  : [ base ];
 };
