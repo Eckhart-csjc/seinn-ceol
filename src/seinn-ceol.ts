@@ -80,10 +80,10 @@ program
 
 program
   .command('stats')
-  .option('-s, --summary', 'summary')
-  .option('-C, --composer <partial-name>', 'All statistics for specific composers')
-  .option('-c, --composers <order>', 'List composers ordered by time|tracks|albums|plays')
-  .option('-l, --limit <n>', 'Limit lists to n items')
+  .option('-g, --groupBy <group-spec>', 'Fields to create sub-group statistics, separated by :')
+  .option('-o, --order <order>', 'Order subgroups by name|time|tracks|plays',)
+  .option('-w, --where <filter>', 'Filter tracks to include in stats')
+  .option('-l, --limit <n>', 'Limit each list to n items')
   .description('get statistics')
   .action(stats)
   ;

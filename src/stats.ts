@@ -3,76 +3,115 @@ import * as track from './track';
 import { error, makeTime, padOrTruncate, print, printColumns, printLn } from './util';
 import * as _ from 'lodash';
 
+const capitalize = require('capitalize');
 const pluralize = require('pluralize');
 
-const counts: Record<string, (d: composer.IComposerStatsDetail) => number> = {
-  'time': (d) => d.totalTime * 1000,
-  'tracks': (d) => d.nTracks,
-  'albums': (d) => d.albums.length,
-  'plays': (d) => d.totalPlays,
+interface IGroupStats {
+  name: string;
+  nTracks: number;
+  totalTime: number;
+  totalPlays: number;
+  grouping?: string;
+  groups?: Record<string, IGroupStats>;
+}
+
+const orders: Record<string, keyof IGroupStats> = {
+  name: 'name',
+  time: 'totalTime',
+  tracks: 'nTracks',
+  plays: 'totalPlays',
 };
 
 export const stats = (
-  options: {summary?: boolean, composer?: string, composers?: string, limit?: number}
+  options: {
+    groupBy?: string,
+    order?: string,
+    where?: string,
+    limit?: number
+  }
 ) => {
-  const trackStats = track.stats();
-  const composerStats = composer.stats();
-  if (options.summary) {
-    printLn(`${pluralize('track', trackStats.nTracks, true)} from ${pluralize('composer', composerStats.nComposers, true)}, Total time: ${makeTime(trackStats.totalTime * 1000)}`);
-    printLn('');
-  }
-  if (options.composer) {
-    const lc = options.composer.toLowerCase();
-    const cStats = composerStats.detail.filter((c) => 
-      !!_.find([c.name, ...c.aliases], (n) => n.toLowerCase().includes(lc)));
-    cStats.map((c) => {
-      printLn(`${c.name} has ${pluralize('track', c.nTracks, true)} on ${pluralize('album', c.albums.length, true)} totaling ${makeTime(c.totalTime * 1000)}; total plays: ${c.totalPlays}`);
-      const rows = [] as string[][];
-      const pushStats = (stats: composer.IGroupStats, prefix: string) => {
-        rows.push([
-          prefix + stats.name,
-          `${stats.nTracks}`,
-          makeTime(stats.totalTime * 1000),
-          `${stats.totalPlays}`,
-        ]);
-      };
-      rows.push(['  Album/Artist', 'Tracks', 'Time', 'Plays']);
-      rows.push(['  ------------', '------', '----', '-----']);
-      _.orderBy(c.albums, ['name']).map((a) => {
-        pushStats(a, '  ');
-        _.orderBy(a.artists, ['name']).map((t) => pushStats(t, '    '));
-        rows.push(['']);
-      });
-      rows.push(['']);
-      rows.push(['  Artist', 'Tracks', 'Time', 'Plays']);
-      rows.push(['  ------', '------', '----', '-----']);
-      _.orderBy(c.artists, ['name']).map((t) => pushStats(t, '  '));
-      printLn('');
-      printColumns(rows, ['left', 'right', 'right', 'right']);
-      printLn('');
-    });
-  }
-  if (options.composers) {
-    const orderer = counts[options.composers];
-    if (!orderer) {
-      error(`Invalid option for --composers ("time", "tracks", "plays", or "albums" expected)`);
-      return;
-    }
-    const counted: Array<{n: number; name: string;}> = 
-      _.orderBy(
-        composerStats.detail.map((d) => ({ n: orderer(d), name: d.name })),
-        ['n'], ['desc']
-      );
-    const toPrint = options.limit ? counted.slice(0, options.limit) : counted;
-    print(options.limit ? `Top ${options.limit} c` : 'C');
-    printLn(`omposers by ${options.composers}`);
-    printLn('');
-    const longest = toPrint.reduce((acc, d) => (d.name.length > acc) ? d.name.length : acc, 0);
-    toPrint.map((d) => {
-      const name = padOrTruncate(d.name, longest);
-      const value = padOrTruncate(options.composers === 'time' ? makeTime(d.n) : `${d.n}`, 
-        12, 'right');
-      printLn(`${name} ${value}`);
-    });
-  }
-}
+  const tracks = track.filter(options.where);
+  const groups = options.groupBy?.split(':') ?? [] as string[];
+  const composerIndex = composer.indexComposers();
+  const orderBy = options.order ? (orders[options.order] ?? 'name') : 'name';
+  const stats = tracks.reduce(
+    (accum, t, ndx) => addStats(
+      accum, 
+      t, 
+      track.makeDisplay(track.makeTrackSort(t, composerIndex), ndx), 
+      groups
+    ), 
+    makeGroup('Totals', groups)
+  );
+  const rows = [
+    [ `  ${groups.map(headerCaps).join('/')}`, `Tracks`, `Time`, `Plays`],
+    [ `` ],
+    ...formatGroup(stats, orderBy),
+  ];
+  printColumns(rows, ['left', 'right', 'right', 'right']);
+};
+
+const headerCaps = (text: string) => capitalize.words(text.replace(/([A-Z])/g, ' $1'));
+
+const makeGroup = (name: string, groups: string[]) => ({
+  name,
+  nTracks: 0,
+  totalTime: 0,
+  totalPlays: 0,
+  ...((groups.length > 0) ? {
+    grouping: groups[0],
+    groups: {} as Record<string, IGroupStats>,
+  } : {})
+});
+
+const addStats = (
+  existing: IGroupStats, 
+  t: track.ITrack, 
+  td: track.ITrackDisplay, 
+  groups: string[]
+): IGroupStats => ({
+  ...existing,
+  nTracks: existing.nTracks + 1,
+  totalTime: existing.totalTime + (t.duration ?? 0) * 1000,
+  totalPlays: existing.totalPlays + t.plays,
+  ...(existing.grouping ? {
+    groups: addGroupStats(existing.grouping, existing.groups ?? {}, t, td, groups.slice(1)),
+  } : {}),
+});
+
+const addGroupStats = (
+  grouping: string, 
+  groups: Record<string, IGroupStats>, 
+  t: track.ITrack,
+  td: track.ITrackDisplay, 
+  remainingGroups: string[]
+) => {
+  const name = (td as unknown as Record<string, string>)[grouping];
+  return name ? {
+     ...groups,
+     [name] : addStats(groups[name] ?? makeGroup(name, remainingGroups), t, td, remainingGroups),
+  } : groups;
+};
+
+const formatGroup = (
+  stats: IGroupStats, 
+  orderBy: keyof IGroupStats, 
+  indent: number = 0
+): string[][] => {
+  const base = [ 
+    ' '.repeat(indent) + stats.name, 
+    `${stats.nTracks}`, 
+    makeTime(stats.totalTime), 
+    `${stats.totalPlays}` 
+  ];
+  return stats.groups ?
+    _.orderBy(
+      _.values(stats.groups), 
+      [ orderBy ], 
+      [ (orderBy === 'name') ? 'asc' : 'desc']
+    )
+      .reduce(
+        (accum, group) => [ ...accum, ...formatGroup(group, orderBy, indent + 2) ],
+        [ base ]
+      ) : [ base ];
+};

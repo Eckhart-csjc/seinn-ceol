@@ -32,6 +32,7 @@
     "@types/inquirer": "^7.3.1",
     "@types/js-levenshtein": "^1.1.0",
     "@types/lodash": "^4.14.165",
+    "capitalize": "^2.0.3",
     "chalk": "^4.1.0",
     "child-process-promise": "^2.2.1",
     "commander": "^6.2.0",

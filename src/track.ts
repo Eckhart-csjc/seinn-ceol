@@ -50,7 +50,7 @@ export interface ITrackSort extends ITrack {
   composerDetail?: IComposer;
   composerBornSort?: number;
   composerDiedSort?: number;
-  albumOrder?: number;
+  albumOrder: number;
 }
 
 export interface ITrackDisplay {
@@ -74,11 +74,6 @@ export interface ITrackDisplay {
   lastPlayed: string;
 }
 
-export interface ITrackStats {
-  nTracks: number;
-  totalTime: number;
-}
-
 export interface ITrackUpdater extends Partial<ITrack> {
   trackPath: string;
 }
@@ -86,6 +81,12 @@ export interface ITrackUpdater extends Partial<ITrack> {
 const trackFile = new ArrayFileHandler<ITrack>('tracks.json');
 
 export const fetchAll = () => trackFile.fetch();
+
+export const filter = (where?: string) => where ?
+  fetchAll().filter((t) => evalFilter(t, where)) :
+  fetchAll();
+
+export const evalFilter = (t: ITrack, where: string) => true;    // TODO: guess what
 
 export const add = async (tracks:string[], options: { noError: boolean, noWarn: boolean }) => {
   try {
@@ -137,14 +138,6 @@ export const getInfo = async (track:string) : Promise<ITrackInfo> => {
     duration: p.format.duration,
   };
 }
-
-export const stats = (tracks?: ITrack[]): ITrackStats => (tracks ?? fetchAll()).reduce<ITrackStats>((accum, track) => ({
-  nTracks: accum.nTracks + 1,
-  totalTime: accum.totalTime + (track.duration ?? 0),
-}), {
-  nTracks: 0,
-  totalTime: 0,
-});
 
 export const makeTrack = async (trackPath: string, info?: ITrackInfo): Promise<ITrack> => {
   const trackInfo = info ?? await getInfo(trackPath);
