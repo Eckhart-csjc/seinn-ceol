@@ -348,7 +348,7 @@ export const makeDisplay = (t: ITrackSort, index: number): ITrackDisplay => {
     disk: t.disk ? `${t.disk}${t.nDisks ? '/'+t.nDisks : ''}` : '',
     title: t.title ?? '',
     artists: t.artists?.join(' & ') ?? '',
-    composer: t.composer?.join(' & ') ?? '',
+    composer: t.composer?.join(' & ') ?? t.composerKey ?? '',
     composerKey: t.composerKey ?? '',
     composerName: t.composerDetail?.name ?? '',
     composerBorn: makeDateDisplay(t.composerDetail?.born),
