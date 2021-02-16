@@ -51,6 +51,7 @@ export interface ITrackSort extends ITrack {
   composerBornSort?: number;
   composerDiedSort?: number;
   albumOrder: number;
+  playTime?: number;
 }
 
 export interface ITrackDisplay {
@@ -72,6 +73,7 @@ export interface ITrackDisplay {
   duration: string;
   plays: string;
   lastPlayed: string;
+  playTime: string;
 }
 
 export interface ITrackUpdater extends Partial<ITrack> {
@@ -82,11 +84,15 @@ const trackFile = new ArrayFileHandler<ITrack>('tracks.json');
 
 export const fetchAll = () => trackFile.fetch();
 
-export const filter = (where?: string) => where ?
-  fetchAll().filter((t) => evalFilter(t, where)) :
-  fetchAll();
+export const filter = (where?: string): ITrackSort[] => {
+  const composerIndex = composer.indexComposers();
+  const allTracks = fetchAll().map((t) => makeTrackSort(t, composerIndex));
+  return where ?
+    allTracks.filter((t) => evalFilter(t, where)) :
+    allTracks;
+};
 
-export const evalFilter = (t: ITrack, where: string) => true;    // TODO: guess what
+export const evalFilter = (t: ITrackSort, where: string) => true;    // TODO: guess what
 
 export const add = async (tracks:string[], options: { noError: boolean, noWarn: boolean }) => {
   try {
@@ -227,9 +233,10 @@ export const makeTrackSort = (
     return {
       ...t,
       composerDetail,
-      composerBornSort: new Date(dayjs(composerDetail?.born ?? t?.compositionDate)).getTime(),
-      composerDiedSort: new Date(dayjs(composerDetail?.died ?? t?.compositionDate)).getTime(),
+      composerBornSort: new Date(dayjs(composerDetail?.born ?? t.compositionDate)).getTime(),
+      composerDiedSort: new Date(dayjs(composerDetail?.died ?? t.compositionDate)).getTime(),
       albumOrder: d * 10000 + tr,
+      playTime: t.duration ? (t.plays * t.duration) : undefined,
     };
 };
 
@@ -321,6 +328,7 @@ export const formatInfo = (t: ITrack): string[] => [
   `Duration: ${makeTime((t.duration ?? 1) * 1000)}`,
   `Plays: ${t.plays}`,
   ...(t.lastPlayed ? [`Last played: ${t.lastPlayed}`] : []),
+  `Media file: ${t.trackPath}`,
 ];
 
 const makeDateDisplay = (input: string | number | undefined) =>
@@ -361,6 +369,7 @@ export const makeDisplay = (t: ITrackSort, index: number): ITrackDisplay => {
     duration: t.duration ? makeTime(t.duration * 1000) : '',
     plays: `${t.plays || 0}`,
     lastPlayed: makeLastPlayedDisplay(t.lastPlayed),
+    playTime: t.playTime ? makeTime(t.playTime * 1000) : '',
   };
 };
 

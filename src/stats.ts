@@ -11,6 +11,7 @@ interface IGroupStats {
   nTracks: number;
   totalTime: number;
   totalPlays: number;
+  playTime: number;
   grouping?: string;
   groups?: Record<string, IGroupStats>;
 }
@@ -20,6 +21,7 @@ const orders: Record<string, keyof IGroupStats> = {
   time: 'totalTime',
   tracks: 'nTracks',
   plays: 'totalPlays',
+  playTime: 'playTime',
 };
 
 export const stats = (
@@ -44,11 +46,11 @@ export const stats = (
     makeGroup('Totals', groups)
   );
   const rows = [
-    [ `  ${groups.map(headerCaps).join('/')}`, `Tracks`, `Time`, `Plays`],
+    [ `  ${groups.map(headerCaps).join('/')}`, `Tracks`, `Time`, `Plays`, `PlayTime`],
     [ `` ],
     ...formatGroup(stats, orderBy, options.limit),
   ];
-  printColumns(rows, ['left', 'right', 'right', 'right']);
+  printColumns(rows, ['left', 'right', 'right', 'right', 'right']);
 };
 
 const headerCaps = (text: string) => capitalize.words(text.replace(/([A-Z])/g, ' $1'));
@@ -58,6 +60,7 @@ const makeGroup = (name: string, groups: string[]) => ({
   nTracks: 0,
   totalTime: 0,
   totalPlays: 0,
+  playTime: 0,
   ...((groups.length > 0) ? {
     grouping: groups[0],
     groups: {} as Record<string, IGroupStats>,
@@ -66,7 +69,7 @@ const makeGroup = (name: string, groups: string[]) => ({
 
 const addStats = (
   existing: IGroupStats, 
-  t: track.ITrack, 
+  t: track.ITrackSort, 
   td: track.ITrackDisplay, 
   groups: string[]
 ): IGroupStats => ({
@@ -74,6 +77,7 @@ const addStats = (
   nTracks: existing.nTracks + 1,
   totalTime: existing.totalTime + (t.duration ?? 0) * 1000,
   totalPlays: existing.totalPlays + t.plays,
+  playTime: existing.playTime + (t.playTime ?? 0) * 1000,
   ...(existing.grouping ? {
     groups: addGroupStats(existing.grouping, existing.groups ?? {}, t, td, groups.slice(1)),
   } : {}),
@@ -82,7 +86,7 @@ const addStats = (
 const addGroupStats = (
   grouping: string, 
   groups: Record<string, IGroupStats>, 
-  t: track.ITrack,
+  t: track.ITrackSort,
   td: track.ITrackDisplay, 
   remainingGroups: string[]
 ) => {
@@ -103,7 +107,8 @@ const formatGroup = (
     ' '.repeat(indent) + stats.name, 
     `${stats.nTracks}`, 
     makeTime(stats.totalTime), 
-    `${stats.totalPlays}` 
+    `${stats.totalPlays}`,
+    makeTime(stats.playTime),
   ];
   return stats.groups ?
     _.orderBy(
