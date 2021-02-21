@@ -1,5 +1,5 @@
 import * as _ from 'lodash';
-import { applyThemeSetting, Theming } from './config';
+import { applyThemeSetting, getTheme, Theming } from './config';
 import { fixTTY } from './keypress';
 const inquirer = require('inquirer');
 const pluralize = require('pluralize');
@@ -93,8 +93,15 @@ export const makeProgressBar = (width: number, pct: number, text: string = '') =
   const body = padOrTruncate(text + barSuffix, width, 'center');
   const ticks = Math.floor(Math.max(0,Math.min(width, Math.floor(width * pct))));
   const togo = width - ticks;
-  const ticksBar = applyThemeSetting(body.slice(0, ticks), 'progressBar');
-  const togoBar = applyThemeSetting(body.slice(ticks), 'progressBackground');
+  const theme = getTheme();
+  const ticksBar = applyThemeSetting(body.slice(0, ticks), 
+    barSuffix ? 
+      (theme.progressBarWithMessage ?? theme.progressBar) :
+      theme.progressBar);
+  const togoBar = applyThemeSetting(body.slice(ticks), 
+    barSuffix ?
+      (theme.progressBarWithMessageBackground ?? theme.progressBackground) :
+      theme.progressBackground);
   return `${ticksBar}${togoBar}`;
 };
 

@@ -8,14 +8,16 @@ export interface IThemeSettings {
 };
 
 export interface ITheme {
-  detail?: IThemeSettings;                // Track information detail
-  error?: IThemeSettings;                 // Text of error messages
-  help?: IThemeSettings;                  // Help text
-  notification?: IThemeSettings;          // Notification of actions by app
-  paused?: IThemeSettings;                // [PAUSED] message
-  progressBar?: IThemeSettings;           // Progress bar while playing
-  progressBackground?: IThemeSettings;    // The unfilled portion of the progress bar
-  warning?: IThemeSettings;               // Text of warnings
+  detail?: IThemeSettings;                            // Track information detail
+  error?: IThemeSettings;                             // Text of error messages
+  help?: IThemeSettings;                              // Help text
+  notification?: IThemeSettings;                      // Notification of actions by app
+  paused?: IThemeSettings;                            // [PAUSED] message
+  progressBar?: IThemeSettings;                       // Progress bar while playing
+  progressBackground?: IThemeSettings;                // The unfilled portion of the progress bar
+  progressBarWithMessage?: IThemeSettings;            // Progress bar that has a message embedded
+  progressBarWithMessageBackground?: IThemeSettings;  // Unfilled portion of same
+  warning?: IThemeSettings;                           // Text of warnings
 }
 
 export interface IKeyAssignments {
