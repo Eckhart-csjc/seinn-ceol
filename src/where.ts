@@ -1,7 +1,8 @@
-import { C, F, IParser, N, Tuple } from '@masala/parser';
+import { C, F, IParser, N, Response, Streams, Tuple } from '@masala/parser';
 import * as _ from 'lodash';
+import { error } from './util';
 
-enum Operation {
+export enum Operation {
   And,
   Equals,
   Not,
@@ -9,51 +10,65 @@ enum Operation {
   Or,
 }
 
-enum TokenType {
+export enum TokenType {
+  BinaryOperation,
+  BinaryOperator,
   Identifier,
   NumericLiteral,
-  Operation,
-  Operator,
+  OperationChain,
   StringLiteral,
+  UnaryOperation,
+  UnaryOperator,
 }
 
 interface IToken {
   type: TokenType;
 }
 
-interface IOperationToken extends IToken {
-  type: TokenType.Operation;
-  operator?: IOperatorToken;
-  operands: IToken[];
+interface IOperatorToken extends IToken {
 }
 
-interface IIdentifierToken extends IToken {
+interface IValueToken extends IToken {
+}
+
+interface IBinaryOperationToken extends IValueToken {
+  type: TokenType.BinaryOperation;
+  operator: IBinaryOperatorToken;
+  operands: [IValueToken, IValueToken];
+}
+
+interface IBinaryOperatorToken extends IOperatorToken {
+  type: TokenType.BinaryOperator;
+  operator: Operation;
+}
+
+interface IIdentifierToken extends IValueToken {
   type: TokenType.Identifier;
   name: string;
 }
 
-interface INumericLiteralToken extends IToken {
+interface INumericLiteralToken extends IValueToken {
   type: TokenType.NumericLiteral;
   value: number;
 }
 
-interface IOperatorToken extends IToken {
-  type: TokenType.Operator;
-  operation: Operation;
-}
-
-interface IStringLiteralToken extends IToken {
+interface IStringLiteralToken extends IValueToken {
   type: TokenType.StringLiteral;
   value: string;
 }
 
-const IDENTIFIER_CHARACTERS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_.';
+interface IUnaryOperationToken extends IToken {
+  type: TokenType.UnaryOperation;
+  operator: IUnaryOperatorToken;
+  operand: IValueToken;
+}
 
-const operationMapper = (result: Tuple<IToken>): IOperationToken => ({
-  type: TokenType.Operation,
-  operator: _.find(result.value, (t) => t.type === TokenType.Operator) as IOperatorToken,
-  operands: _.filter(result.value, (t) => t.type !== TokenType.Operator),
-});
+interface IUnaryOperatorToken extends IOperatorToken {
+  type: TokenType.UnaryOperator;
+  operator: Operation;
+}
+
+const IDENTIFIER_CHARACTERS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_.';
 
 const unaryOperators: Record<string, Operation> = {
   ['!']:  Operation.Not,
@@ -61,33 +76,82 @@ const unaryOperators: Record<string, Operation> = {
 
 const binaryOperators: Record<string, Operation> = {
   ['&&']: Operation.And,
+  ['=']: Operation.Equals,
   ['==']: Operation.Equals,
   ['!=']: Operation.NotEquals,
   ['||']: Operation.Or,
 };
 
+const operatorPriority: Record<Operation, number> = {
+  [Operation.And]: 1,
+  [Operation.Equals]: 2,
+  [Operation.Not]: 5,
+  [Operation.NotEquals]: 2,
+  [Operation.Or]: 1,
+}
+
+const groupOperations = (tokens: IToken[]): IValueToken => {
+  if (tokens.length === 1) {
+    return tokens[0] as IValueToken;
+  }
+  if (tokens.length === 2) {
+    error(`Theoretically, this can't happen`)
+    return tokens[0] as IValueToken;
+  }
+  if (tokens.length === 3) {
+    return {
+      type: TokenType.BinaryOperation,
+      operator: tokens[1] as IBinaryOperatorToken,
+      operands: [tokens[0], tokens[2]],
+    } as IBinaryOperationToken;
+  }
+  const [ left, op1, right, op2 ] = 
+    tokens as [IValueToken, IBinaryOperatorToken, IValueToken, IBinaryOperatorToken];
+  if (operatorPriority[op1.operator] >= operatorPriority[op2.operator]) {
+    const binaryToken = {
+      type: TokenType.BinaryOperation,
+      operator: op1,
+      operands: [left, right],
+    }
+    return groupOperations([binaryToken, ...tokens.slice(3)]);
+  }
+  const nextPeerOp = _.findIndex(
+    tokens, 
+    (token) => token.type === TokenType.BinaryOperator && 
+      operatorPriority[(token as IBinaryOperatorToken).operator] <= 
+        operatorPriority[op1.operator],
+    5     // Look ahead for any lower priority operators
+  );
+  return nextPeerOp ? 
+    groupOperations([
+      left, 
+      op1, 
+      groupOperations(tokens.slice(2,nextPeerOp)), 
+      ...tokens.slice(nextPeerOp)
+    ]) : 
+    groupOperations([
+      left,
+      op1,
+      groupOperations(tokens.slice(2))
+    ]);
+}
+
+const operationChainMapper = (result: Tuple<IToken>) => groupOperations(result.value);
+
 const P = {
-  binaryOperator: (): IParser<IOperatorToken> =>
+  binaryOperator: (): IParser<IBinaryOperatorToken> =>
     C.stringIn(Object.keys(binaryOperators))
       .map((value: string) => ({
-        type: TokenType.Operator,
-        operation: binaryOperators[value]!,
-      }) as IOperatorToken),
+        type: TokenType.BinaryOperator,
+        operator: binaryOperators[value]!,
+      }) as IBinaryOperatorToken),
 
-  binaryOperation: (): IParser<IOperationToken> =>
-    P.expression()
-      .then(P.binaryOperator())
-      .then(P.expression())
-      .map(operationMapper),
-
-  expression: (): IParser<IToken> =>
+  expression: (): IParser<IValueToken> =>
     F.try(P.parenthesizedExpression())
       .or(F.try(P.unaryOperation())
-        .or(F.try(P.binaryOperation())
-          .or(F.try(P.stringLiteral())
-            .or(F.try(P.numericLiteral())
-              .or(P.identifier()) as IParser<IToken>
-            ) as IParser<IToken>
+        .or(F.try(P.stringLiteral())
+          .or(F.try(P.numericLiteral())
+            .or(P.identifier()) as IParser<IToken>
           ) as IParser<IToken>
         ) as IParser<IToken>
       ),
@@ -107,11 +171,21 @@ const P = {
         value,
       }) as INumericLiteralToken),
 
-  parenthesizedExpression: (): IParser<IToken> =>
+  operationChain: (): IParser<IValueToken> =>
+    P.expression()
+      .then(
+        (
+          P.binaryOperator()
+            .then(P.expression())
+        ).optrep()
+      )
+      .map(operationChainMapper),
+
+  parenthesizedExpression: (): IParser<IValueToken> =>
     C.char('(').drop()
-      .then(P.expression())
+      .then(F.lazy(P.operationChain))
       .then(C.char(')').drop())
-      .map((result: Tuple<IToken>): IToken => result.value[0]),
+      .map((result: Tuple<IValueToken>): IValueToken => result.value[0]),
 
   stringLiteral: () : IParser<IStringLiteralToken> =>
     C.char(`'`)
@@ -127,15 +201,24 @@ const P = {
         value: result.value.join(''),
       }) as IStringLiteralToken),
 
-  unaryOperator: (): IParser<IOperatorToken> =>
+  unaryOperator: (): IParser<IUnaryOperatorToken> =>
     C.stringIn(Object.keys(unaryOperators))
       .map((value: string) => ({
-        type: TokenType.Operator,
-        operation: unaryOperators[value]!,
-     }) as IOperatorToken),
+        type: TokenType.UnaryOperator,
+        operator: unaryOperators[value]!,
+     }) as IUnaryOperatorToken),
 
-  unaryOperation: (): IParser<IOperationToken> =>
+  unaryOperation: (): IParser<IUnaryOperationToken> =>
     P.unaryOperator()
-      .then(P.expression())
-      .map(operationMapper),
+      .then(F.lazy(P.expression))
+      .map((result: Tuple<IToken>): IUnaryOperationToken => ({
+        type: TokenType.UnaryOperation,
+        operator: result.value[0]! as IUnaryOperatorToken,
+        operand: result.value[1]! as IValueToken,
+      })),
 };
+
+const whereParser = P.operationChain();
+
+export const parseWhere = (where: string): Response<IValueToken> => 
+  whereParser.parse(Streams.ofString(where));
