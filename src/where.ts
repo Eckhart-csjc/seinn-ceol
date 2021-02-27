@@ -1,4 +1,4 @@
-import { C, F, IParser, N, Response, Streams, Tuple } from '@masala/parser';
+import { C, F, IParser, N, Response, Streams, Tuple, VoidParser } from '@masala/parser';
 import * as _ from 'lodash';
 import { error } from './util';
 
@@ -72,14 +72,18 @@ const IDENTIFIER_CHARACTERS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvw
 
 const unaryOperators: Record<string, Operation> = {
   ['!']:  Operation.Not,
+  ['not']: Operation.Not,
 };
 
 const binaryOperators: Record<string, Operation> = {
   ['&&']: Operation.And,
-  ['=']: Operation.Equals,
+  ['and']: Operation.And,
   ['==']: Operation.Equals,
+  ['=']: Operation.Equals,
   ['!=']: Operation.NotEquals,
+  ['<>']: Operation.NotEquals,
   ['||']: Operation.Or,
+  ['or']: Operation.Or,
 };
 
 const operatorPriority: Record<Operation, number> = {
@@ -172,14 +176,23 @@ const P = {
       }) as INumericLiteralToken),
 
   operationChain: (): IParser<IValueToken> =>
-    P.expression()
+    P.optSpace()
       .then(
-        (
-          P.binaryOperator()
-            .then(P.expression())
-        ).optrep()
-      )
+        P.expression()
+          .then(
+            (
+              P.optSpace()
+                .then(P.binaryOperator())
+                .then(P.optSpace())
+                .then(P.expression())
+            ).optrep()
+          )
+        )
+      .then(P.optSpace())
       .map(operationChainMapper),
+
+  optSpace: (): VoidParser =>
+    C.charIn(' \t\n\r').optrep().drop(),
 
   parenthesizedExpression: (): IParser<IValueToken> =>
     C.char('(').drop()
@@ -211,6 +224,7 @@ const P = {
   unaryOperation: (): IParser<IUnaryOperationToken> =>
     P.unaryOperator()
       .then(F.lazy(P.expression))
+      .then(P.optSpace())
       .map((result: Tuple<IToken>): IUnaryOperationToken => ({
         type: TokenType.UnaryOperation,
         operator: result.value[0]! as IUnaryOperatorToken,
