@@ -91,3 +91,166 @@ goodParse('Binary operation with spaces', `composerName = 'Johann Sebastian Bach
     },
   ],
 });
+
+goodParse('Operator chain', `A and B or C`, {
+  type: TokenType.BinaryOperation,
+  operator: {
+    type: TokenType.BinaryOperator,
+    operator: Operation.Or,
+  },
+  operands: [
+    {
+      type: TokenType.BinaryOperation,
+      operator: {
+        type: TokenType.BinaryOperator,
+        operator: Operation.And,
+      },
+      operands: [
+        {
+          type: TokenType.Identifier,
+          name: 'A',
+        },
+        {
+          type: TokenType.Identifier,
+          name: 'B',
+        },
+      ],
+    },
+    {
+      type: TokenType.Identifier,
+      name: 'C',
+    },
+  ],
+});
+
+goodParse('More complex expression', `A and B or C = 1`, {
+  type: TokenType.BinaryOperation,
+  operator: {
+    type: TokenType.BinaryOperator,
+    operator: Operation.Or,
+  },
+  operands: [
+    {
+      type: TokenType.BinaryOperation,
+      operator: {
+        type: TokenType.BinaryOperator,
+        operator: Operation.And,
+      },
+      operands: [
+        {
+          type: TokenType.Identifier,
+          name: 'A',
+        },
+        {
+          type: TokenType.Identifier,
+          name: 'B',
+        },
+      ],
+    },
+    {
+      type: TokenType.BinaryOperation,
+      operator: {
+        type: TokenType.BinaryOperator,
+        operator: Operation.Equals,
+      },
+      operands: [
+        {
+          type: TokenType.Identifier,
+          name: 'C',
+        },
+        {
+          type: TokenType.NumericLiteral,
+          value: 1,
+        },
+      ],
+    },
+  ],
+});
+
+goodParse('More complex expression', `A and B = C or D`, {
+  type: TokenType.BinaryOperation,
+  operator: {
+    type: TokenType.BinaryOperator,
+    operator: Operation.Or,
+  },
+  operands: [
+    {
+      type: TokenType.BinaryOperation,
+      operator: {
+        type: TokenType.BinaryOperator,
+        operator: Operation.And,
+      },
+      operands: [
+        {
+          type: TokenType.Identifier,
+          name: 'A',
+        },
+        {
+          type: TokenType.BinaryOperation,
+          operator: {
+            type: TokenType.BinaryOperator,
+            operator: Operation.Equals,
+          },
+          operands: [
+            {
+              type: TokenType.Identifier,
+              name: 'B',
+            },
+            {
+              type: TokenType.Identifier,
+              name: 'C',
+            },
+          ],
+        },
+      ],
+    },
+    {
+      type: TokenType.Identifier,
+      name: 'D',
+    },
+  ],
+});
+
+goodParse('Parentheses', `(A and B) = (C or D)`, {
+  type: TokenType.BinaryOperation,
+  operator: {
+    type: TokenType.BinaryOperator,
+    operator: Operation.Equals,
+  },
+  operands: [
+    {
+      type: TokenType.BinaryOperation,
+      operator: {
+        type: TokenType.BinaryOperator,
+        operator: Operation.And,
+      },
+      operands: [
+        {
+          type: TokenType.Identifier,
+          name: 'A',
+        },
+        {
+          type: TokenType.Identifier,
+          name: 'B',
+        },
+      ],
+    },
+    {
+      type: TokenType.BinaryOperation,
+      operator: {
+        type: TokenType.BinaryOperator,
+        operator: Operation.Or,
+      },
+      operands: [
+        {
+          type: TokenType.Identifier,
+          name: 'C',
+        },
+        {
+          type: TokenType.Identifier,
+          name: 'D',
+        },
+      ],
+    },
+  ],
+});

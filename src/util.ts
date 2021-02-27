@@ -36,6 +36,12 @@ export const notification = (...args: any) => {
   bumpRowsPrinted();
 }
 
+export const debug = (...args: any[]) => {
+  if (process.env.DEBUG) {
+    console.log(...args);
+  }
+}
+
 export const printColumns = (output: string[][], justification?: Justification[]) => {
   const widths = output.reduce((accum: number[], row) =>
     row.reduce((acc: number[], col, ndx) => {

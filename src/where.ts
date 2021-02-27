@@ -1,6 +1,6 @@
 import { C, F, IParser, N, Response, Streams, Tuple, VoidParser } from '@masala/parser';
 import * as _ from 'lodash';
-import { error } from './util';
+import { debug, error } from './util';
 
 export enum Operation {
   And,
@@ -95,11 +95,12 @@ const operatorPriority: Record<Operation, number> = {
 }
 
 const groupOperations = (tokens: IToken[]): IValueToken => {
+  debug('Token chain', JSON.stringify(tokens, undefined, 2));
   if (tokens.length === 1) {
     return tokens[0] as IValueToken;
   }
   if (tokens.length === 2) {
-    error(`Theoretically, this can't happen`)
+    error(`This shouldn't happen, remaining tokens:`, JSON.stringify(tokens, undefined, 2));
     return tokens[0] as IValueToken;
   }
   if (tokens.length === 3) {
@@ -124,13 +125,15 @@ const groupOperations = (tokens: IToken[]): IValueToken => {
     (token) => token.type === TokenType.BinaryOperator && 
       operatorPriority[(token as IBinaryOperatorToken).operator] <= 
         operatorPriority[op1.operator],
-    5     // Look ahead for any lower priority operators
+    5     // Look ahead for any operator that we should precede
   );
-  return nextPeerOp ? 
+  return nextPeerOp >= 0 ? 
     groupOperations([
-      left, 
-      op1, 
-      groupOperations(tokens.slice(2,nextPeerOp)), 
+      groupOperations([
+        left, 
+        op1, 
+        groupOperations(tokens.slice(2,nextPeerOp)), 
+      ]),
       ...tokens.slice(nextPeerOp)
     ]) : 
     groupOperations([
