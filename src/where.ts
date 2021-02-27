@@ -3,22 +3,22 @@ import * as _ from 'lodash';
 import { debug, error } from './util';
 
 export enum Operation {
-  And,
-  Equals,
-  Not,
-  NotEquals,
-  Or,
+  And = 'And',
+  Equals = 'Equals',
+  Not = 'Not',
+  NotEquals = 'NotEquals',
+  Or = 'Or',
 }
 
 export enum TokenType {
-  BinaryOperation,
-  BinaryOperator,
-  Identifier,
-  NumericLiteral,
-  OperationChain,
-  StringLiteral,
-  UnaryOperation,
-  UnaryOperator,
+  BinaryOperation = 'BinaryOperation',
+  BinaryOperator = 'BinaryOperator',
+  Identifier = 'Identifier',
+  NumericLiteral = 'NumericLiteral',
+  OperationChain = 'OperationChain',
+  StringLiteral = 'StringLiteral',
+  UnaryOperation = 'UnaryOperation',
+  UnaryOperator = 'UnaryOperator',
 }
 
 interface IToken {
@@ -239,3 +239,6 @@ const whereParser = P.operationChain();
 
 export const parseWhere = (where: string): Response<IValueToken> => 
   whereParser.parse(Streams.ofString(where));
+
+//export const extract = (context: any, token: IToken): any =>
+  //extractors[token.type](context, token);
