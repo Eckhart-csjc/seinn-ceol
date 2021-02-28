@@ -15,7 +15,6 @@ export enum TokenType {
   BinaryOperator = 'BinaryOperator',
   Identifier = 'Identifier',
   NumericLiteral = 'NumericLiteral',
-  OperationChain = 'OperationChain',
   StringLiteral = 'StringLiteral',
   UnaryOperation = 'UnaryOperation',
   UnaryOperator = 'UnaryOperator',
@@ -226,6 +225,7 @@ const P = {
 
   unaryOperation: (): IParser<IUnaryOperationToken> =>
     P.unaryOperator()
+      .then(P.optSpace())
       .then(F.lazy(P.expression))
       .then(P.optSpace())
       .map((result: Tuple<IToken>): IUnaryOperationToken => ({
@@ -240,5 +240,54 @@ const whereParser = P.operationChain();
 export const parseWhere = (where: string): Response<IValueToken> => 
   whereParser.parse(Streams.ofString(where));
 
-//export const extract = (context: any, token: IToken): any =>
-  //extractors[token.type](context, token);
+type OpFunc = (context: unknown, operands: IValueToken[]) => unknown;
+
+const opFunc: Record<Operation, OpFunc> = {
+  [Operation.And]: (context, operands) => 
+    (operands.length === 2) && 
+      extract(context, operands[0]) && extract(context, operands[1]),
+
+  [Operation.Equals]: (context, operands) =>
+    (operands.length === 2) && 
+      _.isEqual(extract(context, operands[0]), extract(context, operands[1])),
+
+  [Operation.Not]: (context, operands) =>
+    (operands.length === 1) &&
+      !extract(context, operands[0]),
+
+  [Operation.NotEquals]: (context, operands) =>
+    (operands.length === 2) && 
+      !_.isEqual(extract(context, operands[0]), extract(context, operands[1])),
+
+  [Operation.Or]: (context, operands) =>
+    (operands.length === 2) && 
+      extract(context, operands[0]) || extract(context, operands[1]),
+
+}
+
+const extractors: Record<TokenType, (context: unknown, token: IToken) => unknown> = {
+
+  [TokenType.BinaryOperation]: (context, token:IBinaryOperationToken) => 
+    (extract(context, token.operator) as OpFunc)(context, token.operands),
+
+  [TokenType.BinaryOperator]: (context, token:IBinaryOperatorToken) => 
+    opFunc[token.operator],
+
+  [TokenType.Identifier] : (context, token:IIdentifierToken) => 
+    _.get(context, token.name),
+
+  [TokenType.NumericLiteral]: (context, token:INumericLiteralToken) => 
+    token.value,
+
+  [TokenType.StringLiteral]: (context, token:IStringLiteralToken) => 
+    token.value,
+
+  [TokenType.UnaryOperation]: (context, token:IUnaryOperationToken) => 
+    (extract(context, token.operator) as OpFunc)(context, [token.operand]),
+
+  [TokenType.UnaryOperator]: (context, token:IUnaryOperatorToken) => 
+    opFunc[token.operator],
+}
+
+export const extract = (context: unknown, token: IToken): unknown =>
+  extractors[token.type](context, token);

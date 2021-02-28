@@ -1,4 +1,4 @@
-import { parseWhere, Operation, TokenType } from './where';
+import { extract, parseWhere, Operation, TokenType } from './where';
 
 const chalk = require('chalk');
 
@@ -254,3 +254,30 @@ goodParse('Parentheses', `(A and B) = (C or D)`, {
     },
   ],
 });
+
+// Extractor tests
+
+const mockContext = {
+  simple: 42,
+};
+
+const goodExtract = (input: string, expected: unknown) => {
+  it(`Should extract "${input}"`, () => {
+    const parseResult = parseWhere(input);
+    expect(parseResult.isAccepted());
+    expect(parseResult.isEos());
+    expect(extract(mockContext, parseResult.value)).toEqual(expected);
+  });
+}
+
+goodExtract(`'a string'`, 'a string');
+goodExtract('123.45', 123.45);
+goodExtract('simple', 42);
+goodExtract('!simple', false);
+goodExtract('not simple', false);
+goodExtract('1 and simple', 42);
+goodExtract('simple && 0', 0);
+goodExtract('simple = 42', true);
+goodExtract('(simple != 42) or 1', 1);
+goodExtract(`1 and simple = 42 and 'hello'`, 'hello');
+goodExtract(`(0 or simple) = (42 and 'hello')`, false);
