@@ -2,8 +2,8 @@ import { extract, parseWhere, Operation, TokenType } from './where';
 
 const chalk = require('chalk');
 
-const goodParse = (desc: string, input: string, expected: any) => {
-  it(desc, () => {
+const goodParse = (input: string, expected: any) => {
+  it(`Parse "${input}"`, () => {
     const result = parseWhere(input);
     expect(result.isAccepted()).toBe(true);
     if (result.offset != input.length) {
@@ -14,37 +14,37 @@ const goodParse = (desc: string, input: string, expected: any) => {
   });
 }
 
-goodParse('Numeric literal', '1', {
+goodParse('1', {
   type: TokenType.NumericLiteral,
   value: 1,
 });
 
-goodParse('Numeric literal', '-1.23', {
+goodParse('-1.23', {
   type: TokenType.NumericLiteral,
   value: -1.23,
 });
 
-goodParse('String literal', `'fred'`, {
+goodParse(`'fred'`, {
   type: TokenType.StringLiteral,
   value: 'fred',
 });
 
-goodParse('String literal with escaped quote', `'fr\\'ed'`, {
+goodParse(`'fr\\'ed'`, {
   type: TokenType.StringLiteral,
   value: `fr'ed`,
 });
 
-goodParse('Identifier', `Alice123`, {
+goodParse(`Alice123`, {
   type: TokenType.Identifier,
   name: `Alice123`,
 });
 
-goodParse('Identifier path', `Alice123.bob`, {
+goodParse(`Alice123.bob`, {
   type: TokenType.Identifier,
   name: `Alice123.bob`,
 });
 
-goodParse('Unary operation', `!Alice123.bob`, {
+goodParse(`!Alice123.bob`, {
   type: TokenType.UnaryOperation,
   operator: {
     type: TokenType.UnaryOperator,
@@ -56,7 +56,7 @@ goodParse('Unary operation', `!Alice123.bob`, {
   }
 });
 
-goodParse('Binary operation', `composerName='Johann Sebastian Bach'`, {
+goodParse(`composerName='Johann Sebastian Bach'`, {
   type: TokenType.BinaryOperation,
   operator: {
     type: TokenType.BinaryOperator,
@@ -74,7 +74,7 @@ goodParse('Binary operation', `composerName='Johann Sebastian Bach'`, {
   ],
 });
 
-goodParse('Binary operation with spaces', `composerName = 'Johann Sebastian Bach'`, {
+goodParse(`composerName = 'Johann Sebastian Bach'`, {
   type: TokenType.BinaryOperation,
   operator: {
     type: TokenType.BinaryOperator,
@@ -92,7 +92,7 @@ goodParse('Binary operation with spaces', `composerName = 'Johann Sebastian Bach
   ],
 });
 
-goodParse('Operator chain', `A and B or C`, {
+goodParse(`A and B or C`, {
   type: TokenType.BinaryOperation,
   operator: {
     type: TokenType.BinaryOperator,
@@ -123,7 +123,7 @@ goodParse('Operator chain', `A and B or C`, {
   ],
 });
 
-goodParse('More complex expression', `A and B or C = 1`, {
+goodParse(`A and B or C = 1`, {
   type: TokenType.BinaryOperation,
   operator: {
     type: TokenType.BinaryOperator,
@@ -167,7 +167,7 @@ goodParse('More complex expression', `A and B or C = 1`, {
   ],
 });
 
-goodParse('More complex expression', `A and B = C or D`, {
+goodParse(`A and B = C or D`, {
   type: TokenType.BinaryOperation,
   operator: {
     type: TokenType.BinaryOperator,
@@ -211,7 +211,7 @@ goodParse('More complex expression', `A and B = C or D`, {
   ],
 });
 
-goodParse('Parentheses', `(A and B) = (C or D)`, {
+goodParse(`(A and B) = (C or D)`, {
   type: TokenType.BinaryOperation,
   operator: {
     type: TokenType.BinaryOperator,
@@ -264,7 +264,7 @@ const mockContext = {
 };
 
 const goodExtract = (input: string, expected: unknown) => {
-  it(`Should extract "${input}" to ${expected}`, () => {
+  it(`Extract "${input}" to ${expected}`, () => {
     const parseResult = parseWhere(input);
     expect(parseResult.isAccepted());
     expect(parseResult.isEos());
