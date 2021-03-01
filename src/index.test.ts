@@ -259,10 +259,12 @@ goodParse('Parentheses', `(A and B) = (C or D)`, {
 
 const mockContext = {
   simple: 42,
+  note: 'hello',
+  not: 'nope',
 };
 
 const goodExtract = (input: string, expected: unknown) => {
-  it(`Should extract "${input}"`, () => {
+  it(`Should extract "${input}" to ${expected}`, () => {
     const parseResult = parseWhere(input);
     expect(parseResult.isAccepted());
     expect(parseResult.isEos());
@@ -281,3 +283,7 @@ goodExtract('simple = 42', true);
 goodExtract('(simple != 42) or 1', 1);
 goodExtract(`1 and simple = 42 and 'hello'`, 'hello');
 goodExtract(`(0 or simple) = (42 and 'hello')`, false);
+goodExtract('not', 'nope');
+goodExtract('note', 'hello');
+goodExtract('not e', true);
+goodExtract('not not', false);

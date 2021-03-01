@@ -71,18 +71,18 @@ const IDENTIFIER_CHARACTERS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvw
 
 const unaryOperators: Record<string, Operation> = {
   ['!']:  Operation.Not,
-  ['not']: Operation.Not,
+  ['not ']: Operation.Not,
 };
 
 const binaryOperators: Record<string, Operation> = {
   ['&&']: Operation.And,
-  ['and']: Operation.And,
+  ['and ']: Operation.And,
   ['==']: Operation.Equals,
   ['=']: Operation.Equals,
   ['!=']: Operation.NotEquals,
   ['<>']: Operation.NotEquals,
   ['||']: Operation.Or,
-  ['or']: Operation.Or,
+  ['or ']: Operation.Or,
 };
 
 const operatorPriority: Record<Operation, number> = {
