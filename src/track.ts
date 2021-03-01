@@ -17,6 +17,7 @@ import {
   removeProgressSuffix, 
   warning 
 } from './util';
+import { extract, parseWhere } from './where';
 
 const dayjs = require('dayjs');
 const pluralize = require('pluralize');
@@ -85,14 +86,16 @@ const trackFile = new ArrayFileHandler<ITrack>('tracks.json');
 export const fetchAll = () => trackFile.fetch();
 
 export const filter = (where?: string): ITrackSort[] => {
+  const token = where && parseWhere(where);
+  if (where && !token) {
+    return [];      // A Parse error occurred
+  }
   const composerIndex = composer.indexComposers();
   const allTracks = fetchAll().map((t) => makeTrackSort(t, composerIndex));
-  return where ?
-    allTracks.filter((t) => evalFilter(t, where)) :
+  return token ?
+    allTracks.filter((t) => !!extract(t, token)) :
     allTracks;
 };
-
-export const evalFilter = (t: ITrackSort, where: string) => true;    // TODO: guess what
 
 export const add = async (tracks:string[], options: { noError: boolean, noWarn: boolean }) => {
   try {

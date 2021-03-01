@@ -237,8 +237,21 @@ const P = {
 
 const whereParser = P.operationChain();
 
-export const parseWhere = (where: string): Response<IValueToken> => 
-  whereParser.parse(Streams.ofString(where));
+export const parse = (input: string): Response<IValueToken> => 
+  whereParser.parse(Streams.ofString(input));
+
+// If the following function returns undefined, it means that there was a parsing
+// error, and the error was already displayed to the user
+export const parseWhere = (input: string): IValueToken | undefined => {
+  const result = parse(input);
+  if (!(result.isAccepted() && result.isEos())) {
+    error(`Syntax error in where clause at offset ${result.offset}`);
+    error(input);
+    error(' '.repeat(result.offset) + '^');
+    return undefined;
+  }
+  return result.value;
+}
 
 type OpFunc = (context: unknown, operands: IValueToken[]) => unknown;
 

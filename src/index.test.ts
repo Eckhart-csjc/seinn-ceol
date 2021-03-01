@@ -1,10 +1,10 @@
-import { extract, parseWhere, Operation, TokenType } from './where';
+import { extract, parse, parseWhere, Operation, TokenType } from './where';
 
 const chalk = require('chalk');
 
 const goodParse = (input: string, expected: any) => {
   it(`Parse "${input}"`, () => {
-    const result = parseWhere(input);
+    const result = parse(input);
     expect(result.isAccepted()).toBe(true);
     if (result.offset != input.length) {
       console.log(input.slice(0, result.offset) + chalk.bgRed.black(input.slice(result.offset)))
@@ -265,10 +265,9 @@ const mockContext = {
 
 const goodExtract = (input: string, expected: unknown) => {
   it(`Extract "${input}" to ${expected}`, () => {
-    const parseResult = parseWhere(input);
-    expect(parseResult.isAccepted());
-    expect(parseResult.isEos());
-    expect(extract(mockContext, parseResult.value)).toEqual(expected);
+    const token = parseWhere(input);
+    expect(token).toBeTruthy();
+    expect(extract(mockContext, token!)).toEqual(expected);
   });
 }
 
