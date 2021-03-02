@@ -50,7 +50,7 @@ export const stats = (
     [ `` ],
     ...formatGroup(stats, orderBy, options.limit),
   ];
-  printColumns(rows, ['left', 'right', 'right', 'right', 'right']);
+  printColumns(rows, ['left', 'right', 'right', 'right', 'right'], true);
 };
 
 const headerCaps = (text: string) => capitalize.words(text.replace(/([A-Z])/g, ' $1'));

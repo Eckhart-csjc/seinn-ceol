@@ -1,6 +1,7 @@
 import * as _ from 'lodash';
 import { applyThemeSetting, getTheme, Theming } from './config';
 import { fixTTY } from './keypress';
+const chalk = require('chalk');
 const inquirer = require('inquirer');
 const pluralize = require('pluralize');
 
@@ -42,7 +43,11 @@ export const debug = (...args: any[]) => {
   }
 }
 
-export const printColumns = (output: string[][], justification?: Justification[]) => {
+export const printColumns = (
+  output: string[][], 
+  justification?: Justification[], 
+  greenBar?: boolean
+) => {
   const widths = output.reduce((accum: number[], row) =>
     row.reduce((acc: number[], col, ndx) => {
       acc[ndx] = Math.max(acc[ndx] ?? 0, col.length + 1);
@@ -65,8 +70,13 @@ export const printColumns = (output: string[][], justification?: Justification[]
   const just = finalWidths.map(
     (w,ndx) => justification ? justification[ndx] ?? 'left' : 'left'
   );
-  output.forEach((row) =>
-    printLn(row.map((col, ndx) => padOrTruncate(col, finalWidths[ndx], just[ndx])).join(''))
+  output.forEach((row, rownum) =>
+    printLn(row.map((col, ndx) => 
+      (greenBar && rownum % 2 != 0) ?
+        chalk.dim(padOrTruncate(col, finalWidths[ndx], just[ndx])) :
+        padOrTruncate(col, finalWidths[ndx], just[ndx])
+      ).join('')
+    )
   );
 }
 
