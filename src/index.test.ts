@@ -258,6 +258,7 @@ goodParse(`(A and B) = (C or D)`, {
 // Extractor tests
 
 const mockContext = {
+  date: 'January 1, 1970',
   simple: 42,
   note: 'hello',
   not: 'nope',
@@ -286,3 +287,16 @@ goodExtract('not', 'nope');
 goodExtract('note', 'hello');
 goodExtract('not e', true);
 goodExtract('not not', false);
+goodExtract('date date', 18000);
+goodExtract('2 > 1', true);
+goodExtract('2 > 2', false);
+goodExtract('2 >= 2', true);
+goodExtract('2 >= 1', true);
+goodExtract('2 >= 3', false);
+goodExtract('2 < 3', true);
+goodExtract('2 < 2', false);
+goodExtract('2 <= 2', true);
+goodExtract('2 <= 1', false);
+goodExtract(`date date < date '1/2/1970'`, true);
+goodExtract(`date date > date '1/2/1970'`, false);
+goodExtract(`date date > date '1/2/1200'`, true);

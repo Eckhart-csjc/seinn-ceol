@@ -236,8 +236,8 @@ export const makeTrackSort = (
     return {
       ...t,
       composerDetail,
-      composerBornSort: new Date(dayjs(composerDetail?.born ?? t.compositionDate)).getTime(),
-      composerDiedSort: new Date(dayjs(composerDetail?.died ?? t.compositionDate)).getTime(),
+      composerBornSort: new Date(dayjs(composerDetail?.born ?? t.compositionDate)).getTime() / 1000,
+      composerDiedSort: new Date(dayjs(composerDetail?.died ?? t.compositionDate)).getTime() / 1000,
       albumOrder: d * 10000 + tr,
       playTime: t.duration ? (t.plays * t.duration) : undefined,
     };

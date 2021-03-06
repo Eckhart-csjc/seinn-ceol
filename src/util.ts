@@ -70,11 +70,15 @@ export const printColumns = (
   const just = finalWidths.map(
     (w,ndx) => justification ? justification[ndx] ?? 'left' : 'left'
   );
+  const theme = getTheme();
   output.forEach((row, rownum) =>
     printLn(row.map((col, ndx) => 
-      (greenBar && rownum % 2 != 0) ?
-        chalk.dim(padOrTruncate(col, finalWidths[ndx], just[ndx])) :
-        padOrTruncate(col, finalWidths[ndx], just[ndx])
+      greenBar ?
+        applyThemeSetting(
+          padOrTruncate(col, finalWidths[ndx], just[ndx]), 
+          (rownum % 2 == 0) ? theme.greenBar1 : theme.greenBar2
+        ) :
+       padOrTruncate(col, finalWidths[ndx], just[ndx])
       ).join('')
     )
   );

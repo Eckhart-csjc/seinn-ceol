@@ -47,7 +47,7 @@ export const stats = (
   );
   const rows = [
     [ `  ${groups.map(headerCaps).join('/')}`, `Tracks`, `Time`, `Plays`, `PlayTime`],
-    [ `` ],
+    [],
     ...formatGroup(stats, orderBy, options.limit),
   ];
   printColumns(rows, ['left', 'right', 'right', 'right', 'right'], true);

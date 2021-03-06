@@ -2,9 +2,16 @@ import { C, F, IParser, N, Response, Streams, Tuple, VoidParser } from '@masala/
 import * as _ from 'lodash';
 import { debug, error } from './util';
 
+const dayjs = require('dayjs');
+
 export enum Operation {
   And = 'And',
+  Date = 'Date',
   Equals = 'Equals',
+  GreaterThan = 'GreaterThan',
+  GreaterThanOrEquals = 'GreaterThanOrEquals',
+  LessThan = 'LessThan',
+  LessThanOrEquals = 'LessThanOrEquals',
   Not = 'Not',
   NotEquals = 'NotEquals',
   Or = 'Or',
@@ -70,6 +77,7 @@ interface IUnaryOperatorToken extends IOperatorToken {
 const IDENTIFIER_CHARACTERS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_.';
 
 const unaryOperators: Record<string, Operation> = {
+  ['date ']: Operation.Date,
   ['!']:  Operation.Not,
   ['not ']: Operation.Not,
 };
@@ -79,15 +87,24 @@ const binaryOperators: Record<string, Operation> = {
   ['and ']: Operation.And,
   ['==']: Operation.Equals,
   ['=']: Operation.Equals,
+  ['>=']: Operation.GreaterThanOrEquals,
+  ['>']: Operation.GreaterThan,
   ['!=']: Operation.NotEquals,
   ['<>']: Operation.NotEquals,
+  ['<=']: Operation.LessThanOrEquals,
+  ['<']: Operation.LessThan,
   ['||']: Operation.Or,
   ['or ']: Operation.Or,
 };
 
 const operatorPriority: Record<Operation, number> = {
   [Operation.And]: 1,
+  [Operation.Date]: 5,
   [Operation.Equals]: 2,
+  [Operation.GreaterThan]: 3,
+  [Operation.GreaterThanOrEquals]: 3,
+  [Operation.LessThan]: 3,
+  [Operation.LessThanOrEquals]: 3,
   [Operation.Not]: 5,
   [Operation.NotEquals]: 2,
   [Operation.Or]: 1,
@@ -260,9 +277,29 @@ const opFunc: Record<Operation, OpFunc> = {
     (operands.length === 2) && 
       extract(context, operands[0]) && extract(context, operands[1]),
 
+  [Operation.Date]: (context, operands) =>
+    (operands.length === 1) &&
+      (new Date(dayjs(extract(context, operands[0]))).getTime() / 1000),
+
   [Operation.Equals]: (context, operands) =>
     (operands.length === 2) && 
       _.isEqual(extract(context, operands[0]), extract(context, operands[1])),
+
+  [Operation.GreaterThan]: (context, operands) =>
+    (operands.length === 2) && 
+      (extract(context, operands[0]) as any > (extract(context, operands[1]) as any)),
+
+  [Operation.GreaterThanOrEquals]: (context, operands) =>
+    (operands.length === 2) && 
+      (extract(context, operands[0]) as any >= (extract(context, operands[1]) as any)),
+
+  [Operation.LessThan]: (context, operands) =>
+    (operands.length === 2) && 
+      (extract(context, operands[0]) as any < (extract(context, operands[1]) as any)),
+
+  [Operation.LessThanOrEquals]: (context, operands) =>
+    (operands.length === 2) && 
+      (extract(context, operands[0]) as any <= (extract(context, operands[1]) as any)),
 
   [Operation.Not]: (context, operands) =>
     (operands.length === 1) &&
