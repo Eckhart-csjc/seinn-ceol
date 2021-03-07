@@ -243,10 +243,10 @@ export const makeTrackSort = (
     };
 };
 
-export const sort = (sortKeys: string[]): ITrackSort[] => {
+export const sort = (sortKeys: string[], whereClause?: string): ITrackSort[] => {
   const composerIndex = composer.indexComposers();
   return _.sortBy(
-    fetchAll().map((t) => makeTrackSort(t, composerIndex)),
+    filter(whereClause).map((t) => makeTrackSort(t, composerIndex)),
     sortKeys,
   );
 };

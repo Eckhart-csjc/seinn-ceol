@@ -20,6 +20,7 @@ import {
 export interface IPlayList {
   name: string;           // Play list name
   orderBy: string[];      // ITrackSort keys for order of play
+  where?: string;         // Optional where clause for filtering tracks
   current?: string;       // trackPath of track started (undefined to start from the top)
   trackOverlap?: number;  // Milliseconds to shave off end of track before advancing
   columns?: IPlayListColumn[];  // Columns to display
@@ -129,7 +130,7 @@ const afterTrack = async (name: string, plays: number): Promise<void> => {
         error(`Playlist ${name} no longer exists`);
         process.exit(0);
       }
-      const sorted = track.sort(playlist.orderBy);
+      const sorted = track.sort(playlist.orderBy, playlist.where);
       const lastIndex = playlist.current ? 
         _.findIndex(sorted, (tr) => tr.trackPath === playlist.current) :
         -1;
@@ -157,7 +158,7 @@ const afterTrack = async (name: string, plays: number): Promise<void> => {
         error(`Playlist ${name} no longer exists`);
         process.exit(0);
       }
-      const sorted = track.sort(playlist.orderBy);
+      const sorted = track.sort(playlist.orderBy, playlist.where);
       const lastIndex = playlist.current ? 
         _.findIndex(sorted, (tr) => tr.trackPath === playlist.current) :
         -1;
@@ -176,7 +177,7 @@ const afterTrack = async (name: string, plays: number): Promise<void> => {
         error(`Playlist ${name} no longer exists`);
         process.exit(0);
       }
-      const sorted = track.sort(playlist.orderBy);
+      const sorted = track.sort(playlist.orderBy, playlist.where);
       const lastIndex = playlist.current ? 
         _.findIndex(sorted, (tr) => tr.trackPath === playlist.current) :
         -1;
@@ -197,10 +198,11 @@ export const getCurrentTrack = (playlist: IPlayList) =>
       getTrackByIndex(playlist, 0)
     );
 
-const getTrackByIndex = (playlist: IPlayList, index: number) => track.sort(playlist.orderBy)[index];
+const getTrackByIndex = (playlist: IPlayList, index: number) => 
+  track.sort(playlist.orderBy, playlist.where)[index];
 
 const getTrackIndex = (playlist: IPlayList, t: track.ITrackSort) =>
-  _.findIndex(track.sort(playlist.orderBy), (tr) => tr.trackPath === t.trackPath);
+  _.findIndex(track.sort(playlist.orderBy, playlist.where), (tr) => tr.trackPath === t.trackPath);
 
 const doPlayList = async (name: string, plays: number, nextTrack?: track.ITrackSort) : Promise<void> => {
   const playlist = find(name);
