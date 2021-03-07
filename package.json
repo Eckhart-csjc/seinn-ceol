@@ -43,6 +43,7 @@
     "js-levenshtein": "^1.1.6",
     "lodash": "^4.17.20",
     "music-metadata": "^7.5.1",
+    "parse-duration": "^0.4.4",
     "pluralize": "^8.0.0"
   }
 }

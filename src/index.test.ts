@@ -300,3 +300,7 @@ goodExtract('2 <= 1', false);
 goodExtract(`date date < date '1/2/1970'`, true);
 goodExtract(`date date > date '1/2/1970'`, false);
 goodExtract(`date date > date '1/2/1200'`, true);
+goodExtract(`date date + 86400 = date '1/2/1970'`, true);
+goodExtract(`dur '30 mins'`, 1800);
+goodExtract(`date '3/5/2021' + dur '2 days' == date '3/7/2021'`, true);
+goodExtract(`-12`, -12);

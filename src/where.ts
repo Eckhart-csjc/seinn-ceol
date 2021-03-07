@@ -1,5 +1,6 @@
 import { C, F, IParser, N, Response, Streams, Tuple, VoidParser } from '@masala/parser';
 import * as _ from 'lodash';
+import parseDuration from 'parse-duration';
 import { debug, error } from './util';
 
 const dayjs = require('dayjs');
@@ -7,14 +8,19 @@ const dayjs = require('dayjs');
 export enum Operation {
   And = 'And',
   Date = 'Date',
+  DividedBy = 'DividedBy',
+  Duration = 'Duration',
   Equals = 'Equals',
   GreaterThan = 'GreaterThan',
   GreaterThanOrEquals = 'GreaterThanOrEquals',
   LessThan = 'LessThan',
   LessThanOrEquals = 'LessThanOrEquals',
+  Minus = 'Minus',
   Not = 'Not',
   NotEquals = 'NotEquals',
   Or = 'Or',
+  Plus = 'Plus',
+  Times = 'Times',
 }
 
 export enum TokenType {
@@ -78,6 +84,7 @@ const IDENTIFIER_CHARACTERS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvw
 
 const unaryOperators: Record<string, Operation> = {
   ['date ']: Operation.Date,
+  ['dur ']: Operation.Duration,
   ['!']:  Operation.Not,
   ['not ']: Operation.Not,
 };
@@ -85,6 +92,7 @@ const unaryOperators: Record<string, Operation> = {
 const binaryOperators: Record<string, Operation> = {
   ['&&']: Operation.And,
   ['and ']: Operation.And,
+  ['/']: Operation.DividedBy,
   ['==']: Operation.Equals,
   ['=']: Operation.Equals,
   ['>=']: Operation.GreaterThanOrEquals,
@@ -93,21 +101,29 @@ const binaryOperators: Record<string, Operation> = {
   ['<>']: Operation.NotEquals,
   ['<=']: Operation.LessThanOrEquals,
   ['<']: Operation.LessThan,
+  ['-']: Operation.Minus,
+  ['+']: Operation.Plus,
   ['||']: Operation.Or,
   ['or ']: Operation.Or,
+  ['*']: Operation.Times,
 };
 
 const operatorPriority: Record<Operation, number> = {
   [Operation.And]: 1,
-  [Operation.Date]: 5,
+  [Operation.Date]: 6,
+  [Operation.DividedBy]: 5,
+  [Operation.Duration]: 6,
   [Operation.Equals]: 2,
   [Operation.GreaterThan]: 3,
   [Operation.GreaterThanOrEquals]: 3,
   [Operation.LessThan]: 3,
   [Operation.LessThanOrEquals]: 3,
-  [Operation.Not]: 5,
+  [Operation.Minus]: 4,
+  [Operation.Not]: 6,
   [Operation.NotEquals]: 2,
   [Operation.Or]: 1,
+  [Operation.Plus]: 4,
+  [Operation.Times]: 5,
 }
 
 const groupOperations = (tokens: IToken[]): IValueToken => {
@@ -281,6 +297,14 @@ const opFunc: Record<Operation, OpFunc> = {
     (operands.length === 1) &&
       (new Date(dayjs(extract(context, operands[0]))).getTime() / 1000),
 
+  [Operation.DividedBy]: (context, operands) =>
+    (operands.length === 2) && 
+      (extract(context, operands[0]) as any / (extract(context, operands[1]) as any)),
+
+  [Operation.Duration]: (context, operands) =>
+    (operands.length === 1) &&
+      ((parseDuration(`${extract(context, operands[0])}`) ?? 0) / 1000),
+
   [Operation.Equals]: (context, operands) =>
     (operands.length === 2) && 
       _.isEqual(extract(context, operands[0]), extract(context, operands[1])),
@@ -301,6 +325,10 @@ const opFunc: Record<Operation, OpFunc> = {
     (operands.length === 2) && 
       (extract(context, operands[0]) as any <= (extract(context, operands[1]) as any)),
 
+  [Operation.Minus]: (context, operands) =>
+    (operands.length === 2) && 
+      (extract(context, operands[0]) as any - (extract(context, operands[1]) as any)),
+
   [Operation.Not]: (context, operands) =>
     (operands.length === 1) &&
       !extract(context, operands[0]),
@@ -313,6 +341,13 @@ const opFunc: Record<Operation, OpFunc> = {
     (operands.length === 2) && 
       extract(context, operands[0]) || extract(context, operands[1]),
 
+  [Operation.Plus]: (context, operands) =>
+    (operands.length === 2) && 
+      (extract(context, operands[0]) as any + (extract(context, operands[1]) as any)),
+
+  [Operation.Times]: (context, operands) =>
+    (operands.length === 2) && 
+      (extract(context, operands[0]) as any * (extract(context, operands[1]) as any)),
 }
 
 const extractors: Record<TokenType, (context: unknown, token: IToken) => unknown> = {
