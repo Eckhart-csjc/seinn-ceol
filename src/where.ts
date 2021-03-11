@@ -15,6 +15,7 @@ export enum Operation {
   GreaterThanOrEquals = 'GreaterThanOrEquals',
   LessThan = 'LessThan',
   LessThanOrEquals = 'LessThanOrEquals',
+  Matches = "Matches",
   Minus = 'Minus',
   Not = 'Not',
   NotEquals = 'NotEquals',
@@ -94,6 +95,7 @@ const binaryOperators: Record<string, Operation> = {
   ['and ']: Operation.And,
   ['/']: Operation.DividedBy,
   ['==']: Operation.Equals,
+  ['=~']: Operation.Matches,
   ['=']: Operation.Equals,
   ['>=']: Operation.GreaterThanOrEquals,
   ['>']: Operation.GreaterThan,
@@ -106,6 +108,7 @@ const binaryOperators: Record<string, Operation> = {
   ['||']: Operation.Or,
   ['or ']: Operation.Or,
   ['*']: Operation.Times,
+  ['matches ']: Operation.Matches,
 };
 
 const operatorPriority: Record<Operation, number> = {
@@ -118,6 +121,7 @@ const operatorPriority: Record<Operation, number> = {
   [Operation.GreaterThanOrEquals]: 3,
   [Operation.LessThan]: 3,
   [Operation.LessThanOrEquals]: 3,
+  [Operation.Matches]: 2,
   [Operation.Minus]: 4,
   [Operation.Not]: 6,
   [Operation.NotEquals]: 2,
@@ -324,6 +328,10 @@ const opFunc: Record<Operation, OpFunc> = {
   [Operation.LessThanOrEquals]: (context, operands) =>
     (operands.length === 2) && 
       (extract(context, operands[0]) as any <= (extract(context, operands[1]) as any)),
+
+  [Operation.Matches]: (context, operands) =>
+    (operands.length === 2) && 
+      !!`${extract(context, operands[0])}`.match(extract(context, operands[1]) as any),
 
   [Operation.Minus]: (context, operands) =>
     (operands.length === 2) && 

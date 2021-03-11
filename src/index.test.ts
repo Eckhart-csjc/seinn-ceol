@@ -258,6 +258,7 @@ goodParse(`(A and B) = (C or D)`, {
 // Extractor tests
 
 const mockContext = {
+  composer: 'Johann Sebastian Bach',
   date: 'January 1, 1970',
   simple: 42,
   note: 'hello',
@@ -304,3 +305,5 @@ goodExtract(`date date + 86400 = date '1/2/1970'`, true);
 goodExtract(`dur '30 mins'`, 1800);
 goodExtract(`date '3/5/2021' + dur '2 days' == date '3/7/2021'`, true);
 goodExtract(`-12`, -12);
+goodExtract(`composer matches 'Bach'`, true);
+goodExtract(`composer matches 'Fred'`, false);
