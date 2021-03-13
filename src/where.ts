@@ -6,7 +6,9 @@ import { debug, error } from './util';
 const dayjs = require('dayjs');
 
 export enum Operation {
+  All = 'All',
   And = 'And',
+  Any = 'Any',
   Date = 'Date',
   DividedBy = 'DividedBy',
   Duration = 'Duration',
@@ -84,6 +86,8 @@ interface IUnaryOperatorToken extends IOperatorToken {
 const IDENTIFIER_CHARACTERS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_.[]';
 
 const unaryOperators: Record<string, Operation> = {
+  ['all ']: Operation.All,
+  ['any ']: Operation.Any,
   ['date ']: Operation.Date,
   ['dur ']: Operation.Duration,
   ['!']:  Operation.Not,
@@ -112,7 +116,9 @@ const binaryOperators: Record<string, Operation> = {
 };
 
 const operatorPriority: Record<Operation, number> = {
+  [Operation.All]: 6,
   [Operation.And]: 1,
+  [Operation.Any]: 6,
   [Operation.Date]: 6,
   [Operation.DividedBy]: 5,
   [Operation.Duration]: 6,
@@ -293,6 +299,7 @@ export const parseWhere = (input: string): IValueToken | undefined => {
 type OpFunc = (context: unknown, operands: IValueToken[]) => unknown;
 type BinaryOpFunc = (context: unknown, op1: unknown, op2: unknown) => unknown;
 type UnaryOpFunc = (context: unknown, op1: unknown) => unknown;
+type UnaryArrayFunc = (context: unknown, op1: unknown[]) => unknown;
 
 const pack = (val: any): any[] =>
   Array.isArray(val) ? val : [ val ];
@@ -313,10 +320,22 @@ const doUnaryOperation = (context: unknown, operands: IValueToken[], fnc: UnaryO
   (operands.length === 1) &&
     unpack(pack(extract(context, operands[0])).map((op1) => fnc(context, op1)));
 
+const doUnaryArrayOperation = (context: unknown, operands: IValueToken[], fnc: UnaryArrayFunc) =>
+  (operands.length === 1) &&
+    fnc(context, pack(extract(context, operands[0])));
+
 const opFunc: Record<Operation, OpFunc> = {
+  [Operation.All]: (context, operands) =>
+    doUnaryArrayOperation(context, operands, (context, op1) =>
+      op1.reduce((accum, elem) => accum && !!elem, true)),
+      
   [Operation.And]: (context, operands) => 
     doBinaryOperation(context, operands, (context, op1, op2) => 
       op1 && op2),
+
+  [Operation.Any]: (context, operands) =>
+    doUnaryArrayOperation(context, operands, (context, op1) =>
+      op1.reduce((accum, elem) => accum || !!elem, false)),
 
   [Operation.Date]: (context, operands) =>
     doUnaryOperation(context, operands, (context, op1) =>

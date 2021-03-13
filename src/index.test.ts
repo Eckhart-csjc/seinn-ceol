@@ -264,6 +264,7 @@ const mockContext = {
   note: 'hello',
   not: 'nope',
   arry: ['wilma', 'pebbles', 'fred', 'barney'],
+  dates: ['1/1/2020', '1/2/2020'],
 };
 
 const goodExtract = (input: string, expected: unknown) => {
@@ -311,3 +312,11 @@ goodExtract(`composer matches 'Fred'`, false);
 goodExtract(`arry[2]`, 'fred');
 goodExtract(`arry`, mockContext.arry);
 goodExtract(`arry = 'fred'`, [false, false, true, false]);
+goodExtract(`any arry`, true);
+goodExtract(`any (arry = 'fred')`, true);
+goodExtract(`all (arry = 'fred')`, false);
+goodExtract(`not all (arry = 'fred')`, true);
+goodExtract(`not any (arry = 'fred')`, false);
+goodExtract(`not any (arry = 'betty')`, true);
+goodExtract(`all (date dates > date date)`, true);
+goodExtract(`not all (date dates > date dates[1])`, true);
