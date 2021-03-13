@@ -15,6 +15,7 @@ export enum Operation {
   Equals = 'Equals',
   GreaterThan = 'GreaterThan',
   GreaterThanOrEquals = 'GreaterThanOrEquals',
+  Join = 'Join',
   LessThan = 'LessThan',
   LessThanOrEquals = 'LessThanOrEquals',
   Matches = "Matches",
@@ -113,6 +114,7 @@ const binaryOperators: Record<string, Operation> = {
   ['or ']: Operation.Or,
   ['*']: Operation.Times,
   ['matches ']: Operation.Matches,
+  ['join ']: Operation.Join,
 };
 
 const operatorPriority: Record<Operation, number> = {
@@ -125,6 +127,7 @@ const operatorPriority: Record<Operation, number> = {
   [Operation.Equals]: 2,
   [Operation.GreaterThan]: 3,
   [Operation.GreaterThanOrEquals]: 3,
+  [Operation.Join]: 4,
   [Operation.LessThan]: 3,
   [Operation.LessThanOrEquals]: 3,
   [Operation.Matches]: 2,
@@ -299,6 +302,7 @@ export const parseWhere = (input: string): IValueToken | undefined => {
 type OpFunc = (context: unknown, operands: IValueToken[]) => unknown;
 type BinaryOpFunc = (context: unknown, op1: unknown, op2: unknown) => unknown;
 type UnaryOpFunc = (context: unknown, op1: unknown) => unknown;
+type BinaryArrayFunc = (context: unknown, op1: unknown[], op2: unknown) => unknown;
 type UnaryArrayFunc = (context: unknown, op1: unknown[]) => unknown;
 
 const pack = (val: any): any[] =>
@@ -319,6 +323,10 @@ const doBinaryOperation = (context: unknown, operands: IValueToken[], fnc: Binar
 const doUnaryOperation = (context: unknown, operands: IValueToken[], fnc: UnaryOpFunc) => 
   (operands.length === 1) &&
     unpack(pack(extract(context, operands[0])).map((op1) => fnc(context, op1)));
+
+const doBinaryArrayOperation = (context: unknown, operands: IValueToken[], fnc: BinaryArrayFunc) =>
+  (operands.length === 2) &&
+    fnc(context, pack(extract(context, operands[0])), extract(context, operands[1]));
 
 const doUnaryArrayOperation = (context: unknown, operands: IValueToken[], fnc: UnaryArrayFunc) =>
   (operands.length === 1) &&
@@ -360,6 +368,10 @@ const opFunc: Record<Operation, OpFunc> = {
   [Operation.GreaterThanOrEquals]: (context, operands) =>
     doBinaryOperation(context, operands, (context, op1, op2) => 
       (op1 as any) >= (op2 as any)),
+
+  [Operation.Join]: (context, operands) =>
+    doBinaryArrayOperation(context, operands, (context, op1, op2) =>
+      op1.join(`${op2 ?? ''}`)),
 
   [Operation.LessThan]: (context, operands) =>
     doBinaryOperation(context, operands, (context, op1, op2) => 
