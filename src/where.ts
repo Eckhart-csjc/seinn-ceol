@@ -81,7 +81,7 @@ interface IUnaryOperatorToken extends IOperatorToken {
   operator: Operation;
 }
 
-const IDENTIFIER_CHARACTERS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_.';
+const IDENTIFIER_CHARACTERS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_.[]';
 
 const unaryOperators: Record<string, Operation> = {
   ['date ']: Operation.Date,
@@ -291,71 +291,92 @@ export const parseWhere = (input: string): IValueToken | undefined => {
 }
 
 type OpFunc = (context: unknown, operands: IValueToken[]) => unknown;
+type BinaryOpFunc = (context: unknown, op1: unknown, op2: unknown) => unknown;
+type UnaryOpFunc = (context: unknown, op1: unknown) => unknown;
+
+const pack = (val: any): any[] =>
+  Array.isArray(val) ? val : [ val ];
+
+const unpack = (val: any[]): any =>
+  val.length > 1 ? val : val[0];
+
+const doBinaryOperation = (context: unknown, operands: IValueToken[], fnc: BinaryOpFunc) =>
+  (operands.length === 2) &&
+    unpack(pack(extract(context, operands[0])).reduce((accum, op1) => [ 
+      ...pack(extract(context, operands[1])).reduce((acc2, op2) => [
+        ...acc2,
+        fnc(context, op1, op2)
+      ], accum)
+    ], [] as any[]));
+
+const doUnaryOperation = (context: unknown, operands: IValueToken[], fnc: UnaryOpFunc) => 
+  (operands.length === 1) &&
+    unpack(pack(extract(context, operands[0])).map((op1) => fnc(context, op1)));
 
 const opFunc: Record<Operation, OpFunc> = {
   [Operation.And]: (context, operands) => 
-    (operands.length === 2) && 
-      extract(context, operands[0]) && extract(context, operands[1]),
+    doBinaryOperation(context, operands, (context, op1, op2) => 
+      op1 && op2),
 
   [Operation.Date]: (context, operands) =>
-    (operands.length === 1) &&
-      (new Date(dayjs(extract(context, operands[0]))).getTime() / 1000),
+    doUnaryOperation(context, operands, (context, op1) =>
+      new Date(dayjs(op1)).getTime() / 1000),
 
   [Operation.DividedBy]: (context, operands) =>
-    (operands.length === 2) && 
-      (extract(context, operands[0]) as any / (extract(context, operands[1]) as any)),
+    doBinaryOperation(context, operands, (context, op1, op2) => 
+      (op1 as any) / (op2 as any)),
 
   [Operation.Duration]: (context, operands) =>
-    (operands.length === 1) &&
-      ((parseDuration(`${extract(context, operands[0])}`) ?? 0) / 1000),
+    doUnaryOperation(context, operands, (context, op1) =>
+      (parseDuration(`${op1}`) ?? 0) / 1000),
 
   [Operation.Equals]: (context, operands) =>
-    (operands.length === 2) && 
-      _.isEqual(extract(context, operands[0]), extract(context, operands[1])),
+    doBinaryOperation(context, operands, (context, op1, op2) => 
+      _.isEqual(op1, op2)),
 
   [Operation.GreaterThan]: (context, operands) =>
-    (operands.length === 2) && 
-      (extract(context, operands[0]) as any > (extract(context, operands[1]) as any)),
+    doBinaryOperation(context, operands, (context, op1, op2) => 
+      (op1 as any) > (op2 as any)),
 
   [Operation.GreaterThanOrEquals]: (context, operands) =>
-    (operands.length === 2) && 
-      (extract(context, operands[0]) as any >= (extract(context, operands[1]) as any)),
+    doBinaryOperation(context, operands, (context, op1, op2) => 
+      (op1 as any) >= (op2 as any)),
 
   [Operation.LessThan]: (context, operands) =>
-    (operands.length === 2) && 
-      (extract(context, operands[0]) as any < (extract(context, operands[1]) as any)),
+    doBinaryOperation(context, operands, (context, op1, op2) => 
+      (op1 as any) < (op2 as any)),
 
   [Operation.LessThanOrEquals]: (context, operands) =>
-    (operands.length === 2) && 
-      (extract(context, operands[0]) as any <= (extract(context, operands[1]) as any)),
+    doBinaryOperation(context, operands, (context, op1, op2) => 
+      (op1 as any) <= (op2 as any)),
 
   [Operation.Matches]: (context, operands) =>
-    (operands.length === 2) && 
-      !!`${extract(context, operands[0])}`.match(extract(context, operands[1]) as any),
+    doBinaryOperation(context, operands, (context, op1, op2) => 
+      !!`${op1}`.match(op2 as any)),
 
   [Operation.Minus]: (context, operands) =>
-    (operands.length === 2) && 
-      (extract(context, operands[0]) as any - (extract(context, operands[1]) as any)),
+    doBinaryOperation(context, operands, (context, op1, op2) => 
+      (op1 as any) - (op2 as any)),
 
   [Operation.Not]: (context, operands) =>
-    (operands.length === 1) &&
-      !extract(context, operands[0]),
+    doUnaryOperation(context, operands, (context, op1) =>
+      !op1),
 
   [Operation.NotEquals]: (context, operands) =>
-    (operands.length === 2) && 
-      !_.isEqual(extract(context, operands[0]), extract(context, operands[1])),
+    doBinaryOperation(context, operands, (context, op1, op2) => 
+      !_.isEqual(op1, op2)),
 
   [Operation.Or]: (context, operands) =>
-    (operands.length === 2) && 
-      extract(context, operands[0]) || extract(context, operands[1]),
+    doBinaryOperation(context, operands, (context, op1, op2) => 
+      op1 || op2),
 
   [Operation.Plus]: (context, operands) =>
-    (operands.length === 2) && 
-      (extract(context, operands[0]) as any + (extract(context, operands[1]) as any)),
+    doBinaryOperation(context, operands, (context, op1, op2) => 
+      (op1 as any) + (op2 as any)),
 
   [Operation.Times]: (context, operands) =>
-    (operands.length === 2) && 
-      (extract(context, operands[0]) as any * (extract(context, operands[1]) as any)),
+    doBinaryOperation(context, operands, (context, op1, op2) => 
+      (op1 as any) * (op2 as any)),
 }
 
 const extractors: Record<TokenType, (context: unknown, token: IToken) => unknown> = {
