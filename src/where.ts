@@ -13,6 +13,7 @@ export enum Operation {
   DividedBy = 'DividedBy',
   Duration = 'Duration',
   Equals = 'Equals',
+  Filter = 'Filter',
   GreaterThan = 'GreaterThan',
   GreaterThanOrEquals = 'GreaterThanOrEquals',
   Join = 'Join',
@@ -114,6 +115,7 @@ const binaryOperators: Record<string, Operation> = {
   ['or ']: Operation.Or,
   ['*']: Operation.Times,
   ['matches ']: Operation.Matches,
+  ['filter ']: Operation.Filter,
   ['join ']: Operation.Join,
 };
 
@@ -125,6 +127,7 @@ const operatorPriority: Record<Operation, number> = {
   [Operation.DividedBy]: 5,
   [Operation.Duration]: 6,
   [Operation.Equals]: 2,
+  [Operation.Filter]: 6,
   [Operation.GreaterThan]: 3,
   [Operation.GreaterThanOrEquals]: 3,
   [Operation.Join]: 4,
@@ -360,6 +363,10 @@ const opFunc: Record<Operation, OpFunc> = {
   [Operation.Equals]: (context, operands) =>
     doBinaryOperation(context, operands, (context, op1, op2) => 
       _.isEqual(op1, op2)),
+
+  [Operation.Filter]: (context, operands) =>
+    doBinaryArrayOperation(context, operands, (context, op1, op2) =>
+      ((array2) => op1.filter((elem, ndx) => !!array2[ndx]))(pack(op2))),
 
   [Operation.GreaterThan]: (context, operands) =>
     doBinaryOperation(context, operands, (context, op1, op2) => 

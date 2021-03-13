@@ -321,3 +321,5 @@ goodExtract(`not any (arry = 'betty')`, true);
 goodExtract(`all (date dates > date date)`, true);
 goodExtract(`not all (date dates > date dates[1])`, true);
 goodExtract(`dates join ' & '`, '1/1/2020 & 1/2/2020');
+goodExtract(`dates filter dates`, mockContext.dates);
+goodExtract(`dates filter (date dates > date 'Jan 1, 2020')`, ['1/2/2020']);
