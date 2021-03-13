@@ -245,9 +245,10 @@ export const makeTrackSort = (
 
 export const sort = (sortKeys: string[], whereClause?: string): ITrackSort[] => {
   const composerIndex = composer.indexComposers();
+  const sortParsers = sortKeys.map((k) => parseWhere(k)).filter((p) => !!p);
   return _.sortBy(
     filter(whereClause).map((t) => makeTrackSort(t, composerIndex)),
-    sortKeys,
+    sortParsers.map((p) => (t:ITrackSort) => extract(t, p!)),
   );
 };
 
