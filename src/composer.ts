@@ -166,12 +166,14 @@ export const resolveAll = async () => {
     await acc;
     await resolve(name, byComposer[name]);
   }, Promise.resolve());
-  printLn('');
-  notification('Anonymous works');
-  await anonToResolve.reduce(async (acc, t) => {
-    await acc;
-    await track.resolveAnonymous(t);
-  }, Promise.resolve());
+  if (anonToResolve.length) {
+    printLn('');
+    notification('Anonymous works');
+    await anonToResolve.reduce(async (acc, t) => {
+      await acc;
+      await track.resolveAnonymous(t);
+    }, Promise.resolve());
+  }
 };
 
 export const resolve = async (name: string, tracks: track.ITrack[]): Promise<boolean> => {

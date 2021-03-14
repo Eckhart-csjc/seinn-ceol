@@ -254,7 +254,7 @@ export const sort = (sortKeys: string[], whereClause?: string): ITrackSort[] => 
 
 export const resolveAnonymous = async (track: ITrack): Promise<void> => {
   printLn('');
-  notification(_.pick(track, ['title', 'album', 'artists']));
+  notification(_.pick(track, ['title', 'album', 'artists', 'trackPath']));
   const SKIP = 'skip for now';
   const PLAY = 'play track';
   const COMPOSER = 'enter composer name';
