@@ -13,6 +13,7 @@ import {
   error, 
   makeTime, 
   notification, 
+  printColumns,
   printLn, 
   removeProgressSuffix, 
   warning 
@@ -100,7 +101,9 @@ export const filter = (where?: string): ITrackSort[] => {
 export const add = async (tracks:string[], options: { noError: boolean, noWarn: boolean }) => {
   try {
     const newTracks = await addTracks(tracks, options.noWarn, options.noError);
-    notification(newTracks.map((track) => `Added "${track.title}"`).join("\n"));
+    printColumns(newTracks.map((track) => 
+      [track.composer?.join(' & ') || 'Anonymous', track.title ?? '']
+    ), undefined, true);
     notification(`${pluralize('track', newTracks.length, true)} added`);
   } catch (e) {
     error(`Error adding tracks: ${e.message}`);
@@ -153,7 +156,7 @@ export const makeTrack = async (trackPath: string, info?: ITrackInfo): Promise<I
   return {
     trackPath,
     ...trackInfo,
-    composerKey: trackInfo.composer?.join(' & '),
+    composerKey: _.uniq(trackInfo.composer && []).join(' & ') || undefined,
     plays: 0,
   };
 };
