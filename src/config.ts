@@ -53,6 +53,7 @@ export type Theming = ThemeElement | IThemeSettings;
 
 export interface IConfig {
   player: string;
+  layout?: string;
   theme?: ITheme;
   keyAssignments?: IKeyAssignments;
 }

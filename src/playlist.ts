@@ -1,16 +1,14 @@
 import * as _ from 'lodash';
 import { ArrayFileHandler } from './array-file-handler';
-import { Theming } from './config';
 import { IKey } from './keypress';
 import * as keypress from './keypress';
+import * as layout from './layout';
 import { isPlaying, stopPlaying, doPlay } from './play';
-import { SegOut } from './segout';
 import * as track from './track';
 import { 
   addProgressSuffix,
   error, 
   getRowsPrinted, 
-  Justification, 
   padOrTruncate, 
   print, 
   removeProgressSuffix,
@@ -23,22 +21,8 @@ export interface IPlayList {
   where?: string;         // Optional where clause for filtering tracks
   current?: string;       // trackPath of track started (undefined to start from the top)
   trackOverlap?: number;  // Milliseconds to shave off end of track before advancing
-  columns?: IPlayListColumn[];  // Columns to display
-  theming?: Theming;       // General theming for display
-  hdrTheming?: Theming;   // Theming for header
-  separator?: string;     // Column separator (default is '|')
-  separatorTheming?: Theming; // Theming for separator
-  hdrSeparatorTheming?: Theming; // Theming for separator in header
+  layout?: string;        // Name of layout (defaults to config layout)
 }
-
-export interface IPlayListColumn {
-  header: string;         // Text for column header
-  template: string;       // lodash template against track.ITrackDisplay
-  width?: string;         // "N", "N%", or range of these separated by ":" (both optional)
-  theming?: Theming;      // Theming override for this column only
-  hdrTheming?: Theming;   // Theming override for header 
-  justification?: Justification;    // Justification of both column and header (def = left)
-};
 
 const playListFile = new ArrayFileHandler<IPlayList>('playlists.json');
 
@@ -212,10 +196,11 @@ const doPlayList = async (name: string, plays: number, nextTrack?: track.ITrackH
   }
   const theTrack = nextTrack ?? getCurrentTrack(playlist);
   if (lastHeaderRow === 0 || (getRowsPrinted() - lastHeaderRow) >= (process.stdout.rows-3)) {
-    displayHeaders(playlist);
+    layout.displayHeaders(playlist.layout);
+    lastHeaderRow = getRowsPrinted();
   }
   if (!wasStopped) {
-    displayColumns(playlist, theTrack);
+    layout.displayColumns(theTrack, getTrackIndex(playlist, theTrack), playlist.layout);
   }
   wasStopped = false;
   const trackPath = theTrack.trackPath;
@@ -235,92 +220,4 @@ const doPlayList = async (name: string, plays: number, nextTrack?: track.ITrackH
   await afterTrack(name, plays + (finished ? 1 : 0));
   keypress.removeKeys(playListKeys);
   return;
-};
-
-const displayColumns = (playlist: IPlayList, t: track.ITrackHydrated) => {
-  if (!playlist.columns) {
-    return;
-  }
-  const displays = track.makeDisplay(t, getTrackIndex(playlist, t));
-  const o = new SegOut();
-  process.stdout.cursorTo(0);
-  process.stdout.clearLine(0);
-  const sep = playlist.separator || '|';
-  playlist.columns.map((c) => 
-    o.add(
-      formatColumn(c, displays, sep.length), 
-      sep, 
-      undefined,
-      c.theming ?? playlist.theming,
-      playlist.separatorTheming ?? playlist.theming,
-    )
-  );
-  o.nl();
-}
-
-const displayHeaders = (playlist: IPlayList) => {
-  if (!playlist.columns) {
-    return;
-  }
-  const o = new SegOut();
-  process.stdout.cursorTo(0);
-  process.stdout.clearLine(0);
-  const sep = playlist.separator || '|';
-  playlist.columns.map((c) => 
-    o.add(
-      setWidth(c.header ?? '', c.width ?? '', sep.length, c.justification),
-      sep, 
-      undefined,
-      c.hdrTheming ?? playlist.hdrTheming ?? c.theming ?? playlist.theming,
-      playlist.hdrSeparatorTheming ?? playlist.hdrTheming ?? playlist.separatorTheming ?? playlist.theming,
-    )
-  );
-  o.nl();
-  lastHeaderRow = getRowsPrinted();
-}
-
-const formatColumn = (
-  column: IPlayListColumn, 
-  displays: track.ITrackDisplay,
-  sepLength: number,
-) => {
-  try {
-    const text = _.template(column.template)(displays);
-    return setWidth(text, column.width ?? '', sepLength, column.justification);
-  } catch (e) {
-    return 'ERR!';
-  }
-}
-
-const setWidth = (
-  text: string, 
-  width: string, 
-  sepLength: number, 
-  justification?: Justification
-) => {
-  if (!width) {
-    return text;
-  }
-  const widths = width.split(':');
-  if (widths.length === 1) {
-    return padOrTruncate(text, Math.max(0,parseWidth(widths[0], sepLength)), justification);
-  } else {
-    const [ minWidth, maxWidth ] = widths.slice(0,2)
-      .map((w) => parseWidth(w, sepLength));
-    return (maxWidth > 0 && maxWidth < text.length) ?
-      padOrTruncate(text, maxWidth, justification) :
-      (minWidth > text.length) ?
-        padOrTruncate(text, minWidth, justification) :
-        text;
-  }
-};
-
-const parseWidth = (widthText: string, sepLength: number): number => {
-  const p = widthText.match(/([\d.]+)%/);
-  if (p) {
-    const pct = Number(p[1]);
-    return Math.round(process.stdout.columns * pct / 100) - sepLength;
-  } else {
-    return parseInt(widthText, 10);
-  }
 };
