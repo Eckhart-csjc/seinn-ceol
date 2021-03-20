@@ -309,6 +309,7 @@ goodExtract(`date '3/5/2021' + dur '2 days' == date '3/7/2021'`, true);
 goodExtract(`-12`, -12);
 goodExtract(`composer matches 'Bach'`, true);
 goodExtract(`composer matches 'Fred'`, false);
+goodExtract(`composer =~ '\\\\bBach$'`, true);
 goodExtract(`arry[2]`, 'fred');
 goodExtract(`arry`, mockContext.arry);
 goodExtract(`arry = 'fred'`, [false, false, true, false]);

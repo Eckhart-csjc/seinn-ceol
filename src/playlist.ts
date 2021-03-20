@@ -175,12 +175,12 @@ const afterTrack = async (name: string, plays: number): Promise<void> => {
 
 export const playList = async (name: string) => doPlayList(name, 0);
 
-export const getCurrentTrack = (playlist: IPlayList) =>
-  track.hydrateTrack(
-    playlist.current ? 
-      (track.findTrack(playlist.current) ?? getTrackByIndex(playlist, 0)) :
-      getTrackByIndex(playlist, 0)
-    );
+export const getCurrentTrack = (playlist: IPlayList) => {
+  const t = playlist.current ?
+    (track.findTrack(playlist.current) ?? getTrackByIndex(playlist, 0)) :
+    getTrackByIndex(playlist, 0);
+  return t && track.hydrateTrack(t);
+}
 
 const getTrackByIndex = (playlist: IPlayList, index: number) => 
   track.sort(playlist.orderBy, playlist.where)[index];
@@ -195,6 +195,10 @@ const doPlayList = async (name: string, plays: number, nextTrack?: track.ITrackH
     return;
   }
   const theTrack = nextTrack ?? getCurrentTrack(playlist);
+  if (!theTrack) {
+    warning(`Playlist ${name} empty`);
+    return;
+  }
   if (lastHeaderRow === 0 || (getRowsPrinted() - lastHeaderRow) >= (process.stdout.rows-3)) {
     layout.displayHeaders(playlist.layout);
     lastHeaderRow = getRowsPrinted();
