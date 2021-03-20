@@ -19,7 +19,7 @@ import {
 
 export interface IPlayList {
   name: string;           // Play list name
-  orderBy: string[];      // ITrackSort keys for order of play
+  orderBy: string[];      // ITrackHydrated keys for order of play
   where?: string;         // Optional where clause for filtering tracks
   current?: string;       // trackPath of track started (undefined to start from the top)
   trackOverlap?: number;  // Milliseconds to shave off end of track before advancing
@@ -192,7 +192,7 @@ const afterTrack = async (name: string, plays: number): Promise<void> => {
 export const playList = async (name: string) => doPlayList(name, 0);
 
 export const getCurrentTrack = (playlist: IPlayList) =>
-  track.makeTrackSort(
+  track.hydrateTrack(
     playlist.current ? 
       (track.findTrack(playlist.current) ?? getTrackByIndex(playlist, 0)) :
       getTrackByIndex(playlist, 0)
@@ -201,10 +201,10 @@ export const getCurrentTrack = (playlist: IPlayList) =>
 const getTrackByIndex = (playlist: IPlayList, index: number) => 
   track.sort(playlist.orderBy, playlist.where)[index];
 
-const getTrackIndex = (playlist: IPlayList, t: track.ITrackSort) =>
+const getTrackIndex = (playlist: IPlayList, t: track.ITrackHydrated) =>
   _.findIndex(track.sort(playlist.orderBy, playlist.where), (tr) => tr.trackPath === t.trackPath);
 
-const doPlayList = async (name: string, plays: number, nextTrack?: track.ITrackSort) : Promise<void> => {
+const doPlayList = async (name: string, plays: number, nextTrack?: track.ITrackHydrated) : Promise<void> => {
   const playlist = find(name);
   if (!playlist) {
     error(`Could not find playlist "${name}"`);
@@ -237,7 +237,7 @@ const doPlayList = async (name: string, plays: number, nextTrack?: track.ITrackS
   return;
 };
 
-const displayColumns = (playlist: IPlayList, t: track.ITrackSort) => {
+const displayColumns = (playlist: IPlayList, t: track.ITrackHydrated) => {
   if (!playlist.columns) {
     return;
   }

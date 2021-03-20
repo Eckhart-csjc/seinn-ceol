@@ -48,7 +48,7 @@ export interface ITrack extends ITrackInfo {
   compositionDate?: string;
 }
 
-export interface ITrackSort extends ITrack {
+export interface ITrackHydrated extends ITrack {
   composerDetail?: IComposer;
   composerBornSort?: number;
   composerDiedSort?: number;
@@ -86,13 +86,13 @@ const trackFile = new ArrayFileHandler<ITrack>('tracks.json');
 
 export const fetchAll = () => trackFile.fetch();
 
-export const filter = (where?: string): ITrackSort[] => {
+export const filter = (where?: string): ITrackHydrated[] => {
   const token = where && parseWhere(where);
   if (where && !token) {
     return [];      // A Parse error occurred
   }
   const composerIndex = composer.indexComposers();
-  const allTracks = fetchAll().map((t) => makeTrackSort(t, composerIndex));
+  const allTracks = fetchAll().map((t) => hydrateTrack(t, composerIndex));
   return token ?
     allTracks.filter((t) => !!extract(t, token)) :
     allTracks;
@@ -221,10 +221,10 @@ export const bumpPlays = (trackPath: string) => {
   }
 };
 
-export const makeTrackSort = (
+export const hydrateTrack = (
   t: ITrack, 
   composerIndex?: Record<string, IComposer>
-): ITrackSort => {
+): ITrackHydrated => {
     const composerDetail = t.composerKey ? 
       (composerIndex ? composerIndex[t.composerKey] : composer.find(t.composerKey)) : 
       undefined;
@@ -246,12 +246,12 @@ export const makeTrackSort = (
     };
 };
 
-export const sort = (sortKeys: string[], whereClause?: string): ITrackSort[] => {
+export const sort = (sortKeys: string[], whereClause?: string): ITrackHydrated[] => {
   const composerIndex = composer.indexComposers();
   const sortParsers = sortKeys.map((k) => parseWhere(k)).filter((p) => !!p);
   return _.sortBy(
-    filter(whereClause).map((t) => makeTrackSort(t, composerIndex)),
-    sortParsers.map((p) => (t:ITrackSort) => extract(t, p!)),
+    filter(whereClause).map((t) => hydrateTrack(t, composerIndex)),
+    sortParsers.map((p) => (t:ITrackHydrated) => extract(t, p!)),
   );
 };
 
@@ -356,7 +356,7 @@ const makeLastPlayedDisplay = (input?: string) => {
   return '';
 }
 
-export const makeDisplay = (t: ITrackSort, index: number): ITrackDisplay => {
+export const makeDisplay = (t: ITrackHydrated, index: number): ITrackDisplay => {
   return {
     index,
     track: t.track ? `${t.track}${t.nTracks ? '/'+t.nTracks : ''}` : '',

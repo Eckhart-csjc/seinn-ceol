@@ -40,7 +40,7 @@ export const stats = (
     (accum, t, ndx) => addStats(
       accum, 
       t, 
-      track.makeDisplay(track.makeTrackSort(t, composerIndex), ndx), 
+      track.makeDisplay(track.hydrateTrack(t, composerIndex), ndx), 
       groups
     ), 
     makeGroup('Totals', groups)
@@ -69,7 +69,7 @@ const makeGroup = (name: string, groups: string[]) => ({
 
 const addStats = (
   existing: IGroupStats, 
-  t: track.ITrackSort, 
+  t: track.ITrackHydrated, 
   td: track.ITrackDisplay, 
   groups: string[]
 ): IGroupStats => ({
@@ -86,7 +86,7 @@ const addStats = (
 const addGroupStats = (
   grouping: string, 
   groups: Record<string, IGroupStats>, 
-  t: track.ITrackSort,
+  t: track.ITrackHydrated,
   td: track.ITrackDisplay, 
   remainingGroups: string[]
 ) => {
