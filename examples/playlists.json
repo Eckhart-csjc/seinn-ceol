@@ -2,101 +2,42 @@
   {
     "name": "composersByBirth",
     "trackOverlap": 1500,
-    "columns": [
-      {
-        "header": "#",
-        "template": "${index}",
-        "width": "3%",
-        "justification": "right"
-      },
-      {
-        "header": "Composer",
-        "template": "${composer}",
-        "width": "14%"
-      },
-      {
-        "header": "Born",
-        "template": "${composerBorn}",
-        "width": "5.6%",
-        "justification": "center"
-      },
-      {
-        "header": "Died",
-        "template": "${composerDied}",
-        "width": "5.6%",
-        "justification": "center"
-      },
-      {
-        "header": "Title",
-        "template": "${title}",
-        "width": "25%"
-      },
-      {
-        "header": "Artist",
-        "template": "${artists}",
-        "width": "10%"
-      },
-      {
-        "header": "Album",
-        "template": "${album}",
-        "width": "18%"
-      },
-      {
-        "header": "Disk",
-        "template": "${disk}",
-        "width": "3%",
-        "justification": "center"
-      },
-      {
-        "header": "Track",
-        "template": "${track}",
-        "width": "4%",
-        "justification": "center"
-      },
-      {
-        "header": "Time",
-        "template": "${duration}",
-        "width": "3%",
-        "justification": "right"
-      },
-      {
-        "header": "Plays",
-        "template": "${plays}",
-        "width": "3%",
-        "justification": "right"
-      },
-      {
-        "header": "Last played",
-        "template": "${lastPlayed}",
-        "width": "6%",
-        "justification": "right"
-      }
-    ],
-    "separator": "│",
-    "hdrTheming": {
-      "chalk": [
-        "italic",
-        "underline",
-        "blueBright"
-      ]
-    },
-    "separatorTheming": {
-      "chalk": [
-        "gray"
-      ]
-    },
-    "hdrSeparatorTheming": {
-      "chalk": [
-        "gray"
-      ]
-    },
+    "layout": "composer",
     "orderBy": [
-      "composerBornSort",
-      "composerDiedSort",
+      "date (composerDetail.born or compositionDate)",
+      "date composerDetail.died",
       "composerDetail.name",
       "album",
       "albumOrder"
     ],
-    "current": "/Users/eckhart/Music/iTunes/iTunes Media/Music/Avison Ensemble/Vivaldi_ Concerti Opus 8, Including 'The Four Seasons'/2-05 Violin Concerto in G minor, Op.8, No.8, RV.332 - Largo.m4a"
+    "current": "/Users/eckhart/Music/iTunes/iTunes Media/Music/Pieter-Jan Belder, Maurizio Croci & Pieter van Dijk/Soler Complete Keyboard Sonatas & Six Concertos for Two Organs/24 Keyboard Sonata in C Minor, R. 18 (Cantabile).m4a"
+  },
+  {
+    "name": "familyBach",
+    "trackOverlap": 1500,
+    "layout": "composer",
+    "where": "composerDetail.name =~ '\\\\bBach$'",
+    "orderBy": [
+      "date (composerDetail.born or compositionDate)",
+      "date composerDetail.died",
+      "composerDetail.name",
+      "album",
+      "albumOrder"
+    ],
+    "current": "/Users/eckhart/Music/iTunes/iTunes Media/Music/Richard Purvis/A Richard Purvis Organ Recital In Grace Cathedral, Vol. I (Remastered)/02 Arioso.m4a"
+  },
+  {
+    "name": "classOf1685",
+    "trackOverlap": 1500,
+    "layout": "composer",
+    "where": "date composerDetail.born >= date '1685' && date composerDetail.born < date '1686'",
+    "orderBy": [
+      "date (composerDetail.born or compositionDate)",
+      "date composerDetail.died",
+      "composerDetail.name",
+      "album",
+      "albumOrder"
+    ],
+    "current": "/Users/eckhart/Music/iTunes/iTunes Media/Music/Ede Inhoff_ Hungarian State Chamber Orchestra/Baroque Trumpet Concerti/27 Sonata for Trumpet, Strings and Basso Continuo - Overture (Georg Friedrich Handel).m4a"
   }
 ]

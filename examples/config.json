@@ -11,6 +11,11 @@
         "redBright"
       ]
     },
+    "greenBar2": {
+      "chalk": [
+        "bgRgb(0,80,60)"
+      ]
+    },
     "help": {
       "chalk": [
         "rgb(200,200,255)"
@@ -39,6 +44,18 @@
       "chalk": [
         "bgRgb(0,80,60)",
         "rgb(120,190,170)"
+      ]
+    },
+    "progressBarWithMessage": {
+      "chalk": [
+        "black",
+        "bgRgb(230,255,153)"
+      ]
+    },
+    "progressBackground": {
+      "chalk": [
+        "bgRgb(0,80,60)",
+        "rgb(230,255,153)"
       ]
     },
     "warning": {

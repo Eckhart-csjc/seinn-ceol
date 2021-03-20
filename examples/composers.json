@@ -334,7 +334,9 @@
   },
   {
     "name": "Edouard-Victoire-Antoine Lalo",
-    "aliases": [],
+    "aliases": [
+      "Édouard Lalo"
+    ],
     "born": "1/27/1823",
     "died": "4/22/1892"
   },
@@ -456,7 +458,8 @@
   {
     "name": "Jacob Ludwig Felix Mendelssohn",
     "aliases": [
-      "Felix Mendelssohn"
+      "Felix Mendelssohn",
+      "Felix Mendelssohn & Felix Mendelssohn"
     ],
     "born": "2/03/1809",
     "died": "11/04/1847"
@@ -662,7 +665,9 @@
   },
   {
     "name": "John Blow",
-    "aliases": [],
+    "aliases": [
+      "John Blow & John Blow"
+    ],
     "born": "2/23/1648",
     "died": "10/01/1708"
   },
@@ -827,7 +832,8 @@
     "aliases": [
       "Carl Philipp Emanuel Bach & Christian Fürchtegott Gellert",
       "Carl Philipp Emanuel Bach & Christoph Christian Sturm",
-      "Carl Philipp Emanuel Bach & Cramer"
+      "Carl Philipp Emanuel Bach & Cramer",
+      "Carl Philipp Emmanuel Bach"
     ],
     "born": "3/08/1714",
     "died": "12/14/1788"
@@ -864,7 +870,9 @@
   },
   {
     "name": "Thomas Augustine Arne",
-    "aliases": [],
+    "aliases": [
+      "Thomas Augustine Arne & Thomas Augustine Arne"
+    ],
     "born": "3/12/1710",
     "died": "3/05/1778"
   },
@@ -1964,7 +1972,9 @@
   },
   {
     "name": "Richard Rodgers",
-    "aliases": [],
+    "aliases": [
+      "Richard Rogers"
+    ],
     "born": "6/28/1902",
     "died": "12/30/1979"
   },
@@ -2254,7 +2264,9 @@
   },
   {
     "name": "Maurice Greene",
-    "aliases": [],
+    "aliases": [
+      "Maurice Greene & Maurice Greene"
+    ],
     "born": "8/12/1696",
     "died": "12/01/1755"
   },
@@ -2423,7 +2435,8 @@
   {
     "name": "Anton Joseph Bruckner",
     "aliases": [
-      "Anton Bruckner"
+      "Anton Bruckner",
+      "Anton Bruckner & Anton Bruckner"
     ],
     "born": "9/04/1824",
     "died": "9/11/1896"
@@ -2436,7 +2449,9 @@
   },
   {
     "name": "Johann Christian Bach",
-    "aliases": [],
+    "aliases": [
+      "Johann Christian Bach & Johann Christian Bach"
+    ],
     "born": "9/05/1735",
     "died": "1/01/1782"
   },
@@ -4005,7 +4020,9 @@
   },
   {
     "name": "Jeremiah Clarke",
-    "aliases": [],
+    "aliases": [
+      "Jeremiah Clarke & Jeremiah Clarke"
+    ],
     "born": "1674",
     "died": "12/01/1707"
   },
@@ -5749,8 +5766,10 @@
     "died": ""
   },
   {
-    "name": " Rabanus Maurus",
-    "aliases": [],
+    "name": "Rabanus Maurus",
+    "aliases": [
+      " Rabanus Maurus"
+    ],
     "born": "776",
     "died": "856"
   },
@@ -5825,5 +5844,198 @@
     "aliases": [],
     "born": "1977",
     "died": "1995"
+  },
+  {
+    "name": "Richard Jones",
+    "aliases": [
+      "Richard Jones & Richard Jones"
+    ],
+    "born": "1680",
+    "died": "January 20, 1744"
+  },
+  {
+    "name": "William Croft",
+    "aliases": [
+      "William Croft & William Croft"
+    ],
+    "born": "December 30, 1678",
+    "died": "August 14, 1727"
+  },
+  {
+    "name": "Henry Mancini",
+    "aliases": [],
+    "born": "April 16, 1924",
+    "died": "June 14, 1994"
+  },
+  {
+    "name": "Scott Joplin",
+    "aliases": [],
+    "born": "November 24, 1868",
+    "died": "April 1, 1917"
+  },
+  {
+    "name": "Johannes Ockeghem",
+    "aliases": [
+      "Johannes Ockeghem & Johannes Ockeghem"
+    ],
+    "born": "1410 ?",
+    "died": "February 6, 1497"
+  },
+  {
+    "name": "Kurt Schneeweiss",
+    "aliases": [],
+    "born": "c 1964 ?",
+    "died": ""
+  },
+  {
+    "name": "Cy Coleman",
+    "aliases": [],
+    "born": "June 14, 1929",
+    "died": "November 18, 2004"
+  },
+  {
+    "name": "Charlie Parker",
+    "aliases": [],
+    "born": "August 29, 1920",
+    "died": "March 12, 1955"
+  },
+  {
+    "name": "Ed Sheeran",
+    "aliases": [],
+    "born": "February 17, 1991",
+    "died": ""
+  },
+  {
+    "name": "Jerome Kern",
+    "aliases": [],
+    "born": "January 27, 1885",
+    "died": "November 11, 1945"
+  },
+  {
+    "name": "Mimi Perrin",
+    "aliases": [],
+    "born": "February 2, 1926",
+    "died": "November 16, 2010"
+  },
+  {
+    "name": "Octobop",
+    "aliases": [],
+    "born": "1999",
+    "died": ""
+  },
+  {
+    "name": "Paul Desmond",
+    "aliases": [],
+    "born": "November 25, 1924",
+    "died": "May 30, 1977"
+  },
+  {
+    "name": "Tadd Dameron",
+    "aliases": [],
+    "born": "February 21, 1917",
+    "died": "March 8, 1965"
+  },
+  {
+    "name": "Teddy Edwards",
+    "aliases": [],
+    "born": "April 26, 1924",
+    "died": "April 20, 2003"
+  },
+  {
+    "name": "Henri Woode",
+    "aliases": [
+      "Wilbur H. Bird, Teddy McRae, and Henri Woode",
+      "Wilbur H. Bird"
+    ],
+    "born": "September 25, 1909",
+    "died": "May 31, 1994"
+  },
+  {
+    "name": "Edmund Sears",
+    "aliases": [],
+    "born": "April 6, 1810",
+    "died": "January 14, 1876"
+  },
+  {
+    "name": "John Francis Wade",
+    "aliases": [],
+    "born": "January 1, 1711",
+    "died": "August 16, 1786"
+  },
+  {
+    "name": "John Stainer",
+    "aliases": [],
+    "born": "June 6, 1840",
+    "died": "March 31, 1901"
+  },
+  {
+    "name": "Phillips Brooks",
+    "aliases": [],
+    "born": "December 13, 1835",
+    "died": "January 23, 1893"
+  },
+  {
+    "name": "William J. Kirkpatrick",
+    "aliases": [],
+    "born": "February 27, 1838",
+    "died": "September 20, 1921"
+  },
+  {
+    "name": "Johnny Mandel",
+    "aliases": [],
+    "born": "November 23, 1925",
+    "died": "June 29, 2020"
+  },
+  {
+    "name": "Walter Donaldson",
+    "aliases": [],
+    "born": "February 15, 1893",
+    "died": "July 15, 1947"
+  },
+  {
+    "name": "Bill Evans",
+    "aliases": [],
+    "born": "August 16, 1929",
+    "died": "September 15, 1980"
+  },
+  {
+    "name": "Charles Mingus",
+    "aliases": [],
+    "born": "April 22, 1922",
+    "died": "January 5, 1979"
+  },
+  {
+    "name": "Eddie DeLange",
+    "aliases": [
+      "Eddie DeLange and Louis Alter"
+    ],
+    "born": "January 15, 1904",
+    "died": "July 15, 1949"
+  },
+  {
+    "name": "Grace Price",
+    "aliases": [
+      "GRACE PRICE, ROBERT LEE BLACK"
+    ],
+    "born": "1920 ?",
+    "died": "?"
+  },
+  {
+    "name": "Harry Warren",
+    "aliases": [],
+    "born": "December 24, 1893",
+    "died": "September 22, 1981"
+  },
+  {
+    "name": "Mykola Leontovych",
+    "aliases": [],
+    "born": "December 13, 1877",
+    "died": "December 13, 1877"
+  },
+  {
+    "name": "Tony Williams",
+    "aliases": [],
+    "born": "December 12, 1945",
+    "died": "February 23, 1997"
   }
 ]
