@@ -50,8 +50,6 @@ export interface ITrack extends ITrackInfo {
 
 export interface ITrackHydrated extends ITrack {
   composerDetail?: IComposer;
-  composerBornSort?: number;
-  composerDiedSort?: number;
   albumOrder: number;
   playTime?: number;
 }
@@ -239,8 +237,6 @@ export const hydrateTrack = (
     return {
       ...t,
       composerDetail,
-      composerBornSort: new Date(dayjs(composerDetail?.born ?? t.compositionDate)).getTime() / 1000,
-      composerDiedSort: new Date(dayjs(composerDetail?.died ?? t.compositionDate)).getTime() / 1000,
       albumOrder: d * 10000 + tr,
       playTime: t.duration ? (t.plays * t.duration) : undefined,
     };
