@@ -18,7 +18,7 @@ import {
   removeProgressSuffix, 
   warning 
 } from './util';
-import { extract, parseWhere } from './where';
+import { extract, parseExtractor } from './extractor';
 
 const dayjs = require('dayjs');
 const pluralize = require('pluralize');
@@ -85,7 +85,7 @@ const trackFile = new ArrayFileHandler<ITrack>('tracks.json');
 export const fetchAll = () => trackFile.fetch();
 
 export const filter = (where?: string): ITrackHydrated[] => {
-  const token = where && parseWhere(where);
+  const token = where && parseExtractor(where);
   if (where && !token) {
     return [];      // A Parse error occurred
   }
@@ -244,7 +244,7 @@ export const hydrateTrack = (
 
 export const sort = (sortKeys: string[], whereClause?: string): ITrackHydrated[] => {
   const composerIndex = composer.indexComposers();
-  const sortParsers = sortKeys.map((k) => parseWhere(k)).filter((p) => !!p);
+  const sortParsers = sortKeys.map((k) => parseExtractor(k)).filter((p) => !!p);
   return _.sortBy(
     filter(whereClause).map((t) => hydrateTrack(t, composerIndex)),
     sortParsers.map((p) => (t:ITrackHydrated) => extract(t, p!)),

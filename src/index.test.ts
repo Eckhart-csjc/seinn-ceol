@@ -1,4 +1,4 @@
-import { extract, parse, parseWhere, Operation, TokenType } from './where';
+import { extract, parse, parseExtractor, Operation, TokenType } from './extractor';
 
 const chalk = require('chalk');
 
@@ -269,7 +269,7 @@ const mockContext = {
 
 const goodExtract = (input: string, expected: unknown) => {
   it(`Extract "${input}" to ${expected}`, () => {
-    const token = parseWhere(input);
+    const token = parseExtractor(input);
     expect(token).toBeTruthy();
     expect(extract(mockContext, token!)).toEqual(expected);
   });
