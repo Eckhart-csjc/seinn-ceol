@@ -8,9 +8,10 @@
       "date composerDetail.died",
       "composerDetail.name",
       "album",
-      "albumOrder"
+      "disk",
+      "track"
     ],
-    "current": "/Users/eckhart/Music/iTunes/iTunes Media/Music/Pieter-Jan Belder, Maurizio Croci & Pieter van Dijk/Soler Complete Keyboard Sonatas & Six Concertos for Two Organs/24 Keyboard Sonata in C Minor, R. 18 (Cantabile).m4a"
+    "current": "/Users/eckhart/Music/iTunes/iTunes Media/Music/Philharmonia Hungarica & Antal Doráti/Haydn_ The Complete Symphonies/18-11 Symphony in A, H. I_65_ III. Menuetto.m4a"
   },
   {
     "name": "familyBach",
@@ -22,7 +23,8 @@
       "date composerDetail.died",
       "composerDetail.name",
       "album",
-      "albumOrder"
+      "disk",
+      "track"
     ],
     "current": "/Users/eckhart/Music/iTunes/iTunes Media/Music/Richard Purvis/A Richard Purvis Organ Recital In Grace Cathedral, Vol. I (Remastered)/02 Arioso.m4a"
   },
@@ -36,7 +38,8 @@
       "date composerDetail.died",
       "composerDetail.name",
       "album",
-      "albumOrder"
+      "disk",
+      "track"
     ],
     "current": "/Users/eckhart/Music/iTunes/iTunes Media/Music/Ede Inhoff_ Hungarian State Chamber Orchestra/Baroque Trumpet Concerti/27 Sonata for Trumpet, Strings and Basso Continuo - Overture (Georg Friedrich Handel).m4a"
   }

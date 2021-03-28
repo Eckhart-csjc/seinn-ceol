@@ -50,7 +50,6 @@ export interface ITrack extends ITrackInfo {
 
 export interface ITrackHydrated extends ITrack {
   composerDetail?: IComposer;
-  albumOrder: number;
   playTime?: number;
 }
 
@@ -95,6 +94,8 @@ export const filter = (where?: string): ITrackHydrated[] => {
     allTracks.filter((t) => !!extract(t, token)) :
     allTracks;
 };
+
+export const saveAll = (tracks: ITrack[]) => trackFile.save(tracks);
 
 export const add = async (tracks:string[], options: { noError: boolean, noWarn: boolean }) => {
   try {
@@ -149,14 +150,35 @@ export const getInfo = async (track:string) : Promise<ITrackInfo> => {
   };
 }
 
+export const maybeCorrectTrack = (t: ITrack) => {
+  const basename = path.basename(t.trackPath);
+  const m1 = basename.match(/^(\d*)(?:-(\d*))? /);
+  const [d, tr] = m1 ? (
+    m1[2] ?
+      [ parseInt(m1[1], 10), parseInt(m1[2], 10) ] :
+      [ t.nDisks ? 1 : undefined, parseInt(m1[1], 10) ]
+  ) : [ (t.disk ?? (t.nDisks ? 1 : undefined)), (t.track ?? 1) ];
+  if (d != t.disk || tr != t.track) {
+    notification(d ?
+      `${basename}: correcting disk:track from ${t.disk}:${t.track} to ${d}:${tr}` :
+      `${basename}: correcting track from ${t.track} to ${tr}`);
+    return {
+      ...t,
+      disk: d,
+      track: tr,
+    }
+  }
+  return t;
+}
+
 export const makeTrack = async (trackPath: string, info?: ITrackInfo): Promise<ITrack> => {
   const trackInfo = info ?? await getInfo(trackPath);
-  return {
+  return maybeCorrectTrack({
     trackPath,
     ...trackInfo,
     composerKey: _.uniq(trackInfo.composer && []).join(' & ') || undefined,
     plays: 0,
-  };
+  });
 };
 
 export const findTrack = (trackPath: string) => {
@@ -226,18 +248,9 @@ export const hydrateTrack = (
     const composerDetail = t.composerKey ? 
       (composerIndex ? composerIndex[t.composerKey] : composer.find(t.composerKey)) : 
       undefined;
-    const leadingNum = parseInt(path.basename(t.trackPath), 10);
-    const basename = path.basename(t.trackPath);
-    const m1 = basename.match(/^(\d*)(?:-(\d*))? /);
-    const [d, tr] = m1 ? (
-      m1[2] ?
-        [ parseInt(m1[1], 10), parseInt(m1[2], 10) ] :
-        [ 0, parseInt(m1[1], 10) ]
-    ) : [ (t.disk ?? 0), (t.track ?? 1) ];    // Disk/track info is often incorrect
     return {
       ...t,
       composerDetail,
-      albumOrder: d * 10000 + tr,
       playTime: t.duration ? (t.plays * t.duration) : undefined,
     };
 };
