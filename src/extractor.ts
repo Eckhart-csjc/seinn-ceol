@@ -338,7 +338,7 @@ const doUnaryArrayOperation = (context: unknown, operands: IValueToken[], fnc: U
 const opFunc: Record<Operation, OpFunc> = {
   [Operation.All]: (context, operands) =>
     doUnaryArrayOperation(context, operands, (context, op1) =>
-      op1.reduce((accum, elem) => accum && !!elem, true)),
+      op1?.reduce((accum, elem) => accum && !!elem, true)),
       
   [Operation.And]: (context, operands) => 
     doBinaryOperation(context, operands, (context, op1, op2) => 
@@ -346,7 +346,7 @@ const opFunc: Record<Operation, OpFunc> = {
 
   [Operation.Any]: (context, operands) =>
     doUnaryArrayOperation(context, operands, (context, op1) =>
-      op1.reduce((accum, elem) => accum || !!elem, false)),
+      op1?.reduce((accum, elem) => accum || !!elem, false)),
 
   [Operation.Date]: (context, operands) =>
     doUnaryOperation(context, operands, (context, op1) =>
@@ -366,7 +366,7 @@ const opFunc: Record<Operation, OpFunc> = {
 
   [Operation.Filter]: (context, operands) =>
     doBinaryArrayOperation(context, operands, (context, op1, op2) =>
-      ((array2) => op1.filter((elem, ndx) => !!array2[ndx]))(pack(op2))),
+      ((array2) => op1?.filter((elem, ndx) => !!array2[ndx]))(pack(op2))),
 
   [Operation.GreaterThan]: (context, operands) =>
     doBinaryOperation(context, operands, (context, op1, op2) => 
@@ -378,7 +378,7 @@ const opFunc: Record<Operation, OpFunc> = {
 
   [Operation.Join]: (context, operands) =>
     doBinaryArrayOperation(context, operands, (context, op1, op2) =>
-      op1.join(`${op2 ?? ''}`)),
+      op1?.join(`${op2 ?? ''}`)),
 
   [Operation.LessThan]: (context, operands) =>
     doBinaryOperation(context, operands, (context, op1, op2) => 

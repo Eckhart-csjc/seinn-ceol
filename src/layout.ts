@@ -112,7 +112,7 @@ const formatColumn = (
   sepLength: number,
 ) => {
   try {
-    const text = _.template(column.template)(displays);
+    const text = _.template(column.template)(displays) ?? '';
     return setWidth(text, column.width ?? '', sepLength, column.justification);
   } catch (e) {
     return 'ERR!';
