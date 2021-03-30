@@ -176,7 +176,7 @@ export const makeTrack = async (trackPath: string, info?: ITrackInfo): Promise<I
   return maybeCorrectTrack({
     trackPath,
     ...trackInfo,
-    composerKey: _.uniq(trackInfo.composer && []).join(' & ') || undefined,
+    composerKey: _.uniq(trackInfo.composer ?? []).join(' & ') || undefined,
     plays: 0,
   });
 };

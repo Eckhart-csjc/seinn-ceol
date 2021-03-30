@@ -408,8 +408,7 @@
   {
     "name": "Franz Peter Schubert",
     "aliases": [
-      "Franz Schubert",
-      "Franz Schubert & Franz Schubert"
+      "Franz Schubert"
     ],
     "born": "1/31/1797",
     "died": "11/19/1828"
@@ -458,8 +457,7 @@
   {
     "name": "Jacob Ludwig Felix Mendelssohn",
     "aliases": [
-      "Felix Mendelssohn",
-      "Felix Mendelssohn & Felix Mendelssohn"
+      "Felix Mendelssohn"
     ],
     "born": "2/03/1809",
     "died": "11/04/1847"
@@ -666,7 +664,6 @@
   {
     "name": "John Blow",
     "aliases": [
-      "John Blow & John Blow"
     ],
     "born": "2/23/1648",
     "died": "10/01/1708"
@@ -871,7 +868,6 @@
   {
     "name": "Thomas Augustine Arne",
     "aliases": [
-      "Thomas Augustine Arne & Thomas Augustine Arne"
     ],
     "born": "3/12/1710",
     "died": "3/05/1778"
@@ -958,7 +954,6 @@
   {
     "name": "Johann Sebastian Bach",
     "aliases": [
-      "Johann Sebastian Bach & Johann Sebastian Bach"
     ],
     "born": "3/21/1685",
     "died": "7/28/1750"
@@ -1569,7 +1564,6 @@
       "Claudio Monteverdi & B. Tasso",
       "Claudio Monteverdi & Carlo Gesualdo",
       "Claudio Monteverdi & Claudio Achillini",
-      "Claudio Monteverdi & Claudio Monteverdi",
       "Claudio Monteverdi & Francesco degli Atti",
       "Claudio Monteverdi & Gabriello Chiabrera",
       "Claudio Monteverdi & Giambattista Marino",
@@ -2265,7 +2259,6 @@
   {
     "name": "Maurice Greene",
     "aliases": [
-      "Maurice Greene & Maurice Greene"
     ],
     "born": "8/12/1696",
     "died": "12/01/1755"
@@ -2308,7 +2301,9 @@
   },
   {
     "name": "Henri-Constant-Gabriel Pierne",
-    "aliases": [],
+    "aliases": [
+      "Gabriel Pierné"
+    ],
     "born": "8/16/1863",
     "died": "7/17/1937"
   },
@@ -2435,8 +2430,7 @@
   {
     "name": "Anton Joseph Bruckner",
     "aliases": [
-      "Anton Bruckner",
-      "Anton Bruckner & Anton Bruckner"
+      "Anton Bruckner"
     ],
     "born": "9/04/1824",
     "died": "9/11/1896"
@@ -2450,7 +2444,6 @@
   {
     "name": "Johann Christian Bach",
     "aliases": [
-      "Johann Christian Bach & Johann Christian Bach"
     ],
     "born": "9/05/1735",
     "died": "1/01/1782"
@@ -3324,7 +3317,6 @@
   {
     "name": "Ludwig van Beethoven",
     "aliases": [
-      "Ludwig van Beethoven & Ludwig van Beethoven"
     ],
     "born": "12/15/1770",
     "died": "3/26/1827"
@@ -4021,7 +4013,6 @@
   {
     "name": "Jeremiah Clarke",
     "aliases": [
-      "Jeremiah Clarke & Jeremiah Clarke"
     ],
     "born": "1674",
     "died": "12/01/1707"
@@ -4768,7 +4759,9 @@
   },
   {
     "name": "Leon Boellmann",
-    "aliases": [],
+    "aliases": [
+      "Léon Boëllmann"
+    ],
     "born": "1862",
     "died": "1897"
   },
@@ -5140,7 +5133,6 @@
   {
     "name": "Anton Webern",
     "aliases": [
-      "Anton Webern & Anton Webern"
     ],
     "born": "December 3, 1883",
     "died": "September 15, 1945"
@@ -5186,7 +5178,6 @@
   {
     "name": "Biagio Marini",
     "aliases": [
-      "Biagio Marini & Biagio Marini"
     ],
     "born": "February 5, 1594",
     "died": "March 20, 1663"
@@ -5687,7 +5678,9 @@
   },
   {
     "name": "Théodor Dubois",
-    "aliases": [],
+    "aliases": [
+      "Theodore Dubois"
+    ],
     "born": "August 24, 1837",
     "died": "June 11, 1924"
   },
@@ -5848,7 +5841,6 @@
   {
     "name": "Richard Jones",
     "aliases": [
-      "Richard Jones & Richard Jones"
     ],
     "born": "1680",
     "died": "January 20, 1744"
@@ -5856,7 +5848,6 @@
   {
     "name": "William Croft",
     "aliases": [
-      "William Croft & William Croft"
     ],
     "born": "December 30, 1678",
     "died": "August 14, 1727"
@@ -5876,7 +5867,6 @@
   {
     "name": "Johannes Ockeghem",
     "aliases": [
-      "Johannes Ockeghem & Johannes Ockeghem"
     ],
     "born": "1410 ?",
     "died": "February 6, 1497"
@@ -6037,5 +6027,17 @@
     "aliases": [],
     "born": "December 12, 1945",
     "died": "February 23, 1997"
+  },
+  {
+    "name": "Eugene Gigout",
+    "aliases": [],
+    "born": "March 23, 1844",
+    "died": "December 9, 1925"
+  },
+  {
+    "name": "Joseph Bonnet",
+    "aliases": [],
+    "born": "March 17, 1884",
+    "died": "August 2, 1944"
   }
 ]
