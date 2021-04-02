@@ -1,0 +1,56 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.8	//
+AfterTrackAction	src/playlist.ts	/^enum AfterTrackAction {$/;"	e
+ArrayFileHandler	src/array-file-handler.ts	/^export class ArrayFileHandler<T> {$/;"	c
+FileHandler	src/file-handler.ts	/^export class FileHandler<T> {$/;"	c
+IBinaryOperationToken	src/extractor.ts	/^interface IBinaryOperationToken extends IValueToken {$/;"	i
+IBinaryOperatorToken	src/extractor.ts	/^interface IBinaryOperatorToken extends IOperatorToken {$/;"	i
+IComposer	src/composer.ts	/^export interface IComposer {$/;"	i
+IComposerUpdater	src/composer.ts	/^export interface IComposerUpdater extends Partial<IComposer> {$/;"	i
+IConfig	src/config.ts	/^export interface IConfig {$/;"	i
+IGroupStats	src/stats.ts	/^interface IGroupStats {$/;"	i
+IIdentifierToken	src/extractor.ts	/^interface IIdentifierToken extends IValueToken {$/;"	i
+IKey	src/keypress.ts	/^export interface IKey {$/;"	i
+IKeyAssignments	src/config.ts	/^export interface IKeyAssignments {$/;"	i
+IKeyMaker	src/keypress.ts	/^export interface IKeyMaker {$/;"	i
+IKeyMapping	src/keypress.ts	/^export interface IKeyMapping {$/;"	i
+ILayout	src/layout.ts	/^export interface ILayout {$/;"	i
+ILayoutColumn	src/layout.ts	/^export interface ILayoutColumn {$/;"	i
+INumericLiteralToken	src/extractor.ts	/^interface INumericLiteralToken extends IValueToken {$/;"	i
+IOperatorToken	src/extractor.ts	/^interface IOperatorToken extends IToken {$/;"	i
+IPlayList	src/playlist.ts	/^export interface IPlayList {$/;"	i
+IPlayState	src/play.ts	/^interface IPlayState {$/;"	i
+IPlayState	src/players/afplay.ts	/^interface IPlayState {$/;"	i
+IPlayer	src/play.ts	/^export interface IPlayer {$/;"	i
+IStringLiteralToken	src/extractor.ts	/^interface IStringLiteralToken extends IValueToken {$/;"	i
+ITheme	src/config.ts	/^export interface ITheme {$/;"	i
+IThemeSettings	src/config.ts	/^export interface IThemeSettings {$/;"	i
+IToken	src/extractor.ts	/^interface IToken {$/;"	i
+ITrack	src/track.ts	/^export interface ITrack extends ITrackInfo {$/;"	i
+ITrackDisplay	src/track.ts	/^export interface ITrackDisplay {$/;"	i
+ITrackHydrated	src/track.ts	/^export interface ITrackHydrated extends ITrack {$/;"	i
+ITrackInfo	src/track.ts	/^export interface ITrackInfo {$/;"	i
+ITrackUpdater	src/track.ts	/^export interface ITrackUpdater extends Partial<ITrack> {$/;"	i
+IUnaryOperationToken	src/extractor.ts	/^interface IUnaryOperationToken extends IToken {$/;"	i
+IUnaryOperatorToken	src/extractor.ts	/^interface IUnaryOperatorToken extends IOperatorToken {$/;"	i
+IValueToken	src/extractor.ts	/^interface IValueToken extends IToken {$/;"	i
+Operation	src/extractor.ts	/^export enum Operation {$/;"	e
+SegOut	src/segout.ts	/^export class SegOut {$/;"	c
+TokenType	src/extractor.ts	/^export enum TokenType {$/;"	e
+add	src/segout.ts	/^  public add($/;"	m
+doPause	src/players/afplay.ts	/^function doPause(key: IKey) {$/;"	f
+doQuit	src/players/afplay.ts	/^function doQuit(key: IKey) {$/;"	f
+doResume	src/players/afplay.ts	/^function doResume(key: IKey) {$/;"	f
+doRewind	src/players/afplay.ts	/^function doRewind(key: IKey) {$/;"	f
+fetch	src/array-file-handler.ts	/^  public fetch(): T[] {$/;"	m
+fetch	src/file-handler.ts	/^  public fetch(): T | undefined {$/;"	m
+getDefaultPath	src/file-handler.ts	/^  private getDefaultPath() {$/;"	m
+makeFilename	src/file-handler.ts	/^  private makeFilename(basename: string, pathOverride?: string) {$/;"	m
+nl	src/segout.ts	/^  public nl() {$/;"	m
+parseDuration	src/extractor.ts	/^import parseDuration from 'parse-duration';$/;"	I
+save	src/array-file-handler.ts	/^  public save(data: T[]) {$/;"	m
+save	src/file-handler.ts	/^  public save(data: T) {$/;"	m

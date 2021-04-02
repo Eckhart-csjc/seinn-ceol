@@ -360,7 +360,7 @@ const makeLastPlayedDisplay = (input?: string) => {
       dt.format('YYYY MMM D') :
       (now.diff(dt, 'days') > 0) ?
         dt.format('MMM D') :
-        dt.format('H:MMa');
+        dt.format('h:mma');
   }
   return '';
 }
