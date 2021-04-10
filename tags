@@ -596,7 +596,7 @@ resume	src/config.ts	/^  resume: { sequence: 'r' },$/;"	m
 resume	src/keypress.ts	/^  resume();$/;"	m
 resume	src/keypress.ts	/^export const resume = () => active = true;$/;"	v
 return	src/layout.ts	/^    return (maxWidth > 0 && maxWidth < text.length) ?$/;"	m
-return	src/track.ts	/^    return (now.diff(dt, 'years') > 0) ?$/;"	m
+return	src/track.ts	/^    return (Math.abs(now.diff(dt, 'years')) > 0) ?$/;"	m
 rewind	src/config.ts	/^  rewind: { sequence: 'R' },$/;"	m
 rewind	src/players/afplay.ts	/^  rewind: boolean;$/;"	m
 rewind	src/players/afplay.ts	/^  rewind: false,$/;"	m

@@ -356,9 +356,9 @@ const makeLastPlayedDisplay = (input?: string) => {
   if (input) {
     const dt = dayjs(input);
     const now = dayjs();
-    return (now.diff(dt, 'years') > 0) ?
+    return (Math.abs(now.diff(dt, 'years')) > 0) ?
       dt.format('YYYY MMM D') :
-      (now.diff(dt, 'days') > 0) ?
+      (Math.abs(now.diff(dt, 'days')) > 0) ?
         dt.format('MMM D') :
         dt.format('h:mma');
   }
