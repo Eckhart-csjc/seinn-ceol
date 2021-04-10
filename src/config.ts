@@ -26,6 +26,7 @@ export interface IKeyAssignments {
   help?: Partial<IKey>;
   info?: Partial<IKey>;
   nextTrack?: Partial<IKey>;
+  pause?: Partial<IKey>;
   pauseAfterTrack?: Partial<IKey>;
   previousTrack?: Partial<IKey>;
   quit?: Partial<IKey>;
@@ -39,7 +40,8 @@ const defaultKeyAssignments: IKeyAssignments = {
   help: { sequence: 'h' },
   info: { sequence: 'i' },
   nextTrack: { sequence: 'j' },
-  pauseAfterTrack: { name: 'p' },
+  pause: { sequence: 'p' },
+  pauseAfterTrack: { sequence: 'P' },
   previousTrack: { sequence: 'k' },
   quit: { sequence: 'q' },
   quitAfterTrack: { sequence: 'Q' },

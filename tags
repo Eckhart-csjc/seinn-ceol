@@ -6,6 +6,8 @@
 !_TAG_PROGRAM_VERSION	5.8	//
 AfterTrackAction	src/playlist.ts	/^enum AfterTrackAction {$/;"	e
 ArrayFileHandler	src/array-file-handler.ts	/^export class ArrayFileHandler<T> {$/;"	c
+BinaryArrayFunc	src/extractor.ts	/^type BinaryArrayFunc = (context: unknown, op1: unknown[], op2: unknown) => unknown;$/;"	t
+BinaryOpFunc	src/extractor.ts	/^type BinaryOpFunc = (context: unknown, op1: unknown, op2: unknown) => unknown;$/;"	t
 FileHandler	src/file-handler.ts	/^export class FileHandler<T> {$/;"	c
 IBinaryOperationToken	src/extractor.ts	/^interface IBinaryOperationToken extends IValueToken {$/;"	i
 IBinaryOperatorToken	src/extractor.ts	/^interface IBinaryOperatorToken extends IOperatorToken {$/;"	i
@@ -38,19 +40,694 @@ ITrackUpdater	src/track.ts	/^export interface ITrackUpdater extends Partial<ITra
 IUnaryOperationToken	src/extractor.ts	/^interface IUnaryOperationToken extends IToken {$/;"	i
 IUnaryOperatorToken	src/extractor.ts	/^interface IUnaryOperatorToken extends IOperatorToken {$/;"	i
 IValueToken	src/extractor.ts	/^interface IValueToken extends IToken {$/;"	i
+Justification	src/util.ts	/^export type Justification = 'left' | 'center' | 'right';$/;"	t
+OpFunc	src/extractor.ts	/^type OpFunc = (context: unknown, operands: IValueToken[]) => unknown;$/;"	t
 Operation	src/extractor.ts	/^export enum Operation {$/;"	e
 SegOut	src/segout.ts	/^export class SegOut {$/;"	c
+ThemeElement	src/config.ts	/^export type ThemeElement = keyof ITheme;$/;"	t
+Theming	src/config.ts	/^export type Theming = ThemeElement | IThemeSettings;$/;"	t
 TokenType	src/extractor.ts	/^export enum TokenType {$/;"	e
+UnaryArrayFunc	src/extractor.ts	/^type UnaryArrayFunc = (context: unknown, op1: unknown[]) => unknown;$/;"	t
+UnaryOpFunc	src/extractor.ts	/^type UnaryOpFunc = (context: unknown, op1: unknown) => unknown;$/;"	t
+add	src/composer.ts	/^export const add = (composer: IComposer): boolean => {$/;"	v
 add	src/segout.ts	/^  public add($/;"	m
+add	src/track.ts	/^  add(gatherFiles(path.resolve(directory)), options);$/;"	m
+add	src/track.ts	/^export const add = async (tracks:string[], options: { noError: boolean, noWarn: boolean }) => {$/;"	v
+addAll	src/track.ts	/^export const addAll = async (directory: string, options: { noError: boolean, noWarn: boolean }) => $/;"	v
+addKey	src/keypress.ts	/^export const addKey = (keyMapping: IKeyMapping) => {$/;"	v
+addKeys	src/keypress.ts	/^export const addKeys = (keys: IKeyMapping[]) =>$/;"	v
+addProgressSuffix	src/playlist.ts	/^      addProgressSuffix(makeAfterMsg('pause'));$/;"	m
+addProgressSuffix	src/playlist.ts	/^      addProgressSuffix(makeAfterMsg('quit'));$/;"	m
+addProgressSuffix	src/util.ts	/^export const addProgressSuffix = (suffix: string) => barSuffix += suffix;$/;"	v
+album	src/track.ts	/^    album: t.album ?? '',$/;"	m
+album	src/track.ts	/^  album: string;$/;"	m
+aliases	src/composer.ts	/^    aliases: (known.name && known.name !== responses.name) ? _.uniq([ ...aliases, known.name]) : aliases,$/;"	m
+aliases	src/composer.ts	/^  aliases: string[];           \/\/ Other ways of representing name$/;"	m
+applyThemeSetting	src/config.ts	/^export const applyThemeSetting = (text: string, element?: Theming) => $/;"	v
+applyThemeSetting	src/util.ts	/^        applyThemeSetting($/;"	m
+applyThemeSettings	src/config.ts	/^    applyThemeSettings($/;"	m
+applyThemeSettings	src/config.ts	/^export const applyThemeSettings = (text: string, themeSettings?: IThemeSettings) => $/;"	v
+args	src/asyncChild.ts	/^  args: string[],$/;"	m
+arry	src/index.test.ts	/^  arry: ['wilma', 'pebbles', 'fred', 'barney'],$/;"	m
+artists	src/track.ts	/^    artists: t.artists?.join(' & ') ?? '',$/;"	m
+artists	src/track.ts	/^  artists: string;   \/\/ A [& B]...$/;"	m
+ask	src/util.ts	/^export const ask = async (questions: any): Promise<any> => {$/;"	v
+askAnswered	src/composer.ts	/^      askAnswered: true,$/;"	m
+beginPause	src/players/afplay.ts	/^  beginPause: 0,$/;"	m
+beginPause	src/players/afplay.ts	/^  beginPause: number;   \/\/ Epoch (ms) of the beginning of any current pause (0 if not paused)$/;"	m
+binaryOperator	src/extractor.ts	/^  binaryOperator: (): IParser<IBinaryOperatorToken> =>$/;"	m
+born	src/composer.ts	/^    born: responses.born,$/;"	m
+born	src/composer.ts	/^  born: string | number;       \/\/ Valid dayjs input$/;"	m
+bumpPlays	src/play.ts	/^    bumpPlays(track.trackPath);$/;"	m
+bumpPlays	src/track.ts	/^export const bumpPlays = (trackPath: string) => {$/;"	v
+bumpRowsPrinted	src/util.ts	/^  bumpRowsPrinted();      \/\/ Potentially innacurate, but as good as we can guess$/;"	m
+bumpRowsPrinted	src/util.ts	/^  bumpRowsPrinted();$/;"	m
+bumpRowsPrinted	src/util.ts	/^export const bumpRowsPrinted = (nLines: number = 1) => rowsPrinted += nLines;$/;"	v
+choices	src/composer.ts	/^      choices: ['OK', 'Redo', 'Cancel'],$/;"	m
+choices	src/composer.ts	/^      choices: options,$/;"	m
+choices	src/track.ts	/^      choices: options,$/;"	m
+clearInterval	src/asyncChild.ts	/^      clearInterval(timer);$/;"	m
+clearInterval	src/asyncChild.ts	/^    clearInterval(timer);$/;"	m
+clearInterval	src/players/afplay.ts	/^        clearInterval(timer);       \/\/ No more polling$/;"	m
+clearTimeout	src/asyncChild.ts	/^      clearTimeout(resolveTimer);$/;"	m
+cmd	src/asyncChild.ts	/^  cmd: string, $/;"	m
+column	src/layout.ts	/^  column: ILayoutColumn, $/;"	m
+composer	src/index.test.ts	/^  composer: 'Johann Sebastian Bach',$/;"	m
+composer	src/track.ts	/^    composer: t.composer?.join(' & ') || t.composerKey || '',$/;"	m
+composer	src/track.ts	/^  composer: string;  \/\/ A [& B]...$/;"	m
+composerBorn	src/track.ts	/^    composerBorn: makeDateDisplay(t.composerDetail?.born),$/;"	m
+composerBorn	src/track.ts	/^  composerBorn: string;$/;"	m
+composerDied	src/track.ts	/^    composerDied: makeDateDisplay(t.composerDetail?.died),$/;"	m
+composerDied	src/track.ts	/^  composerDied: string;$/;"	m
+composerKey	src/track.ts	/^    composerKey: _.uniq(trackInfo.composer ?? []).join(' & ') || undefined,$/;"	m
+composerKey	src/track.ts	/^    composerKey: t.composerKey ?? '',$/;"	m
+composerKey	src/track.ts	/^  composerKey: string;$/;"	m
+composerName	src/track.ts	/^    composerName: t.composerDetail?.name ?? '',$/;"	m
+composerName	src/track.ts	/^  composerName: string;$/;"	m
+constructor	src/array-file-handler.ts	/^  constructor (baseFilename: string, pathOverride?: string) {$/;"	m
+constructor	src/file-handler.ts	/^  constructor (public baseFilename: string, public pathOverride?: string) {$/;"	m
+constructor	src/segout.ts	/^  constructor() {$/;"	m
+copyright	src/track.ts	/^    copyright: t.copyright ?? '',$/;"	m
+copyright	src/track.ts	/^  copyright: string;$/;"	m
+ctrl	src/keypress.ts	/^  ctrl: boolean;$/;"	m
+date	src/index.test.ts	/^  date: 'January 1, 1970',$/;"	m
+date	src/track.ts	/^    date: makeDateDisplay(t.date),$/;"	m
+date	src/track.ts	/^  date: string;$/;"	m
+dates	src/index.test.ts	/^  dates: ['1\/1\/2020', '1\/2\/2020'],$/;"	m
+debug	src/extractor.ts	/^  debug('Token chain', JSON.stringify(tokens, undefined, 2));$/;"	m
+debug	src/util.ts	/^export const debug = (...args: any[]) => {$/;"	v
+default	src/composer.ts	/^      default: 'OK',$/;"	m
+default	src/composer.ts	/^      default: SKIP,$/;"	m
+default	src/composer.ts	/^      default: known.born,$/;"	m
+default	src/composer.ts	/^      default: known.died,$/;"	m
+default	src/composer.ts	/^      default: known.name, $/;"	m
+default	src/composer.ts	/^    default: {$/;"	m
+default	src/track.ts	/^          default: track.composerKey,$/;"	m
+default	src/track.ts	/^          default: track.compositionDate,$/;"	m
+default	src/track.ts	/^      default: SKIP,$/;"	m
+default	src/track.ts	/^      default: false,$/;"	m
+died	src/composer.ts	/^    died: responses.died,$/;"	m
+disk	src/track.ts	/^      disk: d,$/;"	m
+disk	src/track.ts	/^    disk: c.disk.no || undefined,$/;"	m
+disk	src/track.ts	/^    disk: t.disk ? `${t.disk}${t.nDisks ? '\/'+t.nDisks : ''}` : '',$/;"	m
+disk	src/track.ts	/^  disk: string;      \/\/ N of M$/;"	m
+displayColumns	src/layout.ts	/^export const displayColumns = ($/;"	v
+displayHeaders	src/layout.ts	/^export const displayHeaders = (layoutName?: string) => {$/;"	v
+displays	src/layout.ts	/^  displays: track.ITrackDisplay,$/;"	m
+distance	src/composer.ts	/^  distance: getBestDistance(name, composer),$/;"	m
+doBinaryArrayOperation	src/extractor.ts	/^    doBinaryArrayOperation(context, operands, (context, op1, op2) =>$/;"	m
+doBinaryOperation	src/extractor.ts	/^    doBinaryOperation(context, operands, (context, op1, op2) => $/;"	m
 doPause	src/players/afplay.ts	/^function doPause(key: IKey) {$/;"	f
+doPlay	src/play.ts	/^export const doPlay = async ($/;"	v
 doQuit	src/players/afplay.ts	/^function doQuit(key: IKey) {$/;"	f
 doResume	src/players/afplay.ts	/^function doResume(key: IKey) {$/;"	f
 doRewind	src/players/afplay.ts	/^function doRewind(key: IKey) {$/;"	f
+doUnaryArrayOperation	src/extractor.ts	/^    doUnaryArrayOperation(context, operands, (context, op1) =>$/;"	m
+doUnaryOperation	src/extractor.ts	/^    doUnaryOperation(context, operands, (context, op1) =>$/;"	m
+duration	src/track.ts	/^    duration: p.format.duration,$/;"	m
+duration	src/track.ts	/^    duration: t.duration ? makeTime(t.duration * 1000) : '',$/;"	m
+duration	src/track.ts	/^  duration: string;$/;"	m
+earlyReturn	src/play.ts	/^  earlyReturn: number = 0,        \/\/ Milliseconds to subtract from duration for return$/;"	m
+error	src/composer.ts	/^        error(`Could not find existing composer ${option}`);$/;"	m
+error	src/composer.ts	/^      error(`The following aliases for this composer already exist`, existingAliases);$/;"	m
+error	src/composer.ts	/^    error(`Composer ${composer.name} already exists`, existing);$/;"	m
+error	src/composer.ts	/^    error(`No composer named ${updates.name} found to update`);$/;"	m
+error	src/composer.ts	/^    error(`The following aliases for this composer already exist`, existingAliases);$/;"	m
+error	src/extractor.ts	/^    error(' '.repeat(result.offset) + '^');$/;"	m
+error	src/extractor.ts	/^    error(`Syntax error in parsed clause at offset ${result.offset}`);$/;"	m
+error	src/extractor.ts	/^    error(`This shouldn't happen, remaining tokens:`, JSON.stringify(tokens, undefined, 2));$/;"	m
+error	src/extractor.ts	/^    error(input);$/;"	m
+error	src/file-handler.ts	/^        error(`Error reading and parsing file ${filename}: ${e.message}`);$/;"	m
+error	src/players/afplay.ts	/^    error(`Error playing track ${track.trackPath}: ${e.message}`);$/;"	m
+error	src/playlist.ts	/^        error(`Playlist ${name} no longer exists`);$/;"	m
+error	src/playlist.ts	/^    error(`Could not find playlist "${name}"`);$/;"	m
+error	src/track.ts	/^          error(`Track ${trackPath} is not an audio file we can use`);$/;"	m
+error	src/track.ts	/^    error(`Could not read directory ${dir}: ${e.message}`);$/;"	m
+error	src/track.ts	/^    error(`Error adding tracks: ${e.message}`);$/;"	m
+error	src/track.ts	/^    error(`Error retrieving info from track ${track}: ${e.message}`);$/;"	m
+error	src/util.ts	/^export const error = (...args: any[]) => {$/;"	v
+execPromise	src/asyncChild.ts	/^  execPromise(cmd)$/;"	m
+execPromise	src/players/afplay.ts	/^  execPromise("pkill afplay || true");$/;"	m
+execWithProgress	src/asyncChild.ts	/^export const execWithProgress = async ($/;"	v
+existing	src/stats.ts	/^  existing: IGroupStats, $/;"	m
+expect	src/index.test.ts	/^    expect(extract(mockContext, token!)).toEqual(expected);$/;"	m
+expect	src/index.test.ts	/^    expect(result.isAccepted()).toBe(true);$/;"	m
+expect	src/index.test.ts	/^    expect(result.isEos()).toBe(true);$/;"	m
+expect	src/index.test.ts	/^    expect(result.value).toEqual(expected);$/;"	m
+expect	src/index.test.ts	/^    expect(token).toBeTruthy();$/;"	m
+expression	src/extractor.ts	/^  expression: (): IParser<IValueToken> =>$/;"	m
+extract	src/extractor.ts	/^export const extract = (context: unknown, token: IToken): unknown =>$/;"	v
 fetch	src/array-file-handler.ts	/^  public fetch(): T[] {$/;"	m
 fetch	src/file-handler.ts	/^  public fetch(): T | undefined {$/;"	m
+fetchAll	src/composer.ts	/^export const fetchAll = () => composerFile.fetch();$/;"	v
+fetchAll	src/layout.ts	/^export const fetchAll = () => layoutFile.fetch();$/;"	v
+fetchAll	src/playlist.ts	/^export const fetchAll = () => playListFile.fetch();$/;"	v
+fetchAll	src/track.ts	/^export const fetchAll = () => trackFile.fetch();$/;"	v
+fileHandler	src/array-file-handler.ts	/^  fileHandler: FileHandler<T[]>;$/;"	m
+filter	src/track.ts	/^    filter(whereClause).map((t) => hydrateTrack(t, composerIndex)),$/;"	m
+filter	src/track.ts	/^export const filter = (where?: string): ITrackHydrated[] => {$/;"	v
+find	src/composer.ts	/^export const find = (name: string, composers?: IComposer[]) => indexComposers(composers)[name];$/;"	v
+find	src/layout.ts	/^export const find = (name: string, layouts?: ILayout[]) => $/;"	v
+find	src/playlist.ts	/^export const find = (name: string, playlists?: IPlayList[]) => _.find(playlists ?? fetchAll(), (pl) => pl.name === name);$/;"	v
+findTrack	src/track.ts	/^export const findTrack = (trackPath: string) => {$/;"	v
+fixTTY	src/keypress.ts	/^  fixTTY();$/;"	m
+fixTTY	src/keypress.ts	/^export const fixTTY = () => {$/;"	v
+fixTTY	src/util.ts	/^  fixTTY();$/;"	m
+fnc	src/extractor.ts	/^        fnc(context, op1, op2)$/;"	m
+fnc	src/extractor.ts	/^    fnc(context, pack(extract(context, operands[0])));$/;"	m
+fnc	src/extractor.ts	/^    fnc(context, pack(extract(context, operands[0])), extract(context, operands[1]));$/;"	m
+formatColumn	src/layout.ts	/^      formatColumn(c, displays, sep.length), $/;"	m
+formatInfo	src/composer.ts	/^export const formatInfo = (composer?: string[], composerKey?: string) => {$/;"	v
+formatInfo	src/play.ts	/^        formatInfo(track).map((i) => o.add(i, ' | ', " \\u2192 ", "detail"));$/;"	m
+formatInfo	src/track.ts	/^export const formatInfo = (t: ITrack): string[] => [$/;"	v
+func	src/keypress.ts	/^  func: (key: IKey) => any;     \/\/ Return value is ignored$/;"	m
+func	src/keypress.ts	/^  func: (key: IKey) => any;$/;"	m
+func	src/play.ts	/^      func: (key: keypress.IKey) =>  {$/;"	m
+func	src/seinn-ceol.ts	/^      func: () => process.exit(0),$/;"	m
+func	src/seinn-ceol.ts	/^      func: () => { $/;"	m
+func	src/track.ts	/^        func: (k: keypress.IKey) => stopPlaying(),$/;"	m
+genre	src/track.ts	/^    genre: t.genre?.join(', ') ?? '',$/;"	m
+genre	src/track.ts	/^  genre: string;$/;"	m
+getCurrentTrack	src/playlist.ts	/^export const getCurrentTrack = (playlist: IPlayList) => {$/;"	v
 getDefaultPath	src/file-handler.ts	/^  private getDefaultPath() {$/;"	m
+getInfo	src/track.ts	/^export const getInfo = async (track:string) : Promise<ITrackInfo> => {$/;"	v
+getKey	src/config.ts	/^export const getKey = (name: keyof IKeyAssignments) => getKeyAssignments()[name];$/;"	v
+getKeyAssignments	src/config.ts	/^export const getKeyAssignments = (): IKeyAssignments => $/;"	v
+getPlayer	src/play.ts	/^export const getPlayer = (): IPlayer => {$/;"	v
+getRowsPrinted	src/util.ts	/^export const getRowsPrinted = () => rowsPrinted;$/;"	v
+getSettings	src/config.ts	/^  getSettings().keyAssignments ?? defaultKeyAssignments;$/;"	m
+getSettings	src/config.ts	/^  getSettings().theme || {} as Record<string, IThemeSettings>;$/;"	m
+getSettings	src/config.ts	/^export const getSettings = (): IConfig => {$/;"	v
+getSettings	src/seinn-ceol.ts	/^getSettings();      \/\/ Make sure we can read config.json, even if we don't need it yet$/;"	m
+getTheme	src/config.ts	/^export const getTheme = () => $/;"	v
+getTrackByIndex	src/playlist.ts	/^    getTrackByIndex(playlist, 0);$/;"	m
+goodExtract	src/index.test.ts	/^goodExtract('!simple', false);$/;"	m
+goodExtract	src/index.test.ts	/^goodExtract('(simple != 42) or 1', 1);$/;"	m
+goodExtract	src/index.test.ts	/^goodExtract('1 and simple', 42);$/;"	m
+goodExtract	src/index.test.ts	/^goodExtract('123.45', 123.45);$/;"	m
+goodExtract	src/index.test.ts	/^goodExtract('2 < 2', false);$/;"	m
+goodExtract	src/index.test.ts	/^goodExtract('2 < 3', true);$/;"	m
+goodExtract	src/index.test.ts	/^goodExtract('2 <= 1', false);$/;"	m
+goodExtract	src/index.test.ts	/^goodExtract('2 <= 2', true);$/;"	m
+goodExtract	src/index.test.ts	/^goodExtract('2 > 1', true);$/;"	m
+goodExtract	src/index.test.ts	/^goodExtract('2 > 2', false);$/;"	m
+goodExtract	src/index.test.ts	/^goodExtract('2 >= 1', true);$/;"	m
+goodExtract	src/index.test.ts	/^goodExtract('2 >= 2', true);$/;"	m
+goodExtract	src/index.test.ts	/^goodExtract('2 >= 3', false);$/;"	m
+goodExtract	src/index.test.ts	/^goodExtract('date date', 18000);$/;"	m
+goodExtract	src/index.test.ts	/^goodExtract('not e', true);$/;"	m
+goodExtract	src/index.test.ts	/^goodExtract('not not', false);$/;"	m
+goodExtract	src/index.test.ts	/^goodExtract('not simple', false);$/;"	m
+goodExtract	src/index.test.ts	/^goodExtract('not', 'nope');$/;"	m
+goodExtract	src/index.test.ts	/^goodExtract('note', 'hello');$/;"	m
+goodExtract	src/index.test.ts	/^goodExtract('simple && 0', 0);$/;"	m
+goodExtract	src/index.test.ts	/^goodExtract('simple = 42', true);$/;"	m
+goodExtract	src/index.test.ts	/^goodExtract('simple', 42);$/;"	m
+goodExtract	src/index.test.ts	/^goodExtract(`'a string'`, 'a string');$/;"	m
+goodExtract	src/index.test.ts	/^goodExtract(`(0 or simple) = (42 and 'hello')`, false);$/;"	m
+goodExtract	src/index.test.ts	/^goodExtract(`-12`, -12);$/;"	m
+goodExtract	src/index.test.ts	/^goodExtract(`1 and simple = 42 and 'hello'`, 'hello');$/;"	m
+goodExtract	src/index.test.ts	/^goodExtract(`all (arry = 'fred')`, false);$/;"	m
+goodExtract	src/index.test.ts	/^goodExtract(`all (date dates > date date)`, true);$/;"	m
+goodExtract	src/index.test.ts	/^goodExtract(`any (arry = 'fred')`, true);$/;"	m
+goodExtract	src/index.test.ts	/^goodExtract(`any arry`, true);$/;"	m
+goodExtract	src/index.test.ts	/^goodExtract(`arry = 'fred'`, [false, false, true, false]);$/;"	m
+goodExtract	src/index.test.ts	/^goodExtract(`arry[2]`, 'fred');$/;"	m
+goodExtract	src/index.test.ts	/^goodExtract(`arry`, mockContext.arry);$/;"	m
+goodExtract	src/index.test.ts	/^goodExtract(`composer =~ '\\\\\\\\bBach$'`, true);$/;"	m
+goodExtract	src/index.test.ts	/^goodExtract(`composer matches 'Bach'`, true);$/;"	m
+goodExtract	src/index.test.ts	/^goodExtract(`composer matches 'Fred'`, false);$/;"	m
+goodExtract	src/index.test.ts	/^goodExtract(`date '3\/5\/2021' + dur '2 days' == date '3\/7\/2021'`, true);$/;"	m
+goodExtract	src/index.test.ts	/^goodExtract(`date date + 86400 = date '1\/2\/1970'`, true);$/;"	m
+goodExtract	src/index.test.ts	/^goodExtract(`date date < date '1\/2\/1970'`, true);$/;"	m
+goodExtract	src/index.test.ts	/^goodExtract(`date date > date '1\/2\/1200'`, true);$/;"	m
+goodExtract	src/index.test.ts	/^goodExtract(`date date > date '1\/2\/1970'`, false);$/;"	m
+goodExtract	src/index.test.ts	/^goodExtract(`dates filter (date dates > date 'Jan 1, 2020')`, ['1\/2\/2020']);$/;"	m
+goodExtract	src/index.test.ts	/^goodExtract(`dates filter dates`, mockContext.dates);$/;"	m
+goodExtract	src/index.test.ts	/^goodExtract(`dates join ' & '`, '1\/1\/2020 & 1\/2\/2020');$/;"	m
+goodExtract	src/index.test.ts	/^goodExtract(`dur '30 mins'`, 1800);$/;"	m
+goodExtract	src/index.test.ts	/^goodExtract(`not all (arry = 'fred')`, true);$/;"	m
+goodExtract	src/index.test.ts	/^goodExtract(`not all (date dates > date dates[1])`, true);$/;"	m
+goodExtract	src/index.test.ts	/^goodExtract(`not any (arry = 'betty')`, true);$/;"	m
+goodExtract	src/index.test.ts	/^goodExtract(`not any (arry = 'fred')`, false);$/;"	m
+goodParse	src/index.test.ts	/^goodParse('-1.23', {$/;"	m
+goodParse	src/index.test.ts	/^goodParse('1', {$/;"	m
+goodParse	src/index.test.ts	/^goodParse(`!Alice123.bob`, {$/;"	m
+goodParse	src/index.test.ts	/^goodParse(`'fr\\\\'ed'`, {$/;"	m
+goodParse	src/index.test.ts	/^goodParse(`'fred'`, {$/;"	m
+goodParse	src/index.test.ts	/^goodParse(`(A and B) = (C or D)`, {$/;"	m
+goodParse	src/index.test.ts	/^goodParse(`A and B = C or D`, {$/;"	m
+goodParse	src/index.test.ts	/^goodParse(`A and B or C = 1`, {$/;"	m
+goodParse	src/index.test.ts	/^goodParse(`A and B or C`, {$/;"	m
+goodParse	src/index.test.ts	/^goodParse(`Alice123.bob`, {$/;"	m
+goodParse	src/index.test.ts	/^goodParse(`Alice123`, {$/;"	m
+goodParse	src/index.test.ts	/^goodParse(`composerName = 'Johann Sebastian Bach'`, {$/;"	m
+goodParse	src/index.test.ts	/^goodParse(`composerName='Johann Sebastian Bach'`, {$/;"	m
+groupOperations	src/extractor.ts	/^        groupOperations(tokens.slice(2,nextPeerOp)), $/;"	m
+groupOperations	src/extractor.ts	/^      groupOperations([$/;"	m
+groupOperations	src/extractor.ts	/^      groupOperations(tokens.slice(2))$/;"	m
+groupOperations	src/extractor.ts	/^    groupOperations([$/;"	m
+grouping	src/stats.ts	/^    grouping: groups[0],$/;"	m
+grouping	src/stats.ts	/^  grouping: string, $/;"	m
+groups	src/stats.ts	/^    groups: addGroupStats(existing.grouping, existing.groups ?? {}, t, td, groups.slice(1)),$/;"	m
+groups	src/stats.ts	/^    groups: {} as Record<string, IGroupStats>,$/;"	m
+groups	src/stats.ts	/^  groups: Record<string, IGroupStats>, $/;"	m
+groups	src/stats.ts	/^  groups: string[]$/;"	m
+header	src/layout.ts	/^  header: string;         \/\/ Text for column header$/;"	m
+help	src/config.ts	/^  help: { sequence: 'h' },$/;"	m
+help	src/play.ts	/^      help: 'info on track\/composer',$/;"	m
+help	src/seinn-ceol.ts	/^      help: 'help',$/;"	m
+help	src/seinn-ceol.ts	/^      help: 'quit',$/;"	m
+help	src/track.ts	/^        help: 'stop playing'$/;"	m
+hydrateTrack	src/track.ts	/^export const hydrateTrack = ($/;"	v
+identifier	src/extractor.ts	/^  identifier: () : IParser<IIdentifierToken> => $/;"	m
+if	src/asyncChild.ts	/^      if (result.error) {$/;"	m
+if	src/asyncChild.ts	/^    if (resolveTimer) {$/;"	m
+if	src/composer.ts	/^      if (composer) {$/;"	m
+if	src/composer.ts	/^    if (existingAliases.length > 0) {$/;"	m
+if	src/composer.ts	/^  if (!existing) {$/;"	m
+if	src/composer.ts	/^  if (anonToResolve.length) {$/;"	m
+if	src/composer.ts	/^  if (existing) {$/;"	m
+if	src/composer.ts	/^  if (existingAliases.length > 0) {$/;"	m
+if	src/composer.ts	/^  if (index[name]) {$/;"	m
+if	src/composer.ts	/^  if (updates.aliases) {$/;"	m
+if	src/config.ts	/^  if (text.length < 1) {$/;"	m
+if	src/extractor.ts	/^  if (!(result.isAccepted() && result.isEos())) {$/;"	m
+if	src/extractor.ts	/^  if (operatorPriority[op1.operator] >= operatorPriority[op2.operator]) {$/;"	m
+if	src/extractor.ts	/^  if (tokens.length === 1) {$/;"	m
+if	src/extractor.ts	/^  if (tokens.length === 2) {$/;"	m
+if	src/extractor.ts	/^  if (tokens.length === 3) {$/;"	m
+if	src/file-handler.ts	/^    if (!fs.existsSync(folderPath)) {$/;"	m
+if	src/file-handler.ts	/^    if (fs.existsSync(filename)) {$/;"	m
+if	src/file-handler.ts	/^    if (fs.existsSync(tmpFilename)) {$/;"	m
+if	src/index.test.ts	/^    if (result.offset != input.length) {$/;"	m
+if	src/keypress.ts	/^    if (active) {$/;"	m
+if	src/keypress.ts	/^    if (logging) {$/;"	m
+if	src/keypress.ts	/^  if (findKeyMapping(keyMapping).length < 1) {$/;"	m
+if	src/keypress.ts	/^  if (initialized) {$/;"	m
+if	src/keypress.ts	/^  if (process.stdin.isTTY) {$/;"	m
+if	src/layout.ts	/^  if (!layout) {$/;"	m
+if	src/layout.ts	/^  if (!layout?.columns) {$/;"	m
+if	src/layout.ts	/^  if (!name) {$/;"	m
+if	src/layout.ts	/^  if (!width) {$/;"	m
+if	src/layout.ts	/^  if (existing) {$/;"	m
+if	src/layout.ts	/^  if (p) {$/;"	m
+if	src/layout.ts	/^  if (widths.length === 1) {$/;"	m
+if	src/play.ts	/^  if (playState.isPlaying) {$/;"	m
+if	src/play.ts	/^  if (played) {$/;"	m
+if	src/play.ts	/^  if (typeof track === 'string') {$/;"	m
+if	src/players/afplay.ts	/^        if (!playState.killed) {    \/\/ If not killed, assume resume$/;"	m
+if	src/players/afplay.ts	/^        if (playState.beginPause) {$/;"	m
+if	src/players/afplay.ts	/^      if (playState.beginPause) {$/;"	m
+if	src/players/afplay.ts	/^    if (playState.rewind) {$/;"	m
+if	src/players/afplay.ts	/^  if (!playState.beginPause) {$/;"	m
+if	src/players/afplay.ts	/^  if (memoizedCanPause === undefined) {$/;"	m
+if	src/players/afplay.ts	/^  if (playState.beginPause) {$/;"	m
+if	src/players/afplay.ts	/^  if (startOffset) {$/;"	m
+if	src/playlist.ts	/^      if (!playlist) {$/;"	m
+if	src/playlist.ts	/^      if (afterTrackAction === AfterTrackAction.Pause) {$/;"	m
+if	src/playlist.ts	/^      if (afterTrackAction === AfterTrackAction.Quit) {$/;"	m
+if	src/playlist.ts	/^      if (lastIndex < 0) {$/;"	m
+if	src/playlist.ts	/^    if (isPlaying()) {$/;"	m
+if	src/playlist.ts	/^  if (!playlist) {$/;"	m
+if	src/playlist.ts	/^  if (!theTrack) {$/;"	m
+if	src/playlist.ts	/^  if (!wasStopped) {$/;"	m
+if	src/playlist.ts	/^  if (afterTrackAction !== AfterTrackAction.Next) {$/;"	m
+if	src/playlist.ts	/^  if (afterTrackAction !== AfterTrackAction.Pause) {$/;"	m
+if	src/playlist.ts	/^  if (afterTrackAction !== AfterTrackAction.Quit) {$/;"	m
+if	src/playlist.ts	/^  if (existing) {$/;"	m
+if	src/playlist.ts	/^  if (isPlaying()) {$/;"	m
+if	src/playlist.ts	/^  if (lastHeaderRow === 0 || (getRowsPrinted() - lastHeaderRow) >= (process.stdout.rows-3)) {$/;"	m
+if	src/segout.ts	/^      if (sep) {$/;"	m
+if	src/segout.ts	/^    if (this.lastCol > 0 && $/;"	m
+if	src/segout.ts	/^    if (this.lastCol > 0) {$/;"	m
+if	src/seinn-ceol.ts	/^  if (process.argv.length < 2) {$/;"	m
+if	src/track.ts	/^        if (!noError) {$/;"	m
+if	src/track.ts	/^      if (!noWarn) {$/;"	m
+if	src/track.ts	/^      if (composerKey && composerKey !== track.composerKey) {$/;"	m
+if	src/track.ts	/^      if (compositionDate && compositionDate !== track.compositionDate) {$/;"	m
+if	src/track.ts	/^      if (e.code === 'ENOENT') {$/;"	m
+if	src/track.ts	/^    if (_.find(accum, (e) => e.trackPath === trackPath)) {$/;"	m
+if	src/track.ts	/^    if (commit) {$/;"	m
+if	src/track.ts	/^  if (d != t.disk || tr != t.track) {$/;"	m
+if	src/track.ts	/^  if (input) {$/;"	m
+if	src/track.ts	/^  if (oldTrack) {$/;"	m
+if	src/track.ts	/^  if (reduced.length < tracks.length) {$/;"	m
+if	src/track.ts	/^  if (where && !token) {$/;"	m
+if	src/util.ts	/^    if (widths[0] - 10 > diff) {$/;"	m
+if	src/util.ts	/^  if (!totalWidth) {$/;"	m
+if	src/util.ts	/^  if (process.env.DEBUG) {$/;"	m
+if	src/util.ts	/^  if (result.nums[0]?.startsWith('0')) {$/;"	m
+if	src/util.ts	/^  if (totalWidth > process.stdout.columns) {$/;"	m
+indent	src/stats.ts	/^  indent: number = 0$/;"	m
+index	src/track.ts	/^  index: number;$/;"	m
+indexComposers	src/composer.ts	/^export const indexComposers = (composers?: IComposer[]) => $/;"	v
+info	src/config.ts	/^  info: { sequence: 'i' },$/;"	m
+info	src/track.ts	/^export const info = async (track:string) => {$/;"	v
+init	src/keypress.ts	/^export const init = (log: boolean = false) => {$/;"	v
+isPlaying	src/play.ts	/^  isPlaying: boolean;$/;"	m
+isPlaying	src/play.ts	/^  isPlaying: false,$/;"	m
+isPlaying	src/play.ts	/^export const isPlaying = () => playState.isPlaying;$/;"	v
+it	src/index.test.ts	/^  it(`Extract "${input}" to ${expected}`, () => {$/;"	m
+it	src/index.test.ts	/^  it(`Parse "${input}"`, () => {$/;"	m
+key	src/keypress.ts	/^    key: getKey(maker.name), $/;"	m
+key	src/keypress.ts	/^  key: Partial<IKey>;           \/\/ Any element not specified is ignored when matching$/;"	m
+keyAssignments	src/config.ts	/^  keyAssignments: defaultKeyAssignments,$/;"	m
+keysMatch	src/keypress.ts	/^  keysMatch(k1.key, k2.key) &&$/;"	m
+killPlayer	src/players/afplay.ts	/^  killPlayer();$/;"	m
+killPlayer	src/players/afplay.ts	/^async function killPlayer() {$/;"	f
+killed	src/players/afplay.ts	/^  killed: boolean;$/;"	m
+killed	src/players/afplay.ts	/^  killed: false,$/;"	m
+lastCol	src/segout.ts	/^  lastCol: number;$/;"	m
+lastPlayed	src/track.ts	/^      lastPlayed: dayjs().toString(),$/;"	m
+lastPlayed	src/track.ts	/^    lastPlayed: makeLastPlayedDisplay(t.lastPlayed),$/;"	m
+lastPlayed	src/track.ts	/^  lastPlayed: string;$/;"	m
+limit	src/stats.ts	/^  limit: number = 0,$/;"	m
+main	src/seinn-ceol.ts	/^main()$/;"	m
+makeDisplay	src/track.ts	/^export const makeDisplay = (t: ITrackHydrated, index: number): ITrackDisplay => {$/;"	v
 makeFilename	src/file-handler.ts	/^  private makeFilename(basename: string, pathOverride?: string) {$/;"	m
+makeGroup	src/stats.ts	/^    makeGroup('Totals', groups)$/;"	m
+makeHelpText	src/keypress.ts	/^export const makeHelpText = (): string[] => {$/;"	v
+makeKeys	src/keypress.ts	/^export const makeKeys = (makers: IKeyMaker[]): IKeyMapping[] =>$/;"	v
+makeProgressBar	src/util.ts	/^export const makeProgressBar = (width: number, pct: number, text: string = '') => {$/;"	v
+makeTime	src/stats.ts	/^    makeTime(stats.playTime),$/;"	m
+makeTime	src/stats.ts	/^    makeTime(stats.totalTime), $/;"	m
+makeTime	src/util.ts	/^export const makeTime = (milli: number) => {$/;"	v
+makeTrack	src/track.ts	/^export const makeTrack = async (trackPath: string, info?: ITrackInfo): Promise<ITrack> => {$/;"	v
+maybeCorrectTrack	src/track.ts	/^export const maybeCorrectTrack = (t: ITrack) => {$/;"	v
+message	src/composer.ts	/^      message: 'Born:',$/;"	m
+message	src/composer.ts	/^      message: 'Died (blank if still living):',$/;"	m
+message	src/composer.ts	/^      message: 'How does it look?',$/;"	m
+message	src/composer.ts	/^      message: 'Name:', $/;"	m
+message	src/composer.ts	/^      message: name,$/;"	m
+message	src/track.ts	/^      message: 'Commit these changes?',$/;"	m
+meta	src/keypress.ts	/^  meta: boolean;$/;"	m
+nDisks	src/track.ts	/^    nDisks: c.disk.of || undefined,$/;"	m
+nTracks	src/stats.ts	/^  nTracks: 0,$/;"	m
+nTracks	src/stats.ts	/^  nTracks: existing.nTracks + 1,$/;"	m
+nTracks	src/stats.ts	/^  nTracks: number;$/;"	m
+nTracks	src/track.ts	/^    nTracks: c.track.of || undefined,$/;"	m
+name	src/composer.ts	/^      name: 'action',$/;"	m
+name	src/composer.ts	/^      name: 'born',$/;"	m
+name	src/composer.ts	/^      name: 'died',$/;"	m
+name	src/composer.ts	/^      name: 'name', $/;"	m
+name	src/composer.ts	/^      name: 'option',$/;"	m
+name	src/composer.ts	/^    name: responses.name,$/;"	m
+name	src/composer.ts	/^  name: string;                \/\/ Name as key$/;"	m
+name	src/composer.ts	/^  name: string;$/;"	m
+name	src/extractor.ts	/^        name: result.value.join(``),$/;"	m
+name	src/extractor.ts	/^  name: string;$/;"	m
+name	src/index.test.ts	/^              name: 'B',$/;"	m
+name	src/index.test.ts	/^              name: 'C',$/;"	m
+name	src/index.test.ts	/^          name: 'A',$/;"	m
+name	src/index.test.ts	/^          name: 'B',$/;"	m
+name	src/index.test.ts	/^          name: 'C',$/;"	m
+name	src/index.test.ts	/^          name: 'D',$/;"	m
+name	src/index.test.ts	/^      name: 'C',$/;"	m
+name	src/index.test.ts	/^      name: 'D',$/;"	m
+name	src/index.test.ts	/^      name: 'composerName',$/;"	m
+name	src/index.test.ts	/^    name: `Alice123.bob`,$/;"	m
+name	src/index.test.ts	/^  name: `Alice123.bob`,$/;"	m
+name	src/index.test.ts	/^  name: `Alice123`,$/;"	m
+name	src/keypress.ts	/^  name: keyof IKeyAssignments;$/;"	m
+name	src/layout.ts	/^  name: string;           \/\/ Name of this layout$/;"	m
+name	src/play.ts	/^      name: 'info',$/;"	m
+name	src/playlist.ts	/^  name: string;           \/\/ Play list name$/;"	m
+name	src/seinn-ceol.ts	/^      name: 'help',$/;"	m
+name	src/seinn-ceol.ts	/^      name: 'quit',$/;"	m
+name	src/stats.ts	/^  name: 'name',$/;"	m
+name	src/stats.ts	/^  name: string;$/;"	m
+name	src/track.ts	/^          name: 'composerKey',$/;"	m
+name	src/track.ts	/^          name: 'compositionDate',$/;"	m
+name	src/track.ts	/^        name: 'stop', $/;"	m
+name	src/track.ts	/^      name: 'commit',$/;"	m
+name	src/track.ts	/^      name: 'option',$/;"	m
+nextTrack	src/config.ts	/^  nextTrack: { sequence: 'j' },$/;"	m
 nl	src/segout.ts	/^  public nl() {$/;"	m
+not	src/index.test.ts	/^  not: 'nope',$/;"	m
+note	src/index.test.ts	/^  note: 'hello',$/;"	m
+notification	src/composer.ts	/^      notification(tracks.map((t) => _.pick(t, ['title', 'album', 'artists'])));$/;"	m
+notification	src/composer.ts	/^    notification('Anonymous works');$/;"	m
+notification	src/composer.ts	/^  notification(`${pluralize('composer', names.length, true)} to resolve, ${pluralize('track', anonToResolve.length, true)} with no composer and no composition date`);$/;"	m
+notification	src/composer.ts	/^  notification(option);$/;"	m
+notification	src/keypress.ts	/^      notification(c, key);$/;"	m
+notification	src/track.ts	/^        notification(`Removing ${t.trackPath}`);$/;"	m
+notification	src/track.ts	/^      notification(`Changes discarded`);$/;"	m
+notification	src/track.ts	/^      notification(`Changes saved`);$/;"	m
+notification	src/track.ts	/^    notification(`${pluralize('track', newTracks.length, true)} added`);$/;"	m
+notification	src/track.ts	/^    notification(`No tracks to remove`);$/;"	m
+notification	src/track.ts	/^    notification(d ?$/;"	m
+notification	src/track.ts	/^    notification(tags);$/;"	m
+notification	src/track.ts	/^  notification(_.pick(track, ['title', 'album', 'artists', 'trackPath']));$/;"	m
+notification	src/util.ts	/^export const notification = (...args: any) => {$/;"	v
+notifyFunc	src/asyncChild.ts	/^    notifyFunc(elapsed);$/;"	m
+notifyFunc	src/asyncChild.ts	/^  notifyFunc: (elapsed: number) => void | Promise<void>, $/;"	m
+notifyInterval	src/asyncChild.ts	/^  notifyInterval: number = 1000$/;"	m
+notifyInterval	src/asyncChild.ts	/^  notifyInterval: number = 1000,$/;"	m
+numericLiteral	src/extractor.ts	/^  numericLiteral: () : IParser<INumericLiteralToken> =>$/;"	m
+nums	src/util.ts	/^      nums: (val || rem || op.d === 60) ? [ `0${val}`.substr(-2), ...accum.nums ] : accum.nums,$/;"	m
+operand	src/extractor.ts	/^        operand: result.value[1]! as IValueToken,$/;"	m
+operand	src/extractor.ts	/^  operand: IValueToken;$/;"	m
+operand	src/index.test.ts	/^  operand: {$/;"	m
+operands	src/extractor.ts	/^      operands: [left, right],$/;"	m
+operands	src/extractor.ts	/^      operands: [tokens[0], tokens[2]],$/;"	m
+operands	src/extractor.ts	/^  operands: [IValueToken, IValueToken];$/;"	m
+operands	src/index.test.ts	/^          operands: [$/;"	m
+operands	src/index.test.ts	/^      operands: [$/;"	m
+operands	src/index.test.ts	/^  operands: [$/;"	m
+operationChain	src/extractor.ts	/^  operationChain: (): IParser<IValueToken> =>$/;"	m
+operator	src/extractor.ts	/^        operator: binaryOperators[value]!,$/;"	m
+operator	src/extractor.ts	/^        operator: result.value[0]! as IUnaryOperatorToken,$/;"	m
+operator	src/extractor.ts	/^        operator: unaryOperators[value]!,$/;"	m
+operator	src/extractor.ts	/^      operator: op1,$/;"	m
+operator	src/extractor.ts	/^      operator: tokens[1] as IBinaryOperatorToken,$/;"	m
+operator	src/extractor.ts	/^  operator: IBinaryOperatorToken;$/;"	m
+operator	src/extractor.ts	/^  operator: IUnaryOperatorToken;$/;"	m
+operator	src/extractor.ts	/^  operator: Operation;$/;"	m
+operator	src/index.test.ts	/^            operator: Operation.Equals,$/;"	m
+operator	src/index.test.ts	/^          operator: {$/;"	m
+operator	src/index.test.ts	/^        operator: Operation.And,$/;"	m
+operator	src/index.test.ts	/^        operator: Operation.Equals,$/;"	m
+operator	src/index.test.ts	/^        operator: Operation.Or,$/;"	m
+operator	src/index.test.ts	/^      operator: {$/;"	m
+operator	src/index.test.ts	/^    operator: Operation.Equals,$/;"	m
+operator	src/index.test.ts	/^    operator: Operation.Not,$/;"	m
+operator	src/index.test.ts	/^    operator: Operation.Or,$/;"	m
+operator	src/index.test.ts	/^  operator: {$/;"	m
+optSpace	src/extractor.ts	/^  optSpace: (): VoidParser =>$/;"	m
+options	src/stats.ts	/^  options: {$/;"	m
+orderBy	src/playlist.ts	/^  orderBy: string[];      \/\/ ITrackHydrated keys for order of play$/;"	m
+orderBy	src/stats.ts	/^  orderBy: keyof IGroupStats, $/;"	m
+output	src/util.ts	/^  output: string[][], $/;"	m
+padOrTruncate	src/layout.ts	/^        padOrTruncate(text, minWidth, justification) :$/;"	m
+padOrTruncate	src/layout.ts	/^      padOrTruncate(text, maxWidth, justification) :$/;"	m
+padOrTruncate	src/util.ts	/^          padOrTruncate(col, finalWidths[ndx], just[ndx]), $/;"	m
+padOrTruncate	src/util.ts	/^       padOrTruncate(col, finalWidths[ndx], just[ndx])$/;"	m
+padOrTruncate	src/util.ts	/^export const padOrTruncate = (text: string, width: number, justification?: Justification) =>$/;"	v
+parenthesizedExpression	src/extractor.ts	/^  parenthesizedExpression: (): IParser<IValueToken> =>$/;"	m
+parse	src/extractor.ts	/^export const parse = (input: string): Response<IValueToken> => $/;"	v
 parseDuration	src/extractor.ts	/^import parseDuration from 'parse-duration';$/;"	I
+parseExtractor	src/extractor.ts	/^export const parseExtractor = (input: string): IValueToken | undefined => {$/;"	v
+pause	src/config.ts	/^  pause: { sequence: 'p' },$/;"	m
+pauseAfterTrack	src/config.ts	/^  pauseAfterTrack: { sequence: 'P' },$/;"	m
+paused	src/players/afplay.ts	/^  paused: 0,$/;"	m
+paused	src/players/afplay.ts	/^  paused: number;       \/\/ Number of milliseconds track has been paused (prior to any current pause)$/;"	m
+play	src/play.ts	/^  play: ($/;"	m
+play	src/play.ts	/^export const play = async (track: ITrack | string): Promise<void> => { await doPlay(track); }$/;"	v
+play	src/players/afplay.ts	/^export const play = async (track: ITrack, earlyReturn: number = 0): Promise<boolean> => {$/;"	v
+playList	src/playlist.ts	/^export const playList = async (name: string) => doPlayList(name, 0);$/;"	v
+playTime	src/stats.ts	/^  playTime: 'playTime',$/;"	m
+playTime	src/stats.ts	/^  playTime: 0,$/;"	m
+playTime	src/stats.ts	/^  playTime: existing.playTime + (t.playTime ?? 0) * 1000,$/;"	m
+playTime	src/stats.ts	/^  playTime: number;$/;"	m
+playTime	src/track.ts	/^      playTime: t.duration ? (t.plays * t.duration) : undefined,$/;"	m
+playTime	src/track.ts	/^    playTime: t.playTime ? makeTime(t.playTime * 1000) : '',$/;"	m
+playTime	src/track.ts	/^  playTime: string;$/;"	m
+player	src/config.ts	/^  player: 'afplay',$/;"	m
+player	src/config.ts	/^  player: string;$/;"	m
+plays	src/stats.ts	/^  plays: 'totalPlays',$/;"	m
+plays	src/track.ts	/^      plays: oldTrack.plays + 1,$/;"	m
+plays	src/track.ts	/^    plays: 0,$/;"	m
+plays	src/track.ts	/^    plays: `${t.plays || 0}`,$/;"	m
+plays	src/track.ts	/^  plays: number;$/;"	m
+plays	src/track.ts	/^  plays: string;$/;"	m
+previousTrack	src/config.ts	/^  previousTrack: { sequence: 'k' },$/;"	m
+print	src/players/afplay.ts	/^      print(' ');$/;"	m
+print	src/players/afplay.ts	/^      print(makeProgressBar(barWidth, pct,$/;"	m
+print	src/players/afplay.ts	/^  print(' [PAUSED]', 'paused');$/;"	m
+print	src/playlist.ts	/^      print(padOrTruncate(' Paused', process.stdout.columns, 'center'), 'paused');$/;"	m
+print	src/segout.ts	/^        print(sep, sepTheme);$/;"	m
+print	src/segout.ts	/^      print(prefix, prefixTheme);$/;"	m
+print	src/segout.ts	/^    print(text, theme);$/;"	m
+print	src/util.ts	/^export const print = (text: string, theme?: Theming) =>$/;"	v
+printColumns	src/stats.ts	/^  printColumns(rows, ['left', 'right', 'right', 'right', 'right'], true);$/;"	m
+printColumns	src/track.ts	/^    printColumns(newTracks.map((track) => $/;"	m
+printColumns	src/util.ts	/^export const printColumns = ($/;"	v
+printLn	src/composer.ts	/^    printLn('');$/;"	m
+printLn	src/composer.ts	/^  printLn('');$/;"	m
+printLn	src/segout.ts	/^    printLn('');$/;"	m
+printLn	src/seinn-ceol.ts	/^        printLn(keypress.makeHelpText().join(', '), 'help');$/;"	m
+printLn	src/track.ts	/^  printLn('');$/;"	m
+printLn	src/util.ts	/^    printLn(row.map((col, ndx) => $/;"	m
+printLn	src/util.ts	/^export const printLn = (text: string, theme?: Theming) => {$/;"	v
+quit	src/config.ts	/^  quit: { sequence: 'q' },$/;"	m
+quitAfterTrack	src/config.ts	/^  quitAfterTrack: { sequence: 'Q' },$/;"	m
+reject	src/asyncChild.ts	/^        reject(new Error(result.error));$/;"	m
+reject	src/asyncChild.ts	/^      reject(error);$/;"	m
+reject	src/asyncChild.ts	/^    reject(err);$/;"	m
+remainingGroups	src/stats.ts	/^  remainingGroups: string[]$/;"	m
+removeDeleted	src/track.ts	/^export const removeDeleted = async () => {$/;"	v
+removeKey	src/keypress.ts	/^export const removeKey = (keyMapping: IKeyMapping) => {$/;"	v
+removeKeys	src/keypress.ts	/^export const removeKeys = (keys: IKeyMapping[]) =>$/;"	v
+removeProgressSuffix	src/playlist.ts	/^        removeProgressSuffix(makeAfterMsg('pause'));$/;"	m
+removeProgressSuffix	src/playlist.ts	/^        removeProgressSuffix(makeAfterMsg('quit'));$/;"	m
+removeProgressSuffix	src/playlist.ts	/^      removeProgressSuffix(makeAfterMsg('pause'));$/;"	m
+removeProgressSuffix	src/playlist.ts	/^      removeProgressSuffix(makeAfterMsg('quit'));$/;"	m
+removeProgressSuffix	src/playlist.ts	/^      removeProgressSuffix(makeAfterMsg(afterTrackAction === AfterTrackAction.Pause ? 'pause' : 'quit'))$/;"	m
+removeProgressSuffix	src/util.ts	/^export const removeProgressSuffix = (suffix: string) => barSuffix = barSuffix.replace(suffix, '');$/;"	v
+resolve	src/asyncChild.ts	/^        resolve(result.stdout || '');$/;"	m
+resolve	src/asyncChild.ts	/^    resolve();$/;"	m
+resolve	src/composer.ts	/^export const resolve = async (name: string, tracks: track.ITrack[]): Promise<boolean> => {$/;"	v
+resolve	src/players/afplay.ts	/^        resolve();                  \/\/ Resume or not, we're done here$/;"	m
+resolveAll	src/composer.ts	/^export const resolveAll = async () => {$/;"	v
+resolveAnonymous	src/track.ts	/^export const resolveAnonymous = async (track: ITrack): Promise<void> => {$/;"	v
+resolveBy	src/asyncChild.ts	/^  resolveBy: number = 0$/;"	m
+resume	src/config.ts	/^  resume: { sequence: 'r' },$/;"	m
+resume	src/keypress.ts	/^  resume();$/;"	m
+resume	src/keypress.ts	/^export const resume = () => active = true;$/;"	v
+return	src/layout.ts	/^    return (maxWidth > 0 && maxWidth < text.length) ?$/;"	m
+return	src/track.ts	/^    return (now.diff(dt, 'years') > 0) ?$/;"	m
+rewind	src/config.ts	/^  rewind: { sequence: 'R' },$/;"	m
+rewind	src/players/afplay.ts	/^  rewind: boolean;$/;"	m
+rewind	src/players/afplay.ts	/^  rewind: false,$/;"	m
 save	src/array-file-handler.ts	/^  public save(data: T[]) {$/;"	m
 save	src/file-handler.ts	/^  public save(data: T) {$/;"	m
+save	src/layout.ts	/^export const save = (layout: ILayout) => {$/;"	v
+save	src/playlist.ts	/^      save({ ...playlist, current: nextTrack!.trackPath });$/;"	m
+save	src/playlist.ts	/^  save({ ...playlist, current: trackPath });$/;"	m
+save	src/playlist.ts	/^export const save = (playlist: IPlayList) => {$/;"	v
+saveAll	src/track.ts	/^export const saveAll = (tracks: ITrack[]) => trackFile.save(tracks);$/;"	v
+sepLength	src/layout.ts	/^  sepLength: number, $/;"	m
+sepLength	src/layout.ts	/^  sepLength: number,$/;"	m
+sequence	src/keypress.ts	/^  sequence: string;$/;"	m
+setWidth	src/layout.ts	/^      setWidth(c.header ?? '', c.width ?? '', sep.length, c.justification),$/;"	m
+shift	src/keypress.ts	/^  shift: boolean;$/;"	m
+simple	src/index.test.ts	/^  simple: 42,$/;"	m
+sort	src/track.ts	/^export const sort = (sortKeys: string[], whereClause?: string): ITrackHydrated[] => {$/;"	v
+spawnWithProgress	src/asyncChild.ts	/^export const spawnWithProgress = async ($/;"	v
+stats	src/stats.ts	/^  stats: IGroupStats, $/;"	m
+stats	src/stats.ts	/^export const stats = ($/;"	v
+stop	src/config.ts	/^  stop: { sequence: 's' },$/;"	m
+stop	src/play.ts	/^  stop: () => Promise<boolean>;   \/\/ true == stopped$/;"	m
+stop	src/players/afplay.ts	/^export const stop = async () => {$/;"	v
+stopPlaying	src/play.ts	/^export const stopPlaying = async () => playState.isPlaying ? await getPlayer().stop() : true;$/;"	v
+stopPlaying	src/playlist.ts	/^    stopPlaying();$/;"	m
+stopPlaying	src/playlist.ts	/^  stopPlaying();$/;"	m
+stringLiteral	src/extractor.ts	/^  stringLiteral: () : IParser<IStringLiteralToken> =>$/;"	m
+suggest	src/composer.ts	/^export const suggest = (name: string) => _.sortBy(fetchAll().map((composer:IComposer) => ({$/;"	v
+suspend	src/keypress.ts	/^export const suspend = () => active = false;$/;"	v
+switch	src/composer.ts	/^  switch (option) {$/;"	m
+switch	src/composer.ts	/^  switch (responses.action) {$/;"	m
+switch	src/playlist.ts	/^  switch (afterTrackAction) {$/;"	m
+switch	src/track.ts	/^  switch (option) {$/;"	m
+t	src/layout.ts	/^  t: track.ITrackHydrated, $/;"	m
+t	src/stats.ts	/^  t: track.ITrackHydrated, $/;"	m
+t	src/stats.ts	/^  t: track.ITrackHydrated,$/;"	m
+t	src/track.ts	/^  t: ITrack, $/;"	m
+td	src/stats.ts	/^  td: track.ITrackDisplay, $/;"	m
+template	src/layout.ts	/^  template: string;       \/\/ lodash template against track.ITrackDisplay$/;"	m
+text	src/layout.ts	/^  text: string, $/;"	m
+text	src/segout.ts	/^    text: string,         \/\/ Text to add$/;"	m
+time	src/stats.ts	/^  time: 'totalTime',$/;"	m
+title	src/track.ts	/^    title: t.title ?? '',$/;"	m
+title	src/track.ts	/^  title: string;$/;"	m
+totalPlays	src/stats.ts	/^  totalPlays: 0,$/;"	m
+totalPlays	src/stats.ts	/^  totalPlays: existing.totalPlays + t.plays,$/;"	m
+totalPlays	src/stats.ts	/^  totalPlays: number;$/;"	m
+totalTime	src/stats.ts	/^  totalTime: 0,$/;"	m
+totalTime	src/stats.ts	/^  totalTime: existing.totalTime + (t.duration ?? 0) * 1000,$/;"	m
+totalTime	src/stats.ts	/^  totalTime: number;$/;"	m
+track	src/play.ts	/^    track: ITrack,                \/\/ Track to play$/;"	m
+track	src/play.ts	/^  track: ITrack | string,         \/\/ Track, or trackpath$/;"	m
+track	src/track.ts	/^      track: tr,$/;"	m
+track	src/track.ts	/^    track: c.track.no || undefined,$/;"	m
+track	src/track.ts	/^    track: t.track ? `${t.track}${t.nTracks ? '\/'+t.nTracks : ''}` : '',$/;"	m
+track	src/track.ts	/^  track: string;     \/\/ N of M$/;"	m
+trackIndex	src/layout.ts	/^  trackIndex: number, $/;"	m
+trackPath	src/track.ts	/^      trackPath: oldTrack.trackPath,$/;"	m
+trackPath	src/track.ts	/^  trackPath: string;$/;"	m
+tracks	src/stats.ts	/^  tracks: 'nTracks',$/;"	m
+tracks	src/track.ts	/^  tracks: string[], $/;"	m
+type	src/composer.ts	/^      type: 'input', $/;"	m
+type	src/composer.ts	/^      type: 'input',$/;"	m
+type	src/composer.ts	/^      type: 'list',$/;"	m
+type	src/extractor.ts	/^        type: TokenType.BinaryOperator,$/;"	m
+type	src/extractor.ts	/^        type: TokenType.Identifier,$/;"	m
+type	src/extractor.ts	/^        type: TokenType.NumericLiteral,$/;"	m
+type	src/extractor.ts	/^        type: TokenType.StringLiteral,$/;"	m
+type	src/extractor.ts	/^        type: TokenType.UnaryOperation,$/;"	m
+type	src/extractor.ts	/^        type: TokenType.UnaryOperator,$/;"	m
+type	src/extractor.ts	/^      type: TokenType.BinaryOperation,$/;"	m
+type	src/extractor.ts	/^  type: TokenType.BinaryOperation;$/;"	m
+type	src/extractor.ts	/^  type: TokenType.BinaryOperator;$/;"	m
+type	src/extractor.ts	/^  type: TokenType.Identifier;$/;"	m
+type	src/extractor.ts	/^  type: TokenType.NumericLiteral;$/;"	m
+type	src/extractor.ts	/^  type: TokenType.StringLiteral;$/;"	m
+type	src/extractor.ts	/^  type: TokenType.UnaryOperation;$/;"	m
+type	src/extractor.ts	/^  type: TokenType.UnaryOperator;$/;"	m
+type	src/extractor.ts	/^  type: TokenType;$/;"	m
+type	src/index.test.ts	/^              type: TokenType.Identifier,$/;"	m
+type	src/index.test.ts	/^            type: TokenType.BinaryOperator,$/;"	m
+type	src/index.test.ts	/^          type: TokenType.BinaryOperation,$/;"	m
+type	src/index.test.ts	/^          type: TokenType.Identifier,$/;"	m
+type	src/index.test.ts	/^          type: TokenType.NumericLiteral,$/;"	m
+type	src/index.test.ts	/^        type: TokenType.BinaryOperator,$/;"	m
+type	src/index.test.ts	/^      type: TokenType.BinaryOperation,$/;"	m
+type	src/index.test.ts	/^      type: TokenType.Identifier,$/;"	m
+type	src/index.test.ts	/^      type: TokenType.StringLiteral,$/;"	m
+type	src/index.test.ts	/^    type: TokenType.BinaryOperator,$/;"	m
+type	src/index.test.ts	/^    type: TokenType.Identifier,$/;"	m
+type	src/index.test.ts	/^    type: TokenType.UnaryOperator,$/;"	m
+type	src/index.test.ts	/^  type: TokenType.BinaryOperation,$/;"	m
+type	src/index.test.ts	/^  type: TokenType.Identifier,$/;"	m
+type	src/index.test.ts	/^  type: TokenType.NumericLiteral,$/;"	m
+type	src/index.test.ts	/^  type: TokenType.StringLiteral,$/;"	m
+type	src/index.test.ts	/^  type: TokenType.UnaryOperation,$/;"	m
+type	src/track.ts	/^          type: 'input',$/;"	m
+type	src/track.ts	/^      type: 'confirm',$/;"	m
+type	src/track.ts	/^      type: 'list',$/;"	m
+unaryOperation	src/extractor.ts	/^  unaryOperation: (): IParser<IUnaryOperationToken> =>$/;"	m
+unaryOperator	src/extractor.ts	/^  unaryOperator: (): IParser<IUnaryOperatorToken> =>$/;"	m
+unpack	src/extractor.ts	/^    unpack(pack(extract(context, operands[0])).map((op1) => fnc(context, op1)));$/;"	m
+unpack	src/extractor.ts	/^    unpack(pack(extract(context, operands[0])).reduce((accum, op1) => [ $/;"	m
+update	src/composer.ts	/^        update({ name: composer.name, aliases: _.uniq([...composer.aliases || [], name]) });$/;"	m
+update	src/composer.ts	/^export const update = (updates: IComposerUpdater): boolean => {$/;"	v
+updateTrack	src/track.ts	/^        updateTrack({ trackPath: track.trackPath, composerKey });$/;"	m
+updateTrack	src/track.ts	/^        updateTrack({ trackPath: track.trackPath, compositionDate });$/;"	m
+updateTrack	src/track.ts	/^    updateTrack({$/;"	m
+validate	src/composer.ts	/^      validate: (val:string) => !val ? 'Composer name is required' : (index[val] && index[val] !== existing) ? 'Composer name already in use' : true,$/;"	m
+validate	src/composer.ts	/^      validate: (val:string) => (!!val && dayjs(val).year != NaN) ? true : 'Invalid date',$/;"	m
+validate	src/composer.ts	/^      validate: (val:string) => (!val || dayjs(val).year != NaN) ? true : 'Invalid date',$/;"	m
+value	src/extractor.ts	/^        value: result.value.join(''),$/;"	m
+value	src/extractor.ts	/^  value: number;$/;"	m
+value	src/extractor.ts	/^  value: string;$/;"	m
+value	src/index.test.ts	/^          value: 1,$/;"	m
+value	src/index.test.ts	/^      value: 'Johann Sebastian Bach',$/;"	m
+value	src/index.test.ts	/^  value: 'fred',$/;"	m
+value	src/index.test.ts	/^  value: -1.23,$/;"	m
+value	src/index.test.ts	/^  value: 1,$/;"	m
+value	src/index.test.ts	/^  value: `fr'ed`,$/;"	m
+warning	src/composer.ts	/^    warning(`Found ${name} -- skipping`);$/;"	m
+warning	src/layout.ts	/^    warning(`Layout ${name} not found`);$/;"	m
+warning	src/play.ts	/^    warning(`Already playing`);$/;"	m
+warning	src/players/afplay.ts	/^      warning(`Install ffpmeg to enable pause\/resume for this player`);$/;"	m
+warning	src/playlist.ts	/^        warning(`Current track not found in playlist, going to first`);$/;"	m
+warning	src/playlist.ts	/^        warning(`Current track not found in playlist, going to last`);$/;"	m
+warning	src/playlist.ts	/^    warning(`Playlist ${name} empty`);$/;"	m
+warning	src/track.ts	/^        warning(`Could not stat ${t.trackPath} -- not removing$/;"	m
+warning	src/track.ts	/^        warning(`Track ${trackPath} previously added -- skipped`);$/;"	m
+warning	src/track.ts	/^    warning(`Track "${updates.trackPath}" not in library -- not updating`);$/;"	m
+warning	src/util.ts	/^export const warning = (...args: any) => {$/;"	v
+width	src/layout.ts	/^  width: string, $/;"	m
+year	src/track.ts	/^    year: `${t.year ?? ''}`,$/;"	m
+year	src/track.ts	/^  year: string;$/;"	m

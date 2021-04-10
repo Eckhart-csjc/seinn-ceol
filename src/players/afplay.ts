@@ -1,8 +1,8 @@
 import { spawnWithProgress } from '../asyncChild';
-import { IKey, IKeyMapping } from '../keypress';
+import { IKey, IKeyMaker, IKeyMapping } from '../keypress';
 import * as keypress from '../keypress';
 import { ITrack } from '../track';
-import { error, makeProgressBar, makeTime, print, printLn } from '../util';
+import { error, makeProgressBar, makeTime, print, printLn, warning } from '../util';
 
 const execPromise = require('child-process-promise').exec;
 
@@ -20,23 +20,46 @@ const playState: IPlayState = {
   rewind: false,
 };
 
-const playKeys = keypress.makeKeys([
+const TMP_TRACKPATH = '/tmp/seinn-ceol-sample.m4a';
+
+let memoizedCanPause: boolean | undefined = undefined;
+const canPause = async () => {
+  if (memoizedCanPause === undefined) {
+    try {
+      await execPromise('ffmpeg -version 2>&1 >/dev/null');
+      memoizedCanPause = true;
+    } catch (e) {
+      warning(`Install ffpmeg to enable pause/resume for this player`);
+      memoizedCanPause = false;
+    }
+  }
+  return memoizedCanPause;
+}
+
+const makePlayKeys = async () => keypress.makeKeys([
   { name: 'quit', func: doQuit },
   { name: 'rewind', func: doRewind, help: 'rewind current track' },
+  ...((await canPause()) ? 
+    [
+      { name: 'pause', func: doPause, help: 'pause' },
+      { name: 'resume', func: doResume, help: 'resume' },
+    ] as IKeyMaker[] :
+    []
+  ),
 ]);
 
-// This is currently disabled, because afplay can only suspend output, not actually pause
 function doPause(key: IKey) {
   if (playState.beginPause) {
     return;
   }
-  execPromise("sh -c 'if pid=`pgrep afplay`; then kill -17 $pid; fi'");
+  playState.beginPause = Date.now();
+  killPlayer();
   print(' [PAUSED]', 'paused');
   process.stdout.cursorTo(0);
-  playState.beginPause = Date.now();
 }
 
 function doQuit(key: IKey) {
+  playState.beginPause = 0;
   killPlayer();
 }
 
@@ -45,8 +68,8 @@ function doResume(key: IKey) {
     return;
   }
   playState.paused += Date.now() - playState.beginPause;
+  playState.killed = false;
   playState.beginPause = 0;
-  execPromise("sh -c 'if pid=`pgrep afplay`; then kill -19 $pid; fi'");
 }
 
 function doRewind(key: IKey) {
@@ -65,27 +88,10 @@ export const stop = async () => {
 }
 
 export const play = async (track: ITrack, earlyReturn: number = 0): Promise<boolean> => {
-  const total = (track.duration || 1) * 1000;
-  const totalFmt = makeTime(total);
-  const maxWidth = process.stdout.columns || 80;
-  const barWidth = maxWidth - 1;
-  playState.paused = 0;
-  playState.beginPause = 0;
-  playState.killed = false;
-  playState.rewind = false;
+  const playKeys = await makePlayKeys();
   keypress.addKeys(playKeys);
   try {
-    await spawnWithProgress(`/usr/bin/afplay`, [`-q`,`1`,track.trackPath], (elapsed: number) => {
-      if (playState.beginPause) {
-        return;
-      }
-      const netElapsed = elapsed - playState.paused;
-      const pct = netElapsed / total;
-      print(' ');
-      print(makeProgressBar(barWidth, pct,
-        `${makeTime(netElapsed)} of ${totalFmt} (${Math.floor(pct * 100)}%)`));
-      process.stdout.cursorTo(0);
-    }, 100, ((track.duration ?? 0) * 1000) - earlyReturn);
+    await doPlay(track, earlyReturn);
     if (playState.rewind) {
       return play(track);
     }
@@ -97,3 +103,54 @@ export const play = async (track: ITrack, earlyReturn: number = 0): Promise<bool
   }
   return !playState.killed;
 };
+
+const doPlay = async (track:ITrack, earlyReturn: number = 0, offset: number = 0) => {
+  const total = (track.duration || 1) * 1000;
+  const totalFmt = makeTime(total);
+  const maxWidth = process.stdout.columns || 80;
+  const barWidth = maxWidth - 1;
+  const startOffset = Math.floor(offset / 1000);  // Offset in seconds
+  if (startOffset) {
+    await execPromise(`rm -f ${TMP_TRACKPATH}`)
+    await execPromise(
+      `ffmpeg -ss ${startOffset} -i '${track.trackPath}' -c copy ${TMP_TRACKPATH}`
+    );
+  }
+  const startPlay = Date.now();
+  playState.paused = 0;
+  playState.beginPause = 0;
+  playState.killed = false;
+  playState.rewind = false;
+  await spawnWithProgress(
+    `/usr/bin/afplay`, 
+    [`-q`,`1`, startOffset ? TMP_TRACKPATH : track.trackPath], 
+    (elapsed: number) => {
+      if (playState.beginPause) {
+        return;
+      }
+      const netElapsed = elapsed + offset - playState.paused;
+      const pct = netElapsed / total;
+      print(' ');
+      print(makeProgressBar(barWidth, pct,
+        `${makeTime(netElapsed)} of ${totalFmt} (${Math.floor(pct * 100)}%)`));
+      process.stdout.cursorTo(0);
+    }, 
+    100, 
+    ((track.duration ?? 0) * 1000) - offset - earlyReturn
+  );
+  if (playState.beginPause) {
+    await new Promise<void>((resolve, reject) => {
+      const timer = setInterval(async () => {
+        if (playState.beginPause) {
+          return;                   // Still paused
+        }
+        clearInterval(timer);       // No more polling
+        const newOffset = (Date.now() - startPlay) + offset - playState.paused;
+        if (!playState.killed) {    // If not killed, assume resume
+          await doPlay(track, earlyReturn, newOffset);
+        }
+        resolve();                  // Resume or not, we're done here
+      }, 500);
+    });
+  }
+}
