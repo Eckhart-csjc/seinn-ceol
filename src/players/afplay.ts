@@ -52,8 +52,8 @@ function doPause(key: IKey) {
   if (playState.beginPause) {
     return;
   }
-  playState.beginPause = Date.now();
   killPlayer();
+  playState.beginPause = Date.now();
   print(' [PAUSED]', 'paused');
   process.stdout.cursorTo(0);
 }
@@ -80,6 +80,7 @@ function doRewind(key: IKey) {
 async function killPlayer() {
   execPromise("pkill afplay || true");
   playState.killed = true;
+  playState.beginPause = 0;
 }
 
 export const stop = async () => {
