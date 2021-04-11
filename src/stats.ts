@@ -88,7 +88,10 @@ const addGroupStats = (
   t: track.ITrackHydrated,
   remainingGroups: IValueToken[]
 ) => {
-  const name = `${extract(t, grouping)}`;
+  const result = extract(t, grouping);
+  const name = (result != null) ?
+    (Array.isArray(result) ? result.map((e) => `${e}`).join(' & ') : `${result}`) :
+    '';
   return name ? {
      ...groups,
      [name] : addStats(groups[name] ?? makeGroup(name, remainingGroups), t, remainingGroups),

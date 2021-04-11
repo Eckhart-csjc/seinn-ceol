@@ -114,7 +114,7 @@ const formatColumn = (
   try {
     const parser = parseExtractor(column.extractor);
     const result = parser && extract(track, parser);
-    const text = result ?
+    const text = (result != null) ?
       (Array.isArray(result) ?
         result.map((e) => `${e}`).join(' & ') :
         `${result}`) :
