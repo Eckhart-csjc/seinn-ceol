@@ -51,28 +51,7 @@ export interface ITrack extends ITrackInfo {
 export interface ITrackHydrated extends ITrack {
   composerDetail?: IComposer;
   playTime?: number;
-}
-
-export interface ITrackDisplay {
-  index: number;
-  track: string;     // N of M
-  disk: string;      // N of M
-  title: string;
-  artists: string;   // A [& B]...
-  composer: string;  // A [& B]...
-  composerKey: string;
-  composerName: string;
-  composerBorn: string;
-  composerDied: string;
-  album: string;
-  genre: string;
-  year: string;
-  date: string;
-  copyright: string;
-  duration: string;
-  plays: string;
-  lastPlayed: string;
-  playTime: string;
+  index?: number;       // Added by sort
 }
 
 export interface ITrackUpdater extends Partial<ITrack> {
@@ -261,7 +240,8 @@ export const sort = (sortKeys: string[], whereClause?: string): ITrackHydrated[]
   return _.sortBy(
     filter(whereClause).map((t) => hydrateTrack(t, composerIndex)),
     sortParsers.map((p) => (t:ITrackHydrated) => extract(t, p!)),
-  );
+  )
+  .map((t, index) => ({ ...t, index }));
 };
 
 export const resolveAnonymous = async (track: ITrack): Promise<void> => {
@@ -346,48 +326,6 @@ export const formatInfo = (t: ITrack): string[] => [
   ...(t.lastPlayed ? [`Last played: ${t.lastPlayed}`] : []),
   `Media file: ${t.trackPath}`,
 ];
-
-const makeDateDisplay = (input: string | number | undefined) =>
-  input ?
-    ((typeof input === 'string' && input.length <= 8) ? input : dayjs(input).format('YYYY-MM-DD'))
-  : '';
-
-const makeLastPlayedDisplay = (input?: string) => {
-  if (input) {
-    const dt = dayjs(input);
-    const now = dayjs();
-    return (Math.abs(now.diff(dt, 'years')) > 0) ?
-      dt.format('YYYY MMM D') :
-      (Math.abs(now.diff(dt, 'days')) > 0) ?
-        dt.format('MMM D') :
-        dt.format('h:mma');
-  }
-  return '';
-}
-
-export const makeDisplay = (t: ITrackHydrated, index: number): ITrackDisplay => {
-  return {
-    index,
-    track: t.track ? `${t.track}${t.nTracks ? '/'+t.nTracks : ''}` : '',
-    disk: t.disk ? `${t.disk}${t.nDisks ? '/'+t.nDisks : ''}` : '',
-    title: t.title ?? '',
-    artists: t.artists?.join(' & ') ?? '',
-    composer: t.composer?.join(' & ') || t.composerKey || '',
-    composerKey: t.composerKey ?? '',
-    composerName: t.composerDetail?.name ?? '',
-    composerBorn: makeDateDisplay(t.composerDetail?.born),
-    composerDied: makeDateDisplay(t.composerDetail?.died),
-    album: t.album ?? '',
-    genre: t.genre?.join(', ') ?? '',
-    year: `${t.year ?? ''}`,
-    date: makeDateDisplay(t.date),
-    copyright: t.copyright ?? '',
-    duration: t.duration ? makeTime(t.duration * 1000) : '',
-    plays: `${t.plays || 0}`,
-    lastPlayed: makeLastPlayedDisplay(t.lastPlayed),
-    playTime: t.playTime ? makeTime(t.playTime * 1000) : '',
-  };
-};
 
 export const removeDeleted = async () => {
   const tracks = trackFile.fetch();

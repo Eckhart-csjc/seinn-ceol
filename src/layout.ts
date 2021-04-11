@@ -1,6 +1,7 @@
 import * as _ from 'lodash';
 import { ArrayFileHandler } from './array-file-handler';
 import { getSettings, Theming } from './config';
+import { extract, parseExtractor } from './extractor';
 import { SegOut } from './segout';
 import * as track from './track';
 import { 
@@ -22,7 +23,7 @@ export interface ILayout {
 
 export interface ILayoutColumn {
   header: string;         // Text for column header
-  template: string;       // lodash template against track.ITrackDisplay
+  extractor: string;      // extractor against ITrackHydrated
   width?: string;         // "N", "N%", or range of these separated by ":" (both optional)
   theming?: Theming;      // Theming override for this column only
   hdrTheming?: Theming;   // Theming override for header 
@@ -55,14 +56,13 @@ export const displayColumns = (
   if (!layout?.columns) {
     return;
   }
-  const displays = track.makeDisplay(t, trackIndex);
   const o = new SegOut();
   process.stdout.cursorTo(0);
   process.stdout.clearLine(0);
   const sep = layout.separator || '|';
   layout.columns.map((c) => 
     o.add(
-      formatColumn(c, displays, sep.length), 
+      formatColumn(c, { ...t, index: trackIndex }, sep.length), 
       sep, 
       undefined,
       c.theming ?? layout.theming,
@@ -108,11 +108,17 @@ const getLayout = (layoutName?: string): ILayout | undefined => {
 
 const formatColumn = (
   column: ILayoutColumn, 
-  displays: track.ITrackDisplay,
+  track: track.ITrackHydrated,
   sepLength: number,
 ) => {
   try {
-    const text = _.template(column.template)(displays) ?? '';
+    const parser = parseExtractor(column.extractor);
+    const result = parser && extract(track, parser);
+    const text = result ?
+      (Array.isArray(result) ?
+        result.map((e) => `${e}`).join(' & ') :
+        `${result}`) :
+      '';
     return setWidth(text, column.width ?? '', sepLength, column.justification);
   } catch (e) {
     return 'ERR!';

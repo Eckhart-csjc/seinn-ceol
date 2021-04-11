@@ -33,7 +33,6 @@ ITheme	src/config.ts	/^export interface ITheme {$/;"	i
 IThemeSettings	src/config.ts	/^export interface IThemeSettings {$/;"	i
 IToken	src/extractor.ts	/^interface IToken {$/;"	i
 ITrack	src/track.ts	/^export interface ITrack extends ITrackInfo {$/;"	i
-ITrackDisplay	src/track.ts	/^export interface ITrackDisplay {$/;"	i
 ITrackHydrated	src/track.ts	/^export interface ITrackHydrated extends ITrack {$/;"	i
 ITrackInfo	src/track.ts	/^export interface ITrackInfo {$/;"	i
 ITrackUpdater	src/track.ts	/^export interface ITrackUpdater extends Partial<ITrack> {$/;"	i
@@ -59,8 +58,6 @@ addKeys	src/keypress.ts	/^export const addKeys = (keys: IKeyMapping[]) =>$/;"	v
 addProgressSuffix	src/playlist.ts	/^      addProgressSuffix(makeAfterMsg('pause'));$/;"	m
 addProgressSuffix	src/playlist.ts	/^      addProgressSuffix(makeAfterMsg('quit'));$/;"	m
 addProgressSuffix	src/util.ts	/^export const addProgressSuffix = (suffix: string) => barSuffix += suffix;$/;"	v
-album	src/track.ts	/^    album: t.album ?? '',$/;"	m
-album	src/track.ts	/^  album: string;$/;"	m
 aliases	src/composer.ts	/^    aliases: (known.name && known.name !== responses.name) ? _.uniq([ ...aliases, known.name]) : aliases,$/;"	m
 aliases	src/composer.ts	/^  aliases: string[];           \/\/ Other ways of representing name$/;"	m
 applyThemeSetting	src/config.ts	/^export const applyThemeSetting = (text: string, element?: Theming) => $/;"	v
@@ -69,8 +66,6 @@ applyThemeSettings	src/config.ts	/^    applyThemeSettings($/;"	m
 applyThemeSettings	src/config.ts	/^export const applyThemeSettings = (text: string, themeSettings?: IThemeSettings) => $/;"	v
 args	src/asyncChild.ts	/^  args: string[],$/;"	m
 arry	src/index.test.ts	/^  arry: ['wilma', 'pebbles', 'fred', 'barney'],$/;"	m
-artists	src/track.ts	/^    artists: t.artists?.join(' & ') ?? '',$/;"	m
-artists	src/track.ts	/^  artists: string;   \/\/ A [& B]...$/;"	m
 ask	src/util.ts	/^export const ask = async (questions: any): Promise<any> => {$/;"	v
 askAnswered	src/composer.ts	/^      askAnswered: true,$/;"	m
 beginPause	src/players/afplay.ts	/^  beginPause: 0,$/;"	m
@@ -93,26 +88,12 @@ clearTimeout	src/asyncChild.ts	/^      clearTimeout(resolveTimer);$/;"	m
 cmd	src/asyncChild.ts	/^  cmd: string, $/;"	m
 column	src/layout.ts	/^  column: ILayoutColumn, $/;"	m
 composer	src/index.test.ts	/^  composer: 'Johann Sebastian Bach',$/;"	m
-composer	src/track.ts	/^    composer: t.composer?.join(' & ') || t.composerKey || '',$/;"	m
-composer	src/track.ts	/^  composer: string;  \/\/ A [& B]...$/;"	m
-composerBorn	src/track.ts	/^    composerBorn: makeDateDisplay(t.composerDetail?.born),$/;"	m
-composerBorn	src/track.ts	/^  composerBorn: string;$/;"	m
-composerDied	src/track.ts	/^    composerDied: makeDateDisplay(t.composerDetail?.died),$/;"	m
-composerDied	src/track.ts	/^  composerDied: string;$/;"	m
 composerKey	src/track.ts	/^    composerKey: _.uniq(trackInfo.composer ?? []).join(' & ') || undefined,$/;"	m
-composerKey	src/track.ts	/^    composerKey: t.composerKey ?? '',$/;"	m
-composerKey	src/track.ts	/^  composerKey: string;$/;"	m
-composerName	src/track.ts	/^    composerName: t.composerDetail?.name ?? '',$/;"	m
-composerName	src/track.ts	/^  composerName: string;$/;"	m
 constructor	src/array-file-handler.ts	/^  constructor (baseFilename: string, pathOverride?: string) {$/;"	m
 constructor	src/file-handler.ts	/^  constructor (public baseFilename: string, public pathOverride?: string) {$/;"	m
 constructor	src/segout.ts	/^  constructor() {$/;"	m
-copyright	src/track.ts	/^    copyright: t.copyright ?? '',$/;"	m
-copyright	src/track.ts	/^  copyright: string;$/;"	m
 ctrl	src/keypress.ts	/^  ctrl: boolean;$/;"	m
 date	src/index.test.ts	/^  date: 'January 1, 1970',$/;"	m
-date	src/track.ts	/^    date: makeDateDisplay(t.date),$/;"	m
-date	src/track.ts	/^  date: string;$/;"	m
 dates	src/index.test.ts	/^  dates: ['1\/1\/2020', '1\/2\/2020'],$/;"	m
 dayjs	src/extractor.ts	/^            dayjs(typeof op1 === 'number' ? op1 * 1000 : op1).format('YYYY-MM-DD')$/;"	m
 debug	src/extractor.ts	/^  debug('Token chain', JSON.stringify(tokens, undefined, 2));$/;"	m
@@ -130,11 +111,8 @@ default	src/track.ts	/^      default: false,$/;"	m
 died	src/composer.ts	/^    died: responses.died,$/;"	m
 disk	src/track.ts	/^      disk: d,$/;"	m
 disk	src/track.ts	/^    disk: c.disk.no || undefined,$/;"	m
-disk	src/track.ts	/^    disk: t.disk ? `${t.disk}${t.nDisks ? '\/'+t.nDisks : ''}` : '',$/;"	m
-disk	src/track.ts	/^  disk: string;      \/\/ N of M$/;"	m
 displayColumns	src/layout.ts	/^export const displayColumns = ($/;"	v
 displayHeaders	src/layout.ts	/^export const displayHeaders = (layoutName?: string) => {$/;"	v
-displays	src/layout.ts	/^  displays: track.ITrackDisplay,$/;"	m
 distance	src/composer.ts	/^  distance: getBestDistance(name, composer),$/;"	m
 doBinaryArrayOperation	src/extractor.ts	/^    doBinaryArrayOperation(context, operands, (context, op1, op2) =>$/;"	m
 doBinaryOperation	src/extractor.ts	/^    doBinaryOperation(context, operands, (context, op1, op2) => $/;"	m
@@ -147,8 +125,6 @@ doUnaryArrayOperation	src/extractor.ts	/^    doUnaryArrayOperation(context, oper
 doUnaryOperation	src/extractor.ts	/^    doUnaryOperation(context, operands, (context, op1) => {$/;"	m
 doUnaryOperation	src/extractor.ts	/^    doUnaryOperation(context, operands, (context, op1) =>$/;"	m
 duration	src/track.ts	/^    duration: p.format.duration,$/;"	m
-duration	src/track.ts	/^    duration: t.duration ? makeTime(t.duration * 1000) : '',$/;"	m
-duration	src/track.ts	/^  duration: string;$/;"	m
 earlyReturn	src/play.ts	/^  earlyReturn: number = 0,        \/\/ Milliseconds to subtract from duration for return$/;"	m
 error	src/composer.ts	/^        error(`Could not find existing composer ${option}`);$/;"	m
 error	src/composer.ts	/^      error(`The following aliases for this composer already exist`, existingAliases);$/;"	m
@@ -179,6 +155,7 @@ expect	src/index.test.ts	/^    expect(result.value).toEqual(expected);$/;"	m
 expect	src/index.test.ts	/^    expect(token).toBeTruthy();$/;"	m
 expression	src/extractor.ts	/^  expression: (): IParser<IValueToken> =>$/;"	m
 extract	src/extractor.ts	/^export const extract = (context: unknown, token: IToken): unknown =>$/;"	v
+extractor	src/layout.ts	/^  extractor: string;      \/\/ extractor against ITrackHydrated$/;"	m
 fetch	src/array-file-handler.ts	/^  public fetch(): T[] {$/;"	m
 fetch	src/file-handler.ts	/^  public fetch(): T | undefined {$/;"	m
 fetchAll	src/composer.ts	/^export const fetchAll = () => composerFile.fetch();$/;"	v
@@ -198,7 +175,7 @@ fixTTY	src/util.ts	/^  fixTTY();$/;"	m
 fnc	src/extractor.ts	/^        fnc(context, op1, op2)$/;"	m
 fnc	src/extractor.ts	/^    fnc(context, pack(extract(context, operands[0])));$/;"	m
 fnc	src/extractor.ts	/^    fnc(context, pack(extract(context, operands[0])), extract(context, operands[1]));$/;"	m
-formatColumn	src/layout.ts	/^      formatColumn(c, displays, sep.length), $/;"	m
+formatColumn	src/layout.ts	/^      formatColumn(c, { ...t, index: trackIndex }, sep.length), $/;"	m
 formatInfo	src/composer.ts	/^export const formatInfo = (composer?: string[], composerKey?: string) => {$/;"	v
 formatInfo	src/play.ts	/^        formatInfo(track).map((i) => o.add(i, ' | ', " \\u2192 ", "detail"));$/;"	m
 formatInfo	src/track.ts	/^export const formatInfo = (t: ITrack): string[] => [$/;"	v
@@ -208,8 +185,6 @@ func	src/play.ts	/^      func: (key: keypress.IKey) =>  {$/;"	m
 func	src/seinn-ceol.ts	/^      func: () => process.exit(0),$/;"	m
 func	src/seinn-ceol.ts	/^      func: () => { $/;"	m
 func	src/track.ts	/^        func: (k: keypress.IKey) => stopPlaying(),$/;"	m
-genre	src/track.ts	/^    genre: t.genre?.join(', ') ?? '',$/;"	m
-genre	src/track.ts	/^  genre: string;$/;"	m
 getCurrentTrack	src/playlist.ts	/^export const getCurrentTrack = (playlist: IPlayList) => {$/;"	v
 getDefaultPath	src/file-handler.ts	/^  private getDefaultPath() {$/;"	m
 getInfo	src/track.ts	/^export const getInfo = async (track:string) : Promise<ITrackInfo> => {$/;"	v
@@ -381,7 +356,6 @@ if	src/track.ts	/^      if (e.code === 'ENOENT') {$/;"	m
 if	src/track.ts	/^    if (_.find(accum, (e) => e.trackPath === trackPath)) {$/;"	m
 if	src/track.ts	/^    if (commit) {$/;"	m
 if	src/track.ts	/^  if (d != t.disk || tr != t.track) {$/;"	m
-if	src/track.ts	/^  if (input) {$/;"	m
 if	src/track.ts	/^  if (oldTrack) {$/;"	m
 if	src/track.ts	/^  if (reduced.length < tracks.length) {$/;"	m
 if	src/track.ts	/^  if (where && !token) {$/;"	m
@@ -391,7 +365,6 @@ if	src/util.ts	/^  if (process.env.DEBUG) {$/;"	m
 if	src/util.ts	/^  if (result.nums[0]?.startsWith('0')) {$/;"	m
 if	src/util.ts	/^  if (totalWidth > process.stdout.columns) {$/;"	m
 indent	src/stats.ts	/^  indent: number = 0$/;"	m
-index	src/track.ts	/^  index: number;$/;"	m
 indexComposers	src/composer.ts	/^export const indexComposers = (composers?: IComposer[]) => $/;"	v
 info	src/config.ts	/^  info: { sequence: 'i' },$/;"	m
 info	src/track.ts	/^export const info = async (track:string) => {$/;"	v
@@ -411,11 +384,8 @@ killed	src/players/afplay.ts	/^  killed: boolean;$/;"	m
 killed	src/players/afplay.ts	/^  killed: false,$/;"	m
 lastCol	src/segout.ts	/^  lastCol: number;$/;"	m
 lastPlayed	src/track.ts	/^      lastPlayed: dayjs().toString(),$/;"	m
-lastPlayed	src/track.ts	/^    lastPlayed: makeLastPlayedDisplay(t.lastPlayed),$/;"	m
-lastPlayed	src/track.ts	/^  lastPlayed: string;$/;"	m
 limit	src/stats.ts	/^  limit: number = 0,$/;"	m
 main	src/seinn-ceol.ts	/^main()$/;"	m
-makeDisplay	src/track.ts	/^export const makeDisplay = (t: ITrackHydrated, index: number): ITrackDisplay => {$/;"	v
 makeFilename	src/file-handler.ts	/^  private makeFilename(basename: string, pathOverride?: string) {$/;"	m
 makeGroup	src/stats.ts	/^    makeGroup('Totals', groups)$/;"	m
 makeHelpText	src/keypress.ts	/^export const makeHelpText = (): string[] => {$/;"	v
@@ -554,16 +524,12 @@ playTime	src/stats.ts	/^  playTime: 0,$/;"	m
 playTime	src/stats.ts	/^  playTime: existing.playTime + (t.playTime ?? 0) * 1000,$/;"	m
 playTime	src/stats.ts	/^  playTime: number;$/;"	m
 playTime	src/track.ts	/^      playTime: t.duration ? (t.plays * t.duration) : undefined,$/;"	m
-playTime	src/track.ts	/^    playTime: t.playTime ? makeTime(t.playTime * 1000) : '',$/;"	m
-playTime	src/track.ts	/^  playTime: string;$/;"	m
 player	src/config.ts	/^  player: 'afplay',$/;"	m
 player	src/config.ts	/^  player: string;$/;"	m
 plays	src/stats.ts	/^  plays: 'totalPlays',$/;"	m
 plays	src/track.ts	/^      plays: oldTrack.plays + 1,$/;"	m
 plays	src/track.ts	/^    plays: 0,$/;"	m
-plays	src/track.ts	/^    plays: `${t.plays || 0}`,$/;"	m
 plays	src/track.ts	/^  plays: number;$/;"	m
-plays	src/track.ts	/^  plays: string;$/;"	m
 previousTrack	src/config.ts	/^  previousTrack: { sequence: 'k' },$/;"	m
 print	src/players/afplay.ts	/^      print(' ');$/;"	m
 print	src/players/afplay.ts	/^      print(makeProgressBar(barWidth, pct,$/;"	m
@@ -610,7 +576,6 @@ resume	src/keypress.ts	/^  resume();$/;"	m
 resume	src/keypress.ts	/^export const resume = () => active = true;$/;"	v
 return	src/extractor.ts	/^        return (Math.abs(now.diff(dt, 'years')) > 0) ?$/;"	m
 return	src/layout.ts	/^    return (maxWidth > 0 && maxWidth < text.length) ?$/;"	m
-return	src/track.ts	/^    return (Math.abs(now.diff(dt, 'years')) > 0) ?$/;"	m
 rewind	src/config.ts	/^  rewind: { sequence: 'R' },$/;"	m
 rewind	src/players/afplay.ts	/^  rewind: boolean;$/;"	m
 rewind	src/players/afplay.ts	/^  rewind: false,$/;"	m
@@ -648,24 +613,20 @@ t	src/layout.ts	/^  t: track.ITrackHydrated, $/;"	m
 t	src/stats.ts	/^  t: track.ITrackHydrated, $/;"	m
 t	src/stats.ts	/^  t: track.ITrackHydrated,$/;"	m
 t	src/track.ts	/^  t: ITrack, $/;"	m
-template	src/layout.ts	/^  template: string;       \/\/ lodash template against track.ITrackDisplay$/;"	m
 text	src/layout.ts	/^  text: string, $/;"	m
 text	src/segout.ts	/^    text: string,         \/\/ Text to add$/;"	m
 time	src/stats.ts	/^  time: 'totalTime',$/;"	m
-title	src/track.ts	/^    title: t.title ?? '',$/;"	m
-title	src/track.ts	/^  title: string;$/;"	m
 totalPlays	src/stats.ts	/^  totalPlays: 0,$/;"	m
 totalPlays	src/stats.ts	/^  totalPlays: existing.totalPlays + t.plays,$/;"	m
 totalPlays	src/stats.ts	/^  totalPlays: number;$/;"	m
 totalTime	src/stats.ts	/^  totalTime: 0,$/;"	m
 totalTime	src/stats.ts	/^  totalTime: existing.totalTime + (t.duration ?? 0) * 1000,$/;"	m
 totalTime	src/stats.ts	/^  totalTime: number;$/;"	m
+track	src/layout.ts	/^  track: track.ITrackHydrated,$/;"	m
 track	src/play.ts	/^    track: ITrack,                \/\/ Track to play$/;"	m
 track	src/play.ts	/^  track: ITrack | string,         \/\/ Track, or trackpath$/;"	m
 track	src/track.ts	/^      track: tr,$/;"	m
 track	src/track.ts	/^    track: c.track.no || undefined,$/;"	m
-track	src/track.ts	/^    track: t.track ? `${t.track}${t.nTracks ? '\/'+t.nTracks : ''}` : '',$/;"	m
-track	src/track.ts	/^  track: string;     \/\/ N of M$/;"	m
 trackIndex	src/layout.ts	/^  trackIndex: number, $/;"	m
 trackPath	src/track.ts	/^      trackPath: oldTrack.trackPath,$/;"	m
 trackPath	src/track.ts	/^  trackPath: string;$/;"	m
@@ -742,5 +703,3 @@ warning	src/track.ts	/^        warning(`Track ${trackPath} previously added -- s
 warning	src/track.ts	/^    warning(`Track "${updates.trackPath}" not in library -- not updating`);$/;"	m
 warning	src/util.ts	/^export const warning = (...args: any) => {$/;"	v
 width	src/layout.ts	/^  width: string, $/;"	m
-year	src/track.ts	/^    year: `${t.year ?? ''}`,$/;"	m
-year	src/track.ts	/^  year: string;$/;"	m
