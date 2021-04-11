@@ -39,7 +39,7 @@ ITrackInfo	src/track.ts	/^export interface ITrackInfo {$/;"	i
 ITrackUpdater	src/track.ts	/^export interface ITrackUpdater extends Partial<ITrack> {$/;"	i
 IUnaryOperationToken	src/extractor.ts	/^interface IUnaryOperationToken extends IToken {$/;"	i
 IUnaryOperatorToken	src/extractor.ts	/^interface IUnaryOperatorToken extends IOperatorToken {$/;"	i
-IValueToken	src/extractor.ts	/^interface IValueToken extends IToken {$/;"	i
+IValueToken	src/extractor.ts	/^export interface IValueToken extends IToken {$/;"	i
 Justification	src/util.ts	/^export type Justification = 'left' | 'center' | 'right';$/;"	t
 OpFunc	src/extractor.ts	/^type OpFunc = (context: unknown, operands: IValueToken[]) => unknown;$/;"	t
 Operation	src/extractor.ts	/^export enum Operation {$/;"	e
@@ -114,6 +114,7 @@ date	src/index.test.ts	/^  date: 'January 1, 1970',$/;"	m
 date	src/track.ts	/^    date: makeDateDisplay(t.date),$/;"	m
 date	src/track.ts	/^  date: string;$/;"	m
 dates	src/index.test.ts	/^  dates: ['1\/1\/2020', '1\/2\/2020'],$/;"	m
+dayjs	src/extractor.ts	/^            dayjs(typeof op1 === 'number' ? op1 * 1000 : op1).format('YYYY-MM-DD')$/;"	m
 debug	src/extractor.ts	/^  debug('Token chain', JSON.stringify(tokens, undefined, 2));$/;"	m
 debug	src/util.ts	/^export const debug = (...args: any[]) => {$/;"	v
 default	src/composer.ts	/^      default: 'OK',$/;"	m
@@ -143,6 +144,7 @@ doQuit	src/players/afplay.ts	/^function doQuit(key: IKey) {$/;"	f
 doResume	src/players/afplay.ts	/^function doResume(key: IKey) {$/;"	f
 doRewind	src/players/afplay.ts	/^function doRewind(key: IKey) {$/;"	f
 doUnaryArrayOperation	src/extractor.ts	/^    doUnaryArrayOperation(context, operands, (context, op1) =>$/;"	m
+doUnaryOperation	src/extractor.ts	/^    doUnaryOperation(context, operands, (context, op1) => {$/;"	m
 doUnaryOperation	src/extractor.ts	/^    doUnaryOperation(context, operands, (context, op1) =>$/;"	m
 duration	src/track.ts	/^    duration: p.format.duration,$/;"	m
 duration	src/track.ts	/^    duration: t.duration ? makeTime(t.duration * 1000) : '',$/;"	m
@@ -270,6 +272,14 @@ goodExtract	src/index.test.ts	/^goodExtract(`not all (arry = 'fred')`, true);$/;
 goodExtract	src/index.test.ts	/^goodExtract(`not all (date dates > date dates[1])`, true);$/;"	m
 goodExtract	src/index.test.ts	/^goodExtract(`not any (arry = 'betty')`, true);$/;"	m
 goodExtract	src/index.test.ts	/^goodExtract(`not any (arry = 'fred')`, false);$/;"	m
+goodExtract	src/index.test.ts	/^goodExtract(`shortDate '2021'`, '2021');$/;"	m
+goodExtract	src/index.test.ts	/^goodExtract(`shortDate 'Jan 1, 2020'`, '2020-01-01');$/;"	m
+goodExtract	src/index.test.ts	/^goodExtract(`shortDate date dates[0]`, '2020-01-01');$/;"	m
+goodExtract	src/index.test.ts	/^goodExtract(`shortDate dates[0]`, '1\/1\/2020');$/;"	m
+goodExtract	src/index.test.ts	/^goodExtract(`shortDur 1810`, '30:10');$/;"	m
+goodExtract	src/index.test.ts	/^goodExtract(`shortDur 3670`, '1:01:10');$/;"	m
+goodExtract	src/index.test.ts	/^goodExtract(`shortTime date dates[0]`, '2020 Jan 1');$/;"	m
+goodExtract	src/index.test.ts	/^goodExtract(`shortTime dates[0]`, '2020 Jan 1');$/;"	m
 goodParse	src/index.test.ts	/^goodParse('-1.23', {$/;"	m
 goodParse	src/index.test.ts	/^goodParse('1', {$/;"	m
 goodParse	src/index.test.ts	/^goodParse(`!Alice123.bob`, {$/;"	m
@@ -288,11 +298,11 @@ groupOperations	src/extractor.ts	/^      groupOperations([$/;"	m
 groupOperations	src/extractor.ts	/^      groupOperations(tokens.slice(2))$/;"	m
 groupOperations	src/extractor.ts	/^    groupOperations([$/;"	m
 grouping	src/stats.ts	/^    grouping: groups[0],$/;"	m
-grouping	src/stats.ts	/^  grouping: string, $/;"	m
-groups	src/stats.ts	/^    groups: addGroupStats(existing.grouping, existing.groups ?? {}, t, td, groups.slice(1)),$/;"	m
+grouping	src/stats.ts	/^  grouping: IValueToken, $/;"	m
+groups	src/stats.ts	/^    groups: addGroupStats(existing.grouping, existing.groups ?? {}, t, groups.slice(1)),$/;"	m
 groups	src/stats.ts	/^    groups: {} as Record<string, IGroupStats>,$/;"	m
+groups	src/stats.ts	/^  groups: IValueToken[]$/;"	m
 groups	src/stats.ts	/^  groups: Record<string, IGroupStats>, $/;"	m
-groups	src/stats.ts	/^  groups: string[]$/;"	m
 header	src/layout.ts	/^  header: string;         \/\/ Text for column header$/;"	m
 help	src/config.ts	/^  help: { sequence: 'h' },$/;"	m
 help	src/play.ts	/^      help: 'info on track\/composer',$/;"	m
@@ -312,6 +322,7 @@ if	src/composer.ts	/^  if (existingAliases.length > 0) {$/;"	m
 if	src/composer.ts	/^  if (index[name]) {$/;"	m
 if	src/composer.ts	/^  if (updates.aliases) {$/;"	m
 if	src/config.ts	/^  if (text.length < 1) {$/;"	m
+if	src/extractor.ts	/^      if (op1) {$/;"	m
 if	src/extractor.ts	/^  if (!(result.isAccepted() && result.isEos())) {$/;"	m
 if	src/extractor.ts	/^  if (operatorPriority[op1.operator] >= operatorPriority[op2.operator]) {$/;"	m
 if	src/extractor.ts	/^  if (tokens.length === 1) {$/;"	m
@@ -410,6 +421,7 @@ makeGroup	src/stats.ts	/^    makeGroup('Totals', groups)$/;"	m
 makeHelpText	src/keypress.ts	/^export const makeHelpText = (): string[] => {$/;"	v
 makeKeys	src/keypress.ts	/^export const makeKeys = (makers: IKeyMaker[]): IKeyMapping[] =>$/;"	v
 makeProgressBar	src/util.ts	/^export const makeProgressBar = (width: number, pct: number, text: string = '') => {$/;"	v
+makeTime	src/extractor.ts	/^        makeTime((typeof op1 === 'number' ? op1 : parseInt(`${op1}`,10)) * 1000) :$/;"	m
 makeTime	src/stats.ts	/^    makeTime(stats.playTime),$/;"	m
 makeTime	src/stats.ts	/^    makeTime(stats.totalTime), $/;"	m
 makeTime	src/util.ts	/^export const makeTime = (milli: number) => {$/;"	v
@@ -486,6 +498,7 @@ notifyInterval	src/asyncChild.ts	/^  notifyInterval: number = 1000$/;"	m
 notifyInterval	src/asyncChild.ts	/^  notifyInterval: number = 1000,$/;"	m
 numericLiteral	src/extractor.ts	/^  numericLiteral: () : IParser<INumericLiteralToken> =>$/;"	m
 nums	src/util.ts	/^      nums: (val || rem || op.d === 60) ? [ `0${val}`.substr(-2), ...accum.nums ] : accum.nums,$/;"	m
+op1	src/extractor.ts	/^            op1 : $/;"	m
 operand	src/extractor.ts	/^        operand: result.value[1]! as IValueToken,$/;"	m
 operand	src/extractor.ts	/^  operand: IValueToken;$/;"	m
 operand	src/index.test.ts	/^  operand: {$/;"	m
@@ -575,7 +588,7 @@ quitAfterTrack	src/config.ts	/^  quitAfterTrack: { sequence: 'Q' },$/;"	m
 reject	src/asyncChild.ts	/^        reject(new Error(result.error));$/;"	m
 reject	src/asyncChild.ts	/^      reject(error);$/;"	m
 reject	src/asyncChild.ts	/^    reject(err);$/;"	m
-remainingGroups	src/stats.ts	/^  remainingGroups: string[]$/;"	m
+remainingGroups	src/stats.ts	/^  remainingGroups: IValueToken[]$/;"	m
 removeDeleted	src/track.ts	/^export const removeDeleted = async () => {$/;"	v
 removeKey	src/keypress.ts	/^export const removeKey = (keyMapping: IKeyMapping) => {$/;"	v
 removeKeys	src/keypress.ts	/^export const removeKeys = (keys: IKeyMapping[]) =>$/;"	v
@@ -595,6 +608,7 @@ resolveBy	src/asyncChild.ts	/^  resolveBy: number = 0$/;"	m
 resume	src/config.ts	/^  resume: { sequence: 'r' },$/;"	m
 resume	src/keypress.ts	/^  resume();$/;"	m
 resume	src/keypress.ts	/^export const resume = () => active = true;$/;"	v
+return	src/extractor.ts	/^        return (Math.abs(now.diff(dt, 'years')) > 0) ?$/;"	m
 return	src/layout.ts	/^    return (maxWidth > 0 && maxWidth < text.length) ?$/;"	m
 return	src/track.ts	/^    return (Math.abs(now.diff(dt, 'years')) > 0) ?$/;"	m
 rewind	src/config.ts	/^  rewind: { sequence: 'R' },$/;"	m
@@ -634,7 +648,6 @@ t	src/layout.ts	/^  t: track.ITrackHydrated, $/;"	m
 t	src/stats.ts	/^  t: track.ITrackHydrated, $/;"	m
 t	src/stats.ts	/^  t: track.ITrackHydrated,$/;"	m
 t	src/track.ts	/^  t: ITrack, $/;"	m
-td	src/stats.ts	/^  td: track.ITrackDisplay, $/;"	m
 template	src/layout.ts	/^  template: string;       \/\/ lodash template against track.ITrackDisplay$/;"	m
 text	src/layout.ts	/^  text: string, $/;"	m
 text	src/segout.ts	/^    text: string,         \/\/ Text to add$/;"	m

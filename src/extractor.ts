@@ -1,7 +1,7 @@
 import { C, F, IParser, N, Response, Streams, Tuple, VoidParser } from '@masala/parser';
 import * as _ from 'lodash';
 import parseDuration from 'parse-duration';
-import { debug, error } from './util';
+import { debug, error, makeTime } from './util';
 
 const dayjs = require('dayjs');
 
@@ -25,6 +25,9 @@ export enum Operation {
   NotEquals = 'NotEquals',
   Or = 'Or',
   Plus = 'Plus',
+  ShortDate = 'ShortDate',
+  ShortDur = 'ShortDur',
+  ShortTime = 'ShortTime',
   Times = 'Times',
 }
 
@@ -45,7 +48,7 @@ interface IToken {
 interface IOperatorToken extends IToken {
 }
 
-interface IValueToken extends IToken {
+export interface IValueToken extends IToken {
 }
 
 interface IBinaryOperationToken extends IValueToken {
@@ -94,6 +97,9 @@ const unaryOperators: Record<string, Operation> = {
   ['dur ']: Operation.Duration,
   ['!']:  Operation.Not,
   ['not ']: Operation.Not,
+  ['shortDate ']: Operation.ShortDate,
+  ['shortDur ']: Operation.ShortDur,
+  ['shortTime ']: Operation.ShortTime,
 };
 
 const binaryOperators: Record<string, Operation> = {
@@ -139,6 +145,9 @@ const operatorPriority: Record<Operation, number> = {
   [Operation.NotEquals]: 2,
   [Operation.Or]: 1,
   [Operation.Plus]: 4,
+  [Operation.ShortDate]: 6,
+  [Operation.ShortDur]: 6,
+  [Operation.ShortTime]: 6,
   [Operation.Times]: 5,
 }
 
@@ -412,6 +421,38 @@ const opFunc: Record<Operation, OpFunc> = {
     doBinaryOperation(context, operands, (context, op1, op2) => 
       (op1 as any) + (op2 as any)),
 
+  [Operation.ShortDate]: (context, operands) =>
+    doUnaryOperation(context, operands, (context, op1) =>
+      op1 ?
+        (
+          (typeof op1 === 'string' && op1.length <= 8) ? 
+            op1 : 
+            dayjs(typeof op1 === 'number' ? op1 * 1000 : op1).format('YYYY-MM-DD')
+        ) : 
+        ''
+      ),
+
+  [Operation.ShortDur]: (context, operands) =>
+    doUnaryOperation(context, operands, (context, op1) =>
+      op1 ?
+        makeTime((typeof op1 === 'number' ? op1 : parseInt(`${op1}`,10)) * 1000) :
+        ''
+      ),
+
+  [Operation.ShortTime]: (context, operands) =>
+    doUnaryOperation(context, operands, (context, op1) => {
+      if (op1) {
+        const dt = dayjs(typeof op1 === 'number' ? op1 * 1000 : op1);
+        const now = dayjs();
+        return (Math.abs(now.diff(dt, 'years')) > 0) ?
+          dt.format('YYYY MMM D') :
+          (Math.abs(now.diff(dt, 'days')) > 0) ?
+            dt.format('MMM D') :
+            dt.format('h:mma');
+      }
+      return '';
+    }),
+      
   [Operation.Times]: (context, operands) =>
     doBinaryOperation(context, operands, (context, op1, op2) => 
       (op1 as any) * (op2 as any)),

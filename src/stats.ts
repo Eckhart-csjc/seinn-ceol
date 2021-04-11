@@ -1,4 +1,5 @@
 import * as composer from './composer';
+import { extract, IValueToken, parseExtractor } from './extractor';
 import * as track from './track';
 import { error, makeTime, padOrTruncate, print, printColumns, printLn } from './util';
 import * as _ from 'lodash';
@@ -12,7 +13,7 @@ interface IGroupStats {
   totalTime: number;
   totalPlays: number;
   playTime: number;
-  grouping?: string;
+  grouping?: IValueToken;
   groups?: Record<string, IGroupStats>;
 }
 
@@ -33,29 +34,28 @@ export const stats = (
   }
 ) => {
   const tracks = track.filter(options.where);
-  const groups = options.groupBy?.split(':') ?? [] as string[];
+  const groups = (options.groupBy?.split(':') ?? [] as string[])
+    .map((g) => parseExtractor(g))
+    .filter((g) => !!g) as IValueToken[];
   const composerIndex = composer.indexComposers();
   const orderBy = options.order ? (orders[options.order] ?? 'name') : 'name';
   const stats = tracks.reduce(
     (accum, t, ndx) => addStats(
       accum, 
       t, 
-      track.makeDisplay(track.hydrateTrack(t, composerIndex), ndx), 
       groups
     ), 
     makeGroup('Totals', groups)
   );
   const rows = [
-    [ `  ${groups.map(headerCaps).join('/')}`, `Tracks`, `Time`, `Plays`, `PlayTime`],
+    [ `  ${options.groupBy ?? ''}`, `Tracks`, `Time`, `Plays`, `PlayTime`],
     [],
     ...formatGroup(stats, orderBy, options.limit),
   ];
   printColumns(rows, ['left', 'right', 'right', 'right', 'right'], true);
 };
 
-const headerCaps = (text: string) => capitalize.words(text.replace(/([A-Z])/g, ' $1'));
-
-const makeGroup = (name: string, groups: string[]) => ({
+const makeGroup = (name: string, groups: IValueToken[]) => ({
   name,
   nTracks: 0,
   totalTime: 0,
@@ -70,8 +70,7 @@ const makeGroup = (name: string, groups: string[]) => ({
 const addStats = (
   existing: IGroupStats, 
   t: track.ITrackHydrated, 
-  td: track.ITrackDisplay, 
-  groups: string[]
+  groups: IValueToken[]
 ): IGroupStats => ({
   ...existing,
   nTracks: existing.nTracks + 1,
@@ -79,21 +78,20 @@ const addStats = (
   totalPlays: existing.totalPlays + t.plays,
   playTime: existing.playTime + (t.playTime ?? 0) * 1000,
   ...(existing.grouping ? {
-    groups: addGroupStats(existing.grouping, existing.groups ?? {}, t, td, groups.slice(1)),
+    groups: addGroupStats(existing.grouping, existing.groups ?? {}, t, groups.slice(1)),
   } : {}),
 });
 
 const addGroupStats = (
-  grouping: string, 
+  grouping: IValueToken, 
   groups: Record<string, IGroupStats>, 
   t: track.ITrackHydrated,
-  td: track.ITrackDisplay, 
-  remainingGroups: string[]
+  remainingGroups: IValueToken[]
 ) => {
-  const name = (td as unknown as Record<string, string>)[grouping];
+  const name = `${extract(t, grouping)}`;
   return name ? {
      ...groups,
-     [name] : addStats(groups[name] ?? makeGroup(name, remainingGroups), t, td, remainingGroups),
+     [name] : addStats(groups[name] ?? makeGroup(name, remainingGroups), t, remainingGroups),
   } : groups;
 };
 
