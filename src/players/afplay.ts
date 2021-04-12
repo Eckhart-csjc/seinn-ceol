@@ -2,7 +2,16 @@ import { spawnWithProgress } from '../asyncChild';
 import { IKey, IKeyMaker, IKeyMapping } from '../keypress';
 import * as keypress from '../keypress';
 import { ITrack } from '../track';
-import { error, makeProgressBar, makeTime, print, printLn, warning } from '../util';
+import { 
+  addProgressSuffix,
+  error, 
+  makeProgressBar, 
+  makeTime, 
+  print, 
+  printLn, 
+  removeProgressSuffix,
+  warning 
+} from '../util';
 
 const execPromise = require('child-process-promise').exec;
 
@@ -54,8 +63,7 @@ function doPause(key: IKey) {
   }
   killPlayer();
   playState.beginPause = Date.now();
-  print(' [PAUSED]', 'paused');
-  process.stdout.cursorTo(0);
+  addProgressSuffix('- Paused');
 }
 
 function doQuit(key: IKey) {
@@ -126,9 +134,6 @@ const doPlay = async (track:ITrack, earlyReturn: number = 0, offset: number = 0)
     `/usr/bin/afplay`, 
     [`-q`,`1`, startOffset ? TMP_TRACKPATH : track.trackPath], 
     (elapsed: number) => {
-      if (playState.beginPause) {
-        return;
-      }
       const netElapsed = elapsed + offset - playState.paused;
       const pct = netElapsed / total;
       print(' ');
@@ -146,6 +151,7 @@ const doPlay = async (track:ITrack, earlyReturn: number = 0, offset: number = 0)
           return;                   // Still paused
         }
         clearInterval(timer);       // No more polling
+        removeProgressSuffix('- Paused');
         const newOffset = (Date.now() - startPlay) + offset - playState.paused;
         if (!playState.killed) {    // If not killed, assume resume
           await doPlay(track, earlyReturn, newOffset);

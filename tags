@@ -55,6 +55,7 @@ add	src/track.ts	/^export const add = async (tracks:string[], options: { noError
 addAll	src/track.ts	/^export const addAll = async (directory: string, options: { noError: boolean, noWarn: boolean }) => $/;"	v
 addKey	src/keypress.ts	/^export const addKey = (keyMapping: IKeyMapping) => {$/;"	v
 addKeys	src/keypress.ts	/^export const addKeys = (keys: IKeyMapping[]) =>$/;"	v
+addProgressSuffix	src/players/afplay.ts	/^  addProgressSuffix('- Paused');$/;"	m
 addProgressSuffix	src/playlist.ts	/^      addProgressSuffix(makeAfterMsg('pause'));$/;"	m
 addProgressSuffix	src/playlist.ts	/^      addProgressSuffix(makeAfterMsg('quit'));$/;"	m
 addProgressSuffix	src/util.ts	/^export const addProgressSuffix = (suffix: string) => barSuffix += suffix;$/;"	v
@@ -324,7 +325,6 @@ if	src/play.ts	/^  if (played) {$/;"	m
 if	src/play.ts	/^  if (typeof track === 'string') {$/;"	m
 if	src/players/afplay.ts	/^        if (!playState.killed) {    \/\/ If not killed, assume resume$/;"	m
 if	src/players/afplay.ts	/^        if (playState.beginPause) {$/;"	m
-if	src/players/afplay.ts	/^      if (playState.beginPause) {$/;"	m
 if	src/players/afplay.ts	/^    if (playState.rewind) {$/;"	m
 if	src/players/afplay.ts	/^  if (!playState.beginPause) {$/;"	m
 if	src/players/afplay.ts	/^  if (memoizedCanPause === undefined) {$/;"	m
@@ -463,6 +463,7 @@ notification	src/track.ts	/^    notification(d ?$/;"	m
 notification	src/track.ts	/^    notification(tags);$/;"	m
 notification	src/track.ts	/^  notification(_.pick(track, ['title', 'album', 'artists', 'trackPath']));$/;"	m
 notification	src/util.ts	/^export const notification = (...args: any) => {$/;"	v
+notify	src/asyncChild.ts	/^    notify();$/;"	m
 notifyFunc	src/asyncChild.ts	/^    notifyFunc(elapsed);$/;"	m
 notifyFunc	src/asyncChild.ts	/^  notifyFunc: (elapsed: number) => void | Promise<void>, $/;"	m
 notifyInterval	src/asyncChild.ts	/^  notifyInterval: number = 1000$/;"	m
@@ -534,7 +535,6 @@ plays	src/track.ts	/^  plays: number;$/;"	m
 previousTrack	src/config.ts	/^  previousTrack: { sequence: 'k' },$/;"	m
 print	src/players/afplay.ts	/^      print(' ');$/;"	m
 print	src/players/afplay.ts	/^      print(makeProgressBar(barWidth, pct,$/;"	m
-print	src/players/afplay.ts	/^  print(' [PAUSED]', 'paused');$/;"	m
 print	src/playlist.ts	/^      print(padOrTruncate(' Paused', process.stdout.columns, 'center'), 'paused');$/;"	m
 print	src/segout.ts	/^        print(sep, sepTheme);$/;"	m
 print	src/segout.ts	/^      print(prefix, prefixTheme);$/;"	m
@@ -559,6 +559,7 @@ remainingGroups	src/stats.ts	/^  remainingGroups: IValueToken[]$/;"	m
 removeDeleted	src/track.ts	/^export const removeDeleted = async () => {$/;"	v
 removeKey	src/keypress.ts	/^export const removeKey = (keyMapping: IKeyMapping) => {$/;"	v
 removeKeys	src/keypress.ts	/^export const removeKeys = (keys: IKeyMapping[]) =>$/;"	v
+removeProgressSuffix	src/players/afplay.ts	/^        removeProgressSuffix('- Paused');$/;"	m
 removeProgressSuffix	src/playlist.ts	/^        removeProgressSuffix(makeAfterMsg('pause'));$/;"	m
 removeProgressSuffix	src/playlist.ts	/^        removeProgressSuffix(makeAfterMsg('quit'));$/;"	m
 removeProgressSuffix	src/playlist.ts	/^      removeProgressSuffix(makeAfterMsg('pause'));$/;"	m
