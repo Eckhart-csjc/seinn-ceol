@@ -55,7 +55,7 @@ add	src/track.ts	/^export const add = async (tracks:string[], options: { noError
 addAll	src/track.ts	/^export const addAll = async (directory: string, options: { noError: boolean, noWarn: boolean }) => $/;"	v
 addKey	src/keypress.ts	/^export const addKey = (keyMapping: IKeyMapping) => {$/;"	v
 addKeys	src/keypress.ts	/^export const addKeys = (keys: IKeyMapping[]) =>$/;"	v
-addProgressSuffix	src/players/afplay.ts	/^  addProgressSuffix('- Paused');$/;"	m
+addProgressSuffix	src/players/afplay.ts	/^  addProgressSuffix(PAUSED);$/;"	m
 addProgressSuffix	src/playlist.ts	/^      addProgressSuffix(makeAfterMsg('pause'));$/;"	m
 addProgressSuffix	src/playlist.ts	/^      addProgressSuffix(makeAfterMsg('quit'));$/;"	m
 addProgressSuffix	src/util.ts	/^export const addProgressSuffix = (suffix: string) => barSuffix += suffix;$/;"	v
@@ -559,7 +559,7 @@ remainingGroups	src/stats.ts	/^  remainingGroups: IValueToken[]$/;"	m
 removeDeleted	src/track.ts	/^export const removeDeleted = async () => {$/;"	v
 removeKey	src/keypress.ts	/^export const removeKey = (keyMapping: IKeyMapping) => {$/;"	v
 removeKeys	src/keypress.ts	/^export const removeKeys = (keys: IKeyMapping[]) =>$/;"	v
-removeProgressSuffix	src/players/afplay.ts	/^        removeProgressSuffix('- Paused');$/;"	m
+removeProgressSuffix	src/players/afplay.ts	/^        removeProgressSuffix(PAUSED);$/;"	m
 removeProgressSuffix	src/playlist.ts	/^        removeProgressSuffix(makeAfterMsg('pause'));$/;"	m
 removeProgressSuffix	src/playlist.ts	/^        removeProgressSuffix(makeAfterMsg('quit'));$/;"	m
 removeProgressSuffix	src/playlist.ts	/^      removeProgressSuffix(makeAfterMsg('pause'));$/;"	m

@@ -30,6 +30,7 @@ const playState: IPlayState = {
 };
 
 const TMP_TRACKPATH = '/tmp/seinn-ceol-sample.m4a';
+const PAUSED  = ' - Paused';
 
 let memoizedCanPause: boolean | undefined = undefined;
 const canPause = async () => {
@@ -63,7 +64,7 @@ function doPause(key: IKey) {
   }
   killPlayer();
   playState.beginPause = Date.now();
-  addProgressSuffix('- Paused');
+  addProgressSuffix(PAUSED);
 }
 
 function doQuit(key: IKey) {
@@ -151,7 +152,7 @@ const doPlay = async (track:ITrack, earlyReturn: number = 0, offset: number = 0)
           return;                   // Still paused
         }
         clearInterval(timer);       // No more polling
-        removeProgressSuffix('- Paused');
+        removeProgressSuffix(PAUSED);
         const newOffset = (Date.now() - startPlay) + offset - playState.paused;
         if (!playState.killed) {    // If not killed, assume resume
           await doPlay(track, earlyReturn, newOffset);
