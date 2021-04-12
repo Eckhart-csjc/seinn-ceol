@@ -4,69 +4,69 @@
     "columns": [
       {
         "header": "#",
-        "template": "${index}",
+        "extractor": "index",
         "width": "3%",
         "justification": "right"
       },
       {
         "header": "Composer",
-        "template": "${composer}",
+        "extractor": "composer",
         "width": "14%"
       },
       {
         "header": "Born",
-        "template": "${composerBorn}",
+        "extractor": "shortDate composerDetail.born",
         "width": "5.6%",
         "justification": "center"
       },
       {
         "header": "Died",
-        "template": "${composerDied}",
+        "extractor": "shortDate composerDetail.died",
         "width": "5.6%",
         "justification": "center"
       },
       {
         "header": "Title",
-        "template": "${title}",
+        "extractor": "title",
         "width": "25%"
       },
       {
         "header": "Artist",
-        "template": "${artists}",
+        "extractor": "artists",
         "width": "10%"
       },
       {
         "header": "Album",
-        "template": "${album}",
+        "extractor": "album",
         "width": "18%"
       },
       {
         "header": "Disk",
-        "template": "${disk}",
+        "extractor": "(disk || '') + '/' + (nDisks || '')",
         "width": "3%",
         "justification": "center"
       },
       {
         "header": "Track",
-        "template": "${track}",
+        "extractor": "(track || '') + '/' + (nTracks || '')",
         "width": "4%",
         "justification": "center"
       },
       {
         "header": "Time",
-        "template": "${duration}",
+        "extractor": "shortDur duration",
         "width": "3%",
         "justification": "right"
       },
       {
         "header": "Plays",
-        "template": "${plays}",
+        "extractor": "plays || '0'",
         "width": "3%",
         "justification": "right"
       },
       {
         "header": "Last played",
-        "template": "${lastPlayed}",
+        "extractor": "shortTime lastPlayed",
         "width": "6%",
         "justification": "right"
       }

@@ -8,10 +8,10 @@
       "date composerDetail.died",
       "composerDetail.name",
       "album",
-      "disk",
+      "disk or 1",
       "track"
     ],
-    "current": "/Users/eckhart/Music/iTunes/iTunes Media/Music/Philharmonia Hungarica & Antal Doráti/Haydn_ The Complete Symphonies/24-11 Symphony in G Minor, H. I_83 -_La Poule__ III. Menuet (Allegretto).m4a"
+    "current": "/Users/eckhart/Music/iTunes/iTunes Media/Music/Edo de Waart/The Complete Mozart Edition_ The Wind Serenades & Divertimenti, Vol. 3/09 Divertimento in B-Flat, K. 439b No. 3 (App. 229)_ I. Allegro.m4a"
   },
   {
     "name": "familyBach",
@@ -23,7 +23,7 @@
       "date composerDetail.died",
       "composerDetail.name",
       "album",
-      "disk",
+      "disk or 1",
       "track"
     ],
     "current": "/Users/eckhart/Music/iTunes/iTunes Media/Music/Richard Purvis/A Richard Purvis Organ Recital In Grace Cathedral, Vol. I (Remastered)/02 Arioso.m4a"
@@ -38,7 +38,7 @@
       "date composerDetail.died",
       "composerDetail.name",
       "album",
-      "disk",
+      "disk or 1",
       "track"
     ],
     "current": "/Users/eckhart/Music/iTunes/iTunes Media/Music/Ede Inhoff_ Hungarian State Chamber Orchestra/Baroque Trumpet Concerti/27 Sonata for Trumpet, Strings and Basso Continuo - Overture (Georg Friedrich Handel).m4a"

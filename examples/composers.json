@@ -663,8 +663,7 @@
   },
   {
     "name": "John Blow",
-    "aliases": [
-    ],
+    "aliases": [],
     "born": "2/23/1648",
     "died": "10/01/1708"
   },
@@ -867,8 +866,7 @@
   },
   {
     "name": "Thomas Augustine Arne",
-    "aliases": [
-    ],
+    "aliases": [],
     "born": "3/12/1710",
     "died": "3/05/1778"
   },
@@ -953,8 +951,7 @@
   },
   {
     "name": "Johann Sebastian Bach",
-    "aliases": [
-    ],
+    "aliases": [],
     "born": "3/21/1685",
     "died": "7/28/1750"
   },
@@ -2258,8 +2255,7 @@
   },
   {
     "name": "Maurice Greene",
-    "aliases": [
-    ],
+    "aliases": [],
     "born": "8/12/1696",
     "died": "12/01/1755"
   },
@@ -2443,8 +2439,7 @@
   },
   {
     "name": "Johann Christian Bach",
-    "aliases": [
-    ],
+    "aliases": [],
     "born": "9/05/1735",
     "died": "1/01/1782"
   },
@@ -3020,7 +3015,9 @@
   },
   {
     "name": "Carl Maria Friedrich Ernst, Freiherr von Weber",
-    "aliases": [],
+    "aliases": [
+      "Carl Maria von Weber"
+    ],
     "born": "11/18/1786",
     "died": "6/05/1826"
   },
@@ -3316,8 +3313,7 @@
   },
   {
     "name": "Ludwig van Beethoven",
-    "aliases": [
-    ],
+    "aliases": [],
     "born": "12/15/1770",
     "died": "3/26/1827"
   },
@@ -4012,8 +4008,7 @@
   },
   {
     "name": "Jeremiah Clarke",
-    "aliases": [
-    ],
+    "aliases": [],
     "born": "1674",
     "died": "12/01/1707"
   },
@@ -5132,8 +5127,7 @@
   },
   {
     "name": "Anton Webern",
-    "aliases": [
-    ],
+    "aliases": [],
     "born": "December 3, 1883",
     "died": "September 15, 1945"
   },
@@ -5177,8 +5171,7 @@
   },
   {
     "name": "Biagio Marini",
-    "aliases": [
-    ],
+    "aliases": [],
     "born": "February 5, 1594",
     "died": "March 20, 1663"
   },
@@ -5840,15 +5833,13 @@
   },
   {
     "name": "Richard Jones",
-    "aliases": [
-    ],
+    "aliases": [],
     "born": "1680",
     "died": "January 20, 1744"
   },
   {
     "name": "William Croft",
-    "aliases": [
-    ],
+    "aliases": [],
     "born": "December 30, 1678",
     "died": "August 14, 1727"
   },
@@ -5866,8 +5857,7 @@
   },
   {
     "name": "Johannes Ockeghem",
-    "aliases": [
-    ],
+    "aliases": [],
     "born": "1410 ?",
     "died": "February 6, 1497"
   },
