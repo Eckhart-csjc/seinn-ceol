@@ -364,8 +364,9 @@ if	src/util.ts	/^  if (!totalWidth) {$/;"	m
 if	src/util.ts	/^  if (process.env.DEBUG) {$/;"	m
 if	src/util.ts	/^  if (result.nums[0]?.startsWith('0')) {$/;"	m
 if	src/util.ts	/^  if (totalWidth > process.stdout.columns) {$/;"	m
-indent	src/stats.ts	/^  indent: number = 0$/;"	m
+indent	src/stats.ts	/^  indent: number = 0,$/;"	m
 indexComposers	src/composer.ts	/^export const indexComposers = (composers?: IComposer[]) => $/;"	v
+indexPad	src/stats.ts	/^  indexPad: number = 0,$/;"	m
 info	src/config.ts	/^  info: { sequence: 'i' },$/;"	m
 info	src/track.ts	/^export const info = async (track:string) => {$/;"	v
 init	src/keypress.ts	/^export const init = (log: boolean = false) => {$/;"	v

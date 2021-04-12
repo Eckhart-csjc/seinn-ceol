@@ -15,6 +15,7 @@ interface IGroupStats {
   playTime: number;
   grouping?: IValueToken;
   groups?: Record<string, IGroupStats>;
+  index?: number;
 }
 
 const orders: Record<string, keyof IGroupStats> = {
@@ -34,12 +35,12 @@ export const stats = (
   }
 ) => {
   const tracks = track.filter(options.where);
-  const groups = (options.groupBy?.split(':') ?? [] as string[])
+  const groups: IValueToken[] = (options.groupBy?.split(':') ?? [] as string[])
     .map((g) => parseExtractor(g))
     .filter((g) => !!g) as IValueToken[];
   const composerIndex = composer.indexComposers();
   const orderBy = options.order ? (orders[options.order] ?? 'name') : 'name';
-  const stats = tracks.reduce(
+  const stats = tracks.reduce<IGroupStats>(
     (accum, t, ndx) => addStats(
       accum, 
       t, 
@@ -48,7 +49,7 @@ export const stats = (
     makeGroup('Totals', groups)
   );
   const rows = [
-    [ `  ${options.groupBy ?? ''}`, `Tracks`, `Time`, `Plays`, `PlayTime`],
+    [ `Rank ${options.groupBy ?? ''}`, `Tracks`, `Time`, `Plays`, `PlayTime`],
     [],
     ...formatGroup(stats, orderBy, options.limit),
   ];
@@ -102,10 +103,13 @@ const formatGroup = (
   stats: IGroupStats, 
   orderBy: keyof IGroupStats, 
   limit: number = 0,
-  indent: number = 0
+  indent: number = 0,
+  indexPad: number = 0,
 ): string[][] => {
   const base = [ 
-    ' '.repeat(indent) + stats.name, 
+    ' '.repeat(indent) +
+      `${stats.index ?? ''}`.padStart(indexPad,' ') +
+      ` ${stats.name}`, 
     `${stats.nTracks}`, 
     makeTime(stats.totalTime), 
     `${stats.totalPlays}`,
@@ -118,8 +122,12 @@ const formatGroup = (
       [ (orderBy === 'name') ? 'asc' : 'desc']
     )
     .slice(0, limit || Infinity)
+    .map((s, index) => ({ ...s, index: index + 1 }))
     .reduce(
-      (accum, group) => [ ...accum, ...formatGroup(group, orderBy, limit, indent + 2) ],
+      (accum, group, ndx, arry) => [ 
+        ...accum, 
+        ...formatGroup(group, orderBy, limit, indent + indexPad + 1, `${arry.length}`.length) 
+      ],
       [ base ]
     ) 
   : [ base ];
