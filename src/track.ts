@@ -137,6 +137,8 @@ export const maybeCorrectTrack = (t: ITrack) => {
       [ parseInt(m1[1], 10), parseInt(m1[2], 10) ] :
       [ t.nDisks ? 1 : undefined, parseInt(m1[1], 10) ]
   ) : [ (t.disk ?? (t.nDisks ? 1 : undefined)), (t.track ?? 1) ];
+  const composer = removeDupNames(t.composer);
+  const artists = removeDupNames(t.artists);
   if (d != t.disk || tr != t.track) {
     notification(d ?
       `${basename}: correcting disk:track from ${t.disk}:${t.track} to ${d}:${tr}` :
@@ -145,17 +147,30 @@ export const maybeCorrectTrack = (t: ITrack) => {
       ...t,
       disk: d,
       track: tr,
+      composer,
+      artists,
     }
   }
-  return t;
+  return {
+    ...t,
+    composer,
+    artists,
+  };
 }
+
+// Some m4a sources provide conposer and artist names duplicated with &
+const removeDupNames = (names?: string[]) =>
+  names &&
+    _.uniq(
+      names.map((n) => (n.match(/^([A-Z].*) & \1$/))?.[1] ?? n)
+    );
 
 export const makeTrack = async (trackPath: string, info?: ITrackInfo): Promise<ITrack> => {
   const trackInfo = info ?? await getInfo(trackPath);
   return maybeCorrectTrack({
     trackPath,
     ...trackInfo,
-    composerKey: _.uniq(trackInfo.composer ?? []).join(' & ') || undefined,
+    composerKey: _.uniq(removeDupNames(trackInfo.composer ?? [])).join(' & ') || undefined,
     plays: 0,
   });
 };

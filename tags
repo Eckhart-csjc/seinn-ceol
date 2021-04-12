@@ -88,7 +88,7 @@ clearTimeout	src/asyncChild.ts	/^      clearTimeout(resolveTimer);$/;"	m
 cmd	src/asyncChild.ts	/^  cmd: string, $/;"	m
 column	src/layout.ts	/^  column: ILayoutColumn, $/;"	m
 composer	src/index.test.ts	/^  composer: 'Johann Sebastian Bach',$/;"	m
-composerKey	src/track.ts	/^    composerKey: _.uniq(trackInfo.composer ?? []).join(' & ') || undefined,$/;"	m
+composerKey	src/track.ts	/^    composerKey: _.uniq(removeDupNames(trackInfo.composer ?? [])).join(' & ') || undefined,$/;"	m
 constructor	src/array-file-handler.ts	/^  constructor (baseFilename: string, pathOverride?: string) {$/;"	m
 constructor	src/file-handler.ts	/^  constructor (public baseFilename: string, public pathOverride?: string) {$/;"	m
 constructor	src/segout.ts	/^  constructor() {$/;"	m
