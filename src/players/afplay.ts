@@ -47,8 +47,8 @@ const canPause = async () => {
 }
 
 const makePlayKeys = async () => keypress.makeKeys([
-  { name: 'quit', func: doQuit },
-  { name: 'rewind', func: doRewind, help: 'rewind current track' },
+  { name: 'quit', func: doQuit, help: 'quit' },
+  { name: 'rewind', func: doRewind, help: 'rewind track' },
   ...((await canPause()) ? 
     [
       { name: 'pause', func: doPause, help: 'pause' },

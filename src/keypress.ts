@@ -116,5 +116,5 @@ export const makeHelpText = (): string[] => {
     );
   return Object.keys(byKey)
     .sort()
-    .map((k) => `${k} - ${byKey[k].map((km) => km.help).join(' & ')}`);
+    .map((k) => `${k} - ${_.uniq(byKey[k].map((km) => km.help)).join(' & ')}`);
 };

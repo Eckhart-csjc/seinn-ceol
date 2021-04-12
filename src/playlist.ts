@@ -214,9 +214,9 @@ const doPlayList = async (name: string, plays: number, nextTrack?: track.ITrackH
   const playListKeys = keypress.makeKeys([
     { name: 'nextTrack', func: doNext, help: 'next track' },
     { name: 'previousTrack', func: doPrevious, help: 'previous track' },
-    { name: 'resume', func: doResume, help: 'resume play'},
-    { name: 'quitAfterTrack', func: doQuitAfter, help: 'quit after current track' },
-    { name: 'pauseAfterTrack', func: doPauseAfter, help: 'pause after current track' },
+    { name: 'resume', func: doResume, help: 'resume'},
+    { name: 'quitAfterTrack', func: doQuitAfter, help: 'quit at end of track' },
+    { name: 'pauseAfterTrack', func: doPauseAfter, help: 'pause at end of track' },
     { name: 'stop', func: doStop, help: 'stop playing' },
   ]);
   keypress.addKeys(playListKeys);
