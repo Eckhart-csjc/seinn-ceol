@@ -288,6 +288,7 @@ help	src/track.ts	/^        help: 'stop playing'$/;"	m
 hydrateTrack	src/track.ts	/^export const hydrateTrack = ($/;"	v
 identifier	src/extractor.ts	/^  identifier: () : IParser<IIdentifierToken> => $/;"	m
 if	src/asyncChild.ts	/^      if (result.error) {$/;"	m
+if	src/asyncChild.ts	/^    if (finalNotify) {$/;"	m
 if	src/asyncChild.ts	/^    if (resolveTimer) {$/;"	m
 if	src/composer.ts	/^      if (composer) {$/;"	m
 if	src/composer.ts	/^    if (existingAliases.length > 0) {$/;"	m
@@ -463,7 +464,8 @@ notification	src/track.ts	/^    notification(d ?$/;"	m
 notification	src/track.ts	/^    notification(tags);$/;"	m
 notification	src/track.ts	/^  notification(_.pick(track, ['title', 'album', 'artists', 'trackPath']));$/;"	m
 notification	src/util.ts	/^export const notification = (...args: any) => {$/;"	v
-notify	src/asyncChild.ts	/^    notify();$/;"	m
+notify	src/asyncChild.ts	/^      notify();$/;"	m
+notifyFinal	src/asyncChild.ts	/^    notifyFinal();$/;"	m
 notifyFunc	src/asyncChild.ts	/^    notifyFunc(elapsed);$/;"	m
 notifyFunc	src/asyncChild.ts	/^  notifyFunc: (elapsed: number) => void | Promise<void>, $/;"	m
 notifyInterval	src/asyncChild.ts	/^  notifyInterval: number = 1000$/;"	m

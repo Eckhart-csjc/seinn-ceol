@@ -39,14 +39,21 @@ export const spawnWithProgress = async (
     notifyFunc(elapsed);
   };
   const timer = setInterval(notify, notifyInterval);
+  let finalNotify = true;
+  const notifyFinal = () => {
+    if (finalNotify) {
+      finalNotify = false;
+      notify();
+    }
+  };
   const resolveTimer = resolveBy ? setTimeout(() => {
-    notify();
+    notifyFinal();
     clearInterval(timer);
     resolve();
   }, resolveBy) : undefined;
   const p = spawn(cmd, args, { stdio: 'ignore' });
   p.on('close', () => {
-    notify();
+    notifyFinal();
     clearInterval(timer);
     if (resolveTimer) {
       clearTimeout(resolveTimer);
@@ -54,7 +61,7 @@ export const spawnWithProgress = async (
     resolve();
   });
   p.on('error', (err: Error) => {
-    notify();
+    notifyFinal();
     clearInterval(timer);
     if (resolveTimer) {
       clearTimeout(resolveTimer);
