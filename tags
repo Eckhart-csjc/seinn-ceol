@@ -503,6 +503,7 @@ operator	src/index.test.ts	/^    operator: Operation.Or,$/;"	m
 operator	src/index.test.ts	/^  operator: {$/;"	m
 optSpace	src/extractor.ts	/^  optSpace: (): VoidParser =>$/;"	m
 options	src/stats.ts	/^  options: {$/;"	m
+opus	src/track.ts	/^      opus: parseOpus(t.title),$/;"	m
 orderBy	src/playlist.ts	/^  orderBy: string[];      \/\/ ITrackHydrated keys for order of play$/;"	m
 orderBy	src/stats.ts	/^  orderBy: keyof IGroupStats, $/;"	m
 output	src/util.ts	/^  output: string[][], $/;"	m
@@ -515,6 +516,7 @@ parenthesizedExpression	src/extractor.ts	/^  parenthesizedExpression: (): IParse
 parse	src/extractor.ts	/^export const parse = (input: string): Response<IValueToken> => $/;"	v
 parseDuration	src/extractor.ts	/^import parseDuration from 'parse-duration';$/;"	I
 parseExtractor	src/extractor.ts	/^export const parseExtractor = (input: string): IValueToken | undefined => {$/;"	v
+parseOpus	src/track.ts	/^export const parseOpus = (title?: string): number|undefined => {$/;"	v
 pause	src/config.ts	/^  pause: { sequence: 'p' },$/;"	m
 pauseAfterTrack	src/config.ts	/^  pauseAfterTrack: { sequence: 'P' },$/;"	m
 paused	src/players/afplay.ts	/^  paused: 0,$/;"	m

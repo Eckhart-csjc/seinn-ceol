@@ -50,6 +50,7 @@ export interface ITrack extends ITrackInfo {
 
 export interface ITrackHydrated extends ITrack {
   composerDetail?: IComposer;
+  opus?: number;        // Parsed from track title
   playTime?: number;
   index?: number;       // Added by sort
 }
@@ -131,8 +132,8 @@ export const getInfo = async (track:string) : Promise<ITrackInfo> => {
 
 export const maybeCorrectTrack = (t: ITrack) => {
   const basename = path.basename(t.trackPath);
-  const m1 = basename.match(/^(\d*)(?:-(\d*))? /);
-  const [d, tr] = m1 ? (
+    const m1 = basename.match(/^(\d*)(?:-(\d*))? /);
+    const [d, tr] = m1 ? (
     m1[2] ?
       [ parseInt(m1[1], 10), parseInt(m1[2], 10) ] :
       [ t.nDisks ? 1 : undefined, parseInt(m1[1], 10) ]
@@ -235,6 +236,11 @@ export const bumpPlays = (trackPath: string) => {
   }
 };
 
+export const parseOpus = (title?: string): number|undefined => {
+  const match = title?.match(/\bOp(\.?|us)\s*(\d+)/i);
+  return match ? parseInt(match[2], 10) : undefined;
+};
+
 export const hydrateTrack = (
   t: ITrack, 
   composerIndex?: Record<string, IComposer>
@@ -245,6 +251,7 @@ export const hydrateTrack = (
     return {
       ...t,
       composerDetail,
+      opus: parseOpus(t.title),
       playTime: t.duration ? (t.plays * t.duration) : undefined,
     };
 };

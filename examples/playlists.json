@@ -7,11 +7,12 @@
       "date (composerDetail.born or compositionDate)",
       "date composerDetail.died",
       "composerDetail.name",
+      "opus",
       "album",
       "disk or 1",
       "track"
     ],
-    "current": "/Users/eckhart/Music/iTunes/iTunes Media/Music/Edo de Waart/The Complete Mozart Edition_ The Wind Serenades & Divertimenti, Vol. 3/09 Divertimento in B-Flat, K. 439b No. 3 (App. 229)_ I. Allegro.m4a"
+    "current": "/Users/eckhart/Music/iTunes/iTunes Media/Music/Maurizio Pollini, Berlin Philharmonic & Claudio Abbado/Beethoven_ the Piano Concertos; Concerto for Piano, Violin & Cello, Op. 56/2-04 Piano Concerto No. 4 in G, Op. 58_ I. Allegro Moderato - Cadenza_ Ludwig Van Beethoven.m4a"
   },
   {
     "name": "familyBach",
@@ -22,6 +23,7 @@
       "date (composerDetail.born or compositionDate)",
       "date composerDetail.died",
       "composerDetail.name",
+      "opus",
       "album",
       "disk or 1",
       "track"
@@ -37,6 +39,7 @@
       "date (composerDetail.born or compositionDate)",
       "date composerDetail.died",
       "composerDetail.name",
+      "opus",
       "album",
       "disk or 1",
       "track"
