@@ -1,7 +1,7 @@
 import * as composer from './composer';
 import { extract, IValueToken, parseExtractor } from './extractor';
 import * as track from './track';
-import { error, makeTime, padOrTruncate, print, printColumns, printLn } from './util';
+import { error, makeString, makeTime, padOrTruncate, print, printColumns, printLn } from './util';
 import * as _ from 'lodash';
 
 const capitalize = require('capitalize');
@@ -89,10 +89,7 @@ const addGroupStats = (
   t: track.ITrackHydrated,
   remainingGroups: IValueToken[]
 ) => {
-  const result = extract(t, grouping);
-  const name = (result != null) ?
-    (Array.isArray(result) ? result.map((e) => `${e}`).join(' & ') : `${result}`) :
-    '';
+  const name = makeString(extract(t, grouping));
   return name ? {
      ...groups,
      [name] : addStats(groups[name] ?? makeGroup(name, remainingGroups), t, remainingGroups),

@@ -7,6 +7,7 @@ import * as track from './track';
 import { 
   addProgressSuffix,
   Justification, 
+  makeString,
   padOrTruncate, 
   warning 
 } from './util';
@@ -113,12 +114,7 @@ const formatColumn = (
 ) => {
   try {
     const parser = parseExtractor(column.extractor);
-    const result = parser && extract(track, parser);
-    const text = (result != null) ?
-      (Array.isArray(result) ?
-        result.map((e) => `${e}`).join(' & ') :
-        `${result}`) :
-      '';
+    const text = makeString(parser && extract(track, parser));
     return setWidth(text, column.width ?? '', sepLength, column.justification);
   } catch (e) {
     return 'ERR!';

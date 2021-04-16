@@ -393,6 +393,7 @@ makeGroup	src/stats.ts	/^    makeGroup('Totals', groups)$/;"	m
 makeHelpText	src/keypress.ts	/^export const makeHelpText = (): string[] => {$/;"	v
 makeKeys	src/keypress.ts	/^export const makeKeys = (makers: IKeyMaker[]): IKeyMapping[] =>$/;"	v
 makeProgressBar	src/util.ts	/^export const makeProgressBar = (width: number, pct: number, text: string = '') => {$/;"	v
+makeString	src/util.ts	/^export const makeString = (input: unknown) =>$/;"	v
 makeTime	src/extractor.ts	/^        makeTime((typeof op1 === 'number' ? op1 : parseInt(`${op1}`,10)) * 1000) :$/;"	m
 makeTime	src/stats.ts	/^    makeTime(stats.playTime),$/;"	m
 makeTime	src/stats.ts	/^    makeTime(stats.totalTime), $/;"	m
