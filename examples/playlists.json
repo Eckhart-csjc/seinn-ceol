@@ -1,22 +1,24 @@
 [
   {
     "name": "composersByBirth",
-    "trackOverlap": 1500,
+    "trackOverlap": 3000,
     "layout": "composer",
     "orderBy": [
       "date (composerDetail.born or compositionDate)",
       "date composerDetail.died",
       "composerDetail.name",
       "opus",
+      "catalogs[0].index",
+      "catalogs[0].n",
       "album",
       "disk or 1",
       "track"
     ],
-    "current": "/Users/eckhart/Music/iTunes/iTunes Media/Music/Maurizio Pollini, Berlin Philharmonic & Claudio Abbado/Beethoven_ the Piano Concertos; Concerto for Piano, Violin & Cello, Op. 56/2-04 Piano Concerto No. 4 in G, Op. 58_ I. Allegro Moderato - Cadenza_ Ludwig Van Beethoven.m4a"
+    "current": "/Users/eckhart/Music/iTunes/iTunes Media/Music/Suske Quartet/Beethoven_ Complete String Quartets/71 String Quartet No. 16 in F Major, Op. 135_ III. Lento assai, cantante e tranquillo.m4a"
   },
   {
     "name": "familyBach",
-    "trackOverlap": 1500,
+    "trackOverlap": 3000,
     "layout": "composer",
     "where": "composerDetail.name =~ '\\\\bBach$'",
     "orderBy": [
@@ -24,6 +26,8 @@
       "date composerDetail.died",
       "composerDetail.name",
       "opus",
+      "catalogs[0].index",
+      "catalogs[0].n",
       "album",
       "disk or 1",
       "track"
@@ -32,7 +36,7 @@
   },
   {
     "name": "classOf1685",
-    "trackOverlap": 1500,
+    "trackOverlap": 3000,
     "layout": "composer",
     "where": "date composerDetail.born >= date '1685' && date composerDetail.born < date '1686'",
     "orderBy": [
@@ -40,6 +44,8 @@
       "date composerDetail.died",
       "composerDetail.name",
       "opus",
+      "catalogs[0].index",
+      "catalogs[0].n",
       "album",
       "disk or 1",
       "track"

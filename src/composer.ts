@@ -8,11 +8,18 @@ const dayjs = require('dayjs');
 const levenshtein = require('js-levenshtein');
 const pluralize = require('pluralize');
 
+export interface ICatalog {
+  symbol: string;             // BWV, etc (without period, case inconsequential)
+  aliases?: string[];         // Other symbols used for this catalog
+  pattern?: string;           // Regex pattern:  If not provided, construct from symbol -- use named capture groups "n" => number, "suffix" => optional suffix
+}
+
 export interface IComposer {
   name: string;                // Name as key
   aliases: string[];           // Other ways of representing name
   born: string | number;       // Valid dayjs input
   died?: string | number;      // Valid dayjs input, or undefined is still living
+  catalogs?: ICatalog[];       // Catalogs to look for in this composer's titles
 }
 
 export interface IComposerUpdater extends Partial<IComposer> {

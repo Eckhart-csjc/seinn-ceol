@@ -22,7 +22,12 @@
       "Giovanni Battista Pergolesi & Edmund Vaughan"
     ],
     "born": "1/04/1710",
-    "died": "3/16/1736"
+    "died": "3/16/1736",
+    "catalogs": [
+      {
+        "symbol": "P"
+      }
+    ]
   },
   {
     "name": "Johann Friedrich Agricola",
@@ -112,7 +117,12 @@
       "Francis Poulenc, Jean Cocteau & Raymond Radiguet"
     ],
     "born": "1/07/1899",
-    "died": "1/30/1963"
+    "died": "1/30/1963",
+    "catalogs": [
+      {
+        "symbol": "FP"
+      }
+    ]
   },
   {
     "name": "Sigismond Thalberg",
@@ -154,7 +164,12 @@
     "name": "Christoph Graupner",
     "aliases": [],
     "born": "1/13/1683",
-    "died": "5/10/1760"
+    "died": "5/10/1760",
+    "catalogs": [
+      {
+        "symbol": "GWV"
+      }
+    ]
   },
   {
     "name": "Gottfried Heinrich Stolzel",
@@ -208,7 +223,15 @@
     "name": "François-Joseph Gossec",
     "aliases": [],
     "born": "1/17/1734",
-    "died": "2/16/1829"
+    "died": "2/16/1829",
+    "catalogs": [
+      {
+        "symbol": "RH"
+      },
+      {
+        "symbol": "B"
+      }
+    ]
   },
   {
     "name": "Alexander Sergeievich Taneyev",
@@ -279,7 +302,12 @@
     "name": "Muzio Clementi",
     "aliases": [],
     "born": "1/23/1753",
-    "died": "3/10/1832"
+    "died": "3/10/1832",
+    "catalogs": [
+      {
+        "symbol": "T"
+      }
+    ]
   },
   {
     "name": "Rutland Boughton",
@@ -291,13 +319,23 @@
     "name": "Frederich The Great",
     "aliases": [],
     "born": "1/24/1712",
-    "died": "8/17/1786"
+    "died": "8/17/1786",
+    "catalogs": [
+      {
+        "symbol": "S"
+      }
+    ]
   },
   {
     "name": "Ernst Theodor Amadeus Hoffmann",
     "aliases": [],
     "born": "1/24/1776",
-    "died": "6/25/1822"
+    "died": "6/25/1822",
+    "catalogs": [
+      {
+        "symbol": "AV"
+      }
+    ]
   },
   {
     "name": "Jan Blockx",
@@ -324,7 +362,16 @@
       "Mozart/Wolfgang Amadeus Mozart"
     ],
     "born": "1/27/1756",
-    "died": "12/05/1791"
+    "died": "12/05/1791",
+    "catalogs": [
+      {
+        "symbol": "K",
+        "aliases": [ "KV" ]
+      },
+      {
+        "symbol": "WSF"
+      }
+    ]
   },
   {
     "name": "Juan Crisostomo Jacobo Antonio de Arriaga",
@@ -344,7 +391,12 @@
     "name": "Johann Ernst Bach",
     "aliases": [],
     "born": "1/28/1722",
-    "died": "9/01/1777"
+    "died": "9/01/1777",
+    "catalogs": [
+      {
+        "symbol": "JEB"
+      }
+    ]
   },
   {
     "name": "John Tavener",
@@ -355,13 +407,23 @@
     "name": "Georg Christoph Wagenseil",
     "aliases": [],
     "born": "1/29/1715",
-    "died": "3/01/1777"
+    "died": "3/01/1777",
+    "catalogs": [
+      {
+        "symbol": "WV"
+      }
+    ]
   },
   {
     "name": "Daniel-François-Esprit Auber",
     "aliases": [],
     "born": "1/29/1782",
-    "died": "5/12/1871"
+    "died": "5/12/1871",
+    "catalogs": [
+      {
+        "symbol": "AWV"
+      }
+    ]
   },
   {
     "name": "Ferdinand Ries",
@@ -391,7 +453,15 @@
     "name": "Johann Joachim Quantz",
     "aliases": [],
     "born": "1/30/1697",
-    "died": "7/12/1773"
+    "died": "7/12/1773",
+    "catalogs": [
+      {
+        "symbol": "B"
+      },
+      {
+        "symbol": "QV"
+      }
+    ]
   },
   {
     "name": "Charles Martin Tornow Loeffler",
@@ -411,7 +481,12 @@
       "Franz Schubert"
     ],
     "born": "1/31/1797",
-    "died": "11/19/1828"
+    "died": "11/19/1828",
+    "catalogs": [
+      {
+        "symbol": "D"
+      }
+    ]
   },
   {
     "name": "Carl Gottlieb Reissiger",
@@ -446,13 +521,26 @@
     "name": "Gottfried August Homilius",
     "aliases": [],
     "born": "2/02/1714",
-    "died": "6/05/1785"
+    "died": "6/05/1785",
+    "catalogs": [
+      {
+        "symbol": "HoWV"
+      }
+    ]
   },
   {
     "name": "Johann Georg Albrechtsberger",
     "aliases": [],
     "born": "2/03/1736",
-    "died": "3/07/1809"
+    "died": "3/07/1809",
+    "catalogs": [
+      {
+        "symbol": "S"
+      },
+      {
+        "symbol": "Som"
+      }
+    ]
   },
   {
     "name": "Jacob Ludwig Felix Mendelssohn",
@@ -460,7 +548,12 @@
       "Felix Mendelssohn"
     ],
     "born": "2/03/1809",
-    "died": "11/04/1847"
+    "died": "11/04/1847",
+    "catalogs": [
+      {
+        "symbol": "MWV"
+      }
+    ]
   },
   {
     "name": "Jehan Alain",
@@ -520,7 +613,12 @@
     "name": "Jan Ladislav Dussek",
     "aliases": [],
     "born": "2/12/1760",
-    "died": "3/20/1812"
+    "died": "3/20/1812",
+    "catalogs": [
+      {
+        "symbol": "C"
+      }
+    ]
   },
   {
     "name": "Fernando Sor",
@@ -591,13 +689,23 @@
     "name": "Luigi Boccherini",
     "aliases": [],
     "born": "2/19/1743",
-    "died": "5/28/1805"
+    "died": "5/28/1805",
+    "catalogs": [
+      {
+        "symbol": "G"
+      }
+    ]
   },
   {
     "name": "Adalbert Gyrowetz",
     "aliases": [],
     "born": "2/19/1763",
-    "died": "3/19/1850"
+    "died": "3/19/1850",
+    "catalogs": [
+      {
+        "symbol": "R"
+      }
+    ]
   },
   {
     "name": "Johann Peter Saloman",
@@ -676,13 +784,32 @@
       "George Frederick Handel"
     ],
     "born": "2/23/1685",
-    "died": "4/14/1759"
+    "died": "4/14/1759",
+    "catalogs": [
+      {
+        "symbol": "HWV"
+      },
+      {
+        "symbol": "HG"
+      },
+      {
+        "symbol": "HHA"
+      },
+      {
+        "symbol": "B"
+      }
+    ]
   },
   {
     "name": "Samuel Wesley",
     "aliases": [],
     "born": "2/24/1766",
-    "died": "10/11/1837"
+    "died": "10/11/1837",
+    "catalogs": [
+      {
+        "symbol": "KO"
+      }
+    ]
   },
   {
     "name": "John Baptist Cramer",
@@ -706,7 +833,12 @@
     "name": "Frank Bridge",
     "aliases": [],
     "born": "2/26/1879",
-    "died": "1/10/1941"
+    "died": "1/10/1941",
+    "catalogs": [
+      {
+        "symbol": "H"
+      }
+    ]
   },
   {
     "name": "Sir Charles Hubert Hastings Parry",
@@ -746,7 +878,18 @@
       "Frédéric Chopin"
     ],
     "born": "3/01/1810",
-    "died": "10/17/1849"
+    "died": "10/17/1849",
+    "catalogs": [
+      {
+        "symbol": "B"
+      },
+      {
+        "symbol": "KK"
+      },
+      {
+        "symbol": "A"
+      }
+    ]
   },
   {
     "name": "John Thomas",
@@ -779,7 +922,24 @@
       "Antonio Vivaldi"
     ],
     "born": "3/04/1678",
-    "died": "7/28/1741"
+    "died": "7/28/1741",
+    "catalogs": [
+      {
+        "symbol": "RV"
+      },
+      {
+        "symbol": "F"
+      },
+      {
+        "symbol": "M"
+      },
+      {
+        "symbol": "P"
+      },
+      {
+        "symbol": "RN"
+      }
+    ]
   },
   {
     "name": "Carlos Surinach",
@@ -800,7 +960,12 @@
       "Heitor Villa-Lobos & Traditional"
     ],
     "born": "3/05/1887",
-    "died": "11/17/1959"
+    "died": "11/17/1959",
+    "catalogs": [
+      {
+        "symbol": "A"
+      }
+    ]
   },
   {
     "name": "Nikolai Artzibushev",
@@ -815,7 +980,12 @@
       "Maurice Ravel"
     ],
     "born": "3/07/1875",
-    "died": "12/28/1937"
+    "died": "12/28/1937",
+    "catalogs": [
+      {
+        "symbol": "MR"
+      }
+    ]
   },
   {
     "name": "Heino Eller",
@@ -832,19 +1002,40 @@
       "Carl Philipp Emmanuel Bach"
     ],
     "born": "3/08/1714",
-    "died": "12/14/1788"
+    "died": "12/14/1788",
+    "catalogs": [
+      {
+        "symbol": "H"
+      },
+      {
+        "symbol": "Wq"
+      },
+      {
+        "symbol": "CPEB"
+      }
+    ]
   },
   {
     "name": "Josef Myslivecek",
     "aliases": [],
     "born": "3/09/1737",
-    "died": "2/04/1781"
+    "died": "2/04/1781",
+    "catalogs": [
+      {
+        "symbol": "ED"
+      }
+    ]
   },
   {
     "name": "Samuel Barber",
     "aliases": [],
     "born": "3/09/1910",
-    "died": "1/23/1981"
+    "died": "1/23/1981",
+    "catalogs": [
+      {
+        "symbol": "H"
+      }
+    ]
   },
   {
     "name": "Dudley Buck",
@@ -862,7 +1053,12 @@
     "name": "Arthur Oscar Honegger",
     "aliases": [],
     "born": "3/10/1892",
-    "died": "11/27/1955"
+    "died": "11/27/1955",
+    "catalogs": [
+      {
+        "symbol": "H"
+      }
+    ]
   },
   {
     "name": "Thomas Augustine Arne",
@@ -888,7 +1084,12 @@
       "Georg Philipp Telemann/Georg Philipp Telemann"
     ],
     "born": "3/14/1681",
-    "died": "6/25/1767"
+    "died": "6/25/1767",
+    "catalogs": [
+      {
+        "symbol": "TWV"
+      }
+    ]
   },
   {
     "name": "Johann Gottlieb Goldberg",
@@ -918,7 +1119,13 @@
     "name": "Josef Gabriel Rheinberger",
     "aliases": [],
     "born": "3/17/1839",
-    "died": "11/25/1901"
+    "died": "11/25/1901",
+    "catalogs": [
+      {
+        "symbol": "RWV",
+        "aliases": ["JWV"]
+      }
+    ]
   },
   {
     "name": "Nikolai Rimsky-Korsakov",
@@ -947,13 +1154,29 @@
     "name": "Bernd Alois Zimmermann",
     "aliases": [],
     "born": "3/20/1918",
-    "died": "8/10/1970"
+    "died": "8/10/1970",
+    "catalogs": [
+      {
+        "symbol": "BAZ"
+      }
+    ]
   },
   {
     "name": "Johann Sebastian Bach",
     "aliases": [],
     "born": "3/21/1685",
-    "died": "7/28/1750"
+    "died": "7/28/1750",
+    "catalogs": [
+      {
+        "symbol": "BWV"
+      },
+      {
+        "symbol": "Anh"
+      },
+      {
+        "symbol": "Anh.II"
+      }
+    ]
   },
   {
     "name": "Modest Petrovich Mussorgsky",
@@ -1006,7 +1229,18 @@
     "name": "Bela Bartok",
     "aliases": [],
     "born": "3/25/1881",
-    "died": "9/25/1945"
+    "died": "9/25/1945",
+    "catalogs": [
+      {
+        "symbol": "BB"
+      },
+      {
+        "symbol": "DD"
+      },
+      {
+        "symbol": "Sz"
+      }
+    ]
   },
   {
     "name": "James Clifton Williams",
@@ -1030,7 +1264,12 @@
     "name": "Sir William Turner Walton",
     "aliases": [],
     "born": "3/29/1902",
-    "died": "3/08/1983"
+    "died": "3/08/1983",
+    "catalogs": [
+      {
+        "symbol": "C"
+      }
+    ]
   },
   {
     "name": "Richard Rodney Bennett",
@@ -1049,7 +1288,16 @@
       "Franz Josef Haydn"
     ],
     "born": "3/31/1732",
-    "died": "5/31/1809"
+    "died": "5/31/1809",
+    "catalogs": [
+      {
+        "symbol": "HV",
+        "aliases": [
+          "H",
+          "Hob"
+        ]
+      }
+    ]
   },
   {
     "name": "Thomas Simpson",
@@ -1069,7 +1317,12 @@
     "name": "Ferruccio Dante Michelangelo Benvenuto Busoni",
     "aliases": [],
     "born": "4/01/1866",
-    "died": "7/27/1924"
+    "died": "7/27/1924",
+    "catalogs": [
+      {
+        "symbol": "BV"
+      }
+    ]
   },
   {
     "name": "Sergei Vasilievitch Rachmaninov",
@@ -1080,7 +1333,12 @@
       "Frédéric Chopin & Sergei Rachmaninoff"
     ],
     "born": "4/01/1873",
-    "died": "3/28/1943"
+    "died": "3/28/1943",
+    "catalogs": [
+      {
+        "symbol": "TN"
+      }
+    ]
   },
   {
     "name": "Franz Lachner",
@@ -1116,7 +1374,12 @@
     "name": "Albert Charles Paul Marie Roussel",
     "aliases": [],
     "born": "4/05/1869",
-    "died": "8/23/1937"
+    "died": "8/23/1937",
+    "catalogs": [
+      {
+        "symbol": "L"
+      }
+    ]
   },
   {
     "name": "Johann Kuhnau",
@@ -1154,7 +1417,15 @@
       "Giuseppe Tartini & Jacopone da Todi"
     ],
     "born": "4/08/1692",
-    "died": "2/26/1770"
+    "died": "2/26/1770",
+    "catalogs": [
+      {
+        "symbol": "B"
+      },
+      {
+        "symbol": "D"
+      }
+    ]
   },
   {
     "name": "Asger Hamerik",
@@ -1166,7 +1437,12 @@
     "name": "Georg Matthias Monn",
     "aliases": [],
     "born": "4/09/1717",
-    "died": "10/03/1750"
+    "died": "10/03/1750",
+    "catalogs": [
+      {
+        "symbol": "F"
+      }
+    ]
   },
   {
     "name": "Eugene Francis Charles D'Albert",
@@ -1213,13 +1489,23 @@
     "name": "Johann Friedrich Fasch",
     "aliases": [],
     "born": "4/15/1688",
-    "died": "12/05/1758"
+    "died": "12/05/1758",
+    "catalogs": [
+      {
+        "symbol": "FWV"
+      }
+    ]
   },
   {
     "name": "Johann David Heinichen",
     "aliases": [],
     "born": "4/17/1683",
-    "died": "7/16/1729"
+    "died": "7/16/1729",
+    "catalogs": [
+      {
+        "symbol": "S"
+      }
+    ]
   },
   {
     "name": "Johann Gottlieb Naumann",
@@ -1290,7 +1576,15 @@
     "name": "Giuseppe Torelli",
     "aliases": [],
     "born": "4/22/1658",
-    "died": "2/08/1709"
+    "died": "2/08/1709",
+    "catalogs": [
+      {
+        "symbol": "G"
+      },
+      {
+        "symbol": "F"
+      }
+    ]
   },
   {
     "name": "Jan Adam Reincken",
@@ -1340,7 +1634,12 @@
     "name": "Hugo Alfven",
     "aliases": [],
     "born": "5/01/1872",
-    "died": "5/08/1960"
+    "died": "5/08/1960",
+    "catalogs": [
+      {
+        "symbol": "R"
+      }
+    ]
   },
   {
     "name": "Alessandro Scarlatti",
@@ -1372,7 +1671,12 @@
     "name": "Johann Adolph Scheibe",
     "aliases": [],
     "born": "5/03/1708",
-    "died": "4/22/1776"
+    "died": "4/22/1776",
+    "catalogs": [
+      {
+        "symbol": "SchW"
+      }
+    ]
   },
   {
     "name": "Emil Nikolaus von Reznicek",
@@ -1414,13 +1718,29 @@
     "name": "Carl Heinrich Graun",
     "aliases": [],
     "born": "5/07/1704",
-    "died": "8/08/1759"
+    "died": "8/08/1759",
+    "catalogs": [
+      {
+        "symbol": "GraunWV"
+      },
+      {
+        "symbol": "W"
+      },
+      {
+        "symbol": "M"
+      }
+    ]
   },
   {
     "name": "Johannes Brahms",
     "aliases": [],
     "born": "5/07/1833",
-    "died": "4/03/1897"
+    "died": "4/03/1897",
+    "catalogs": [
+      {
+        "symbol": "WoO"
+      }
+    ]
   },
   {
     "name": "Piotr Ilyich Tchaikovsky",
@@ -1429,7 +1749,16 @@
       "Pyotr Ilyich Tchaikovsky"
     ],
     "born": "5/07/1840",
-    "died": "11/06/1893"
+    "died": "11/06/1893",
+    "catalogs": [
+      {
+        "symbol": "CW",
+        "aliases": [ "ČW" ]
+      },
+      {
+        "symbol": "TH"
+      }
+    ]
   },
   {
     "name": "Marcel Poot",
@@ -1453,13 +1782,26 @@
     "name": "Louis Moreau Gottschalk",
     "aliases": [],
     "born": "5/08/1829",
-    "died": "12/18/1869"
+    "died": "12/18/1869",
+    "catalogs": [
+      {
+        "symbol": "RO"
+      },
+      {
+        "symbol": "D"
+      }
+    ]
   },
   {
     "name": "Giovanni Paisiello",
     "aliases": [],
     "born": "5/09/1740",
-    "died": "6/05/1816"
+    "died": "6/05/1816",
+    "catalogs": [
+      {
+        "symbol": "R"
+      }
+    ]
   },
   {
     "name": "Adolph von Henselt",
@@ -1513,7 +1855,15 @@
     "name": "Giovanni Battista Viotti",
     "aliases": [],
     "born": "5/12/1755",
-    "died": "3/03/1824"
+    "died": "3/03/1824",
+    "catalogs": [
+      {
+        "symbol": "W"
+      },
+      {
+        "symbol": "G"
+      }
+    ]
   },
   {
     "name": "Jules-Emile-Frederic Massenet",
@@ -1579,7 +1929,12 @@
       "Claudio Monteverdi, Claudio Monteverdi, Torquato Tasso & Torquato Tasso"
     ],
     "born": "5/15/1567",
-    "died": "11/29/1643"
+    "died": "11/29/1643",
+    "catalogs": [
+      {
+        "symbol": "SV"
+      }
+    ]
   },
   {
     "name": "Stephen Heller",
@@ -1625,7 +1980,12 @@
     "name": "Wilhelm Richard Wagner",
     "aliases": [],
     "born": "5/22/1813",
-    "died": "2/13/1883"
+    "died": "2/13/1883",
+    "catalogs": [
+      {
+        "symbol": "WWV"
+      }
+    ]
   },
   {
     "name": "Isaak-Ignaz Moscheles",
@@ -1666,7 +2026,12 @@
     "name": "Isaac Albeniz",
     "aliases": [],
     "born": "5/29/1860",
-    "died": "5/18/1909"
+    "died": "5/18/1909",
+    "catalogs": [
+      {
+        "symbol": "B"
+      }
+    ]
   },
   {
     "name": "Erich Wolfgang Korngold",
@@ -1740,7 +2105,12 @@
       "Robert Schumann"
     ],
     "born": "6/08/1810",
-    "died": "7/29/1856"
+    "died": "7/29/1856",
+    "catalogs": [
+      {
+        "symbol": "WoO"
+      }
+    ]
   },
   {
     "name": "Ervin Schulhoff",
@@ -1766,7 +2136,15 @@
       "Carl Nielsen"
     ],
     "born": "6/09/1865",
-    "died": "10/03/1931"
+    "died": "10/03/1931",
+    "catalogs": [
+      {
+        "symbol": "CNW"
+      },
+      {
+        "symbol": "FS"
+      }
+    ]
   },
   {
     "name": "Heinrich von Herzogenberg",
@@ -1787,7 +2165,12 @@
       "Carlos Seixas"
     ],
     "born": "6/11/1704",
-    "died": "8/25/1742"
+    "died": "8/25/1742",
+    "catalogs": [
+      {
+        "symbol": "K"
+      }
+    ]
   },
   {
     "name": "Richard Strauss",
@@ -1795,7 +2178,15 @@
       "Richard Strauss (1864-1949)/Richard Strauss"
     ],
     "born": "6/11/1864",
-    "died": "9/08/1949"
+    "died": "9/08/1949",
+    "catalogs": [
+      {
+        "symbol": "TrV"
+      },
+      {
+        "symbol": "AV"
+      }
+    ]
   },
   {
     "name": "Alexandre Tansman",
@@ -1807,7 +2198,12 @@
     "name": "Antonín Vranicky",
     "aliases": [],
     "born": "6/13/1761",
-    "died": "8/06/1820"
+    "died": "8/06/1820",
+    "catalogs": [
+      {
+        "symbol": "RV"
+      }
+    ]
   },
   {
     "name": "Carlos Chavez",
@@ -1825,7 +2221,12 @@
     "name": "Franz Danzi",
     "aliases": [],
     "born": "6/15/1763",
-    "died": "4/13/1826"
+    "died": "4/13/1826",
+    "catalogs": [
+      {
+        "symbol": "P"
+      }
+    ]
   },
   {
     "name": "Edvard Hagerup Grieg",
@@ -1833,7 +2234,12 @@
       "Edvard Grieg"
     ],
     "born": "6/15/1843",
-    "died": "9/04/1907"
+    "died": "9/04/1907",
+    "catalogs": [
+      {
+        "symbol": "EG"
+      }
+    ]
   },
   {
     "name": "Joseph Guy Marie Ropartz",
@@ -1863,7 +2269,12 @@
     "name": "Charles François Gounod",
     "aliases": [],
     "born": "6/17/1818",
-    "died": "10/18/1893"
+    "died": "10/18/1893",
+    "catalogs": [
+      {
+        "symbol": "CG"
+      }
+    ]
   },
   {
     "name": "Igor Stravinsky",
@@ -1875,13 +2286,23 @@
     "name": "Ignaz Joseph Pleyel",
     "aliases": [],
     "born": "6/18/1757",
-    "died": "11/14/1831"
+    "died": "11/14/1831",
+    "catalogs": [
+      {
+        "symbol": "B"
+      }
+    ]
   },
   {
     "name": "Eduard Tubin",
     "aliases": [],
     "born": "6/18/1905",
-    "died": "11/17/1982"
+    "died": "11/17/1982",
+    "catalogs": [
+      {
+        "symbol": "ETW"
+      }
+    ]
   },
   {
     "name": "Johann Gottlieb Janitsch",
@@ -1893,25 +2314,52 @@
     "name": "Johann Wenzel Anton Stamitz",
     "aliases": [],
     "born": "6/19/1717",
-    "died": "3/27/1757"
+    "died": "3/27/1757",
+    "catalogs": [
+      {
+        "symbol": "S"
+      },
+      {
+        "symbol": "W"
+      }
+    ]
   },
   {
     "name": "Joseph Martin Kraus",
     "aliases": [],
     "born": "6/20/1756",
-    "died": "12/15/1792"
+    "died": "12/15/1792",
+    "catalogs": [
+      {
+        "symbol": "B"
+      }
+    ]
   },
   {
     "name": "Jacques Offenbach",
     "aliases": [],
     "born": "6/20/1819",
-    "died": "10/05/1880"
+    "died": "10/05/1880",
+    "catalogs": [
+      {
+        "symbol": "AL"
+      }
+    ]
   },
   {
     "name": "Johann Christoph Friedrich Bach",
     "aliases": [],
     "born": "6/21/1732",
-    "died": "1/26/1795"
+    "died": "1/26/1795",
+    "catalogs": [
+      {
+        "symbol": "JFCB",
+        "aliases": ["L"]
+      },
+      {
+        "symbol": "HW"
+      }
+    ]
   },
   {
     "name": "Pablo Bruna",
@@ -1996,7 +2444,12 @@
     "name": "Leos Janacek",
     "aliases": [],
     "born": "7/03/1854",
-    "died": "8/12/1928"
+    "died": "8/12/1928",
+    "catalogs": [
+      {
+        "symbol": "JW"
+      }
+    ]
   },
   {
     "name": "Philippe Gaubert",
@@ -2065,7 +2518,12 @@
       "Respighi, Ottorino (1879-1936)/Ottorino Respighi"
     ],
     "born": "7/09/1879",
-    "died": "4/18/1936"
+    "died": "4/18/1936",
+    "catalogs": [
+      {
+        "symbol": "P"
+      }
+    ]
   },
   {
     "name": "David Diamond",
@@ -2076,7 +2534,12 @@
     "name": "Sigismund Ritter von Neukomm",
     "aliases": [],
     "born": "7/10/1778",
-    "died": "4/03/1858"
+    "died": "4/03/1858",
+    "catalogs": [
+      {
+        "symbol": "NV"
+      }
+    ]
   },
   {
     "name": "Henryk Wieniawski",
@@ -2153,13 +2616,23 @@
     "name": "John Field",
     "aliases": [],
     "born": "7/26/1782",
-    "died": "1/23/1837"
+    "died": "1/23/1837",
+    "catalogs": [
+      {
+        "symbol": "H"
+      }
+    ]
   },
   {
     "name": "Franz Xaver Mozart",
     "aliases": [],
     "born": "7/26/1791",
-    "died": "7/29/1844"
+    "died": "7/29/1844",
+    "catalogs": [
+      {
+        "symbol": "WV"
+      }
+    ]
   },
   {
     "name": "Joseph Wihtol",
@@ -2183,7 +2656,12 @@
     "name": "Enrique Granados",
     "aliases": [],
     "born": "7/27/1867",
-    "died": "3/24/1916"
+    "died": "3/24/1916",
+    "catalogs": [
+      {
+        "symbol": "DLR"
+      }
+    ]
   },
   {
     "name": "Ernst von Dohnanyi",
@@ -2207,7 +2685,12 @@
     "name": "Sir Arthur Edward Drummond Bliss",
     "aliases": [],
     "born": "8/02/1891",
-    "died": "3/27/1975"
+    "died": "3/27/1975",
+    "catalogs": [
+      {
+        "symbol": "F"
+      }
+    ]
   },
   {
     "name": "William Howard Schuman",
@@ -2231,7 +2714,12 @@
     "name": "Benedetto Marcello",
     "aliases": [],
     "born": "8/09/1686",
-    "died": "7/24/1739"
+    "died": "7/24/1739",
+    "catalogs": [
+      {
+        "symbol": "S"
+      }
+    ]
   },
   {
     "name": "Reynaldo Hahn",
@@ -2345,7 +2833,12 @@
       "Claude Debussy"
     ],
     "born": "8/22/1862",
-    "died": "3/25/1918"
+    "died": "3/25/1918",
+    "catalogs": [
+      {
+        "symbol": "L"
+      }
+    ]
   },
   {
     "name": "Moritz Moszkowski",
@@ -2381,13 +2874,23 @@
     "name": "Johann Pachelbel",
     "aliases": [],
     "born": "9/01/1653",
-    "died": "3/09/1706"
+    "died": "3/09/1706",
+    "catalogs": [
+      {
+        "symbol": "P"
+      }
+    ]
   },
   {
     "name": "Engelbert Humperdinck",
     "aliases": [],
     "born": "9/01/1854",
-    "died": "7/27/1921"
+    "died": "7/27/1921",
+    "catalogs": [
+      {
+        "symbol": "EHWV"
+      }
+    ]
   },
   {
     "name": "Georg Bohm",
@@ -2429,7 +2932,12 @@
       "Anton Bruckner"
     ],
     "born": "9/04/1824",
-    "died": "9/11/1896"
+    "died": "9/11/1896",
+    "catalogs": [
+      {
+        "symbol": "WAB"
+      }
+    ]
   },
   {
     "name": "Darius Milhaud",
@@ -2441,7 +2949,16 @@
     "name": "Johann Christian Bach",
     "aliases": [],
     "born": "9/05/1735",
-    "died": "1/01/1782"
+    "died": "1/01/1782",
+    "catalogs": [
+      {
+        "symbol": "JCB"
+      },
+      {
+        "symbol": "Terry",
+        "aliases": [ "W" ]
+      }
+    ]
   },
   {
     "name": "Anton Diabelli",
@@ -2467,7 +2984,21 @@
       "Antonín Dvořák"
     ],
     "born": "9/08/1841",
-    "died": "5/01/1904"
+    "died": "5/01/1904",
+    "catalogs": [
+      {
+        "symbol": "B"
+      },
+      {
+        "symbol": "H"
+      },
+      {
+        "symbol": "T"
+      },
+      {
+        "symbol": "S"
+      }
+    ]
   },
   {
     "name": "Girolamo Frescobaldi",
@@ -2512,7 +3043,15 @@
     "name": "Johann Michael Haydn",
     "aliases": [],
     "born": "9/14/1737",
-    "died": "8/10/1806"
+    "died": "8/10/1806",
+    "catalogs": [
+      {
+        "symbol": "MH"
+      },
+      {
+        "symbol": "P"
+      }
+    ]
   },
   {
     "name": "Maria Luigi Carlo Zenobio Salvatore Cherubini",
@@ -2548,7 +3087,12 @@
     "name": "Charles Tomlinson Griffes",
     "aliases": [],
     "born": "9/17/1884",
-    "died": "4/08/1920"
+    "died": "4/08/1920",
+    "catalogs": [
+      {
+        "symbol": "A"
+      }
+    ]
   },
   {
     "name": "Armand Marsick",
@@ -2562,7 +3106,12 @@
       "Gustav Holst"
     ],
     "born": "9/21/1874",
-    "died": "5/25/1934"
+    "died": "5/25/1934",
+    "catalogs": [
+      {
+        "symbol": "H"
+      }
+    ]
   },
   {
     "name": "Jean-Philippe Rameau",
@@ -2663,7 +3212,12 @@
     "name": "Heinrich Schutz",
     "aliases": [],
     "born": "10/08/1585",
-    "died": "11/01/1672"
+    "died": "11/01/1672",
+    "catalogs": [
+      {
+        "symbol": "SWV"
+      }
+    ]
   },
   {
     "name": "Louis Vierne",
@@ -2689,7 +3243,12 @@
     "name": "Johann Ludwig Krebs",
     "aliases": [],
     "born": "10/10/1713",
-    "died": "1/02/1780"
+    "died": "1/02/1780",
+    "catalogs": [
+      {
+        "symbol": "Krebs-WV"
+      }
+    ]
   },
   {
     "name": "Paul Creston",
@@ -2731,7 +3290,12 @@
     "name": "Jan Dismas Zelenka",
     "aliases": [],
     "born": "10/16/1679",
-    "died": "12/22/1745"
+    "died": "12/22/1745",
+    "catalogs": [
+      {
+        "symbol": "ZWV"
+      }
+    ]
   },
   {
     "name": "Albert Franz Doppler",
@@ -2773,7 +3337,21 @@
       "Franz Liszt & Ludwig van Beethoven"
     ],
     "born": "10/22/1811",
-    "died": "7/31/1886"
+    "died": "7/31/1886",
+    "catalogs": [
+      {
+        "symbol": "S"
+      },
+      {
+        "symbol": "R"
+      },
+      {
+        "symbol": "L"
+      },
+      {
+        "symbol": "LW"
+      }
+    ]
   },
   {
     "name": "Ferdinand Hiller",
@@ -2791,7 +3369,12 @@
     "name": "Georges Alexandre-Cesar-Leopold Bizet",
     "aliases": [],
     "born": "10/25/1838",
-    "died": "6/03/1875"
+    "died": "6/03/1875",
+    "catalogs": [
+      {
+        "symbol": "WD"
+      }
+    ]
   },
   {
     "name": "Alexander Tikhonovich Gretchaninov",
@@ -2805,19 +3388,41 @@
       "Domenico Scarlatti"
     ],
     "born": "10/26/1685",
-    "died": "7/23/1757"
+    "died": "7/23/1757",
+    "catalogs": [
+      {
+        "symbol": "Kk",
+        "aliases": [ "K" ]
+      },
+      {
+        "symbol": "L"
+      },
+      {
+        "symbol": "P"
+      }
+    ]
   },
   {
     "name": "Johan Helmich Roman",
     "aliases": [],
     "born": "10/26/1694",
-    "died": "11/20/1758"
+    "died": "11/20/1758",
+    "catalogs": [
+      {
+        "symbol": "HRV"
+      }
+    ]
   },
   {
     "name": "Niccolo Paganini",
     "aliases": [],
     "born": "10/27/1782",
-    "died": "5/27/1840"
+    "died": "5/27/1840",
+    "catalogs": [
+      {
+        "symbol": "MS"
+      }
+    ]
   },
   {
     "name": "Henri-Jerome Bertini",
@@ -2853,7 +3458,21 @@
     "name": "Karl Ditters von Dittersdorf",
     "aliases": [],
     "born": "11/02/1739",
-    "died": "10/24/1799"
+    "died": "10/24/1799",
+    "catalogs": [
+      {
+        "symbol": "Y"
+      },
+      {
+        "symbol": "L"
+      },
+      {
+        "symbol": "G"
+      },
+      {
+        "symbol": "K"
+      }
+    ]
   },
   {
     "name": "Douglas Lilburn",
@@ -2864,7 +3483,12 @@
     "name": "Samuel Scheidt",
     "aliases": [],
     "born": "11/03/1587",
-    "died": "3/24/1654"
+    "died": "3/24/1654",
+    "catalogs": [
+      {
+        "symbol": "SSWV"
+      }
+    ]
   },
   {
     "name": "Vincenzo Bellini",
@@ -2929,13 +3553,23 @@
     "name": "Sir Arnold Edward Trevor Bax",
     "aliases": [],
     "born": "11/08/1883",
-    "died": "10/03/1953"
+    "died": "10/03/1953",
+    "catalogs": [
+      {
+        "symbol": "GP"
+      }
+    ]
   },
   {
     "name": "François Couperin",
     "aliases": [],
     "born": "11/10/1668",
-    "died": "9/11/1733"
+    "died": "9/11/1733",
+    "catalogs": [
+      {
+        "symbol": "B"
+      }
+    ]
   },
   {
     "name": "Henri Rabaud",
@@ -2967,19 +3601,37 @@
     "name": "Johann Georg Leopold Mozart",
     "aliases": [],
     "born": "11/14/1719",
-    "died": "5/28/1787"
+    "died": "5/28/1787",
+    "catalogs": [
+      {
+        "symbol": "LMV"
+      },
+      {
+        "symbol": "S"
+      }
+    ]
   },
   {
     "name": "Johann Nepomuk Hummel",
     "aliases": [],
     "born": "11/14/1778",
-    "died": "10/17/1837"
+    "died": "10/17/1837",
+    "catalogs": [
+      {
+        "symbol": "S"
+      }
+    ]
   },
   {
     "name": "Fanny Cacilia Mendelssohn Hensel",
     "aliases": [],
     "born": "11/14/1805",
-    "died": "5/14/1847"
+    "died": "5/14/1847",
+    "catalogs": [
+      {
+        "symbol": "H"
+      }
+    ]
   },
   {
     "name": "Aaron Copland",
@@ -3019,7 +3671,12 @@
       "Carl Maria von Weber"
     ],
     "born": "11/18/1786",
-    "died": "6/05/1826"
+    "died": "6/05/1826",
+    "catalogs": [
+      {
+        "symbol": "J"
+      }
+    ]
   },
   {
     "name": "Sir William Schwenck Gilbert",
@@ -3051,19 +3708,38 @@
     "name": "František Benda",
     "aliases": [],
     "born": "11/22/1709",
-    "died": "3/07/1786"
+    "died": "3/07/1786",
+    "catalogs": [
+      {
+        "symbol": "L"
+      }
+    ]
   },
   {
     "name": "Wilhelm Friedemann Bach",
     "aliases": [],
     "born": "11/22/1710",
-    "died": "7/01/1784"
+    "died": "7/01/1784",
+    "catalogs": [
+      {
+        "symbol": "WFB"
+      },
+      {
+        "symbol": "F",
+        "aliases": [ "Fk" ]
+      }
+    ]
   },
   {
     "name": "Conradin Kreutzer",
     "aliases": [],
     "born": "11/22/1780",
-    "died": "12/14/1849"
+    "died": "12/14/1849",
+    "catalogs": [
+      {
+        "symbol": "KWV"
+      }
+    ]
   },
   {
     "name": "Joaquín Rodrigo",
@@ -3082,7 +3758,12 @@
     "name": "Manuel De Falla",
     "aliases": [],
     "born": "11/23/1876",
-    "died": "11/14/1946"
+    "died": "11/14/1946",
+    "catalogs": [
+      {
+        "symbol": "G"
+      }
+    ]
   },
   {
     "name": "Alfred Schnittke",
@@ -3111,13 +3792,26 @@
     "name": "Anton Thadaus Johann Nepomuk Stamitz",
     "aliases": [],
     "born": "11/27/1750",
-    "died": "10/27/1796"
+    "died": "10/27/1796",
+    "catalogs": [
+      {
+        "symbol": "S"
+      },
+      {
+        "symbol": "W"
+      }
+    ]
   },
   {
     "name": "Jean-Baptiste Lully",
     "aliases": [],
     "born": "11/28/1632",
-    "died": "3/22/1687"
+    "died": "3/22/1687",
+    "catalogs": [
+      {
+        "symbol": "LWV"
+      }
+    ]
   },
   {
     "name": "Anton Rubinstein",
@@ -3135,7 +3829,12 @@
     "name": "Gaetano Donizetti",
     "aliases": [],
     "born": "11/29/1797",
-    "died": "4/08/1848"
+    "died": "4/08/1848",
+    "catalogs": [
+      {
+        "symbol": "In"
+      }
+    ]
   },
   {
     "name": "Andres de Sola",
@@ -3167,7 +3866,15 @@
       "Antonio Soler"
     ],
     "born": "12/03/1729",
-    "died": "12/20/1783"
+    "died": "12/20/1783",
+    "catalogs": [
+      {
+        "symbol": "R"
+      },
+      {
+        "symbol": "M"
+      }
+    ]
   },
   {
     "name": "Andre Campra",
@@ -3193,7 +3900,12 @@
       "Francesco Geminiani"
     ],
     "born": "12/05/1687",
-    "died": "9/17/1762"
+    "died": "9/17/1762",
+    "catalogs": [
+      {
+        "symbol": "H"
+      }
+    ]
   },
   {
     "name": "Vítězslav Novak",
@@ -3237,7 +3949,15 @@
     "name": "Bohuslav Martinu",
     "aliases": [],
     "born": "12/08/1890",
-    "died": "8/28/1959"
+    "died": "8/28/1959",
+    "catalogs": [
+      {
+        "symbol": "H"
+      },
+      {
+        "symbol": "Saf"
+      }
+    ]
   },
   {
     "name": "Peter Joseph von Lindpaintner",
@@ -3263,7 +3983,12 @@
       "César Franck"
     ],
     "born": "12/10/1822",
-    "died": "11/08/1890"
+    "died": "11/08/1890",
+    "catalogs": [
+      {
+        "symbol": "FWV"
+      }
+    ]
   },
   {
     "name": "Olivier Messiaen",
@@ -3279,7 +4004,12 @@
       "Berlioz, Hector (1803 - 1869)/Hector Berlioz"
     ],
     "born": "12/11/1803",
-    "died": "3/08/1869"
+    "died": "3/08/1869",
+    "catalogs": [
+      {
+        "symbol": "H"
+      }
+    ]
   },
   {
     "name": "Mieczysław Karlowicz",
@@ -3309,13 +4039,29 @@
     "name": "Michel-Richard Delalande",
     "aliases": [],
     "born": "12/15/1657",
-    "died": "6/18/1726"
+    "died": "6/18/1726",
+    "catalogs": [
+      {
+        "symbol": "S"
+      }
+    ]
   },
   {
     "name": "Ludwig van Beethoven",
     "aliases": [],
     "born": "12/15/1770",
-    "died": "3/26/1827"
+    "died": "3/26/1827",
+    "catalogs": [
+      {
+        "symbol": "Bia"
+      },
+      {
+        "symbol": "WoO"
+      },
+      {
+        "symbol": "Hess"
+      }
+    ]
   },
   {
     "name": "François-Adrien Boieldieu",
@@ -3363,13 +4109,23 @@
     "name": "Zdeněk Fibich",
     "aliases": [],
     "born": "12/21/1850",
-    "died": "10/15/1900"
+    "died": "10/15/1900",
+    "catalogs": [
+      {
+        "symbol": "H"
+      }
+    ]
   },
   {
     "name": "Carl Friedrich Abel",
     "aliases": [],
     "born": "12/22/1723",
-    "died": "6/20/1787"
+    "died": "6/20/1787",
+    "catalogs": [
+      {
+        "symbol": "K"
+      }
+    ]
   },
   {
     "name": "Giovanni Bottesini",
@@ -3387,7 +4143,12 @@
     "name": "Giacomo Puccini",
     "aliases": [],
     "born": "12/22/1858",
-    "died": "11/29/1924"
+    "died": "11/29/1924",
+    "catalogs": [
+      {
+        "symbol": "SC"
+      }
+    ]
   },
   {
     "name": "Franz Schmidt",
@@ -3405,7 +4166,12 @@
     "name": "Joseph Bodin de Boismortier",
     "aliases": [],
     "born": "12/23/1689",
-    "died": "10/28/1755"
+    "died": "10/28/1755",
+    "catalogs": [
+      {
+        "symbol": "PB"
+      }
+    ]
   },
   {
     "name": "Jean-Noel Hamal",
@@ -3423,7 +4189,12 @@
     "name": "Orlando Gibbons",
     "aliases": [],
     "born": "12/25/1583",
-    "died": "6/05/1625"
+    "died": "6/05/1625",
+    "catalogs": [
+      {
+        "symbol": "H"
+      }
+    ]
   },
   {
     "name": "Johann Georg Pisendel",
@@ -3471,7 +4242,12 @@
     "name": "Ernest John Moeran",
     "aliases": [],
     "born": "12/31/1894",
-    "died": "12/01/1950"
+    "died": "12/01/1950",
+    "catalogs": [
+      {
+        "symbol": "R"
+      }
+    ]
   },
   {
     "name": "Nathan Milstein",
@@ -3568,7 +4344,12 @@
     "name": "Bálint Bakfark",
     "aliases": [],
     "born": "1507",
-    "died": "8/15/1576"
+    "died": "8/15/1576",
+    "catalogs": [
+      {
+        "symbol": "VB"
+      }
+    ]
   },
   {
     "name": "Giuseppe Guami",
@@ -3580,7 +4361,12 @@
     "name": "Antonio de Cabezon",
     "aliases": [],
     "born": "1510",
-    "died": "3/26/1566"
+    "died": "3/26/1566",
+    "catalogs": [
+      {
+        "symbol": "J"
+      }
+    ]
   },
   {
     "name": "Giovanni Perluigi Palestrina",
@@ -3628,7 +4414,12 @@
     "name": "Giovanni Gabrieli",
     "aliases": [],
     "born": "1553",
-    "died": "8/12/1612"
+    "died": "8/12/1612",
+    "catalogs": [
+      {
+        "symbol": "C"
+      }
+    ]
   },
   {
     "name": "William Brade",
@@ -3660,13 +4451,23 @@
     "name": "Jan Pieterszoon Sweelinck",
     "aliases": [],
     "born": "1562",
-    "died": "10/16/1621"
+    "died": "10/16/1621",
+    "catalogs": [
+      {
+        "symbol": "L"
+      }
+    ]
   },
   {
     "name": "John Dowland",
     "aliases": [],
     "born": "1563",
-    "died": "2/20/1626"
+    "died": "2/20/1626",
+    "catalogs": [
+      {
+        "symbol": "P"
+      }
+    ]
   },
   {
     "name": "Sebastian Aguilera De Heredia",
@@ -3678,7 +4479,12 @@
     "name": "Giles Farnaby",
     "aliases": [],
     "born": "1565",
-    "died": "11/25/1640"
+    "died": "11/25/1640",
+    "catalogs": [
+      {
+        "symbol": "M"
+      }
+    ]
   },
   {
     "name": "Giovanni Paolo Cima",
@@ -3877,7 +4683,12 @@
     "name": "Dietrich Buxtehude",
     "aliases": [],
     "born": "1637",
-    "died": "5/09/1707"
+    "died": "5/09/1707",
+    "catalogs": [
+      {
+        "symbol": "BuxWV"
+      }
+    ]
   },
   {
     "name": "Sieur de Sainte-Colombe",
@@ -3903,7 +4714,12 @@
     "name": "Alessandro Stradella",
     "aliases": [],
     "born": "1642",
-    "died": "2/25/1682"
+    "died": "2/25/1682",
+    "catalogs": [
+      {
+        "symbol": "G"
+      }
+    ]
   },
   {
     "name": "Marc-Antoine Charpentier",
@@ -3912,7 +4728,12 @@
       "Paul Colleaux & Marc-Antoine Charpentier"
     ],
     "born": "1644",
-    "died": "2/24/1704"
+    "died": "2/24/1704",
+    "catalogs": [
+      {
+        "symbol": "H"
+      }
+    ]
   },
   {
     "name": "Giovanni Maria Capelli",
@@ -3942,7 +4763,12 @@
     "name": "Henry Purcell",
     "aliases": [],
     "born": "1659",
-    "died": "11/21/1695"
+    "died": "11/21/1695",
+    "catalogs": [
+      {
+        "symbol": "Z"
+      }
+    ]
   },
   {
     "name": "Sybrant van Jr. Noordt",
@@ -4010,7 +4836,12 @@
     "name": "Jeremiah Clarke",
     "aliases": [],
     "born": "1674",
-    "died": "12/01/1707"
+    "died": "12/01/1707",
+    "catalogs": [
+      {
+        "symbol": "T"
+      }
+    ]
   },
   {
     "name": "Johann Georg Reinhardt",
@@ -4058,7 +4889,19 @@
     "name": "Sylvius Leopold Weiss",
     "aliases": [],
     "born": "1686",
-    "died": "1750"
+    "died": "1750",
+    "catalogs": [
+      {
+        "symbol": "WeissSW"
+      },
+      {
+        "symbol": "SC",
+        "aliases": ["S-C"]
+      },
+      {
+        "symbol": "K"
+      }
+    ]
   },
   {
     "name": "Ferdinand Zellbell",
@@ -4124,7 +4967,12 @@
     "name": "Johann Melchior Molter",
     "aliases": [],
     "born": "1696",
-    "died": "1765"
+    "died": "1765",
+    "catalogs": [
+      {
+        "symbol": "MWV"
+      }
+    ]
   },
   {
     "name": "Michel Blavet",
@@ -4148,7 +4996,12 @@
     "name": "Giovanni Battista Sammartini",
     "aliases": [],
     "born": "1701",
-    "died": "1/15/1775"
+    "died": "1/15/1775",
+    "catalogs": [
+      {
+        "symbol": "JC"
+      }
+    ]
   },
   {
     "name": "John Travers",
@@ -4160,7 +5013,15 @@
     "name": "Johann Gottlieb Graun",
     "aliases": [],
     "born": "1703",
-    "died": "10/27/1771"
+    "died": "10/27/1771",
+    "catalogs": [
+      {
+        "symbol": "GraunWV"
+      },
+      {
+        "symbol": "W"
+      }
+    ]
   },
   {
     "name": "František Antonín Ignac Tuma",
@@ -4196,7 +5057,12 @@
     "name": "Christoph Schaffrath",
     "aliases": [],
     "born": "1709",
-    "died": "1763"
+    "died": "1763",
+    "catalogs": [
+      {
+        "symbol": "CSWV"
+      }
+    ]
   },
   {
     "name": "Michel Corrette",
@@ -4244,7 +5110,13 @@
     "name": "Carl Heinrich Biber",
     "aliases": [],
     "born": "1718",
-    "died": "1749"
+    "died": "1749",
+    "catalogs": [
+      {
+        "symbol": "C",
+        "aliases": [ "Ch" ]
+      }
+    ]
   },
   {
     "name": "Anders Wesstrom",
@@ -4390,7 +5262,19 @@
     "name": "Francesco Antonio Rosetti",
     "aliases": [],
     "born": "1750",
-    "died": "6/30/1792"
+    "died": "6/30/1792",
+    "catalogs": [
+      {
+        "symbol": "M",
+        "aliases": [
+          "Murray",
+          "RWV"
+        ]
+      },
+      {
+        "symbol": "Kaul"
+      }
+    ]
   },
   {
     "name": "John Marsh",
@@ -4420,7 +5304,12 @@
     "name": "Franz Vincenz Krommer",
     "aliases": [],
     "born": "1759",
-    "died": "1/08/1831"
+    "died": "1/08/1831",
+    "catalogs": [
+      {
+        "symbol": "P"
+      }
+    ]
   },
   {
     "name": "Mateo Antonio Perez Albeniz",
@@ -4450,7 +5339,12 @@
     "name": "Franz Xaver Sussmayr",
     "aliases": [],
     "born": "1766",
-    "died": "9/17/1803"
+    "died": "9/17/1803",
+    "catalogs": [
+      {
+        "symbol": "SmWV"
+      }
+    ]
   },
   {
     "name": "Leonhard von Call",
@@ -5129,7 +6023,12 @@
     "name": "Anton Webern",
     "aliases": [],
     "born": "December 3, 1883",
-    "died": "September 15, 1945"
+    "died": "September 15, 1945",
+    "catalogs": [
+      {
+        "symbol": "M"
+      }
+    ]
   },
   {
     "name": "Antonio Lotti",

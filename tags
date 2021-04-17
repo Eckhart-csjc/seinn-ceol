@@ -11,6 +11,8 @@ BinaryOpFunc	src/extractor.ts	/^type BinaryOpFunc = (context: unknown, op1: unkn
 FileHandler	src/file-handler.ts	/^export class FileHandler<T> {$/;"	c
 IBinaryOperationToken	src/extractor.ts	/^interface IBinaryOperationToken extends IValueToken {$/;"	i
 IBinaryOperatorToken	src/extractor.ts	/^interface IBinaryOperatorToken extends IOperatorToken {$/;"	i
+ICatalog	src/composer.ts	/^export interface ICatalog {$/;"	i
+ICatalogEntry	src/track.ts	/^export interface ICatalogEntry {$/;"	i
 IComposer	src/composer.ts	/^export interface IComposer {$/;"	i
 IComposerUpdater	src/composer.ts	/^export interface IComposerUpdater extends Partial<IComposer> {$/;"	i
 IConfig	src/config.ts	/^export interface IConfig {$/;"	i
@@ -79,6 +81,7 @@ bumpPlays	src/track.ts	/^export const bumpPlays = (trackPath: string) => {$/;"	v
 bumpRowsPrinted	src/util.ts	/^  bumpRowsPrinted();      \/\/ Potentially innacurate, but as good as we can guess$/;"	m
 bumpRowsPrinted	src/util.ts	/^  bumpRowsPrinted();$/;"	m
 bumpRowsPrinted	src/util.ts	/^export const bumpRowsPrinted = (nLines: number = 1) => rowsPrinted += nLines;$/;"	v
+catalogs	src/track.ts	/^      catalogs: composerDetail?.catalogs?.reduce<ICatalogEntry[]>((accum, c, index) => {$/;"	m
 choices	src/composer.ts	/^      choices: ['OK', 'Redo', 'Cancel'],$/;"	m
 choices	src/composer.ts	/^      choices: options,$/;"	m
 choices	src/track.ts	/^      choices: options,$/;"	m
@@ -366,6 +369,7 @@ if	src/util.ts	/^  if (process.env.DEBUG) {$/;"	m
 if	src/util.ts	/^  if (result.nums[0]?.startsWith('0')) {$/;"	m
 if	src/util.ts	/^  if (totalWidth > process.stdout.columns) {$/;"	m
 indent	src/stats.ts	/^  indent: number = 0,$/;"	m
+index	src/track.ts	/^  index: number;    \/\/ Index of symbol in composerDetail.catalogs$/;"	m
 indexComposers	src/composer.ts	/^export const indexComposers = (composers?: IComposer[]) => $/;"	v
 indexPad	src/stats.ts	/^  indexPad: number = 0,$/;"	m
 info	src/config.ts	/^  info: { sequence: 'i' },$/;"	m
@@ -407,6 +411,8 @@ message	src/composer.ts	/^      message: 'Name:', $/;"	m
 message	src/composer.ts	/^      message: name,$/;"	m
 message	src/track.ts	/^      message: 'Commit these changes?',$/;"	m
 meta	src/keypress.ts	/^  meta: boolean;$/;"	m
+n	src/track.ts	/^              n: parseInt(match.groups.n, 10),$/;"	m
+n	src/track.ts	/^  n: number;        \/\/ Catalog entry number$/;"	m
 nDisks	src/track.ts	/^    nDisks: c.disk.of || undefined,$/;"	m
 nTracks	src/stats.ts	/^  nTracks: 0,$/;"	m
 nTracks	src/stats.ts	/^  nTracks: existing.nTracks + 1,$/;"	m
@@ -610,12 +616,16 @@ stopPlaying	src/play.ts	/^export const stopPlaying = async () => playState.isPla
 stopPlaying	src/playlist.ts	/^    stopPlaying();$/;"	m
 stopPlaying	src/playlist.ts	/^  stopPlaying();$/;"	m
 stringLiteral	src/extractor.ts	/^  stringLiteral: () : IParser<IStringLiteralToken> =>$/;"	m
+suffix	src/track.ts	/^              suffix: match.groups.suffix,$/;"	m
 suggest	src/composer.ts	/^export const suggest = (name: string) => _.sortBy(fetchAll().map((composer:IComposer) => ({$/;"	v
 suspend	src/keypress.ts	/^export const suspend = () => active = false;$/;"	v
 switch	src/composer.ts	/^  switch (option) {$/;"	m
 switch	src/composer.ts	/^  switch (responses.action) {$/;"	m
 switch	src/playlist.ts	/^  switch (afterTrackAction) {$/;"	m
 switch	src/track.ts	/^  switch (option) {$/;"	m
+symbol	src/composer.ts	/^  symbol: string;             \/\/ BWV, etc (without period, case inconsequential)$/;"	m
+symbol	src/track.ts	/^              symbol: c.symbol,$/;"	m
+symbol	src/track.ts	/^  symbol: string;   \/\/ Symbol in composerDetail.catalogs$/;"	m
 t	src/layout.ts	/^  t: track.ITrackHydrated, $/;"	m
 t	src/stats.ts	/^  t: track.ITrackHydrated, $/;"	m
 t	src/stats.ts	/^  t: track.ITrackHydrated,$/;"	m

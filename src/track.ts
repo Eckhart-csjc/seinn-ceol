@@ -48,9 +48,17 @@ export interface ITrack extends ITrackInfo {
   compositionDate?: string;
 }
 
+export interface ICatalogEntry {
+  symbol: string;   // Symbol in composerDetail.catalogs
+  index: number;    // Index of symbol in composerDetail.catalogs
+  n: number;        // Catalog entry number
+  suffix?: string;  // Any suffix
+}
+
 export interface ITrackHydrated extends ITrack {
   composerDetail?: IComposer;
   opus?: number;        // Parsed from track title
+  catalogs?: ICatalogEntry[]; // Parsed from title, based on composerDetail.catalogs, first one found (in composer order) is [0], etc.
   playTime?: number;
   index?: number;       // Added by sort
 }
@@ -252,6 +260,20 @@ export const hydrateTrack = (
       ...t,
       composerDetail,
       opus: parseOpus(t.title),
+      catalogs: composerDetail?.catalogs?.reduce<ICatalogEntry[]>((accum, c, index) => {
+        const pattern = new RegExp(c.pattern ?? `\\b${[c.symbol, ...(c.aliases ?? [])].join('|')}\\.?\\s*(?<n>\\d+)(?<suffix>[a-z]*)\\b`, 'i');
+        const match = t.title?.match(pattern);
+        return match?.groups?.n ?
+          [
+            ...accum,
+            {
+              symbol: c.symbol,
+              index,
+              n: parseInt(match.groups.n, 10),
+              suffix: match.groups.suffix,
+            }
+          ] : accum;
+      }, [] as ICatalogEntry[]),
       playTime: t.duration ? (t.plays * t.duration) : undefined,
     };
 };
