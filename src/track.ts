@@ -49,10 +49,12 @@ export interface ITrack extends ITrackInfo {
 }
 
 export interface ICatalogEntry {
-  symbol: string;   // Symbol in composerDetail.catalogs
-  index: number;    // Index of symbol in composerDetail.catalogs
-  n: number;        // Catalog entry number
-  suffix?: string;  // Any suffix
+  symbol: string;               // Symbol in composerDetail.catalogs
+  index: number;                // Index of symbol in composerDetail.catalogs
+  category?: string | number;   // Any category within the catalog
+  prefix?: string | number;     // Any prefix
+  n: string | number;           // Catalog entry number
+  suffix?: string | number;     // Any suffix
 }
 
 export interface ITrackHydrated extends ITrack {
@@ -249,6 +251,19 @@ export const parseOpus = (title?: string): number|undefined => {
   return match ? parseInt(match[2], 10) : undefined;
 };
 
+const intOrString = (val: string | undefined) => val && val.match(/^\d+$/) ? parseInt(val,10) : val;
+
+const ROMAN: Record<string, number> = 
+  {'I': 1, 'V': 5, 'X': 10, 'L': 50, 'C': 100, 'D': 500, 'M': 1000};
+
+export const parseRoman = (val: string) => [...val].reduce<{prev: number, result: number}>((accum, c) => {
+  const val = ROMAN[c] ?? 0;
+  return {
+    prev: val,
+    result: (val > accum.prev) ? (accum.result - (accum.prev * 2) + val) : (accum.result + val)
+  };
+}, { prev: 0, result: 0 }).result;
+
 export const hydrateTrack = (
   t: ITrack, 
   composerIndex?: Record<string, IComposer>
@@ -263,14 +278,18 @@ export const hydrateTrack = (
       catalogs: composerDetail?.catalogs?.reduce<ICatalogEntry[]>((accum, c, index) => {
         const pattern = new RegExp(c.pattern ?? `\\b${[c.symbol, ...(c.aliases ?? [])].join('|')}\\.?\\s*(?<n>\\d+)(?<suffix>[a-z]*)\\b`, 'i');
         const match = t.title?.match(pattern);
-        return match?.groups?.n ?
+        return match?.groups ?
           [
             ...accum,
             {
-              symbol: c.symbol,
+              symbol: (match.groups.symbol || c.symbol),
               index,
-              n: parseInt(match.groups.n, 10),
-              suffix: match.groups.suffix,
+              category: match.groups.category ?
+                (c.isCategoryRoman ? parseRoman(match.groups.category) : intOrString(match.groups.category)) :
+                undefined,
+              prefix: intOrString(match.groups.prefix),
+              n: intOrString(match.groups.n) ?? 0,
+              suffix: intOrString(match.groups.suffix),
             }
           ] : accum;
       }, [] as ICatalogEntry[]),

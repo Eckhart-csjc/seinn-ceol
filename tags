@@ -82,6 +82,7 @@ bumpRowsPrinted	src/util.ts	/^  bumpRowsPrinted();      \/\/ Potentially innacur
 bumpRowsPrinted	src/util.ts	/^  bumpRowsPrinted();$/;"	m
 bumpRowsPrinted	src/util.ts	/^export const bumpRowsPrinted = (nLines: number = 1) => rowsPrinted += nLines;$/;"	v
 catalogs	src/track.ts	/^      catalogs: composerDetail?.catalogs?.reduce<ICatalogEntry[]>((accum, c, index) => {$/;"	m
+category	src/track.ts	/^              category: match.groups.category ?$/;"	m
 choices	src/composer.ts	/^      choices: ['OK', 'Redo', 'Cancel'],$/;"	m
 choices	src/composer.ts	/^      choices: options,$/;"	m
 choices	src/track.ts	/^      choices: options,$/;"	m
@@ -369,7 +370,7 @@ if	src/util.ts	/^  if (process.env.DEBUG) {$/;"	m
 if	src/util.ts	/^  if (result.nums[0]?.startsWith('0')) {$/;"	m
 if	src/util.ts	/^  if (totalWidth > process.stdout.columns) {$/;"	m
 indent	src/stats.ts	/^  indent: number = 0,$/;"	m
-index	src/track.ts	/^  index: number;    \/\/ Index of symbol in composerDetail.catalogs$/;"	m
+index	src/track.ts	/^  index: number;                \/\/ Index of symbol in composerDetail.catalogs$/;"	m
 indexComposers	src/composer.ts	/^export const indexComposers = (composers?: IComposer[]) => $/;"	v
 indexPad	src/stats.ts	/^  indexPad: number = 0,$/;"	m
 info	src/config.ts	/^  info: { sequence: 'i' },$/;"	m
@@ -411,8 +412,8 @@ message	src/composer.ts	/^      message: 'Name:', $/;"	m
 message	src/composer.ts	/^      message: name,$/;"	m
 message	src/track.ts	/^      message: 'Commit these changes?',$/;"	m
 meta	src/keypress.ts	/^  meta: boolean;$/;"	m
-n	src/track.ts	/^              n: parseInt(match.groups.n, 10),$/;"	m
-n	src/track.ts	/^  n: number;        \/\/ Catalog entry number$/;"	m
+n	src/track.ts	/^              n: intOrString(match.groups.n) ?? 0,$/;"	m
+n	src/track.ts	/^  n: string | number;           \/\/ Catalog entry number$/;"	m
 nDisks	src/track.ts	/^    nDisks: c.disk.of || undefined,$/;"	m
 nTracks	src/stats.ts	/^  nTracks: 0,$/;"	m
 nTracks	src/stats.ts	/^  nTracks: existing.nTracks + 1,$/;"	m
@@ -524,6 +525,7 @@ parse	src/extractor.ts	/^export const parse = (input: string): Response<IValueTo
 parseDuration	src/extractor.ts	/^import parseDuration from 'parse-duration';$/;"	I
 parseExtractor	src/extractor.ts	/^export const parseExtractor = (input: string): IValueToken | undefined => {$/;"	v
 parseOpus	src/track.ts	/^export const parseOpus = (title?: string): number|undefined => {$/;"	v
+parseRoman	src/track.ts	/^export const parseRoman = (val: string) => [...val].reduce<{prev: number, result: number}>((accum, c) => {$/;"	v
 pause	src/config.ts	/^  pause: { sequence: 'p' },$/;"	m
 pauseAfterTrack	src/config.ts	/^  pauseAfterTrack: { sequence: 'P' },$/;"	m
 paused	src/players/afplay.ts	/^  paused: 0,$/;"	m
@@ -543,6 +545,8 @@ plays	src/stats.ts	/^  plays: 'totalPlays',$/;"	m
 plays	src/track.ts	/^      plays: oldTrack.plays + 1,$/;"	m
 plays	src/track.ts	/^    plays: 0,$/;"	m
 plays	src/track.ts	/^  plays: number;$/;"	m
+prefix	src/track.ts	/^              prefix: intOrString(match.groups.prefix),$/;"	m
+prev	src/track.ts	/^    prev: val,$/;"	m
 previousTrack	src/config.ts	/^  previousTrack: { sequence: 'k' },$/;"	m
 print	src/players/afplay.ts	/^      print(' ');$/;"	m
 print	src/players/afplay.ts	/^      print(makeProgressBar(barWidth, pct,$/;"	m
@@ -584,6 +588,7 @@ resolve	src/players/afplay.ts	/^        resolve();                  \/\/ Resume 
 resolveAll	src/composer.ts	/^export const resolveAll = async () => {$/;"	v
 resolveAnonymous	src/track.ts	/^export const resolveAnonymous = async (track: ITrack): Promise<void> => {$/;"	v
 resolveBy	src/asyncChild.ts	/^  resolveBy: number = 0$/;"	m
+result	src/track.ts	/^    result: (val > accum.prev) ? (accum.result - (accum.prev * 2) + val) : (accum.result + val)$/;"	m
 resume	src/config.ts	/^  resume: { sequence: 'r' },$/;"	m
 resume	src/keypress.ts	/^  resume();$/;"	m
 resume	src/keypress.ts	/^export const resume = () => active = true;$/;"	v
@@ -616,7 +621,7 @@ stopPlaying	src/play.ts	/^export const stopPlaying = async () => playState.isPla
 stopPlaying	src/playlist.ts	/^    stopPlaying();$/;"	m
 stopPlaying	src/playlist.ts	/^  stopPlaying();$/;"	m
 stringLiteral	src/extractor.ts	/^  stringLiteral: () : IParser<IStringLiteralToken> =>$/;"	m
-suffix	src/track.ts	/^              suffix: match.groups.suffix,$/;"	m
+suffix	src/track.ts	/^              suffix: intOrString(match.groups.suffix),$/;"	m
 suggest	src/composer.ts	/^export const suggest = (name: string) => _.sortBy(fetchAll().map((composer:IComposer) => ({$/;"	v
 suspend	src/keypress.ts	/^export const suspend = () => active = false;$/;"	v
 switch	src/composer.ts	/^  switch (option) {$/;"	m
@@ -624,8 +629,8 @@ switch	src/composer.ts	/^  switch (responses.action) {$/;"	m
 switch	src/playlist.ts	/^  switch (afterTrackAction) {$/;"	m
 switch	src/track.ts	/^  switch (option) {$/;"	m
 symbol	src/composer.ts	/^  symbol: string;             \/\/ BWV, etc (without period, case inconsequential)$/;"	m
-symbol	src/track.ts	/^              symbol: c.symbol,$/;"	m
-symbol	src/track.ts	/^  symbol: string;   \/\/ Symbol in composerDetail.catalogs$/;"	m
+symbol	src/track.ts	/^              symbol: (match.groups.symbol || c.symbol),$/;"	m
+symbol	src/track.ts	/^  symbol: string;               \/\/ Symbol in composerDetail.catalogs$/;"	m
 t	src/layout.ts	/^  t: track.ITrackHydrated, $/;"	m
 t	src/stats.ts	/^  t: track.ITrackHydrated, $/;"	m
 t	src/stats.ts	/^  t: track.ITrackHydrated,$/;"	m

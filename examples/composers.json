@@ -1292,10 +1292,8 @@
     "catalogs": [
       {
         "symbol": "HV",
-        "aliases": [
-          "H",
-          "Hob"
-        ]
+        "pattern": "\\bH(V|ob)?\\.?\\s*((?<category>[MDCLXVI]+)\\.?\\s*:?\\s*)?(?<prefix>[A-Z]+)?(?<n>\\d*)(?<suffix>[a-z]*)\\b",
+        "isCategoryRoman": true
       }
     ]
   },

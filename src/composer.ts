@@ -11,7 +11,13 @@ const pluralize = require('pluralize');
 export interface ICatalog {
   symbol: string;             // BWV, etc (without period, case inconsequential)
   aliases?: string[];         // Other symbols used for this catalog
-  pattern?: string;           // Regex pattern:  If not provided, construct from symbol -- use named capture groups "n" => number, "suffix" => optional suffix
+  pattern?: string;           // Regex pattern:  If not provided, construct from symbol -- use named capture groups:
+                              // "category" => optional category
+                              // "n" => number (required)
+                              // "prefix" => optional prefix
+                              // "suffix" => optional suffix
+                              // "symbol" => optional symbol (defaults to symbol member on match)
+  isCategoryRoman?: boolean;  // category, if found, is a Roman numeral (thanks, Hoboken)
 }
 
 export interface IComposer {
