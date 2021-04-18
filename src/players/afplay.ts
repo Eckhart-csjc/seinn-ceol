@@ -1,7 +1,7 @@
 import { spawnWithProgress } from '../asyncChild';
 import { IKey, IKeyMaker, IKeyMapping } from '../keypress';
 import * as keypress from '../keypress';
-import { ITrack } from '../track';
+import { ITrackHydrated } from '../track';
 import { 
   addProgressSuffix,
   error, 
@@ -97,7 +97,7 @@ export const stop = async () => {
   return true;
 }
 
-export const play = async (track: ITrack, earlyReturn: number = 0): Promise<boolean> => {
+export const play = async (track: ITrackHydrated, earlyReturn: number = 0): Promise<boolean> => {
   const playKeys = await makePlayKeys();
   keypress.addKeys(playKeys);
   try {
@@ -114,7 +114,7 @@ export const play = async (track: ITrack, earlyReturn: number = 0): Promise<bool
   return !playState.killed;
 };
 
-const doPlay = async (track:ITrack, earlyReturn: number = 0, offset: number = 0) => {
+const doPlay = async (track:ITrackHydrated, earlyReturn: number = 0, offset: number = 0) => {
   const total = (track.duration || 1) * 1000;
   const totalFmt = makeTime(total);
   const maxWidth = process.stdout.columns || 80;

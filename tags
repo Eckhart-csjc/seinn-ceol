@@ -180,9 +180,9 @@ fnc	src/extractor.ts	/^        fnc(context, op1, op2)$/;"	m
 fnc	src/extractor.ts	/^    fnc(context, pack(extract(context, operands[0])));$/;"	m
 fnc	src/extractor.ts	/^    fnc(context, pack(extract(context, operands[0])), extract(context, operands[1]));$/;"	m
 formatColumn	src/layout.ts	/^      formatColumn(c, { ...t, index: trackIndex }, sep.length), $/;"	m
-formatInfo	src/composer.ts	/^export const formatInfo = (composer?: string[], composerKey?: string) => {$/;"	v
+formatInfo	src/composer.ts	/^export const formatInfo = (composer?: string[], composerKey?: IComposer | string) => {$/;"	v
 formatInfo	src/play.ts	/^        formatInfo(track).map((i) => o.add(i, ' | ', " \\u2192 ", "detail"));$/;"	m
-formatInfo	src/track.ts	/^export const formatInfo = (t: ITrack): string[] => [$/;"	v
+formatInfo	src/track.ts	/^export const formatInfo = (t: ITrackHydrated): string[] => [$/;"	v
 func	src/keypress.ts	/^  func: (key: IKey) => any;     \/\/ Return value is ignored$/;"	m
 func	src/keypress.ts	/^  func: (key: IKey) => any;$/;"	m
 func	src/play.ts	/^      func: (key: keypress.IKey) =>  {$/;"	m
@@ -529,8 +529,8 @@ pauseAfterTrack	src/config.ts	/^  pauseAfterTrack: { sequence: 'P' },$/;"	m
 paused	src/players/afplay.ts	/^  paused: 0,$/;"	m
 paused	src/players/afplay.ts	/^  paused: number;       \/\/ Number of milliseconds track has been paused (prior to any current pause)$/;"	m
 play	src/play.ts	/^  play: ($/;"	m
-play	src/play.ts	/^export const play = async (track: ITrack | string): Promise<void> => { await doPlay(track); }$/;"	v
-play	src/players/afplay.ts	/^export const play = async (track: ITrack, earlyReturn: number = 0): Promise<boolean> => {$/;"	v
+play	src/play.ts	/^export const play = async (track: ITrackHydrated | string): Promise<void> => { await doPlay(track); }$/;"	v
+play	src/players/afplay.ts	/^export const play = async (track: ITrackHydrated, earlyReturn: number = 0): Promise<boolean> => {$/;"	v
 playList	src/playlist.ts	/^export const playList = async (name: string) => doPlayList(name, 0);$/;"	v
 playTime	src/stats.ts	/^  playTime: 'playTime',$/;"	m
 playTime	src/stats.ts	/^  playTime: 0,$/;"	m
@@ -640,8 +640,8 @@ totalTime	src/stats.ts	/^  totalTime: 0,$/;"	m
 totalTime	src/stats.ts	/^  totalTime: existing.totalTime + (t.duration ?? 0) * 1000,$/;"	m
 totalTime	src/stats.ts	/^  totalTime: number;$/;"	m
 track	src/layout.ts	/^  track: track.ITrackHydrated,$/;"	m
-track	src/play.ts	/^    track: ITrack,                \/\/ Track to play$/;"	m
-track	src/play.ts	/^  track: ITrack | string,         \/\/ Track, or trackpath$/;"	m
+track	src/play.ts	/^    track: ITrackHydrated,        \/\/ Track to play$/;"	m
+track	src/play.ts	/^  track: ITrackHydrated | string,         \/\/ Track, or trackpath$/;"	m
 track	src/track.ts	/^      track: tr,$/;"	m
 track	src/track.ts	/^    track: c.track.no || undefined,$/;"	m
 trackIndex	src/layout.ts	/^  trackIndex: number, $/;"	m

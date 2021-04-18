@@ -354,9 +354,9 @@ export const resolveAnonymous = async (track: ITrack): Promise<void> => {
   }
 }
 
-export const formatInfo = (t: ITrack): string[] => [
+export const formatInfo = (t: ITrackHydrated): string[] => [
   `Title: ${t.title || '?'}`,
-  composer.formatInfo(t.composer, t.composerKey),
+  composer.formatInfo(t.composer, t.composerDetail),
   ...(t.compositionDate ? [ `Composition Date: ${t.compositionDate}` ] : []),
   `Album: ${t.album || '?'}`,
   ...((t.nDisks && t.nDisks > 1) ? [ `Disk ${t.disk} of ${t.nDisks}` ] : []),
@@ -365,6 +365,10 @@ export const formatInfo = (t: ITrack): string[] => [
   ...(t.date ? [ dayjs(t.date).format('MMMM D, YYYY') ] : []),
   ...(t.copyright ? [ t.copyright ] : []),
   ...(t.genre ? [ `Genre: ${t.genre.join(', ')}` ] : []),
+  ...(t.opus ? [ `Opus ${t.opus}` ]: []),
+  ...(t.catalogs && t.catalogs.length ?
+    [ `${pluralize('Catalog', t.catalogs.length)}: ${t.catalogs.map((c) => c.symbol + ' ' + c.n + (c.suffix ?? '')).join(', ')}` ] :
+    []),
   `Duration: ${makeTime((t.duration ?? 1) * 1000)}`,
   `Plays: ${t.plays}`,
   ...(t.lastPlayed ? [`Last played: ${t.lastPlayed}`] : []),

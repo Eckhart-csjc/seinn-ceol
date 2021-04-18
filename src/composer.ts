@@ -229,11 +229,13 @@ export const resolve = async (name: string, tracks: track.ITrack[]): Promise<boo
   return false;
 };
 
-export const formatInfo = (composer?: string[], composerKey?: string) => {
+export const formatInfo = (composer?: string[], composerKey?: IComposer | string) => {
   const name = composer?.join(' & ') ?? composerKey ?? '?';
-  const c = composerKey ? find(composerKey) : undefined;
-  const alias = (composerKey && composerKey !== name) ?
-    ` (${composerKey})` :
+  const c:IComposer|undefined = composerKey ? 
+    (typeof composerKey === 'string' ? find(composerKey) : composerKey) : 
+    undefined;
+  const alias = (c?.name && c?.name !== name) ?
+    ` (${c?.name})` :
     '';
   return `Composer: ${name}${alias}, born: ${c?.born ?? '?'}${c?.died ? ' died: ' + c?.died : ''}`;
 }
