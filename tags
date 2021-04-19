@@ -94,6 +94,7 @@ cmd	src/asyncChild.ts	/^  cmd: string, $/;"	m
 column	src/layout.ts	/^  column: ILayoutColumn, $/;"	m
 composer	src/index.test.ts	/^  composer: 'Johann Sebastian Bach',$/;"	m
 composerKey	src/track.ts	/^    composerKey: _.uniq(removeDupNames(trackInfo.composer ?? [])).join(' & ') || undefined,$/;"	m
+composers	src/query.ts	/^  composers: composer,$/;"	m
 constructor	src/array-file-handler.ts	/^  constructor (baseFilename: string, pathOverride?: string) {$/;"	m
 constructor	src/file-handler.ts	/^  constructor (public baseFilename: string, public pathOverride?: string) {$/;"	m
 constructor	src/segout.ts	/^  constructor() {$/;"	m
@@ -144,6 +145,7 @@ error	src/file-handler.ts	/^        error(`Error reading and parsing file ${file
 error	src/players/afplay.ts	/^    error(`Error playing track ${track.trackPath}: ${e.message}`);$/;"	m
 error	src/playlist.ts	/^        error(`Playlist ${name} no longer exists`);$/;"	m
 error	src/playlist.ts	/^    error(`Could not find playlist "${name}"`);$/;"	m
+error	src/query.ts	/^    error(`Unknown table: ${table}`);$/;"	m
 error	src/track.ts	/^          error(`Track ${trackPath} is not an audio file we can use`);$/;"	m
 error	src/track.ts	/^    error(`Could not read directory ${dir}: ${e.message}`);$/;"	m
 error	src/track.ts	/^    error(`Error adding tracks: ${e.message}`);$/;"	m
@@ -355,6 +357,7 @@ if	src/playlist.ts	/^  if (existing) {$/;"	m
 if	src/playlist.ts	/^  if (isPlaying()) {$/;"	m
 if	src/playlist.ts	/^  if (lastHeaderRow === 0 || (getRowsPrinted() - lastHeaderRow) >= (process.stdout.rows-3)) {$/;"	m
 if	src/playlist.ts	/^  if (where && !token) {$/;"	m
+if	src/query.ts	/^  if (!tableHandler) {$/;"	m
 if	src/segout.ts	/^      if (sep) {$/;"	m
 if	src/segout.ts	/^    if (this.lastCol > 0 && $/;"	m
 if	src/segout.ts	/^    if (this.lastCol > 0) {$/;"	m
@@ -397,6 +400,7 @@ killed	src/players/afplay.ts	/^  killed: boolean;$/;"	m
 killed	src/players/afplay.ts	/^  killed: false,$/;"	m
 lastCol	src/segout.ts	/^  lastCol: number;$/;"	m
 lastPlayed	src/track.ts	/^      lastPlayed: dayjs().toString(),$/;"	m
+layouts	src/query.ts	/^  layouts: layout,$/;"	m
 limit	src/stats.ts	/^  limit: number = 0,$/;"	m
 main	src/seinn-ceol.ts	/^main()$/;"	m
 makeFilename	src/file-handler.ts	/^  private makeFilename(basename: string, pathOverride?: string) {$/;"	m
@@ -516,6 +520,7 @@ operator	src/index.test.ts	/^    operator: Operation.Not,$/;"	m
 operator	src/index.test.ts	/^    operator: Operation.Or,$/;"	m
 operator	src/index.test.ts	/^  operator: {$/;"	m
 optSpace	src/extractor.ts	/^  optSpace: (): VoidParser =>$/;"	m
+options	src/query.ts	/^  options: {$/;"	m
 options	src/stats.ts	/^  options: {$/;"	m
 opus	src/track.ts	/^      opus: parseOpus(t.title),$/;"	m
 orderBy	src/playlist.ts	/^  orderBy: string[];      \/\/ ITrackHydrated keys for order of play$/;"	m
@@ -547,6 +552,7 @@ playTime	src/stats.ts	/^  playTime: number;$/;"	m
 playTime	src/track.ts	/^      playTime: t.duration ? (t.plays * t.duration) : undefined,$/;"	m
 player	src/config.ts	/^  player: 'afplay',$/;"	m
 player	src/config.ts	/^  player: string;$/;"	m
+playlists	src/query.ts	/^  playlists: playlist,$/;"	m
 plays	src/stats.ts	/^  plays: 'totalPlays',$/;"	m
 plays	src/track.ts	/^      plays: oldTrack.plays + 1,$/;"	m
 plays	src/track.ts	/^    plays: 0,$/;"	m
@@ -566,11 +572,14 @@ printColumns	src/track.ts	/^    printColumns(newTracks.map((track) => $/;"	m
 printColumns	src/util.ts	/^export const printColumns = ($/;"	v
 printLn	src/composer.ts	/^    printLn('');$/;"	m
 printLn	src/composer.ts	/^  printLn('');$/;"	m
+printLn	src/query.ts	/^  printLn('');$/;"	m
+printLn	src/query.ts	/^  printLn(pluralize(table.replace(\/s$\/, ''), limited.length, true));$/;"	m
 printLn	src/segout.ts	/^    printLn('');$/;"	m
 printLn	src/seinn-ceol.ts	/^        printLn(keypress.makeHelpText().join(', '), 'help');$/;"	m
 printLn	src/track.ts	/^  printLn('');$/;"	m
 printLn	src/util.ts	/^    printLn(row.map((col, ndx) => $/;"	m
 printLn	src/util.ts	/^export const printLn = (text: string, theme?: Theming) => {$/;"	v
+query	src/query.ts	/^export const query = ($/;"	v
 quit	src/config.ts	/^  quit: { sequence: 'q' },$/;"	m
 quitAfterTrack	src/config.ts	/^  quitAfterTrack: { sequence: 'Q' },$/;"	m
 reject	src/asyncChild.ts	/^        reject(new Error(result.error));$/;"	m
@@ -600,6 +609,7 @@ resume	src/keypress.ts	/^  resume();$/;"	m
 resume	src/keypress.ts	/^export const resume = () => active = true;$/;"	v
 return	src/extractor.ts	/^        return (Math.abs(now.diff(dt, 'years')) > 0) ?$/;"	m
 return	src/layout.ts	/^    return (maxWidth > 0 && maxWidth < text.length) ?$/;"	m
+return	src/query.ts	/^  return (sortParsers.length ?$/;"	m
 rewind	src/config.ts	/^  rewind: { sequence: 'R' },$/;"	m
 rewind	src/players/afplay.ts	/^  rewind: boolean;$/;"	m
 rewind	src/players/afplay.ts	/^  rewind: false,$/;"	m
@@ -641,6 +651,7 @@ t	src/layout.ts	/^  t: track.ITrackHydrated, $/;"	m
 t	src/stats.ts	/^  t: track.ITrackHydrated, $/;"	m
 t	src/stats.ts	/^  t: track.ITrackHydrated,$/;"	m
 t	src/track.ts	/^  t: ITrack, $/;"	m
+table	src/query.ts	/^  table: string,$/;"	m
 text	src/layout.ts	/^  text: string, $/;"	m
 text	src/segout.ts	/^    text: string,         \/\/ Text to add$/;"	m
 time	src/stats.ts	/^  time: 'totalTime',$/;"	m
@@ -658,6 +669,7 @@ track	src/track.ts	/^    track: c.track.no || undefined,$/;"	m
 trackIndex	src/layout.ts	/^  trackIndex: number, $/;"	m
 trackPath	src/track.ts	/^      trackPath: oldTrack.trackPath,$/;"	m
 trackPath	src/track.ts	/^  trackPath: string;$/;"	m
+tracks	src/query.ts	/^  tracks: track,$/;"	m
 tracks	src/stats.ts	/^  tracks: 'nTracks',$/;"	m
 tracks	src/track.ts	/^  tracks: string[], $/;"	m
 type	src/composer.ts	/^      type: 'input', $/;"	m

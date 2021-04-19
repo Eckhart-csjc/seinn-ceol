@@ -4,6 +4,7 @@ import * as composer from './composer';
 import * as keypress  from './keypress';
 import { play } from './play';
 import * as playlist from './playlist';
+import { query } from './query';
 import { stats } from './stats';
 import * as track from './track';
 import { printLn } from './util';
@@ -76,6 +77,17 @@ program
   .command('resolve-composers')
   .description('Resolve composers for tracks whose composer is not on file')
   .action(composer.resolveAll)
+  ;
+
+program
+  .command('query <table>')
+  .option('-c, --columns <columns...>', 'Columns to show (using query syntax)')
+  .option('-o, --order <order...>', 'Order items by query',)
+  .option('-w, --where <filter>', 'Filter items to include')
+  .option('-O, --offset <offset>', 'Start at offset (0 is first)')
+  .option('-l, --limit <limit>', 'Limit output to n items')
+  .description('query table contents')
+  .action(query)
   ;
 
 program
