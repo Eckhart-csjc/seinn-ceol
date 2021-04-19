@@ -366,7 +366,9 @@
     "catalogs": [
       {
         "symbol": "K",
-        "aliases": [ "KV" ]
+        "aliases": [
+          "KV"
+        ]
       },
       {
         "symbol": "WSF"
@@ -1123,7 +1125,9 @@
     "catalogs": [
       {
         "symbol": "RWV",
-        "aliases": ["JWV"]
+        "aliases": [
+          "JWV"
+        ]
       }
     ]
   },
@@ -1292,7 +1296,7 @@
     "catalogs": [
       {
         "symbol": "HV",
-        "pattern": "\\bH(V|ob)?\\.?\\s*((?<category>[MDCLXVI]+)\\.?\\s*:?\\s*)?(?<prefix>[A-Z]+)?(?<n>\\d*)(?<suffix>[a-z]*)\\b",
+        "pattern": "\\bH(V|ob)?\\.?\\s*((?<category>[MDCLXVI]+)\\.?\\s*:?\\s*)?(?<prefix>deest|[A-G])?(?<n>\\d*)(?<suffix>[a-z]*)\\b",
         "isCategoryRoman": true
       }
     ]
@@ -1751,7 +1755,9 @@
     "catalogs": [
       {
         "symbol": "CW",
-        "aliases": [ "ČW" ]
+        "aliases": [
+          "ČW"
+        ]
       },
       {
         "symbol": "TH"
@@ -2352,7 +2358,9 @@
     "catalogs": [
       {
         "symbol": "JFCB",
-        "aliases": ["L"]
+        "aliases": [
+          "L"
+        ]
       },
       {
         "symbol": "HW"
@@ -2954,7 +2962,9 @@
       },
       {
         "symbol": "Terry",
-        "aliases": [ "W" ]
+        "aliases": [
+          "W"
+        ]
       }
     ]
   },
@@ -3390,7 +3400,9 @@
     "catalogs": [
       {
         "symbol": "Kk",
-        "aliases": [ "K" ]
+        "aliases": [
+          "K"
+        ]
       },
       {
         "symbol": "L"
@@ -3666,7 +3678,8 @@
   {
     "name": "Carl Maria Friedrich Ernst, Freiherr von Weber",
     "aliases": [
-      "Carl Maria von Weber"
+      "Carl Maria von Weber",
+      "Carl Maria Von Weber"
     ],
     "born": "11/18/1786",
     "died": "6/05/1826",
@@ -3724,7 +3737,9 @@
       },
       {
         "symbol": "F",
-        "aliases": [ "Fk" ]
+        "aliases": [
+          "Fk"
+        ]
       }
     ]
   },
@@ -4894,7 +4909,9 @@
       },
       {
         "symbol": "SC",
-        "aliases": ["S-C"]
+        "aliases": [
+          "S-C"
+        ]
       },
       {
         "symbol": "K"
@@ -5112,7 +5129,9 @@
     "catalogs": [
       {
         "symbol": "C",
-        "aliases": [ "Ch" ]
+        "aliases": [
+          "Ch"
+        ]
       }
     ]
   },
