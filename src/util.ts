@@ -90,9 +90,13 @@ export const ask = async (questions: any): Promise<any> => {
   return response;
 }
 
-export const makeString = (input: unknown) =>
+export const makeString = (input: unknown): string =>
   (input != null) ?
-    (Array.isArray(input) ? input.map((e) => `${e}`).join(' & ') : `${input}`) :
+    (Array.isArray(input) ? 
+      input.map((e) => `${makeString(e)}`).join(' & ') : 
+      (typeof input === 'object' ? 
+        JSON.stringify(input) : 
+        `${input}`)) :
     '';
 
 export const makeTime = (milli: number) => {

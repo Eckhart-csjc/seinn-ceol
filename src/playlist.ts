@@ -1,5 +1,6 @@
 import * as _ from 'lodash';
 import { ArrayFileHandler } from './array-file-handler';
+import { extract, parseExtractor } from './extractor';
 import { IKey } from './keypress';
 import * as keypress from './keypress';
 import * as layout from './layout';
@@ -45,6 +46,17 @@ export const save = (playlist: IPlayList) => {
   } else {
     playListFile.save([ ...playlists, playlist ]);
   }
+};
+
+export const filter = (where?: string): IPlayList[] => {
+  const token = where && parseExtractor(where);
+  if (where && !token) {
+    return [];      // A Parse error occurred
+  }
+  const playlists = fetchAll();
+  return token ?
+    playlists.filter((t) => !!extract(t, token)) :
+    playlists;
 };
 
 let afterTrackAction: AfterTrackAction = AfterTrackAction.Next;

@@ -1,5 +1,6 @@
 import * as _ from 'lodash';
 import { ArrayFileHandler } from './array-file-handler';
+import { extract, parseExtractor } from './extractor';
 import * as keypress from './keypress';
 import * as track from './track';
 import { ask, error, notification, printLn, warning } from './util';
@@ -39,6 +40,17 @@ const VIEW = '<view tracks>';
 const composerFile = new ArrayFileHandler<IComposer>('composers.json');
 
 export const fetchAll = () => composerFile.fetch();
+
+export const filter = (where?: string): IComposer[] => {
+  const token = where && parseExtractor(where);
+  if (where && !token) {
+    return [];      // A Parse error occurred
+  }
+  const composers = fetchAll();
+  return token ?
+    composers.filter((t) => !!extract(t, token)) :
+    composers;
+};
 
 export const indexComposers = (composers?: IComposer[]) => 
   (composers ?? fetchAll())

@@ -48,6 +48,17 @@ export const save = (layout: ILayout) => {
   }
 };
 
+export const filter = (where?: string): ILayout[] => {
+  const token = where && parseExtractor(where);
+  if (where && !token) {
+    return [];      // A Parse error occurred
+  }
+  const layouts = fetchAll();
+  return token ?
+    layouts.filter((t) => !!extract(t, token)) :
+    layouts;
+};
+
 export const displayColumns = (
   t: track.ITrackHydrated, 
   trackIndex: number, 

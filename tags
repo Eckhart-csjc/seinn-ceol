@@ -168,6 +168,9 @@ fetchAll	src/layout.ts	/^export const fetchAll = () => layoutFile.fetch();$/;"	v
 fetchAll	src/playlist.ts	/^export const fetchAll = () => playListFile.fetch();$/;"	v
 fetchAll	src/track.ts	/^export const fetchAll = () => trackFile.fetch();$/;"	v
 fileHandler	src/array-file-handler.ts	/^  fileHandler: FileHandler<T[]>;$/;"	m
+filter	src/composer.ts	/^export const filter = (where?: string): IComposer[] => {$/;"	v
+filter	src/layout.ts	/^export const filter = (where?: string): ILayout[] => {$/;"	v
+filter	src/playlist.ts	/^export const filter = (where?: string): IPlayList[] => {$/;"	v
 filter	src/track.ts	/^    filter(whereClause).map((t) => hydrateTrack(t, composerIndex)),$/;"	m
 filter	src/track.ts	/^export const filter = (where?: string): ITrackHydrated[] => {$/;"	v
 find	src/composer.ts	/^export const find = (name: string, composers?: IComposer[]) => indexComposers(composers)[name];$/;"	v
@@ -302,6 +305,7 @@ if	src/composer.ts	/^  if (existing) {$/;"	m
 if	src/composer.ts	/^  if (existingAliases.length > 0) {$/;"	m
 if	src/composer.ts	/^  if (index[name]) {$/;"	m
 if	src/composer.ts	/^  if (updates.aliases) {$/;"	m
+if	src/composer.ts	/^  if (where && !token) {$/;"	m
 if	src/config.ts	/^  if (text.length < 1) {$/;"	m
 if	src/extractor.ts	/^      if (op1) {$/;"	m
 if	src/extractor.ts	/^  if (!(result.isAccepted() && result.isEos())) {$/;"	m
@@ -324,6 +328,7 @@ if	src/layout.ts	/^  if (!name) {$/;"	m
 if	src/layout.ts	/^  if (!width) {$/;"	m
 if	src/layout.ts	/^  if (existing) {$/;"	m
 if	src/layout.ts	/^  if (p) {$/;"	m
+if	src/layout.ts	/^  if (where && !token) {$/;"	m
 if	src/layout.ts	/^  if (widths.length === 1) {$/;"	m
 if	src/play.ts	/^  if (playState.isPlaying) {$/;"	m
 if	src/play.ts	/^  if (played) {$/;"	m
@@ -349,6 +354,7 @@ if	src/playlist.ts	/^  if (afterTrackAction !== AfterTrackAction.Quit) {$/;"	m
 if	src/playlist.ts	/^  if (existing) {$/;"	m
 if	src/playlist.ts	/^  if (isPlaying()) {$/;"	m
 if	src/playlist.ts	/^  if (lastHeaderRow === 0 || (getRowsPrinted() - lastHeaderRow) >= (process.stdout.rows-3)) {$/;"	m
+if	src/playlist.ts	/^  if (where && !token) {$/;"	m
 if	src/segout.ts	/^      if (sep) {$/;"	m
 if	src/segout.ts	/^    if (this.lastCol > 0 && $/;"	m
 if	src/segout.ts	/^    if (this.lastCol > 0) {$/;"	m
@@ -398,7 +404,7 @@ makeGroup	src/stats.ts	/^    makeGroup('Totals', groups)$/;"	m
 makeHelpText	src/keypress.ts	/^export const makeHelpText = (): string[] => {$/;"	v
 makeKeys	src/keypress.ts	/^export const makeKeys = (makers: IKeyMaker[]): IKeyMapping[] =>$/;"	v
 makeProgressBar	src/util.ts	/^export const makeProgressBar = (width: number, pct: number, text: string = '') => {$/;"	v
-makeString	src/util.ts	/^export const makeString = (input: unknown) =>$/;"	v
+makeString	src/util.ts	/^export const makeString = (input: unknown): string =>$/;"	v
 makeTime	src/extractor.ts	/^        makeTime((typeof op1 === 'number' ? op1 : parseInt(`${op1}`,10)) * 1000) :$/;"	m
 makeTime	src/stats.ts	/^    makeTime(stats.playTime),$/;"	m
 makeTime	src/stats.ts	/^    makeTime(stats.totalTime), $/;"	m
