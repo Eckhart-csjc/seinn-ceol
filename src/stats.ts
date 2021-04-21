@@ -28,14 +28,14 @@ const orders: Record<string, keyof IGroupStats> = {
 
 export const stats = (
   options: {
-    groupBy?: string,
+    groupBy?: string[],
     order?: string,
     where?: string,
     limit?: number
   }
 ) => {
   const tracks = track.filter(options.where);
-  const groups: IValueToken[] = (options.groupBy?.split(':') ?? [] as string[])
+  const groups: IValueToken[] = (options.groupBy ?? [] as string[])
     .map((g) => parseExtractor(g))
     .filter((g) => !!g) as IValueToken[];
   const composerIndex = composer.indexComposers();
