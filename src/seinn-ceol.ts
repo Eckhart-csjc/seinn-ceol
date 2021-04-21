@@ -82,10 +82,12 @@ program
 program
   .command('query <table>')
   .option('-c, --columns <columns...>', 'Columns to show (using query syntax)')
-  .option('-o, --order <order...>', 'Order items by query',)
-  .option('-w, --where <filter>', 'Filter items to include')
-  .option('-O, --offset <offset>', 'Start at offset (0 is first)')
+  .option('-H, --headings <headings...>', 'Overrides for default headings (any blank or not provided will still default)')
+  .option('-j, --justification <justifications...>', 'Overrides for column justification (left|center|right, can be abbreviated, default: left)')
   .option('-l, --limit <limit>', 'Limit output to n items')
+  .option('-o, --order <order...>', 'Order items by query',)
+  .option('-O, --offset <offset>', 'Start at offset (0 is first)')
+  .option('-w, --where <filter>', 'Filter items to include')
   .description('query table contents')
   .action(query)
   ;

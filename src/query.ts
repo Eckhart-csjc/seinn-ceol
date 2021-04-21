@@ -8,6 +8,7 @@ import { SegOut } from './segout';
 import * as track from './track';
 import { 
   error, 
+  Justification,
   padOrTruncate,
   printLn
 } from './util';
@@ -28,11 +29,14 @@ export const query = (
     where?: string;
     offset?: string;
     limit?: string;
+    headings?: string[];
+    justification?: string[];
   }
 ) => {
   const tableHandler = tableMap[table.toLowerCase()];
   if (!tableHandler) {
     error(`Unknown table: ${table}`);
+    return;
   }
   const items = tableHandler.filter(options.where);
   const sorted = sortBy(items, options.order);
@@ -42,7 +46,7 @@ export const query = (
   const columns = options.columns ?? limited.reduce<string[]>((accum, i) => _.uniq([ ...accum, ...Object.keys(i) ]), []);
   const colp = columns.map((c) => parseExtractor(c));
   const rows = [
-    columns,
+    columns.map((c, ndx) => options.headings?.[ndx] || c),
     [],
     ...limited.map((i) => columns.map((c,cndx) => colp[cndx] ? queryMakeString(extract(i, colp[cndx]!)) : '#ERR')),
     [],
@@ -50,11 +54,12 @@ export const query = (
   const maxs = rows.reduce<number[]>((acc, r) =>
     columns.map((c, ndx) => Math.max(acc[ndx] ?? 0, r[ndx]?.length ?? 0)),
   [] as number[]);
+  const justification = columns.map((c, ndx) => makeJustification(options.justification?.[ndx]));
   const theme = config.getTheme();
   const out = new SegOut();
   rows.reduce((acc, r, rownum) => {
     r.reduce((ac, c, ndx) => {
-      out.add(padOrTruncate(c, maxs[ndx] || 0), '│', undefined, 
+      out.add(padOrTruncate(c, maxs[ndx] || 0, justification[ndx]), '│', undefined, 
         (rownum % 2 == 0) ? theme.greenBar1 : theme.greenBar2);
       return ac;
     }, acc)
@@ -74,5 +79,10 @@ const sortBy = (items: object[], sortKeys: string[] = []) => {
     ) : items)
   .map((i, index) => ({ ...i, index }));
 };
+
+const makeJustification = (justification?: string): Justification =>
+  ((justification && 
+    _.find(['left', 'center', 'right'], (v) => v.startsWith(justification.toLowerCase()))) ?? 
+      'left') as Justification;
 
 const queryMakeString = (val: any) => (typeof val === 'object') ? JSON.stringify(val) : `${val}`;
