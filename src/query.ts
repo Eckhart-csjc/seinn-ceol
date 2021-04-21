@@ -8,7 +8,6 @@ import { SegOut } from './segout';
 import * as track from './track';
 import { 
   error, 
-  makeString,
   padOrTruncate,
   printLn
 } from './util';
@@ -45,7 +44,7 @@ export const query = (
   const rows = [
     columns,
     [],
-    ...limited.map((i) => columns.map((c,cndx) => colp[cndx] ? makeString(extract(i, colp[cndx]!)) : '#ERR')),
+    ...limited.map((i) => columns.map((c,cndx) => colp[cndx] ? queryMakeString(extract(i, colp[cndx]!)) : '#ERR')),
     [],
   ];
   const maxs = rows.reduce<number[]>((acc, r) =>
@@ -75,3 +74,5 @@ const sortBy = (items: object[], sortKeys: string[] = []) => {
     ) : items)
   .map((i, index) => ({ ...i, index }));
 };
+
+const queryMakeString = (val: any) => (typeof val === 'object') ? JSON.stringify(val) : `${val}`;
