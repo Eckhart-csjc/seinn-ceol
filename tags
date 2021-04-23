@@ -473,6 +473,7 @@ notification	src/composer.ts	/^    notification('Anonymous works');$/;"	m
 notification	src/composer.ts	/^  notification(`${pluralize('composer', names.length, true)} to resolve, ${pluralize('track', anonToResolve.length, true)} with no composer and no composition date`);$/;"	m
 notification	src/composer.ts	/^  notification(option);$/;"	m
 notification	src/keypress.ts	/^      notification(c, key);$/;"	m
+notification	src/query.ts	/^  notification(pluralize(table.replace(\/s$\/, ''), limited.length, true));$/;"	m
 notification	src/track.ts	/^        notification(`Removing ${t.trackPath}`);$/;"	m
 notification	src/track.ts	/^      notification(`Changes discarded`);$/;"	m
 notification	src/track.ts	/^      notification(`Changes saved`);$/;"	m
@@ -567,13 +568,12 @@ print	src/segout.ts	/^        print(sep, sepTheme);$/;"	m
 print	src/segout.ts	/^      print(prefix, prefixTheme);$/;"	m
 print	src/segout.ts	/^    print(text, theme);$/;"	m
 print	src/util.ts	/^export const print = (text: string, theme?: Theming) =>$/;"	v
-printColumns	src/stats.ts	/^  printColumns(rows, ['left', 'right', 'right', 'right', 'right'], true);$/;"	m
-printColumns	src/track.ts	/^    printColumns(newTracks.map((track) => $/;"	m
+printColumns	src/stats.ts	/^  printColumns(rows, ['left', 'right', 'right', 'right', 'right'], true, 1);$/;"	m
+printColumns	src/track.ts	/^    printColumns([$/;"	m
 printColumns	src/util.ts	/^export const printColumns = ($/;"	v
 printLn	src/composer.ts	/^    printLn('');$/;"	m
 printLn	src/composer.ts	/^  printLn('');$/;"	m
 printLn	src/query.ts	/^  printLn('');$/;"	m
-printLn	src/query.ts	/^  printLn(pluralize(table.replace(\/s$\/, ''), limited.length, true));$/;"	m
 printLn	src/segout.ts	/^    printLn('');$/;"	m
 printLn	src/seinn-ceol.ts	/^        printLn(keypress.makeHelpText().join(', '), 'help');$/;"	m
 printLn	src/track.ts	/^  printLn('');$/;"	m

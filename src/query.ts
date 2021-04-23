@@ -9,6 +9,7 @@ import * as track from './track';
 import { 
   error, 
   Justification,
+  notification,
   padOrTruncate,
   printLn
 } from './util';
@@ -47,9 +48,7 @@ export const query = (
   const colp = columns.map((c) => parseExtractor(c));
   const rows = [
     columns.map((c, ndx) => options.headings?.[ndx] || c),
-    [],
     ...limited.map((i) => columns.map((c,cndx) => colp[cndx] ? queryMakeString(extract(i, colp[cndx]!)) : '#ERR')),
-    [],
   ];
   const maxs = rows.reduce<number[]>((acc, r) =>
     columns.map((c, ndx) => Math.max(acc[ndx] ?? 0, r[ndx]?.length ?? 0)),
@@ -60,14 +59,15 @@ export const query = (
   rows.reduce((acc, r, rownum) => {
     r.reduce((ac, c, ndx) => {
       out.add(padOrTruncate(c, maxs[ndx] || 0, justification[ndx]), '│', undefined, 
-        (rownum % 2 == 0) ? theme.greenBar1 : theme.greenBar2);
+        (rownum == 0) ? theme.greenBarHeader ?? theme.greenBar1 :
+          ((rownum % 2 == 0) ? theme.greenBar1 : theme.greenBar2));
       return ac;
     }, acc)
     out.nl();
     return acc;
   }, true);
   printLn('');
-  printLn(pluralize(table.replace(/s$/, ''), limited.length, true));
+  notification(pluralize(table.replace(/s$/, ''), limited.length, true));
 };
 
 const sortBy = (items: object[], sortKeys: string[] = []) => {

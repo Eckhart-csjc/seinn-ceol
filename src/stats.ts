@@ -50,10 +50,9 @@ export const stats = (
   );
   const rows = [
     [ `Rank ${options.groupBy ?? ''}`, `Tracks`, `Time`, `Plays`, `PlayTime`],
-    [],
     ...formatGroup(stats, orderBy, options.limit),
   ];
-  printColumns(rows, ['left', 'right', 'right', 'right', 'right'], true);
+  printColumns(rows, ['left', 'right', 'right', 'right', 'right'], true, 1);
 };
 
 const makeGroup = (name: string, groups: IValueToken[]) => ({

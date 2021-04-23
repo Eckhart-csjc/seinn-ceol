@@ -10,6 +10,7 @@ export interface IThemeSettings {
 export interface ITheme {
   detail?: IThemeSettings;                            // Track information detail
   error?: IThemeSettings;                             // Text of error messages
+  greenBarHeader?: IThemeSettings;                    // Headings for greenbar output (use odd or even by default)
   greenBar1?: IThemeSettings;                         // Odd lines of greenBar output
   greenBar2?: IThemeSettings;                         // Even lines of greenBar output
   help?: IThemeSettings;                              // Help text

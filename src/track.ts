@@ -90,9 +90,12 @@ export const saveAll = (tracks: ITrack[]) => trackFile.save(tracks);
 export const add = async (tracks:string[], options: { noError: boolean, noWarn: boolean }) => {
   try {
     const newTracks = await addTracks(tracks, options.noWarn, options.noError);
-    printColumns(newTracks.map((track) => 
-      [track.composer?.join(' & ') || 'Anonymous', track.title ?? '']
-    ), undefined, true);
+    printColumns([
+      ['Composer', 'Title'],
+      ...newTracks.map((track) => 
+        [track.composer?.join(' & ') || 'Anonymous', track.title ?? '']
+      ),
+    ], undefined, true, 1);
     notification(`${pluralize('track', newTracks.length, true)} added`);
   } catch (e) {
     error(`Error adding tracks: ${e.message}`);

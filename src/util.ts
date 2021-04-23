@@ -46,7 +46,8 @@ export const debug = (...args: any[]) => {
 export const printColumns = (
   output: string[][], 
   justification?: Justification[], 
-  greenBar?: boolean
+  greenBar?: boolean,
+  nmHeaderLines?: number
 ) => {
   const widths = output.reduce((accum: number[], row) =>
     row.reduce((acc: number[], col, ndx) => {
@@ -76,7 +77,9 @@ export const printColumns = (
       greenBar ?
         applyThemeSetting(
           padOrTruncate(col, finalWidths[ndx], just[ndx]), 
-          (rownum % 2 == 0) ? theme.greenBar1 : theme.greenBar2
+          (theme.greenBarHeader && rownum < (nmHeaderLines ?? 0)) ?
+            theme.greenBarHeader :
+            ((rownum % 2 == 0) ? theme.greenBar1 : theme.greenBar2)
         ) :
        padOrTruncate(col, finalWidths[ndx], just[ndx])
       ).join('')
