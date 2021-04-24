@@ -1972,7 +1972,12 @@
       "Johann Jacob Froberger"
     ],
     "born": "5/18/1616",
-    "died": "5/07/1667"
+    "died": "5/07/1667",
+    "catalogs": [
+      {
+        "symbol": "FbWV"
+      }
+    ]
   },
   {
     "name": "Karl Goldmark",

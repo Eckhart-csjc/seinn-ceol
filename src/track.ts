@@ -286,7 +286,7 @@ export const hydrateTrack = (
       opus: parseOpus(t.title),
       no: parseNo(t.title),
       catalogs: composerDetail?.catalogs?.reduce<ICatalogEntry[]>((accum, c, index) => {
-        const pattern = new RegExp(c.pattern ?? `\\b${[c.symbol, ...(c.aliases ?? [])].join('|')}\\.?\\s*(?<prefix>[A-Z])?(?<n>\\d+)(?<suffix>[a-z]*)\\b`, 'i');
+        const pattern = new RegExp(c.pattern ?? `\\b${[c.symbol, ...(c.aliases ?? [])].join('|')}\\.?\\s*(?<prefix>[A-Z])?(?<n>\\d+)(?<suffix>[a-z]*)?\\b`, 'i');
         const match = t.title?.match(pattern);
         return match?.groups ?
           [
