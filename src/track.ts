@@ -60,6 +60,7 @@ export interface ICatalogEntry {
 export interface ITrackHydrated extends ITrack {
   composerDetail?: IComposer;
   opus?: number;        // Parsed from track title
+  no?: number;          // Parsed number from track title
   catalogs?: ICatalogEntry[]; // Parsed from title, based on composerDetail.catalogs, first one found (in composer order) is [0], etc.
   playTime?: number;
   index?: number;       // Added by sort
@@ -254,6 +255,11 @@ export const parseOpus = (title?: string): number|undefined => {
   return match ? parseInt(match[2], 10) : undefined;
 };
 
+export const parseNo = (title?: string): number|undefined => {
+  const match = title?.match(/\bN(o\.?|umber)\s*(\d+)/i);
+  return match ? parseInt(match[2], 10) : undefined;
+};
+
 const intOrString = (val: string | undefined) => val && val.match(/^\d+$/) ? parseInt(val,10) : val;
 
 const ROMAN: Record<string, number> = 
@@ -278,6 +284,7 @@ export const hydrateTrack = (
       ...t,
       composerDetail,
       opus: parseOpus(t.title),
+      no: parseNo(t.title),
       catalogs: composerDetail?.catalogs?.reduce<ICatalogEntry[]>((accum, c, index) => {
         const pattern = new RegExp(c.pattern ?? `\\b${[c.symbol, ...(c.aliases ?? [])].join('|')}\\.?\\s*(?<n>\\d+)(?<suffix>[a-z]*)\\b`, 'i');
         const match = t.title?.match(pattern);
@@ -391,6 +398,7 @@ export const formatInfo = (t: ITrackHydrated): string[] => [
   ...(t.catalogs && t.catalogs.length ?
     [ `${pluralize('Catalog', t.catalogs.length)}: ${t.catalogs.map((c) => c.symbol + ' ' + c.n + (c.suffix ?? '')).join(', ')}` ] :
     []),
+  ...(t.no ? [ `No. ${t.no}` ]: []),
   `Duration: ${makeTime((t.duration ?? 1) * 1000)}`,
   `Plays: ${t.plays}`,
   ...(t.lastPlayed ? [`Last played: ${t.lastPlayed}`] : []),

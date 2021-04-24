@@ -466,6 +466,7 @@ name	src/track.ts	/^      name: 'commit',$/;"	m
 name	src/track.ts	/^      name: 'option',$/;"	m
 nextTrack	src/config.ts	/^  nextTrack: { sequence: 'j' },$/;"	m
 nl	src/segout.ts	/^  public nl() {$/;"	m
+no	src/track.ts	/^      no: parseNo(t.title),$/;"	m
 not	src/index.test.ts	/^  not: 'nope',$/;"	m
 note	src/index.test.ts	/^  note: 'hello',$/;"	m
 notification	src/composer.ts	/^      notification(tracks.map((t) => _.pick(t, ['title', 'album', 'artists'])));$/;"	m
@@ -536,6 +537,7 @@ parenthesizedExpression	src/extractor.ts	/^  parenthesizedExpression: (): IParse
 parse	src/extractor.ts	/^export const parse = (input: string): Response<IValueToken> => $/;"	v
 parseDuration	src/extractor.ts	/^import parseDuration from 'parse-duration';$/;"	I
 parseExtractor	src/extractor.ts	/^export const parseExtractor = (input: string): IValueToken | undefined => {$/;"	v
+parseNo	src/track.ts	/^export const parseNo = (title?: string): number|undefined => {$/;"	v
 parseOpus	src/track.ts	/^export const parseOpus = (title?: string): number|undefined => {$/;"	v
 parseRoman	src/track.ts	/^export const parseRoman = (val: string) => [...val].reduce<{prev: number, result: number}>((accum, c) => {$/;"	v
 pause	src/config.ts	/^  pause: { sequence: 'p' },$/;"	m

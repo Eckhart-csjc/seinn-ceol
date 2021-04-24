@@ -73,7 +73,9 @@
   },
   {
     "name": "Alexander Nikolaevich Scriabin",
-    "aliases": [],
+    "aliases": [
+      "Alexander Scriabin"
+    ],
     "born": "1/06/1872",
     "died": "4/27/1915"
   },
@@ -1101,7 +1103,9 @@
   },
   {
     "name": "Johann I Strauss",
-    "aliases": [],
+    "aliases": [
+      "Johann Strauss I"
+    ],
     "born": "3/14/1804",
     "died": "9/25/1849"
   },
@@ -1529,7 +1533,9 @@
   },
   {
     "name": "Franz von Suppe",
-    "aliases": [],
+    "aliases": [
+      "Franz von Suppé"
+    ],
     "born": "4/18/1819",
     "died": "5/21/1895"
   },
@@ -1982,7 +1988,9 @@
   },
   {
     "name": "Wilhelm Richard Wagner",
-    "aliases": [],
+    "aliases": [
+      "Richard Wagner"
+    ],
     "born": "5/22/1813",
     "died": "2/13/1883",
     "catalogs": [
@@ -2829,7 +2837,9 @@
   },
   {
     "name": "Josef Strauss",
-    "aliases": [],
+    "aliases": [
+      "Johann Strauss II & Josef Strauss"
+    ],
     "born": "8/22/1827",
     "died": "7/21/1870"
   },
@@ -3235,7 +3245,9 @@
   },
   {
     "name": "Giuseppe Fortunino Frencesco Verdi",
-    "aliases": [],
+    "aliases": [
+      "Giuseppe Verdi"
+    ],
     "born": "10/09/1813",
     "died": "1/27/1901"
   },
@@ -3369,13 +3381,17 @@
   },
   {
     "name": "Johann II Strauss",
-    "aliases": [],
+    "aliases": [
+      "Johann Strauss II"
+    ],
     "born": "10/25/1825",
     "died": "6/03/1899"
   },
   {
     "name": "Georges Alexandre-Cesar-Leopold Bizet",
-    "aliases": [],
+    "aliases": [
+      "Georges Bizet"
+    ],
     "born": "10/25/1838",
     "died": "6/03/1875",
     "catalogs": [
@@ -6098,12 +6114,6 @@
     "died": ""
   },
   {
-    "name": "Bishop Venantius Fortunatus",
-    "aliases": [],
-    "born": "530",
-    "died": "609"
-  },
-  {
     "name": "Bobby Troup",
     "aliases": [
       "Bobby Troup & Neal Hefti"
@@ -6518,7 +6528,8 @@
   {
     "name": "Venance Fortunat",
     "aliases": [
-      "Saint Venance de Fortunat"
+      "Saint Venance de Fortunat",
+      "Bishop Venantius Fortunatus"
     ],
     "born": "c 530",
     "died": "609"
@@ -6945,5 +6956,17 @@
     "aliases": [],
     "born": "March 17, 1884",
     "died": "August 2, 1944"
+  },
+  {
+    "name": "Pietro Mascagni",
+    "aliases": [],
+    "born": "December 7, 1863",
+    "died": "August 2, 1945"
+  },
+  {
+    "name": "Ruggero Leoncavallo",
+    "aliases": [],
+    "born": "April 23, 1857",
+    "died": "August 9, 1919"
   }
 ]

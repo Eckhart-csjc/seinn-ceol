@@ -11,6 +11,13 @@
         "redBright"
       ]
     },
+    "greenBarHeader": {
+      "chalk": [
+        "italic",
+        "underline",
+        "blueBright"
+      ]
+    },
     "greenBar2": {
       "chalk": [
         "bgRgb(0,80,60)"

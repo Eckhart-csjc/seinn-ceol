@@ -9,12 +9,16 @@
       "composerDetail.name",
       "opus",
       "catalogs[0].index",
+      "catalogs[0].category",
+      "catalogs[0].prefix",
       "catalogs[0].n",
+      "catalogs[0].suffix",
+      "(opus || catalogs[0].n) && no",
       "album",
       "disk or 1",
       "track"
     ],
-    "current": "/Users/eckhart/Music/iTunes/iTunes Media/Music/Suske Quartet/Beethoven_ Complete String Quartets/71 String Quartet No. 16 in F Major, Op. 135_ III. Lento assai, cantante e tranquillo.m4a"
+    "current": "/Users/eckhart/Music/iTunes/iTunes Media/Music/Jennifer Bate/Mendelssohn_ The Complete Organ Works Vol. 1/06 Organ Sonata in F Minor, Op. 65, No. 1, MWV W56_ IV. Allegro assai vivace.m4a"
   },
   {
     "name": "familyBach",
@@ -27,7 +31,11 @@
       "composerDetail.name",
       "opus",
       "catalogs[0].index",
+      "catalogs[0].category",
+      "catalogs[0].prefix",
       "catalogs[0].n",
+      "catalogs[0].suffix",
+      "(opus || catalogs[0].n) && no",
       "album",
       "disk or 1",
       "track"
@@ -45,7 +53,11 @@
       "composerDetail.name",
       "opus",
       "catalogs[0].index",
+      "catalogs[0].category",
+      "catalogs[0].prefix",
       "catalogs[0].n",
+      "catalogs[0].suffix",
+      "(opus || catalogs[0].n) && no",
       "album",
       "disk or 1",
       "track"
