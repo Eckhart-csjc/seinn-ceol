@@ -34,6 +34,26 @@ goodParse(`'fr\\'ed'`, {
   value: `fr'ed`,
 });
 
+goodParse(`"fred"`, {
+  type: TokenType.StringLiteral,
+  value: 'fred',
+});
+
+goodParse(`"fr\\"ed"`, {
+  type: TokenType.StringLiteral,
+  value: `fr"ed`,
+});
+
+goodParse(`"fr'ed"`, {
+  type: TokenType.StringLiteral,
+  value: `fr'ed`,
+});
+
+goodParse(`'fr"ed'`, {
+  type: TokenType.StringLiteral,
+  value: `fr"ed`,
+});
+
 goodParse(`Alice123`, {
   type: TokenType.Identifier,
   name: `Alice123`,

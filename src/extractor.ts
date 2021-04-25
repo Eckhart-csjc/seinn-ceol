@@ -260,19 +260,22 @@ const P = {
       .then(C.char(')').drop())
       .map((result: Tuple<IValueToken>): IValueToken => result.value[0]),
 
-  stringLiteral: () : IParser<IStringLiteralToken> =>
-    C.char(`'`)
-      .drop()
-      .then(
-        F.try(C.char('\\').drop().then(F.any()))
-          .or(C.notChar(`'`))
-          .optrep()
-      )
-      .then(C.char(`'`).drop())
-      .map((result: Tuple<string>) => ({
-        type: TokenType.StringLiteral,
-        value: result.value.join(''),
-      }) as IStringLiteralToken),
+  stringLiteral: (quote?: string) : IParser<IStringLiteralToken> =>
+    quote ?
+      C.char(quote)
+        .drop()
+        .then(
+          F.try(C.char('\\').drop().then(F.any()))
+            .or(C.notChar(quote))
+            .optrep()
+        )
+        .then(C.char(quote).drop())
+        .map((result: Tuple<string>) => ({
+          type: TokenType.StringLiteral,
+          value: result.value.join(''),
+        }) as IStringLiteralToken) :
+      F.try(P.stringLiteral(`'`))
+        .or(P.stringLiteral(`"`)),
 
   unaryOperator: (): IParser<IUnaryOperatorToken> =>
     C.stringIn(Object.keys(unaryOperators))

@@ -268,6 +268,10 @@ goodExtract	src/index.test.ts	/^goodExtract(`shortTime dates[0]`, '2020 Jan 1');
 goodParse	src/index.test.ts	/^goodParse('-1.23', {$/;"	m
 goodParse	src/index.test.ts	/^goodParse('1', {$/;"	m
 goodParse	src/index.test.ts	/^goodParse(`!Alice123.bob`, {$/;"	m
+goodParse	src/index.test.ts	/^goodParse(`"fr'ed"`, {$/;"	m
+goodParse	src/index.test.ts	/^goodParse(`"fr\\\\"ed"`, {$/;"	m
+goodParse	src/index.test.ts	/^goodParse(`"fred"`, {$/;"	m
+goodParse	src/index.test.ts	/^goodParse(`'fr"ed'`, {$/;"	m
 goodParse	src/index.test.ts	/^goodParse(`'fr\\\\'ed'`, {$/;"	m
 goodParse	src/index.test.ts	/^goodParse(`'fred'`, {$/;"	m
 goodParse	src/index.test.ts	/^goodParse(`(A and B) = (C or D)`, {$/;"	m
@@ -640,7 +644,7 @@ stop	src/players/afplay.ts	/^export const stop = async () => {$/;"	v
 stopPlaying	src/play.ts	/^export const stopPlaying = async () => playState.isPlaying ? await getPlayer().stop() : true;$/;"	v
 stopPlaying	src/playlist.ts	/^    stopPlaying();$/;"	m
 stopPlaying	src/playlist.ts	/^  stopPlaying();$/;"	m
-stringLiteral	src/extractor.ts	/^  stringLiteral: () : IParser<IStringLiteralToken> =>$/;"	m
+stringLiteral	src/extractor.ts	/^  stringLiteral: (quote?: string) : IParser<IStringLiteralToken> =>$/;"	m
 suffix	src/track.ts	/^              suffix: intOrString(match.groups.suffix),$/;"	m
 suggest	src/composer.ts	/^export const suggest = (name: string) => _.sortBy(fetchAll().map((composer:IComposer) => ({$/;"	v
 suspend	src/keypress.ts	/^export const suspend = () => active = false;$/;"	v
@@ -679,10 +683,10 @@ tracks	src/track.ts	/^  tracks: string[], $/;"	m
 type	src/composer.ts	/^      type: 'input', $/;"	m
 type	src/composer.ts	/^      type: 'input',$/;"	m
 type	src/composer.ts	/^      type: 'list',$/;"	m
+type	src/extractor.ts	/^          type: TokenType.StringLiteral,$/;"	m
 type	src/extractor.ts	/^        type: TokenType.BinaryOperator,$/;"	m
 type	src/extractor.ts	/^        type: TokenType.Identifier,$/;"	m
 type	src/extractor.ts	/^        type: TokenType.NumericLiteral,$/;"	m
-type	src/extractor.ts	/^        type: TokenType.StringLiteral,$/;"	m
 type	src/extractor.ts	/^        type: TokenType.UnaryOperation,$/;"	m
 type	src/extractor.ts	/^        type: TokenType.UnaryOperator,$/;"	m
 type	src/extractor.ts	/^      type: TokenType.BinaryOperation,$/;"	m
@@ -726,7 +730,7 @@ updateTrack	src/track.ts	/^    updateTrack({$/;"	m
 validate	src/composer.ts	/^      validate: (val:string) => !val ? 'Composer name is required' : (index[val] && index[val] !== existing) ? 'Composer name already in use' : true,$/;"	m
 validate	src/composer.ts	/^      validate: (val:string) => (!!val && dayjs(val).year != NaN) ? true : 'Invalid date',$/;"	m
 validate	src/composer.ts	/^      validate: (val:string) => (!val || dayjs(val).year != NaN) ? true : 'Invalid date',$/;"	m
-value	src/extractor.ts	/^        value: result.value.join(''),$/;"	m
+value	src/extractor.ts	/^          value: result.value.join(''),$/;"	m
 value	src/extractor.ts	/^  value: number;$/;"	m
 value	src/extractor.ts	/^  value: string;$/;"	m
 value	src/index.test.ts	/^          value: 1,$/;"	m
@@ -734,6 +738,7 @@ value	src/index.test.ts	/^      value: 'Johann Sebastian Bach',$/;"	m
 value	src/index.test.ts	/^  value: 'fred',$/;"	m
 value	src/index.test.ts	/^  value: -1.23,$/;"	m
 value	src/index.test.ts	/^  value: 1,$/;"	m
+value	src/index.test.ts	/^  value: `fr"ed`,$/;"	m
 value	src/index.test.ts	/^  value: `fr'ed`,$/;"	m
 warning	src/composer.ts	/^    warning(`Found ${name} -- skipping`);$/;"	m
 warning	src/layout.ts	/^    warning(`Layout ${name} not found`);$/;"	m
