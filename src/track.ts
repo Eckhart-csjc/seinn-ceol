@@ -406,6 +406,7 @@ export const formatInfo = (t: ITrackHydrated): string[] => [
     [ `${pluralize('Catalog', t.catalogs.length)}: ${t.catalogs.map((c) => c.symbol + ' ' + c.n + (c.suffix ?? '')).join(', ')}` ] :
     []),
   ...(t.no ? [ `No. ${t.no}` ]: []),
+  ...(t.movement ? [ `Movement ${t.movement}` ]: []),
   `Duration: ${makeTime((t.duration ?? 1) * 1000)}`,
   `Plays: ${t.plays}`,
   ...(t.lastPlayed ? [`Last played: ${t.lastPlayed}`] : []),
