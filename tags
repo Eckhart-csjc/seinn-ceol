@@ -546,6 +546,7 @@ parseMovement	src/track.ts	/^export const parseMovement = (title?: string): numb
 parseNo	src/track.ts	/^export const parseNo = (title?: string): number|undefined => {$/;"	v
 parseOpus	src/track.ts	/^export const parseOpus = (title?: string): number|undefined => {$/;"	v
 parseRoman	src/track.ts	/^export const parseRoman = (val: string) => [...val].reduce<{prev: number, result: number}>((accum, c) => {$/;"	v
+parseSubMovement	src/track.ts	/^export const parseSubMovement = (title?: string): string|undefined => {$/;"	v
 pause	src/config.ts	/^  pause: { sequence: 'p' },$/;"	m
 pauseAfterTrack	src/config.ts	/^  pauseAfterTrack: { sequence: 'P' },$/;"	m
 paused	src/players/afplay.ts	/^  paused: 0,$/;"	m
@@ -645,6 +646,7 @@ stopPlaying	src/play.ts	/^export const stopPlaying = async () => playState.isPla
 stopPlaying	src/playlist.ts	/^    stopPlaying();$/;"	m
 stopPlaying	src/playlist.ts	/^  stopPlaying();$/;"	m
 stringLiteral	src/extractor.ts	/^  stringLiteral: (quote?: string) : IParser<IStringLiteralToken> =>$/;"	m
+subMovement	src/track.ts	/^      subMovement: parseSubMovement(t.title),$/;"	m
 suffix	src/track.ts	/^              suffix: intOrString(match.groups.suffix),$/;"	m
 suggest	src/composer.ts	/^export const suggest = (name: string) => _.sortBy(fetchAll().map((composer:IComposer) => ({$/;"	v
 suspend	src/keypress.ts	/^export const suspend = () => active = false;$/;"	v

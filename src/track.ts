@@ -62,6 +62,7 @@ export interface ITrackHydrated extends ITrack {
   opus?: number;        // Parsed from track title
   no?: number;          // Parsed number from track title
   movement?: number;    // Parsed roman numeral movement number from title
+  subMovement?: string; // Parsed single-letter submovement from title
   catalogs?: ICatalogEntry[]; // Parsed from title, based on composerDetail.catalogs, first one found (in composer order) is [0], etc.
   playTime?: number;
   index?: number;       // Added by sort
@@ -262,8 +263,13 @@ export const parseNo = (title?: string): number|undefined => {
 };
 
 export const parseMovement = (title?: string): number|undefined => {
-  const match = title?.match(/:\s*([IVXLCDM]+)\./);
+  const match = title?.match(/:\s*([IVXLCDM]+)[a-z]?\./);
   return match?.[1] ? parseRoman(match[1]) : undefined;
+};
+
+export const parseSubMovement = (title?: string): string|undefined => {
+  const match = title?.match(/:\s*[IVXLCDM]+([a-z])\./);
+  return match?.[1];
 };
 
 const intOrString = (val: string | undefined) => val && val.match(/^\d+$/) ? parseInt(val,10) : val;
@@ -292,6 +298,7 @@ export const hydrateTrack = (
       opus: parseOpus(t.title),
       no: parseNo(t.title),
       movement: parseMovement(t.title),
+      subMovement: parseSubMovement(t.title),
       catalogs: composerDetail?.catalogs?.reduce<ICatalogEntry[]>((accum, c, index) => {
         const pattern = new RegExp(c.pattern ?? `\\b${[c.symbol, ...(c.aliases ?? [])].join('|')}\\.?\\s*(?<prefix>[A-Z])?(?<n>\\d+)(?<suffix>[a-z]*)?\\b`, 'i');
         const match = t.title?.match(pattern);
@@ -403,10 +410,10 @@ export const formatInfo = (t: ITrackHydrated): string[] => [
   ...(t.genre ? [ `Genre: ${t.genre.join(', ')}` ] : []),
   ...(t.opus ? [ `Opus ${t.opus}` ]: []),
   ...(t.catalogs && t.catalogs.length ?
-    [ `${pluralize('Catalog', t.catalogs.length)}: ${t.catalogs.map((c) => c.symbol + ' ' + c.n + (c.suffix ?? '')).join(', ')}` ] :
+    [ `${pluralize('Catalog', t.catalogs.length)}: ${t.catalogs.map((c) => c.symbol + ' ' + (c.prefix ?? '') + c.n + (c.suffix ?? '')).join(', ')}` ] :
     []),
   ...(t.no ? [ `No. ${t.no}` ]: []),
-  ...(t.movement ? [ `Movement ${t.movement}` ]: []),
+  ...(t.movement ? [ `Movement ${t.movement}${t.subMovement ?? ''}` ]: []),
   `Duration: ${makeTime((t.duration ?? 1) * 1000)}`,
   `Plays: ${t.plays}`,
   ...(t.lastPlayed ? [`Last played: ${t.lastPlayed}`] : []),
