@@ -1,7 +1,7 @@
 [
   {
     "name": "composersByBirth",
-    "trackOverlap": 3000,
+    "trackOverlap": 3200,
     "layout": "composer",
     "orderBy": [
       "date (composerDetail.born or compositionDate)",
@@ -13,16 +13,17 @@
       "catalogs[0].prefix",
       "catalogs[0].n",
       "catalogs[0].suffix",
-      "(opus || catalogs[0].n) && no",
       "album",
+      "(opus || catalogs[0].n) && no",
+      "(opus || catalogs[0].n) && movement",
       "disk or 1",
       "track"
     ],
-    "current": "/Users/eckhart/Music/iTunes/iTunes Media/Music/Jennifer Bate/Mendelssohn_ The Complete Organ Works, Vol. 2/22 Organ Sonata in F Minor, Op. 65, No. 1, MWV W56_ III. Andante.m4a"
+    "current": "/Users/eckhart/Music/iTunes/iTunes Media/Music/Jennifer Bate/Mendelssohn_ Complete Organ Works, Vol. 4/01 Organ Sonata in B-Flat Major, Op. 65, No. 4, MWV W59_ I. Allegro con brio.m4a"
   },
   {
     "name": "familyBach",
-    "trackOverlap": 3000,
+    "trackOverlap": 3200,
     "layout": "composer",
     "where": "composerDetail.name =~ '\\\\bBach$'",
     "orderBy": [
@@ -35,8 +36,9 @@
       "catalogs[0].prefix",
       "catalogs[0].n",
       "catalogs[0].suffix",
-      "(opus || catalogs[0].n) && no",
       "album",
+      "(opus || catalogs[0].n) && no",
+      "(opus || catalogs[0].n) && movement",
       "disk or 1",
       "track"
     ],
@@ -44,7 +46,7 @@
   },
   {
     "name": "classOf1685",
-    "trackOverlap": 3000,
+    "trackOverlap": 3200,
     "layout": "composer",
     "where": "date composerDetail.born >= date '1685' && date composerDetail.born < date '1686'",
     "orderBy": [
@@ -57,8 +59,9 @@
       "catalogs[0].prefix",
       "catalogs[0].n",
       "catalogs[0].suffix",
-      "(opus || catalogs[0].n) && no",
       "album",
+      "(opus || catalogs[0].n) && no",
+      "(opus || catalogs[0].n) && movement",
       "disk or 1",
       "track"
     ],

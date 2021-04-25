@@ -422,6 +422,7 @@ message	src/composer.ts	/^      message: 'Name:', $/;"	m
 message	src/composer.ts	/^      message: name,$/;"	m
 message	src/track.ts	/^      message: 'Commit these changes?',$/;"	m
 meta	src/keypress.ts	/^  meta: boolean;$/;"	m
+movement	src/track.ts	/^      movement: parseMovement(t.title),$/;"	m
 n	src/track.ts	/^              n: intOrString(match.groups.n) ?? 0,$/;"	m
 n	src/track.ts	/^  n: string | number;           \/\/ Catalog entry number$/;"	m
 nDisks	src/track.ts	/^    nDisks: c.disk.of || undefined,$/;"	m
@@ -537,6 +538,7 @@ parenthesizedExpression	src/extractor.ts	/^  parenthesizedExpression: (): IParse
 parse	src/extractor.ts	/^export const parse = (input: string): Response<IValueToken> => $/;"	v
 parseDuration	src/extractor.ts	/^import parseDuration from 'parse-duration';$/;"	I
 parseExtractor	src/extractor.ts	/^export const parseExtractor = (input: string): IValueToken | undefined => {$/;"	v
+parseMovement	src/track.ts	/^export const parseMovement = (title?: string): number|undefined => {$/;"	v
 parseNo	src/track.ts	/^export const parseNo = (title?: string): number|undefined => {$/;"	v
 parseOpus	src/track.ts	/^export const parseOpus = (title?: string): number|undefined => {$/;"	v
 parseRoman	src/track.ts	/^export const parseRoman = (val: string) => [...val].reduce<{prev: number, result: number}>((accum, c) => {$/;"	v

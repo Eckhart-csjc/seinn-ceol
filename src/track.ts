@@ -61,6 +61,7 @@ export interface ITrackHydrated extends ITrack {
   composerDetail?: IComposer;
   opus?: number;        // Parsed from track title
   no?: number;          // Parsed number from track title
+  movement?: number;    // Parsed roman numeral movement number from title
   catalogs?: ICatalogEntry[]; // Parsed from title, based on composerDetail.catalogs, first one found (in composer order) is [0], etc.
   playTime?: number;
   index?: number;       // Added by sort
@@ -260,6 +261,11 @@ export const parseNo = (title?: string): number|undefined => {
   return match ? parseInt(match[2], 10) : undefined;
 };
 
+export const parseMovement = (title?: string): number|undefined => {
+  const match = title?.match(/:\s*([IVXLCDM]+)\./);
+  return match?.[1] ? parseRoman(match[1]) : undefined;
+};
+
 const intOrString = (val: string | undefined) => val && val.match(/^\d+$/) ? parseInt(val,10) : val;
 
 const ROMAN: Record<string, number> = 
@@ -285,6 +291,7 @@ export const hydrateTrack = (
       composerDetail,
       opus: parseOpus(t.title),
       no: parseNo(t.title),
+      movement: parseMovement(t.title),
       catalogs: composerDetail?.catalogs?.reduce<ICatalogEntry[]>((accum, c, index) => {
         const pattern = new RegExp(c.pattern ?? `\\b${[c.symbol, ...(c.aliases ?? [])].join('|')}\\.?\\s*(?<prefix>[A-Z])?(?<n>\\d+)(?<suffix>[a-z]*)?\\b`, 'i');
         const match = t.title?.match(pattern);
