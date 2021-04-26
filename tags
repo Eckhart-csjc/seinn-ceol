@@ -533,7 +533,7 @@ options	src/stats.ts	/^  options: {$/;"	m
 opus	src/track.ts	/^      opus: parseOpus(t.title),$/;"	m
 order	src/util.ts	/^      order: ad ?? 'asc'$/;"	m
 orderBy	src/playlist.ts	/^  orderBy: string[];      \/\/ Queries (optionally followed by comma and sort order) for order of play$/;"	m
-orderBy	src/stats.ts	/^  orderBy: keyof IGroupStats, $/;"	m
+orderBy	src/stats.ts	/^  orderBy: string[],$/;"	m
 output	src/util.ts	/^  output: string[][], $/;"	m
 padOrTruncate	src/layout.ts	/^        padOrTruncate(text, minWidth, justification) :$/;"	m
 padOrTruncate	src/layout.ts	/^      padOrTruncate(text, maxWidth, justification) :$/;"	m

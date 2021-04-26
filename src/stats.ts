@@ -1,7 +1,7 @@
 import * as composer from './composer';
 import { extract, IValueToken, parseExtractor } from './extractor';
 import * as track from './track';
-import { error, makeString, makeTime, padOrTruncate, print, printColumns, printLn } from './util';
+import { error, makeString, makeTime, padOrTruncate, parseOrder, print, printColumns, printLn } from './util';
 import * as _ from 'lodash';
 
 const capitalize = require('capitalize');
@@ -39,7 +39,8 @@ export const stats = (
     .map((g) => parseExtractor(g))
     .filter((g) => !!g) as IValueToken[];
   const composerIndex = composer.indexComposers();
-  const orderBy = options.order ? (orders[options.order] ?? 'name') : 'name';
+  const [ o, ad ] = parseOrder(options.order ?? 'name');
+  const orderBy = [ orders[o] ?? 'name', ad ?? (o === 'name' ? 'asc' : 'desc') ];
   const stats = tracks.reduce<IGroupStats>(
     (accum, t, ndx) => addStats(
       accum, 
@@ -97,7 +98,7 @@ const addGroupStats = (
 
 const formatGroup = (
   stats: IGroupStats, 
-  orderBy: keyof IGroupStats, 
+  orderBy: string[],
   limit: number = 0,
   indent: number = 0,
   indexPad: number = 0,
@@ -114,8 +115,7 @@ const formatGroup = (
   return stats.groups ?
     _.orderBy(
       _.values(stats.groups), 
-      [ orderBy ], 
-      [ (orderBy === 'name') ? 'asc' : 'desc']
+      ...orderBy,
     )
     .slice(0, limit || Infinity)
     .map((s, index) => ({ ...s, index: index + 1 }))
