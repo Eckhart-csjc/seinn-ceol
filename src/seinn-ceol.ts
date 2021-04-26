@@ -85,7 +85,7 @@ program
   .option('-H, --headings <headings...>', 'Overrides for default headings (any blank or not provided will still default)')
   .option('-j, --justification <justifications...>', 'Overrides for column justification (left|center|right, can be abbreviated, default: left)')
   .option('-l, --limit <limit>', 'Limit output to n items')
-  .option('-o, --order <order...>', 'Order items by query',)
+  .option('-o, --order <order...>', 'Order items.  Each order iq a query, optionally followed by a comma and sort order')
   .option('-O, --offset <offset>', 'Start at offset (0 is first)')
   .option('-w, --where <filter>', 'Filter items to include')
   .description('query table contents')
@@ -95,7 +95,7 @@ program
 program
   .command('stats')
   .option('-g, --groupBy <group-spec...>', 'Fields to create sub-group statistics')
-  .option('-o, --order <order>', 'Order subgroups by name|time|tracks|plays|playTime',)
+  .option('-o, --order <order>', 'Order subgroups by name|time|tracks|plays|playTime, optionally followed by comma and sort order',)
   .option('-w, --where <filter>', 'Filter tracks to include in stats')
   .option('-l, --limit <n>', 'Limit each list to n items')
   .description('get statistics')

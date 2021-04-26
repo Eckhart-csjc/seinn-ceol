@@ -18,7 +18,7 @@ import {
 
 export interface IPlayList {
   name: string;           // Play list name
-  orderBy: string[];      // ITrackHydrated keys for order of play
+  orderBy: string[];      // Queries (optionally followed by comma and sort order) for order of play
   where?: string;         // Optional where clause for filtering tracks
   current?: string;       // trackPath of track started (undefined to start from the top)
   trackOverlap?: number;  // Milliseconds to shave off end of track before advancing

@@ -16,6 +16,7 @@ import {
   printColumns,
   printLn, 
   removeProgressSuffix, 
+  sortBy,
   warning 
 } from './util';
 import { extract, parseExtractor } from './extractor';
@@ -323,12 +324,10 @@ export const hydrateTrack = (
 
 export const sort = (sortKeys: string[], whereClause?: string): ITrackHydrated[] => {
   const composerIndex = composer.indexComposers();
-  const sortParsers = sortKeys.map((k) => parseExtractor(k)).filter((p) => !!p);
-  return _.sortBy(
+  return sortBy<ITrackHydrated>(
     filter(whereClause).map((t) => hydrateTrack(t, composerIndex)),
-    sortParsers.map((p) => (t:ITrackHydrated) => extract(t, p!)),
-  )
-  .map((t, index) => ({ ...t, index }));
+    sortKeys
+  );
 };
 
 export const resolveAnonymous = async (track: ITrack): Promise<void> => {

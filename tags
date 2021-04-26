@@ -30,6 +30,7 @@ IPlayList	src/playlist.ts	/^export interface IPlayList {$/;"	i
 IPlayState	src/play.ts	/^interface IPlayState {$/;"	i
 IPlayState	src/players/afplay.ts	/^interface IPlayState {$/;"	i
 IPlayer	src/play.ts	/^export interface IPlayer {$/;"	i
+ISortable	src/util.ts	/^export interface ISortable {$/;"	i
 IStringLiteralToken	src/extractor.ts	/^interface IStringLiteralToken extends IValueToken {$/;"	i
 ITheme	src/config.ts	/^export interface ITheme {$/;"	i
 IThemeSettings	src/config.ts	/^export interface IThemeSettings {$/;"	i
@@ -530,7 +531,8 @@ optSpace	src/extractor.ts	/^  optSpace: (): VoidParser =>$/;"	m
 options	src/query.ts	/^  options: {$/;"	m
 options	src/stats.ts	/^  options: {$/;"	m
 opus	src/track.ts	/^      opus: parseOpus(t.title),$/;"	m
-orderBy	src/playlist.ts	/^  orderBy: string[];      \/\/ ITrackHydrated keys for order of play$/;"	m
+order	src/util.ts	/^      order: ad ?? 'asc'$/;"	m
+orderBy	src/playlist.ts	/^  orderBy: string[];      \/\/ Queries (optionally followed by comma and sort order) for order of play$/;"	m
 orderBy	src/stats.ts	/^  orderBy: keyof IGroupStats, $/;"	m
 output	src/util.ts	/^  output: string[][], $/;"	m
 padOrTruncate	src/layout.ts	/^        padOrTruncate(text, minWidth, justification) :$/;"	m
@@ -545,8 +547,10 @@ parseExtractor	src/extractor.ts	/^export const parseExtractor = (input: string):
 parseMovement	src/track.ts	/^export const parseMovement = (title?: string): number|undefined => {$/;"	v
 parseNo	src/track.ts	/^export const parseNo = (title?: string): number|undefined => {$/;"	v
 parseOpus	src/track.ts	/^export const parseOpus = (title?: string): number|undefined => {$/;"	v
+parseOrder	src/util.ts	/^export const parseOrder = (order: string): [ string, 'asc' | 'desc' | undefined ] => {$/;"	v
 parseRoman	src/track.ts	/^export const parseRoman = (val: string) => [...val].reduce<{prev: number, result: number}>((accum, c) => {$/;"	v
 parseSubMovement	src/track.ts	/^export const parseSubMovement = (title?: string): string|undefined => {$/;"	v
+parser	src/util.ts	/^      parser: parseExtractor(query),$/;"	m
 pause	src/config.ts	/^  pause: { sequence: 'p' },$/;"	m
 pauseAfterTrack	src/config.ts	/^  pauseAfterTrack: { sequence: 'P' },$/;"	m
 paused	src/players/afplay.ts	/^  paused: 0,$/;"	m
@@ -618,7 +622,7 @@ resume	src/keypress.ts	/^  resume();$/;"	m
 resume	src/keypress.ts	/^export const resume = () => active = true;$/;"	v
 return	src/extractor.ts	/^        return (Math.abs(now.diff(dt, 'years')) > 0) ?$/;"	m
 return	src/layout.ts	/^    return (maxWidth > 0 && maxWidth < text.length) ?$/;"	m
-return	src/query.ts	/^  return (sortParsers.length ?$/;"	m
+return	src/util.ts	/^  return (query && ad) ?$/;"	m
 rewind	src/config.ts	/^  rewind: { sequence: 'R' },$/;"	m
 rewind	src/players/afplay.ts	/^  rewind: boolean;$/;"	m
 rewind	src/players/afplay.ts	/^  rewind: false,$/;"	m
@@ -636,6 +640,7 @@ setWidth	src/layout.ts	/^      setWidth(c.header ?? '', c.width ?? '', sep.lengt
 shift	src/keypress.ts	/^  shift: boolean;$/;"	m
 simple	src/index.test.ts	/^  simple: 42,$/;"	m
 sort	src/track.ts	/^export const sort = (sortKeys: string[], whereClause?: string): ITrackHydrated[] => {$/;"	v
+sortBy	src/util.ts	/^export const sortBy = <T extends ISortable>(items: T[], sortKeys: string[]): T[] => {$/;"	v
 spawnWithProgress	src/asyncChild.ts	/^export const spawnWithProgress = async ($/;"	v
 stats	src/stats.ts	/^  stats: IGroupStats, $/;"	m
 stats	src/stats.ts	/^export const stats = ($/;"	v

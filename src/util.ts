@@ -1,11 +1,15 @@
 import * as _ from 'lodash';
 import { applyThemeSetting, getTheme, Theming } from './config';
+import { extract, parseExtractor } from './extractor';
 import { fixTTY } from './keypress';
 const chalk = require('chalk');
 const inquirer = require('inquirer');
 const pluralize = require('pluralize');
 
 export type Justification = 'left' | 'center' | 'right';
+export interface ISortable {
+  index?: number;
+}
 
 let rowsPrinted: number = 0;
 let barSuffix: string = '';
@@ -163,3 +167,35 @@ export const padOrTruncate = (text: string, width: number, justification?: Justi
           )
         ) :
           'ERR: justification';
+
+export const parseOrder = (order: string): [ string, 'asc' | 'desc' | undefined ] => {
+  const match = order.match(/^(?<query>.+),\s*(?<ad>(a|d)[a-z]*)\s*$/i);
+  const query = match?.groups?.query;
+  const ad = match?.groups?.ad?.toLowerCase();
+  return (query && ad) ?
+    ('ascending'.startsWith(ad) ?
+      [ query, 'asc' ] :
+      ('descending'.startsWith(ad) ?
+        [ query, 'desc' ] :
+        [ order, undefined]
+      )
+    ) : 
+  [ order, undefined ];
+};
+
+export const sortBy = <T extends ISortable>(items: T[], sortKeys: string[]): T[] => {
+  const sortParsers = sortKeys.map((k) => { 
+    const [ query, ad ] = parseOrder(k);
+    return { 
+      parser: parseExtractor(query),
+      order: ad ?? 'asc'
+    };
+  }).filter((p) => !!p.parser);
+  return _.orderBy(
+    items,
+    sortParsers.map((p) => (i:T) => extract(i, p.parser!)),
+    sortParsers.map((p) => p.order),
+  )
+  .map((t, index) => ({ ...t, index }));
+};
+

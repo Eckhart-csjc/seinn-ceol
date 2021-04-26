@@ -8,10 +8,12 @@ import { SegOut } from './segout';
 import * as track from './track';
 import { 
   error, 
+  ISortable,
   Justification,
   notification,
   padOrTruncate,
-  printLn
+  printLn,
+  sortBy,
 } from './util';
 const pluralize = require('pluralize');
 
@@ -40,7 +42,7 @@ export const query = (
     return;
   }
   const items = tableHandler.filter(options.where);
-  const sorted = sortBy(items, options.order);
+  const sorted = sortBy<ISortable>(items, options.order ?? []);     // Still want indexing
   const limited = (options.offset || options.limit) ? 
     sorted.slice(parseInt(options.offset || '0', 10), parseInt(options.offset || '0', 10) + (parseInt(options.limit || '0', 10) || sorted.length)) : 
     sorted;
@@ -68,16 +70,6 @@ export const query = (
   }, true);
   printLn('');
   notification(pluralize(table.replace(/s$/, ''), limited.length, true));
-};
-
-const sortBy = (items: object[], sortKeys: string[] = []) => {
-  const sortParsers = sortKeys.map((k) => parseExtractor(k)).filter((p) => !!p);
-  return (sortParsers.length ?
-    _.sortBy(
-      items,
-      sortParsers.map((p) => (i:object) => extract(i, p!)),
-    ) : items)
-  .map((i, index) => ({ ...i, index }));
 };
 
 const makeJustification = (justification?: string): Justification =>
