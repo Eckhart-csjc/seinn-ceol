@@ -1,5 +1,6 @@
 import * as _ from 'lodash';
 import { ArrayFileHandler } from './array-file-handler';
+import { getSettings } from './config';
 import { extract, parseExtractor } from './extractor';
 import { IKey } from './keypress';
 import * as keypress from './keypress';
@@ -220,12 +221,13 @@ const doPlayList = async (name: string, options: IPlayListOptions, plays: number
     warning(`Playlist ${name} empty`);
     return;
   }
+  const settings = getSettings();
   if (lastHeaderRow === 0 || (getRowsPrinted() - lastHeaderRow) >= (process.stdout.rows-3)) {
-    layout.displayHeaders(playlist.layout);
+    layout.displayHeaders(playlist.layout ?? settings.layout);
     lastHeaderRow = getRowsPrinted();
   }
   if (!wasStopped) {
-    layout.displayColumns(theTrack, playlist.layout);
+    layout.displayColumns(theTrack, playlist.layout ?? settings.layout);
   }
   wasStopped = false;
   const trackPath = theTrack.trackPath;
@@ -243,7 +245,7 @@ const doPlayList = async (name: string, options: IPlayListOptions, plays: number
     { name: 'stop', func: doStop, help: 'stop playing' },
   ]);
   keypress.addKeys(playListKeys);
-  const finished = await doPlay(theTrack, playlist.trackOverlap ?? 0);
+  const finished = await doPlay(theTrack, playlist.trackOverlap ?? settings.trackOverlap ?? 0);
   await afterTrack(name, options, plays + (finished ? 1 : 0));
   keypress.removeKeys(playListKeys);
   return;

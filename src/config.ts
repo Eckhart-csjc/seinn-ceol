@@ -56,6 +56,7 @@ export type Theming = ThemeElement | IThemeSettings;
 
 export interface IConfig {
   player: string;
+  trackOverlap?: number;  // Milliseconds to shave off end of track before advancing (by default)
   layout?: string;
   theme?: ITheme;
   keyAssignments?: IKeyAssignments;
