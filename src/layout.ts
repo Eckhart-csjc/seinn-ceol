@@ -61,7 +61,6 @@ export const filter = (where?: string): ILayout[] => {
 
 export const displayColumns = (
   t: track.ITrackHydrated, 
-  trackIndex: number, 
   layoutName?: string
 ) => {
   const layout = getLayout(layoutName);
@@ -74,7 +73,7 @@ export const displayColumns = (
   const sep = layout.separator || '|';
   layout.columns.map((c) => 
     o.add(
-      formatColumn(c, { ...t, index: trackIndex }, sep.length), 
+      formatColumn(c, t, sep.length), 
       sep, 
       undefined,
       c.theming ?? layout.theming,

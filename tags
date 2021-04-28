@@ -27,6 +27,7 @@ ILayoutColumn	src/layout.ts	/^export interface ILayoutColumn {$/;"	i
 INumericLiteralToken	src/extractor.ts	/^interface INumericLiteralToken extends IValueToken {$/;"	i
 IOperatorToken	src/extractor.ts	/^interface IOperatorToken extends IToken {$/;"	i
 IPlayList	src/playlist.ts	/^export interface IPlayList {$/;"	i
+IPlayListOptions	src/playlist.ts	/^interface IPlayListOptions {$/;"	i
 IPlayState	src/play.ts	/^interface IPlayState {$/;"	i
 IPlayState	src/players/afplay.ts	/^interface IPlayState {$/;"	i
 IPlayer	src/play.ts	/^export interface IPlayer {$/;"	i
@@ -144,7 +145,6 @@ error	src/extractor.ts	/^    error(`This shouldn't happen, remaining tokens:`, J
 error	src/extractor.ts	/^    error(input);$/;"	m
 error	src/file-handler.ts	/^        error(`Error reading and parsing file ${filename}: ${e.message}`);$/;"	m
 error	src/players/afplay.ts	/^    error(`Error playing track ${track.trackPath}: ${e.message}`);$/;"	m
-error	src/playlist.ts	/^        error(`Playlist ${name} no longer exists`);$/;"	m
 error	src/playlist.ts	/^    error(`Could not find playlist "${name}"`);$/;"	m
 error	src/query.ts	/^    error(`Unknown table: ${table}`);$/;"	m
 error	src/track.ts	/^          error(`Track ${trackPath} is not an audio file we can use`);$/;"	m
@@ -186,7 +186,7 @@ fixTTY	src/util.ts	/^  fixTTY();$/;"	m
 fnc	src/extractor.ts	/^        fnc(context, op1, op2)$/;"	m
 fnc	src/extractor.ts	/^    fnc(context, pack(extract(context, operands[0])));$/;"	m
 fnc	src/extractor.ts	/^    fnc(context, pack(extract(context, operands[0])), extract(context, operands[1]));$/;"	m
-formatColumn	src/layout.ts	/^      formatColumn(c, { ...t, index: trackIndex }, sep.length), $/;"	m
+formatColumn	src/layout.ts	/^      formatColumn(c, t, sep.length), $/;"	m
 formatInfo	src/composer.ts	/^export const formatInfo = (composer?: string[], composerKey?: IComposer | string) => {$/;"	v
 formatInfo	src/play.ts	/^        formatInfo(track).map((i) => o.add(i, ' | ', " \\u2192 ", "detail"));$/;"	m
 formatInfo	src/track.ts	/^export const formatInfo = (t: ITrackHydrated): string[] => [$/;"	v
@@ -208,7 +208,6 @@ getSettings	src/config.ts	/^  getSettings().theme || {} as Record<string, ITheme
 getSettings	src/config.ts	/^export const getSettings = (): IConfig => {$/;"	v
 getSettings	src/seinn-ceol.ts	/^getSettings();      \/\/ Make sure we can read config.json, even if we don't need it yet$/;"	m
 getTheme	src/config.ts	/^export const getTheme = () => $/;"	v
-getTrackByIndex	src/playlist.ts	/^    getTrackByIndex(playlist, 0);$/;"	m
 goodExtract	src/index.test.ts	/^goodExtract('!simple', false);$/;"	m
 goodExtract	src/index.test.ts	/^goodExtract('(simple != 42) or 1', 1);$/;"	m
 goodExtract	src/index.test.ts	/^goodExtract('1 and simple', 42);$/;"	m
@@ -352,6 +351,7 @@ if	src/playlist.ts	/^      if (afterTrackAction === AfterTrackAction.Pause) {$/;
 if	src/playlist.ts	/^      if (afterTrackAction === AfterTrackAction.Quit) {$/;"	m
 if	src/playlist.ts	/^      if (lastIndex < 0) {$/;"	m
 if	src/playlist.ts	/^    if (isPlaying()) {$/;"	m
+if	src/playlist.ts	/^  if (!originalPlaylist) {$/;"	m
 if	src/playlist.ts	/^  if (!playlist) {$/;"	m
 if	src/playlist.ts	/^  if (!theTrack) {$/;"	m
 if	src/playlist.ts	/^  if (!wasStopped) {$/;"	m
@@ -361,6 +361,7 @@ if	src/playlist.ts	/^  if (afterTrackAction !== AfterTrackAction.Quit) {$/;"	m
 if	src/playlist.ts	/^  if (existing) {$/;"	m
 if	src/playlist.ts	/^  if (isPlaying()) {$/;"	m
 if	src/playlist.ts	/^  if (lastHeaderRow === 0 || (getRowsPrinted() - lastHeaderRow) >= (process.stdout.rows-3)) {$/;"	m
+if	src/playlist.ts	/^  if (originalPlaylist) {$/;"	m
 if	src/playlist.ts	/^  if (where && !token) {$/;"	m
 if	src/query.ts	/^  if (!tableHandler) {$/;"	m
 if	src/segout.ts	/^      if (sep) {$/;"	m
@@ -558,7 +559,7 @@ paused	src/players/afplay.ts	/^  paused: number;       \/\/ Number of millisecon
 play	src/play.ts	/^  play: ($/;"	m
 play	src/play.ts	/^export const play = async (track: ITrackHydrated | string): Promise<void> => { await doPlay(track); }$/;"	v
 play	src/players/afplay.ts	/^export const play = async (track: ITrackHydrated, earlyReturn: number = 0): Promise<boolean> => {$/;"	v
-playList	src/playlist.ts	/^export const playList = async (name: string) => doPlayList(name, 0);$/;"	v
+playList	src/playlist.ts	/^export const playList = async (name: string, options: IPlayListOptions) => doPlayList(name, options, 0);$/;"	v
 playTime	src/stats.ts	/^  playTime: 'playTime',$/;"	m
 playTime	src/stats.ts	/^  playTime: 0,$/;"	m
 playTime	src/stats.ts	/^  playTime: existing.playTime + (t.playTime ?? 0) * 1000,$/;"	m
@@ -630,7 +631,7 @@ save	src/array-file-handler.ts	/^  public save(data: T[]) {$/;"	m
 save	src/file-handler.ts	/^  public save(data: T) {$/;"	m
 save	src/layout.ts	/^export const save = (layout: ILayout) => {$/;"	v
 save	src/playlist.ts	/^      save({ ...playlist, current: nextTrack!.trackPath });$/;"	m
-save	src/playlist.ts	/^  save({ ...playlist, current: trackPath });$/;"	m
+save	src/playlist.ts	/^    save({ ...originalPlaylist, current: trackPath });$/;"	m
 save	src/playlist.ts	/^export const save = (playlist: IPlayList) => {$/;"	v
 saveAll	src/track.ts	/^export const saveAll = (tracks: ITrack[]) => trackFile.save(tracks);$/;"	v
 sepLength	src/layout.ts	/^  sepLength: number, $/;"	m
@@ -681,7 +682,6 @@ track	src/play.ts	/^    track: ITrackHydrated,        \/\/ Track to play$/;"	m
 track	src/play.ts	/^  track: ITrackHydrated | string,         \/\/ Track, or trackpath$/;"	m
 track	src/track.ts	/^      track: tr,$/;"	m
 track	src/track.ts	/^    track: c.track.no || undefined,$/;"	m
-trackIndex	src/layout.ts	/^  trackIndex: number, $/;"	m
 trackPath	src/track.ts	/^      trackPath: oldTrack.trackPath,$/;"	m
 trackPath	src/track.ts	/^  trackPath: string;$/;"	m
 tracks	src/query.ts	/^  tracks: track,$/;"	m
@@ -758,4 +758,5 @@ warning	src/track.ts	/^        warning(`Could not stat ${t.trackPath} -- not rem
 warning	src/track.ts	/^        warning(`Track ${trackPath} previously added -- skipped`);$/;"	m
 warning	src/track.ts	/^    warning(`Track "${updates.trackPath}" not in library -- not updating`);$/;"	m
 warning	src/util.ts	/^export const warning = (...args: any) => {$/;"	v
+where	src/playlist.ts	/^      where: originalPlaylist.where ? $/;"	m
 width	src/layout.ts	/^  width: string, $/;"	m

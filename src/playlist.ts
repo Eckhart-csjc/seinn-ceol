@@ -25,6 +25,10 @@ export interface IPlayList {
   layout?: string;        // Name of layout (defaults to config layout)
 }
 
+interface IPlayListOptions {
+  where?: string;
+}
+
 const playListFile = new ArrayFileHandler<IPlayList>('playlists.json');
 
 enum AfterTrackAction {
@@ -118,13 +122,12 @@ const doQuitAfter = (key: IKey) => {
   }
 };
 
-const afterTrack = async (name: string, plays: number): Promise<void> => {
+const afterTrack = async (name: string, options: IPlayListOptions,  plays: number): Promise<void> => {
   switch (afterTrackAction) {
     case AfterTrackAction.Next: {
-      const playlist = find(name);
+      const { playlist } = getPlaylist(name, options);
       if (!playlist) {
-        error(`Playlist ${name} no longer exists`);
-        process.exit(0);
+        return;
       }
       const sorted = track.sort(playlist.orderBy, playlist.where);
       const lastIndex = playlist.current ? 
@@ -136,7 +139,7 @@ const afterTrack = async (name: string, plays: number): Promise<void> => {
       const nextIndex = wasStopped ? 
         Math.max(0, lastIndex) :
         (lastIndex >= sorted.length - 1) ? 0 : lastIndex + 1; 
-      return doPlayList(name, plays, sorted[nextIndex]);
+      return doPlayList(name, options, plays, sorted[nextIndex]);
     }
 
     case AfterTrackAction.Pause: {
@@ -145,14 +148,13 @@ const afterTrack = async (name: string, plays: number): Promise<void> => {
       print(padOrTruncate(' Paused', process.stdout.columns, 'center'), 'paused');
       process.stdout.cursorTo(0);
       await new Promise((resolve, reject) => setTimeout(resolve, 500));
-      return afterTrack(name, plays);
+      return afterTrack(name, options, plays);
     }
 
     case AfterTrackAction.Previous: {
-      const playlist = find(name);
+      const { playlist } = getPlaylist(name, options);
       if (!playlist) {
-        error(`Playlist ${name} no longer exists`);
-        process.exit(0);
+        return;
       }
       const sorted = track.sort(playlist.orderBy, playlist.where);
       const lastIndex = playlist.current ? 
@@ -162,16 +164,15 @@ const afterTrack = async (name: string, plays: number): Promise<void> => {
         warning(`Current track not found in playlist, going to last`);
       }
       const prevIndex = (lastIndex <= 0) ? sorted.length - 1 : lastIndex - 1; 
-      return doPlayList(name, plays, sorted[prevIndex]);
+      return doPlayList(name, options, plays, sorted[prevIndex]);
     }
 
     case AfterTrackAction.Quit: {
       removeProgressSuffix(makeAfterMsg('quit'));
       // First, queue up the next track for when we start again
-      const playlist = find(name);
+      const { playlist } = getPlaylist(name, options);
       if (!playlist) {
-        error(`Playlist ${name} no longer exists`);
-        process.exit(0);
+        process.exit(1);
       }
       const sorted = track.sort(playlist.orderBy, playlist.where);
       const lastIndex = playlist.current ? 
@@ -185,25 +186,33 @@ const afterTrack = async (name: string, plays: number): Promise<void> => {
   }
 };
 
-export const playList = async (name: string) => doPlayList(name, 0);
+export const playList = async (name: string, options: IPlayListOptions) => doPlayList(name, options, 0);
 
 export const getCurrentTrack = (playlist: IPlayList) => {
-  const t = playlist.current ?
-    (track.findTrack(playlist.current) ?? getTrackByIndex(playlist, 0)) :
-    getTrackByIndex(playlist, 0);
-  return t && track.hydrateTrack(t);
+  const sorted = track.sort(playlist.orderBy, playlist.where);
+  return playlist.current ? (_.find(sorted, (t) => t.trackPath === playlist.current) ?? sorted[0]) :  sorted[0];
 }
 
-const getTrackByIndex = (playlist: IPlayList, index: number) => 
-  track.sort(playlist.orderBy, playlist.where)[index];
-
-const getTrackIndex = (playlist: IPlayList, t: track.ITrackHydrated) =>
-  _.findIndex(track.sort(playlist.orderBy, playlist.where), (tr) => tr.trackPath === t.trackPath);
-
-const doPlayList = async (name: string, plays: number, nextTrack?: track.ITrackHydrated) : Promise<void> => {
-  const playlist = find(name);
-  if (!playlist) {
+const getPlaylist = (name: string, options: IPlayListOptions) => {
+  const originalPlaylist = find(name);
+  if (!originalPlaylist) {
     error(`Could not find playlist "${name}"`);
+    return {};
+  }
+  const playlist = options.where ?
+    {
+      ...originalPlaylist,
+      where: originalPlaylist.where ? 
+        `(${originalPlaylist.where}) && (${options.where})` :
+        options.where,
+    } :
+    originalPlaylist;
+  return { originalPlaylist, playlist };
+};
+
+const doPlayList = async (name: string, options: IPlayListOptions, plays: number, nextTrack?: track.ITrackHydrated) : Promise<void> => {
+  const { originalPlaylist, playlist } = getPlaylist(name, options);
+  if (!playlist) {
     return;
   }
   const theTrack = nextTrack ?? getCurrentTrack(playlist);
@@ -216,11 +225,13 @@ const doPlayList = async (name: string, plays: number, nextTrack?: track.ITrackH
     lastHeaderRow = getRowsPrinted();
   }
   if (!wasStopped) {
-    layout.displayColumns(theTrack, getTrackIndex(playlist, theTrack), playlist.layout);
+    layout.displayColumns(theTrack, playlist.layout);
   }
   wasStopped = false;
   const trackPath = theTrack.trackPath;
-  save({ ...playlist, current: trackPath });
+  if (originalPlaylist) {
+    save({ ...originalPlaylist, current: trackPath });
+  }
   afterTrackAction = AfterTrackAction.Next;
 
   const playListKeys = keypress.makeKeys([
@@ -233,7 +244,7 @@ const doPlayList = async (name: string, plays: number, nextTrack?: track.ITrackH
   ]);
   keypress.addKeys(playListKeys);
   const finished = await doPlay(theTrack, playlist.trackOverlap ?? 0);
-  await afterTrack(name, plays + (finished ? 1 : 0));
+  await afterTrack(name, options, plays + (finished ? 1 : 0));
   keypress.removeKeys(playListKeys);
   return;
 };
