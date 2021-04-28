@@ -29,7 +29,7 @@ const orders: Record<string, keyof IGroupStats> = {
 export const stats = (
   options: {
     groupBy?: string[],
-    order?: string,
+    order?: string[],
     where?: string,
     limit?: number[],
   }
@@ -39,8 +39,14 @@ export const stats = (
     .map((g) => parseExtractor(g))
     .filter((g) => !!g) as IValueToken[];
   const composerIndex = composer.indexComposers();
-  const [ o, ad ] = parseOrder(options.order ?? 'name');
-  const orderBy = [ orders[o] ?? 'name', ad ?? (o === 'name' ? 'asc' : 'desc') ];
+  const order = options.order ?? [] as string[];
+  const orderBy = [
+    ...order,
+    ...Array(Math.max(0, (options.groupBy?.length ?? 0) - order.length)).fill(order[order.length-1] || 'name'),
+  ].map((ord) => {
+    const [ o, ad ] = parseOrder(ord || 'name');
+    return [ orders[o] ?? 'name', ad ?? (o === 'name' ? 'asc' : 'desc') ];
+  });
   const stats = tracks.reduce<IGroupStats>(
     (accum, t, ndx) => addStats(
       accum, 
@@ -98,7 +104,7 @@ const addGroupStats = (
 
 const formatGroup = (
   stats: IGroupStats, 
-  orderBy: string[],
+  orderBy: string[][],
   limit: number[] = [],
   indent: number = 0,
   indexPad: number = 0,
@@ -115,14 +121,14 @@ const formatGroup = (
   return stats.groups ?
     _.orderBy(
       _.values(stats.groups), 
-      ...orderBy,
+      ...orderBy[0],
     )
     .slice(0, limit[0] || Infinity)
     .map((s, index) => ({ ...s, index: index + 1 }))
     .reduce(
       (accum, group, ndx, arry) => [ 
         ...accum, 
-        ...formatGroup(group, orderBy, limit.slice(1), indent + indexPad + 1, `${arry.length}`.length) 
+        ...formatGroup(group, orderBy.slice(1), limit.slice(1), indent + indexPad + 1, `${arry.length}`.length) 
       ],
       [ base ]
     ) 
