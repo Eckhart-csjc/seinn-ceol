@@ -31,7 +31,7 @@ export const stats = (
     groupBy?: string[],
     order?: string,
     where?: string,
-    limit?: number
+    limit?: number[],
   }
 ) => {
   const tracks = track.filter(options.where);
@@ -99,7 +99,7 @@ const addGroupStats = (
 const formatGroup = (
   stats: IGroupStats, 
   orderBy: string[],
-  limit: number = 0,
+  limit: number[] = [],
   indent: number = 0,
   indexPad: number = 0,
 ): string[][] => {
@@ -117,12 +117,12 @@ const formatGroup = (
       _.values(stats.groups), 
       ...orderBy,
     )
-    .slice(0, limit || Infinity)
+    .slice(0, limit[0] || Infinity)
     .map((s, index) => ({ ...s, index: index + 1 }))
     .reduce(
       (accum, group, ndx, arry) => [ 
         ...accum, 
-        ...formatGroup(group, orderBy, limit, indent + indexPad + 1, `${arry.length}`.length) 
+        ...formatGroup(group, orderBy, limit.slice(1), indent + indexPad + 1, `${arry.length}`.length) 
       ],
       [ base ]
     ) 

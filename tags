@@ -407,7 +407,7 @@ killed	src/players/afplay.ts	/^  killed: false,$/;"	m
 lastCol	src/segout.ts	/^  lastCol: number;$/;"	m
 lastPlayed	src/track.ts	/^      lastPlayed: dayjs().toString(),$/;"	m
 layouts	src/query.ts	/^  layouts: layout,$/;"	m
-limit	src/stats.ts	/^  limit: number = 0,$/;"	m
+limit	src/stats.ts	/^  limit: number[] = [],$/;"	m
 main	src/seinn-ceol.ts	/^main()$/;"	m
 makeFilename	src/file-handler.ts	/^  private makeFilename(basename: string, pathOverride?: string) {$/;"	m
 makeGroup	src/stats.ts	/^    makeGroup('Totals', groups)$/;"	m
