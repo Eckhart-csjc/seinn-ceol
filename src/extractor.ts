@@ -5,6 +5,12 @@ import { debug, error, makeTime } from './util';
 
 const dayjs = require('dayjs');
 
+// Identifiers that should always be defined for extractors
+const UNIVERSALS = {
+  true: true,
+  false: false,
+}
+
 export enum Operation {
   All = 'All',
   And = 'And',
@@ -314,11 +320,11 @@ export const parseExtractor = (input: string): IValueToken | undefined => {
   return result.value;
 }
 
-type OpFunc = (context: unknown, operands: IValueToken[]) => unknown;
-type BinaryOpFunc = (context: unknown, op1: unknown, op2: unknown) => unknown;
-type UnaryOpFunc = (context: unknown, op1: unknown) => unknown;
-type BinaryArrayFunc = (context: unknown, op1: unknown[], op2: unknown) => unknown;
-type UnaryArrayFunc = (context: unknown, op1: unknown[]) => unknown;
+type OpFunc = (context: object, operands: IValueToken[]) => unknown;
+type BinaryOpFunc = (context: object, op1: unknown, op2: unknown) => unknown;
+type UnaryOpFunc = (context: object, op1: unknown) => unknown;
+type BinaryArrayFunc = (context: object, op1: unknown[], op2: unknown) => unknown;
+type UnaryArrayFunc = (context: object, op1: unknown[]) => unknown;
 
 const pack = (val: any): any[] =>
   Array.isArray(val) ? val : [ val ];
@@ -326,7 +332,7 @@ const pack = (val: any): any[] =>
 const unpack = (val: any[]): any =>
   val.length > 1 ? val : val[0];
 
-const doBinaryOperation = (context: unknown, operands: IValueToken[], fnc: BinaryOpFunc) =>
+const doBinaryOperation = (context: object, operands: IValueToken[], fnc: BinaryOpFunc) =>
   (operands.length === 2) &&
     unpack(pack(extract(context, operands[0])).reduce((accum, op1) => [ 
       ...pack(extract(context, operands[1])).reduce((acc2, op2) => [
@@ -335,15 +341,15 @@ const doBinaryOperation = (context: unknown, operands: IValueToken[], fnc: Binar
       ], accum)
     ], [] as any[]));
 
-const doUnaryOperation = (context: unknown, operands: IValueToken[], fnc: UnaryOpFunc) => 
+const doUnaryOperation = (context: object, operands: IValueToken[], fnc: UnaryOpFunc) => 
   (operands.length === 1) &&
     unpack(pack(extract(context, operands[0])).map((op1) => fnc(context, op1)));
 
-const doBinaryArrayOperation = (context: unknown, operands: IValueToken[], fnc: BinaryArrayFunc) =>
+const doBinaryArrayOperation = (context: object, operands: IValueToken[], fnc: BinaryArrayFunc) =>
   (operands.length === 2) &&
     fnc(context, pack(extract(context, operands[0])), extract(context, operands[1]));
 
-const doUnaryArrayOperation = (context: unknown, operands: IValueToken[], fnc: UnaryArrayFunc) =>
+const doUnaryArrayOperation = (context: object, operands: IValueToken[], fnc: UnaryArrayFunc) =>
   (operands.length === 1) &&
     fnc(context, pack(extract(context, operands[0])));
 
@@ -461,7 +467,7 @@ const opFunc: Record<Operation, OpFunc> = {
       (op1 as any) * (op2 as any)),
 }
 
-const extractors: Record<TokenType, (context: unknown, token: IToken) => unknown> = {
+const extractors: Record<TokenType, (context: object, token: IToken) => unknown> = {
 
   [TokenType.BinaryOperation]: (context, token:IBinaryOperationToken) => 
     (extract(context, token.operator) as OpFunc)(context, token.operands),
@@ -485,5 +491,5 @@ const extractors: Record<TokenType, (context: unknown, token: IToken) => unknown
     opFunc[token.operator],
 }
 
-export const extract = (context: unknown, token: IToken): unknown =>
-  extractors[token.type](context, token);
+export const extract = (context: object, token: IToken): unknown =>
+  extractors[token.type]({ ...UNIVERSALS, ...context }, token);

@@ -30,11 +30,11 @@ export const stats = (
   options: {
     groupBy?: string[],
     order?: string[],
-    where?: string,
+    where?: string[],
     limit?: number[],
   }
 ) => {
-  const tracks = track.filter(options.where);
+  const tracks = track.filter(options.where?.[0]);
   const groups: IValueToken[] = (options.groupBy ?? [] as string[])
     .map((g) => parseExtractor(g))
     .filter((g) => !!g) as IValueToken[];
@@ -55,9 +55,10 @@ export const stats = (
     ), 
     makeGroup('Totals', groups)
   );
+  const where = options.where?.slice(1).map((w) => parseExtractor(w));
   const rows = [
     [ `Rank ${options.groupBy ?? ''}`, `Tracks`, `Time`, `Plays`, `PlayTime`],
-    ...formatGroup(stats, orderBy, options.limit),
+    ...formatGroup(finalizeStats(stats, where), orderBy, options.limit),
   ];
   printColumns(rows, ['left', 'right', 'right', 'right', 'right'], true, 1);
 };
@@ -80,10 +81,12 @@ const addStats = (
   groups: IValueToken[]
 ): IGroupStats => ({
   ...existing,
-  nTracks: existing.nTracks + 1,
-  totalTime: existing.totalTime + (t.duration ?? 0) * 1000,
-  totalPlays: existing.totalPlays + t.plays,
-  playTime: existing.playTime + (t.playTime ?? 0) * 1000,
+  ...(existing.grouping ? {} : {      // When subgroups exist, we will bubble up stats later after filtering
+    nTracks: existing.nTracks + 1,
+    totalTime: existing.totalTime + (t.duration ?? 0),
+    totalPlays: existing.totalPlays + t.plays,
+    playTime: existing.playTime + (t.playTime ?? 0),
+  }),
   ...(existing.grouping ? {
     groups: addGroupStats(existing.grouping, existing.groups ?? {}, t, groups.slice(1)),
   } : {}),
@@ -95,12 +98,43 @@ const addGroupStats = (
   t: track.ITrackHydrated,
   remainingGroups: IValueToken[]
 ) => {
-  const name = makeString(extract(t, grouping));
-  return name ? {
-     ...groups,
-     [name] : addStats(groups[name] ?? makeGroup(name, remainingGroups), t, remainingGroups),
-  } : groups;
-};
+  const name = makeString(extract(t, grouping)) || '<none>';
+  return {
+    ...groups,
+    [name] : addStats(groups[name] ?? makeGroup(name, remainingGroups), t, remainingGroups),
+  };
+}
+
+const finalizeStats = (
+  stats: IGroupStats,
+  where?: Array<IValueToken | undefined>,
+): IGroupStats => (stats.grouping && stats.groups) ?
+  _.keys(stats.groups).reduce((accum, name) => {
+    const g = stats.groups?.[name];
+    if (!g) {           // This should never happen, but the compiler isn't smart enough to see that
+      return accum;
+    }
+    const groupStats = finalizeStats(g, where?.slice(1));
+    const condition = where?.[0];
+    return (!condition || extract({
+      ..._.mapValues(orders, (o) => groupStats[o]),   // Allow ordering names to be used here
+      ...groupStats,                                  // As well as true field names
+    }, condition)) ?
+      {
+        ...accum,
+        nTracks: accum.nTracks + groupStats.nTracks,
+        totalTime: accum.totalTime + groupStats.totalTime,
+        totalPlays: accum.totalPlays + groupStats.totalPlays,
+        playTime: accum.playTime + groupStats.playTime,
+        groups: {
+          ...accum.groups,
+          [name]: groupStats,
+        }
+      } : accum;
+  }, {
+    ...stats,
+    groups: {} as Record<string, IGroupStats>
+  }) : stats;
 
 const formatGroup = (
   stats: IGroupStats, 
@@ -114,9 +148,9 @@ const formatGroup = (
       `${stats.index ?? ''}`.padStart(indexPad,' ') +
       ` ${stats.name}`, 
     `${stats.nTracks}`, 
-    makeTime(stats.totalTime), 
+    makeTime(stats.totalTime * 1000), 
     `${stats.totalPlays}`,
-    makeTime(stats.playTime),
+    makeTime(stats.playTime * 1000),
   ];
   return stats.groups ?
     _.orderBy(

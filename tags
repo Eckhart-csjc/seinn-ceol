@@ -6,8 +6,8 @@
 !_TAG_PROGRAM_VERSION	5.8	//
 AfterTrackAction	src/playlist.ts	/^enum AfterTrackAction {$/;"	e
 ArrayFileHandler	src/array-file-handler.ts	/^export class ArrayFileHandler<T> {$/;"	c
-BinaryArrayFunc	src/extractor.ts	/^type BinaryArrayFunc = (context: unknown, op1: unknown[], op2: unknown) => unknown;$/;"	t
-BinaryOpFunc	src/extractor.ts	/^type BinaryOpFunc = (context: unknown, op1: unknown, op2: unknown) => unknown;$/;"	t
+BinaryArrayFunc	src/extractor.ts	/^type BinaryArrayFunc = (context: object, op1: unknown[], op2: unknown) => unknown;$/;"	t
+BinaryOpFunc	src/extractor.ts	/^type BinaryOpFunc = (context: object, op1: unknown, op2: unknown) => unknown;$/;"	t
 FileHandler	src/file-handler.ts	/^export class FileHandler<T> {$/;"	c
 IBinaryOperationToken	src/extractor.ts	/^interface IBinaryOperationToken extends IValueToken {$/;"	i
 IBinaryOperatorToken	src/extractor.ts	/^interface IBinaryOperatorToken extends IOperatorToken {$/;"	i
@@ -44,14 +44,14 @@ IUnaryOperationToken	src/extractor.ts	/^interface IUnaryOperationToken extends I
 IUnaryOperatorToken	src/extractor.ts	/^interface IUnaryOperatorToken extends IOperatorToken {$/;"	i
 IValueToken	src/extractor.ts	/^export interface IValueToken extends IToken {$/;"	i
 Justification	src/util.ts	/^export type Justification = 'left' | 'center' | 'right';$/;"	t
-OpFunc	src/extractor.ts	/^type OpFunc = (context: unknown, operands: IValueToken[]) => unknown;$/;"	t
+OpFunc	src/extractor.ts	/^type OpFunc = (context: object, operands: IValueToken[]) => unknown;$/;"	t
 Operation	src/extractor.ts	/^export enum Operation {$/;"	e
 SegOut	src/segout.ts	/^export class SegOut {$/;"	c
 ThemeElement	src/config.ts	/^export type ThemeElement = keyof ITheme;$/;"	t
 Theming	src/config.ts	/^export type Theming = ThemeElement | IThemeSettings;$/;"	t
 TokenType	src/extractor.ts	/^export enum TokenType {$/;"	e
-UnaryArrayFunc	src/extractor.ts	/^type UnaryArrayFunc = (context: unknown, op1: unknown[]) => unknown;$/;"	t
-UnaryOpFunc	src/extractor.ts	/^type UnaryOpFunc = (context: unknown, op1: unknown) => unknown;$/;"	t
+UnaryArrayFunc	src/extractor.ts	/^type UnaryArrayFunc = (context: object, op1: unknown[]) => unknown;$/;"	t
+UnaryOpFunc	src/extractor.ts	/^type UnaryOpFunc = (context: object, op1: unknown) => unknown;$/;"	t
 add	src/composer.ts	/^export const add = (composer: IComposer): boolean => {$/;"	v
 add	src/segout.ts	/^  public add($/;"	m
 add	src/track.ts	/^  add(gatherFiles(path.resolve(directory)), options);$/;"	m
@@ -162,8 +162,9 @@ expect	src/index.test.ts	/^    expect(result.isEos()).toBe(true);$/;"	m
 expect	src/index.test.ts	/^    expect(result.value).toEqual(expected);$/;"	m
 expect	src/index.test.ts	/^    expect(token).toBeTruthy();$/;"	m
 expression	src/extractor.ts	/^  expression: (): IParser<IValueToken> =>$/;"	m
-extract	src/extractor.ts	/^export const extract = (context: unknown, token: IToken): unknown =>$/;"	v
+extract	src/extractor.ts	/^export const extract = (context: object, token: IToken): unknown =>$/;"	v
 extractor	src/layout.ts	/^  extractor: string;      \/\/ extractor against ITrackHydrated$/;"	m
+false	src/extractor.ts	/^  false: false,$/;"	m
 fetch	src/array-file-handler.ts	/^  public fetch(): T[] {$/;"	m
 fetch	src/file-handler.ts	/^  public fetch(): T | undefined {$/;"	m
 fetchAll	src/composer.ts	/^export const fetchAll = () => composerFile.fetch();$/;"	v
@@ -288,7 +289,9 @@ groupOperations	src/extractor.ts	/^      groupOperations(tokens.slice(2))$/;"	m
 groupOperations	src/extractor.ts	/^    groupOperations([$/;"	m
 grouping	src/stats.ts	/^    grouping: groups[0],$/;"	m
 grouping	src/stats.ts	/^  grouping: IValueToken, $/;"	m
+groups	src/stats.ts	/^        groups: {$/;"	m
 groups	src/stats.ts	/^    groups: addGroupStats(existing.grouping, existing.groups ?? {}, t, groups.slice(1)),$/;"	m
+groups	src/stats.ts	/^    groups: {} as Record<string, IGroupStats>$/;"	m
 groups	src/stats.ts	/^    groups: {} as Record<string, IGroupStats>,$/;"	m
 groups	src/stats.ts	/^  groups: IValueToken[]$/;"	m
 groups	src/stats.ts	/^  groups: Record<string, IGroupStats>, $/;"	m
@@ -368,6 +371,7 @@ if	src/segout.ts	/^      if (sep) {$/;"	m
 if	src/segout.ts	/^    if (this.lastCol > 0 && $/;"	m
 if	src/segout.ts	/^    if (this.lastCol > 0) {$/;"	m
 if	src/seinn-ceol.ts	/^  if (process.argv.length < 2) {$/;"	m
+if	src/stats.ts	/^    if (!g) {           \/\/ This should never happen, but the compiler isn't smart enough to see that$/;"	m
 if	src/track.ts	/^        if (!noError) {$/;"	m
 if	src/track.ts	/^      if (!noWarn) {$/;"	m
 if	src/track.ts	/^      if (composerKey && composerKey !== track.composerKey) {$/;"	m
@@ -416,8 +420,8 @@ makeKeys	src/keypress.ts	/^export const makeKeys = (makers: IKeyMaker[]): IKeyMa
 makeProgressBar	src/util.ts	/^export const makeProgressBar = (width: number, pct: number, text: string = '') => {$/;"	v
 makeString	src/util.ts	/^export const makeString = (input: unknown): string =>$/;"	v
 makeTime	src/extractor.ts	/^        makeTime((typeof op1 === 'number' ? op1 : parseInt(`${op1}`,10)) * 1000) :$/;"	m
-makeTime	src/stats.ts	/^    makeTime(stats.playTime),$/;"	m
-makeTime	src/stats.ts	/^    makeTime(stats.totalTime), $/;"	m
+makeTime	src/stats.ts	/^    makeTime(stats.playTime * 1000),$/;"	m
+makeTime	src/stats.ts	/^    makeTime(stats.totalTime * 1000), $/;"	m
 makeTime	src/util.ts	/^export const makeTime = (milli: number) => {$/;"	v
 makeTrack	src/track.ts	/^export const makeTrack = async (trackPath: string, info?: ITrackInfo): Promise<ITrack> => {$/;"	v
 maybeCorrectTrack	src/track.ts	/^export const maybeCorrectTrack = (t: ITrack) => {$/;"	v
@@ -432,8 +436,9 @@ movement	src/track.ts	/^      movement: parseMovement(t.title),$/;"	m
 n	src/track.ts	/^              n: intOrString(match.groups.n) ?? 0,$/;"	m
 n	src/track.ts	/^  n: string | number;           \/\/ Catalog entry number$/;"	m
 nDisks	src/track.ts	/^    nDisks: c.disk.of || undefined,$/;"	m
+nTracks	src/stats.ts	/^        nTracks: accum.nTracks + groupStats.nTracks,$/;"	m
+nTracks	src/stats.ts	/^    nTracks: existing.nTracks + 1,$/;"	m
 nTracks	src/stats.ts	/^  nTracks: 0,$/;"	m
-nTracks	src/stats.ts	/^  nTracks: existing.nTracks + 1,$/;"	m
 nTracks	src/stats.ts	/^  nTracks: number;$/;"	m
 nTracks	src/track.ts	/^    nTracks: c.track.of || undefined,$/;"	m
 name	src/composer.ts	/^      name: 'action',$/;"	m
@@ -560,9 +565,10 @@ play	src/play.ts	/^  play: ($/;"	m
 play	src/play.ts	/^export const play = async (track: ITrackHydrated | string): Promise<void> => { await doPlay(track); }$/;"	v
 play	src/players/afplay.ts	/^export const play = async (track: ITrackHydrated, earlyReturn: number = 0): Promise<boolean> => {$/;"	v
 playList	src/playlist.ts	/^export const playList = async (name: string, options: IPlayListOptions) => doPlayList(name, options, 0);$/;"	v
+playTime	src/stats.ts	/^        playTime: accum.playTime + groupStats.playTime,$/;"	m
+playTime	src/stats.ts	/^    playTime: existing.playTime + (t.playTime ?? 0),$/;"	m
 playTime	src/stats.ts	/^  playTime: 'playTime',$/;"	m
 playTime	src/stats.ts	/^  playTime: 0,$/;"	m
-playTime	src/stats.ts	/^  playTime: existing.playTime + (t.playTime ?? 0) * 1000,$/;"	m
 playTime	src/stats.ts	/^  playTime: number;$/;"	m
 playTime	src/track.ts	/^      playTime: t.duration ? (t.plays * t.duration) : undefined,$/;"	m
 player	src/config.ts	/^  player: 'afplay',$/;"	m
@@ -623,6 +629,7 @@ resume	src/keypress.ts	/^  resume();$/;"	m
 resume	src/keypress.ts	/^export const resume = () => active = true;$/;"	v
 return	src/extractor.ts	/^        return (Math.abs(now.diff(dt, 'years')) > 0) ?$/;"	m
 return	src/layout.ts	/^    return (maxWidth > 0 && maxWidth < text.length) ?$/;"	m
+return	src/stats.ts	/^    return (!condition || extract({$/;"	m
 return	src/util.ts	/^  return (query && ad) ?$/;"	m
 rewind	src/config.ts	/^  rewind: { sequence: 'R' },$/;"	m
 rewind	src/players/afplay.ts	/^  rewind: boolean;$/;"	m
@@ -644,6 +651,7 @@ sort	src/track.ts	/^export const sort = (sortKeys: string[], whereClause?: strin
 sortBy	src/util.ts	/^export const sortBy = <T extends ISortable>(items: T[], sortKeys: string[]): T[] => {$/;"	v
 spawnWithProgress	src/asyncChild.ts	/^export const spawnWithProgress = async ($/;"	v
 stats	src/stats.ts	/^  stats: IGroupStats, $/;"	m
+stats	src/stats.ts	/^  stats: IGroupStats,$/;"	m
 stats	src/stats.ts	/^export const stats = ($/;"	v
 stop	src/config.ts	/^  stop: { sequence: 's' },$/;"	m
 stop	src/play.ts	/^  stop: () => Promise<boolean>;   \/\/ true == stopped$/;"	m
@@ -671,11 +679,13 @@ table	src/query.ts	/^  table: string,$/;"	m
 text	src/layout.ts	/^  text: string, $/;"	m
 text	src/segout.ts	/^    text: string,         \/\/ Text to add$/;"	m
 time	src/stats.ts	/^  time: 'totalTime',$/;"	m
+totalPlays	src/stats.ts	/^        totalPlays: accum.totalPlays + groupStats.totalPlays,$/;"	m
+totalPlays	src/stats.ts	/^    totalPlays: existing.totalPlays + t.plays,$/;"	m
 totalPlays	src/stats.ts	/^  totalPlays: 0,$/;"	m
-totalPlays	src/stats.ts	/^  totalPlays: existing.totalPlays + t.plays,$/;"	m
 totalPlays	src/stats.ts	/^  totalPlays: number;$/;"	m
+totalTime	src/stats.ts	/^        totalTime: accum.totalTime + groupStats.totalTime,$/;"	m
+totalTime	src/stats.ts	/^    totalTime: existing.totalTime + (t.duration ?? 0),$/;"	m
 totalTime	src/stats.ts	/^  totalTime: 0,$/;"	m
-totalTime	src/stats.ts	/^  totalTime: existing.totalTime + (t.duration ?? 0) * 1000,$/;"	m
 totalTime	src/stats.ts	/^  totalTime: number;$/;"	m
 track	src/layout.ts	/^  track: track.ITrackHydrated,$/;"	m
 track	src/play.ts	/^    track: ITrackHydrated,        \/\/ Track to play$/;"	m
@@ -687,6 +697,7 @@ trackPath	src/track.ts	/^  trackPath: string;$/;"	m
 tracks	src/query.ts	/^  tracks: track,$/;"	m
 tracks	src/stats.ts	/^  tracks: 'nTracks',$/;"	m
 tracks	src/track.ts	/^  tracks: string[], $/;"	m
+true	src/extractor.ts	/^  true: true,$/;"	m
 type	src/composer.ts	/^      type: 'input', $/;"	m
 type	src/composer.ts	/^      type: 'input',$/;"	m
 type	src/composer.ts	/^      type: 'list',$/;"	m

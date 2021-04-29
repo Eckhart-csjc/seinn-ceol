@@ -97,7 +97,7 @@ program
   .command('stats')
   .option('-g, --groupBy <group-spec...>', 'Fields to create sub-group statistics')
   .option('-o, --order <order...>', 'Order subgroups by name|time|tracks|plays|playTime, optionally followed by comma and asc/desc',)
-  .option('-w, --where <filter>', 'Filter tracks to include in stats')
+  .option('-w, --where <filter...>', 'Filter tracks to include in stats, followed by filters for groups (use true or 1 as an "all" placeholder where needed)')
   .option('-l, --limit <n...>', 'Limit lists to n items (default for each is unlimited)')
   .description('get statistics')
   .action(stats)
