@@ -269,10 +269,10 @@ const doPlayList = async (name: string, options: IPlayListOptions, plays: number
   const playListKeys = keypress.makeKeys([
     { name: 'nextTrack', func: doNext, help: 'next track' },
     { name: 'previousTrack', func: doPrevious, help: 'previous track' },
-    { name: 'resume', func: doResume, help: 'resume'},
+    { name: 'resume', func: doResume, help: () => afterTrackAction === AfterTrackAction.Pause ? 'cancel pause' : (afterTrackAction === AfterTrackAction.Quit ? 'cancel quit' : '') },
     { name: 'quitAfterTrack', func: doQuitAfter, help: 'quit at end of track' },
     { name: 'pauseAfterTrack', func: doPauseAfter, help: 'pause at end of track' },
-    { name: 'shuffle', func: doShuffle, help: 'toggle shuffle mode' },
+    { name: 'shuffle', func: doShuffle, help: () => `turn ${shuffleMode ? 'off' : 'on'} shuffle mode` },
     { name: 'stop', func: doStop, help: 'stop playing' },
   ]);
   keypress.addKeys(playListKeys);

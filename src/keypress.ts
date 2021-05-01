@@ -10,16 +10,18 @@ export interface IKey {
   sequence: string;
 }
 
+export type KeyHelp = string | (() => string);
+
 export interface IKeyMaker {
   name: keyof IKeyAssignments;
   func: (key: IKey) => any;
-  help?: string;
+  help?: KeyHelp;
 }
 
 export interface IKeyMapping {
   key: Partial<IKey>;           // Any element not specified is ignored when matching
   func: (key: IKey) => any;     // Return value is ignored
-  help?: string;                // Short description of the function for help text
+  help?: KeyHelp;               // Short description of the function for help text (or a function that returns that)
 }
 
 let keyMappings = [] as IKeyMapping[];
@@ -116,5 +118,12 @@ export const makeHelpText = (): string[] => {
     );
   return Object.keys(byKey)
     .sort()
-    .map((k) => `${k} - ${_.uniq(byKey[k].map((km) => km.help)).join(' & ')}`);
+    .map((k) => [k, `${
+      _.uniq(byKey[k]
+        .map((km) => (typeof km.help === 'function') ? km.help() : km.help))
+        .filter((h) => !!h)
+        .join(' & ')
+      }`])
+    .filter((k) => !!k[1])
+    .map((k) => k.join(' - '));
 };

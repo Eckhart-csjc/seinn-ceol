@@ -51,8 +51,8 @@ const makePlayKeys = async () => keypress.makeKeys([
   { name: 'rewind', func: doRewind, help: 'rewind track' },
   ...((await canPause()) ? 
     [
-      { name: 'pause', func: doPause, help: 'pause' },
-      { name: 'resume', func: doResume, help: 'resume' },
+      { name: 'pause', func: doPause, help: () => playState.beginPause ? '' : 'pause' },
+      { name: 'resume', func: doResume, help: () => playState.beginPause ? 'resume' : ''},
     ] as IKeyMaker[] :
     []
   ),

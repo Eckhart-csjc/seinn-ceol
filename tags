@@ -45,6 +45,7 @@ IUnaryOperationToken	src/extractor.ts	/^interface IUnaryOperationToken extends I
 IUnaryOperatorToken	src/extractor.ts	/^interface IUnaryOperatorToken extends IOperatorToken {$/;"	i
 IValueToken	src/extractor.ts	/^export interface IValueToken extends IToken {$/;"	i
 Justification	src/util.ts	/^export type Justification = 'left' | 'center' | 'right';$/;"	t
+KeyHelp	src/keypress.ts	/^export type KeyHelp = string | (() => string);$/;"	t
 OpFunc	src/extractor.ts	/^type OpFunc = (context: object, operands: IValueToken[]) => unknown;$/;"	t
 Operation	src/extractor.ts	/^export enum Operation {$/;"	e
 SegOut	src/segout.ts	/^export class SegOut {$/;"	c
