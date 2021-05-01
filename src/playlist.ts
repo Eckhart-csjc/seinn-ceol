@@ -186,7 +186,7 @@ const afterTrack = async (name: string, options: IPlayListOptions,  plays: numbe
       if (!playlist) {
         return;
       }
-      const sorted = track.sort(['lastPlayed'], playlist.where);
+      const sorted = track.sort(['lastPlayed or 0'], playlist.where);
       const nextIndex = Math.floor(Math.random() * (sorted.length * 9 / 10));  // Choose from the 90% least recently played
       return doPlayList(name, options, plays, sorted[nextIndex]);
     }
