@@ -36,6 +36,7 @@ export const warning = (...args: any) => {
   bumpRowsPrinted();
 }
 export const notification = (...args: any) => {
+  process.stdout.clearLine(0);
   console.log(...args.map((a: any) => 
     (typeof a === 'string') ? applyThemeSetting(a, 'notification') : a));
   bumpRowsPrinted();
