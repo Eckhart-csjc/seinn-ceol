@@ -42,6 +42,7 @@ export enum TokenType {
   BinaryOperator = 'BinaryOperator',
   Identifier = 'Identifier',
   NumericLiteral = 'NumericLiteral',
+  Regex = 'Regex',
   StringLiteral = 'StringLiteral',
   UnaryOperation = 'UnaryOperation',
   UnaryOperator = 'UnaryOperator',
@@ -76,6 +77,12 @@ interface IIdentifierToken extends IValueToken {
 interface INumericLiteralToken extends IValueToken {
   type: TokenType.NumericLiteral;
   value: number;
+}
+
+interface IRegexToken extends IValueToken {
+  type: TokenType.Regex;
+  value: string;
+  flags: string;
 }
 
 interface IStringLiteralToken extends IValueToken {
@@ -220,8 +227,10 @@ const P = {
     F.try(P.parenthesizedExpression())
       .or(F.try(P.unaryOperation())
         .or(F.try(P.stringLiteral())
-          .or(F.try(P.numericLiteral())
-            .or(P.identifier()) as IParser<IToken>
+          .or(F.try(P.regex())
+            .or(F.try(P.numericLiteral())
+              .or(P.identifier()) as IParser<IToken>
+            ) as IParser<IToken>
           ) as IParser<IToken>
         ) as IParser<IToken>
       ),
@@ -265,6 +274,15 @@ const P = {
       .then(F.lazy(P.operationChain))
       .then(C.char(')').drop())
       .map((result: Tuple<IValueToken>): IValueToken => result.value[0]),
+
+  regex: (): IParser<IRegexToken> =>
+    P.stringLiteral('/')
+      .then(C.charIn('gimsu').optrep())
+      .map((result: Tuple<any>) => ({
+        type: TokenType.Regex,
+        value: result.value[0]!.value! as string,
+        flags: result.value.slice(1).join(''),
+      }) as IRegexToken),
 
   stringLiteral: (quote?: string) : IParser<IStringLiteralToken> =>
     quote ?
@@ -480,6 +498,9 @@ const extractors: Record<TokenType, (context: object, token: IToken) => unknown>
 
   [TokenType.NumericLiteral]: (context, token:INumericLiteralToken) => 
     token.value,
+
+  [TokenType.Regex]: (context, token:IRegexToken) =>
+    new RegExp(token.value, token.flags),
 
   [TokenType.StringLiteral]: (context, token:IStringLiteralToken) => 
     token.value,

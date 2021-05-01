@@ -31,6 +31,7 @@ IPlayListOptions	src/playlist.ts	/^interface IPlayListOptions {$/;"	i
 IPlayState	src/play.ts	/^interface IPlayState {$/;"	i
 IPlayState	src/players/afplay.ts	/^interface IPlayState {$/;"	i
 IPlayer	src/play.ts	/^export interface IPlayer {$/;"	i
+IRegexToken	src/extractor.ts	/^interface IRegexToken extends IValueToken {$/;"	i
 ISortable	src/util.ts	/^export interface ISortable {$/;"	i
 IStringLiteralToken	src/extractor.ts	/^interface IStringLiteralToken extends IValueToken {$/;"	i
 ITheme	src/config.ts	/^export interface ITheme {$/;"	i
@@ -184,6 +185,10 @@ findTrack	src/track.ts	/^export const findTrack = (trackPath: string) => {$/;"	v
 fixTTY	src/keypress.ts	/^  fixTTY();$/;"	m
 fixTTY	src/keypress.ts	/^export const fixTTY = () => {$/;"	v
 fixTTY	src/util.ts	/^  fixTTY();$/;"	m
+flags	src/extractor.ts	/^        flags: result.value.slice(1).join(''),$/;"	m
+flags	src/extractor.ts	/^  flags: string;$/;"	m
+flags	src/index.test.ts	/^  flags: '',$/;"	m
+flags	src/index.test.ts	/^  flags: 'i',$/;"	m
 fnc	src/extractor.ts	/^        fnc(context, op1, op2)$/;"	m
 fnc	src/extractor.ts	/^    fnc(context, pack(extract(context, operands[0])));$/;"	m
 fnc	src/extractor.ts	/^    fnc(context, pack(extract(context, operands[0])), extract(context, operands[1]));$/;"	m
@@ -231,6 +236,9 @@ goodExtract	src/index.test.ts	/^goodExtract('note', 'hello');$/;"	m
 goodExtract	src/index.test.ts	/^goodExtract('simple && 0', 0);$/;"	m
 goodExtract	src/index.test.ts	/^goodExtract('simple = 42', true);$/;"	m
 goodExtract	src/index.test.ts	/^goodExtract('simple', 42);$/;"	m
+goodExtract	src/index.test.ts	/^goodExtract(`"fred" =~ \/Red$\/`, false);$/;"	m
+goodExtract	src/index.test.ts	/^goodExtract(`"fred" =~ \/Red$\/i`, true);$/;"	m
+goodExtract	src/index.test.ts	/^goodExtract(`"fred" =~ \/red$\/`, true);$/;"	m
 goodExtract	src/index.test.ts	/^goodExtract(`'a string'`, 'a string');$/;"	m
 goodExtract	src/index.test.ts	/^goodExtract(`(0 or simple) = (42 and 'hello')`, false);$/;"	m
 goodExtract	src/index.test.ts	/^goodExtract(`-12`, -12);$/;"	m
@@ -281,6 +289,8 @@ goodParse	src/index.test.ts	/^goodParse(`A and B or C = 1`, {$/;"	m
 goodParse	src/index.test.ts	/^goodParse(`A and B or C`, {$/;"	m
 goodParse	src/index.test.ts	/^goodParse(`Alice123.bob`, {$/;"	m
 goodParse	src/index.test.ts	/^goodParse(`Alice123`, {$/;"	m
+goodParse	src/index.test.ts	/^goodParse(`\/^hel(l)o$\/i`, {$/;"	m
+goodParse	src/index.test.ts	/^goodParse(`\/^hello$\/`, {$/;"	m
 goodParse	src/index.test.ts	/^goodParse(`composerName = 'Johann Sebastian Bach'`, {$/;"	m
 goodParse	src/index.test.ts	/^goodParse(`composerName='Johann Sebastian Bach'`, {$/;"	m
 groupOperations	src/extractor.ts	/^        groupOperations(tokens.slice(2,nextPeerOp)), $/;"	m
@@ -602,6 +612,7 @@ printLn	src/util.ts	/^export const printLn = (text: string, theme?: Theming) => 
 query	src/query.ts	/^export const query = ($/;"	v
 quit	src/config.ts	/^  quit: { sequence: 'q' },$/;"	m
 quitAfterTrack	src/config.ts	/^  quitAfterTrack: { sequence: 'Q' },$/;"	m
+regex	src/extractor.ts	/^  regex: (): IParser<IRegexToken> =>$/;"	m
 reject	src/asyncChild.ts	/^        reject(new Error(result.error));$/;"	m
 reject	src/asyncChild.ts	/^      reject(error);$/;"	m
 reject	src/asyncChild.ts	/^    reject(err);$/;"	m
@@ -705,6 +716,7 @@ type	src/extractor.ts	/^          type: TokenType.StringLiteral,$/;"	m
 type	src/extractor.ts	/^        type: TokenType.BinaryOperator,$/;"	m
 type	src/extractor.ts	/^        type: TokenType.Identifier,$/;"	m
 type	src/extractor.ts	/^        type: TokenType.NumericLiteral,$/;"	m
+type	src/extractor.ts	/^        type: TokenType.Regex,$/;"	m
 type	src/extractor.ts	/^        type: TokenType.UnaryOperation,$/;"	m
 type	src/extractor.ts	/^        type: TokenType.UnaryOperator,$/;"	m
 type	src/extractor.ts	/^      type: TokenType.BinaryOperation,$/;"	m
@@ -712,6 +724,7 @@ type	src/extractor.ts	/^  type: TokenType.BinaryOperation;$/;"	m
 type	src/extractor.ts	/^  type: TokenType.BinaryOperator;$/;"	m
 type	src/extractor.ts	/^  type: TokenType.Identifier;$/;"	m
 type	src/extractor.ts	/^  type: TokenType.NumericLiteral;$/;"	m
+type	src/extractor.ts	/^  type: TokenType.Regex;$/;"	m
 type	src/extractor.ts	/^  type: TokenType.StringLiteral;$/;"	m
 type	src/extractor.ts	/^  type: TokenType.UnaryOperation;$/;"	m
 type	src/extractor.ts	/^  type: TokenType.UnaryOperator;$/;"	m
@@ -731,6 +744,7 @@ type	src/index.test.ts	/^    type: TokenType.UnaryOperator,$/;"	m
 type	src/index.test.ts	/^  type: TokenType.BinaryOperation,$/;"	m
 type	src/index.test.ts	/^  type: TokenType.Identifier,$/;"	m
 type	src/index.test.ts	/^  type: TokenType.NumericLiteral,$/;"	m
+type	src/index.test.ts	/^  type: TokenType.Regex,$/;"	m
 type	src/index.test.ts	/^  type: TokenType.StringLiteral,$/;"	m
 type	src/index.test.ts	/^  type: TokenType.UnaryOperation,$/;"	m
 type	src/track.ts	/^          type: 'input',$/;"	m
@@ -749,10 +763,13 @@ validate	src/composer.ts	/^      validate: (val:string) => !val ? 'Composer name
 validate	src/composer.ts	/^      validate: (val:string) => (!!val && dayjs(val).year != NaN) ? true : 'Invalid date',$/;"	m
 validate	src/composer.ts	/^      validate: (val:string) => (!val || dayjs(val).year != NaN) ? true : 'Invalid date',$/;"	m
 value	src/extractor.ts	/^          value: result.value.join(''),$/;"	m
+value	src/extractor.ts	/^        value: result.value[0]!.value! as string,$/;"	m
 value	src/extractor.ts	/^  value: number;$/;"	m
 value	src/extractor.ts	/^  value: string;$/;"	m
 value	src/index.test.ts	/^          value: 1,$/;"	m
 value	src/index.test.ts	/^      value: 'Johann Sebastian Bach',$/;"	m
+value	src/index.test.ts	/^  value: '^hel(l)o$',$/;"	m
+value	src/index.test.ts	/^  value: '^hello$',$/;"	m
 value	src/index.test.ts	/^  value: 'fred',$/;"	m
 value	src/index.test.ts	/^  value: -1.23,$/;"	m
 value	src/index.test.ts	/^  value: 1,$/;"	m

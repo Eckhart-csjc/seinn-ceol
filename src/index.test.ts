@@ -54,6 +54,18 @@ goodParse(`'fr"ed'`, {
   value: `fr"ed`,
 });
 
+goodParse(`/^hello$/`, {
+  type: TokenType.Regex,
+  value: '^hello$',
+  flags: '',
+});
+
+goodParse(`/^hel(l)o$/i`, {
+  type: TokenType.Regex,
+  value: '^hel(l)o$',
+  flags: 'i',
+});
+
 goodParse(`Alice123`, {
   type: TokenType.Identifier,
   name: `Alice123`,
@@ -352,3 +364,6 @@ goodExtract(`shortDur 1810`, '30:10');
 goodExtract(`shortDur 3670`, '1:01:10');
 goodExtract(`shortTime dates[0]`, '2020 Jan 1');
 goodExtract(`shortTime date dates[0]`, '2020 Jan 1');
+goodExtract(`"fred" =~ /red$/`, true);
+goodExtract(`"fred" =~ /Red$/`, false);
+goodExtract(`"fred" =~ /Red$/i`, true);
