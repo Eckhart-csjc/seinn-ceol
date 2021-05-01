@@ -32,7 +32,7 @@ export class FileHandler<T> {
   };
 
   private getDefaultPath() {
-    const folderPath = path.resolve(os.homedir(), './Music/seinn-ceol');
+    const folderPath = path.resolve(os.homedir(), './.seinn-ceol');
     if (!fs.existsSync(folderPath)) {
       fs.mkdirSync(folderPath, { recursive: true, mode: 0o744 });
     }

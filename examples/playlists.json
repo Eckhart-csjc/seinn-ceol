@@ -1,8 +1,6 @@
 [
   {
     "name": "composersByBirth",
-    "trackOverlap": 3200,
-    "layout": "composer",
     "orderBy": [
       "date (composerDetail.born or compositionDate)",
       "date composerDetail.died",
@@ -19,13 +17,11 @@
       "disk or 1",
       "track"
     ],
-    "current": "/Users/eckhart/Music/iTunes/iTunes Media/Music/Jennifer Bate/Mendelssohn_ Complete Organ Works, Vol. 4/01 Organ Sonata in B-Flat Major, Op. 65, No. 4, MWV W59_ I. Allegro con brio.m4a"
+    "current": "/Users/eckhart/Music/iTunes/iTunes Media/Music/Martha Argerich, Claudio Arrau, Malcolm Martineau & Krystian Zimerman/Chopin_ Complete Edition/15-13 Waltz No. 13 in D-Flat, Op. 70, No. 3.m4a"
   },
   {
     "name": "familyBach",
-    "trackOverlap": 3200,
-    "layout": "composer",
-    "where": "composerDetail.name =~ '\\\\bBach$'",
+    "where": "composerDetail.name =~ /\\\\bBach$/",
     "orderBy": [
       "date (composerDetail.born or compositionDate)",
       "date composerDetail.died",
@@ -42,12 +38,10 @@
       "disk or 1",
       "track"
     ],
-    "current": "/Users/eckhart/Music/iTunes/iTunes Media/Music/Richard Purvis/A Richard Purvis Organ Recital In Grace Cathedral, Vol. I (Remastered)/02 Arioso.m4a"
+    "current": "/Users/eckhart/Music/iTunes/iTunes Media/Music/Compilations/C.P.E. Bach_ Symphonies & Concertos/3-04 Sonata For 2 Harpsichords in F, Falck 10 - BWV Anh.188_ 1. (Allegro moderato).m4a"
   },
   {
     "name": "classOf1685",
-    "trackOverlap": 3200,
-    "layout": "composer",
     "where": "date composerDetail.born >= date '1685' && date composerDetail.born < date '1686'",
     "orderBy": [
       "date (composerDetail.born or compositionDate)",
