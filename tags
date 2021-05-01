@@ -368,13 +368,15 @@ if	src/playlist.ts	/^  if (!originalPlaylist) {$/;"	m
 if	src/playlist.ts	/^  if (!playlist) {$/;"	m
 if	src/playlist.ts	/^  if (!theTrack) {$/;"	m
 if	src/playlist.ts	/^  if (!wasStopped) {$/;"	m
-if	src/playlist.ts	/^  if (afterTrackAction !== AfterTrackAction.Next) {$/;"	m
+if	src/playlist.ts	/^  if ([AfterTrackAction.Pause, AfterTrackAction.Quit].includes(afterTrackAction)) {$/;"	m
 if	src/playlist.ts	/^  if (afterTrackAction !== AfterTrackAction.Pause) {$/;"	m
 if	src/playlist.ts	/^  if (afterTrackAction !== AfterTrackAction.Quit) {$/;"	m
 if	src/playlist.ts	/^  if (existing) {$/;"	m
 if	src/playlist.ts	/^  if (isPlaying()) {$/;"	m
 if	src/playlist.ts	/^  if (lastHeaderRow === 0 || (getRowsPrinted() - lastHeaderRow) >= (process.stdout.rows-3)) {$/;"	m
 if	src/playlist.ts	/^  if (originalPlaylist) {$/;"	m
+if	src/playlist.ts	/^  if (shuffleMode && !nextTrack) {$/;"	m
+if	src/playlist.ts	/^  if (shuffleMode) {$/;"	m
 if	src/playlist.ts	/^  if (where && !token) {$/;"	m
 if	src/query.ts	/^  if (!tableHandler) {$/;"	m
 if	src/segout.ts	/^      if (sep) {$/;"	m
@@ -496,6 +498,7 @@ notification	src/composer.ts	/^    notification('Anonymous works');$/;"	m
 notification	src/composer.ts	/^  notification(`${pluralize('composer', names.length, true)} to resolve, ${pluralize('track', anonToResolve.length, true)} with no composer and no composition date`);$/;"	m
 notification	src/composer.ts	/^  notification(option);$/;"	m
 notification	src/keypress.ts	/^      notification(c, key);$/;"	m
+notification	src/playlist.ts	/^  notification(`Shuffle ${shuffleMode ? 'on' : 'off'}`);$/;"	m
 notification	src/query.ts	/^  notification(pluralize(table.replace(\/s$\/, ''), limited.length, true));$/;"	m
 notification	src/track.ts	/^        notification(`Removing ${t.trackPath}`);$/;"	m
 notification	src/track.ts	/^      notification(`Changes discarded`);$/;"	m
@@ -574,7 +577,7 @@ paused	src/players/afplay.ts	/^  paused: number;       \/\/ Number of millisecon
 play	src/play.ts	/^  play: ($/;"	m
 play	src/play.ts	/^export const play = async (track: ITrackHydrated | string): Promise<void> => { await doPlay(track); }$/;"	v
 play	src/players/afplay.ts	/^export const play = async (track: ITrackHydrated, earlyReturn: number = 0): Promise<boolean> => {$/;"	v
-playList	src/playlist.ts	/^export const playList = async (name: string, options: IPlayListOptions) => doPlayList(name, options, 0);$/;"	v
+playList	src/playlist.ts	/^export const playList = async (name: string, options: IPlayListOptions) => {$/;"	v
 playTime	src/stats.ts	/^        playTime: accum.playTime + groupStats.playTime,$/;"	m
 playTime	src/stats.ts	/^    playTime: existing.playTime + (t.playTime ?? 0),$/;"	m
 playTime	src/stats.ts	/^  playTime: 'playTime',$/;"	m
@@ -657,6 +660,7 @@ sepLength	src/layout.ts	/^  sepLength: number,$/;"	m
 sequence	src/keypress.ts	/^  sequence: string;$/;"	m
 setWidth	src/layout.ts	/^      setWidth(c.header ?? '', c.width ?? '', sep.length, c.justification),$/;"	m
 shift	src/keypress.ts	/^  shift: boolean;$/;"	m
+shuffle	src/config.ts	/^  shuffle: { sequence: 'S' },$/;"	m
 simple	src/index.test.ts	/^  simple: 42,$/;"	m
 sort	src/track.ts	/^export const sort = (sortKeys: string[], whereClause?: string): ITrackHydrated[] => {$/;"	v
 sortBy	src/util.ts	/^export const sortBy = <T extends ISortable>(items: T[], sortKeys: string[]): T[] => {$/;"	v

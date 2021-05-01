@@ -63,6 +63,7 @@ program
 
 program
   .command('play-list <name>')
+  .option('-s, --shuffle', 'Shuffle tracks')
   .option('-w, --where <filter>', 'Additional filter on playlist')
   .description('play tracks from a playlist')
   .action(playlist.playList)

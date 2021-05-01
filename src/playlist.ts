@@ -11,6 +11,7 @@ import {
   addProgressSuffix,
   error, 
   getRowsPrinted, 
+  notification,
   padOrTruncate, 
   print, 
   removeProgressSuffix,
@@ -28,6 +29,7 @@ export interface IPlayList {
 
 interface IPlayListOptions {
   where?: string;
+  shuffle?: boolean;
 }
 
 const playListFile = new ArrayFileHandler<IPlayList>('playlists.json');
@@ -36,6 +38,7 @@ enum AfterTrackAction {
   Next,
   Pause,
   Previous,
+  Shuffle,
   Quit,
 }
 
@@ -65,6 +68,7 @@ export const filter = (where?: string): IPlayList[] => {
 };
 
 let afterTrackAction: AfterTrackAction = AfterTrackAction.Next;
+let shuffleMode: boolean = false;
 let lastHeaderRow: number = 0;
 let wasStopped: boolean = false;
 
@@ -92,14 +96,23 @@ const doPrevious = (key: IKey) => {
   stopPlaying();
 };
 
+const doShuffle = (key: IKey) => {
+  shuffleMode = !shuffleMode;
+  afterTrackAction = shuffleMode ? AfterTrackAction.Shuffle : AfterTrackAction.Next;
+  notification(`Shuffle ${shuffleMode ? 'on' : 'off'}`);
+  if (shuffleMode) {
+    stopPlaying();
+  }
+};
+
 const doResume = (key: IKey) => {
-  if (afterTrackAction !== AfterTrackAction.Next) {
+  if ([AfterTrackAction.Pause, AfterTrackAction.Quit].includes(afterTrackAction)) {
     if (isPlaying()) {
       removeProgressSuffix(makeAfterMsg(afterTrackAction === AfterTrackAction.Pause ? 'pause' : 'quit'))
     } else {
       process.stdout.clearLine(0);    // Erase paused message so we know we did it
     }
-    afterTrackAction = AfterTrackAction.Next;
+    afterTrackAction = shuffleMode ? AfterTrackAction.Shuffle : AfterTrackAction.Next;
   }
 };
 
@@ -168,6 +181,16 @@ const afterTrack = async (name: string, options: IPlayListOptions,  plays: numbe
       return doPlayList(name, options, plays, sorted[prevIndex]);
     }
 
+    case AfterTrackAction.Shuffle: {
+      const { playlist } = getPlaylist(name, options);
+      if (!playlist) {
+        return;
+      }
+      const sorted = track.sort(['lastPlayed'], playlist.where);
+      const nextIndex = Math.floor(Math.random() * (sorted.length * 9 / 10));  // Choose from the 90% least recently played
+      return doPlayList(name, options, plays, sorted[nextIndex]);
+    }
+
     case AfterTrackAction.Quit: {
       removeProgressSuffix(makeAfterMsg('quit'));
       // First, queue up the next track for when we start again
@@ -187,12 +210,15 @@ const afterTrack = async (name: string, options: IPlayListOptions,  plays: numbe
   }
 };
 
-export const playList = async (name: string, options: IPlayListOptions) => doPlayList(name, options, 0);
+export const playList = async (name: string, options: IPlayListOptions) => {
+  shuffleMode = !!options.shuffle;
+  return doPlayList(name, options, 0);
+};
 
 export const getCurrentTrack = (playlist: IPlayList) => {
   const sorted = track.sort(playlist.orderBy, playlist.where);
   return playlist.current ? (_.find(sorted, (t) => t.trackPath === playlist.current) ?? sorted[0]) :  sorted[0];
-}
+};
 
 const getPlaylist = (name: string, options: IPlayListOptions) => {
   const originalPlaylist = find(name);
@@ -216,6 +242,11 @@ const doPlayList = async (name: string, options: IPlayListOptions, plays: number
   if (!playlist) {
     return;
   }
+  afterTrackAction = shuffleMode ? AfterTrackAction.Shuffle : AfterTrackAction.Next;
+  if (shuffleMode && !nextTrack) {
+    return afterTrack(name, options, plays);
+  }
+
   const theTrack = nextTrack ?? getCurrentTrack(playlist);
   if (!theTrack) {
     warning(`Playlist ${name} empty`);
@@ -234,7 +265,6 @@ const doPlayList = async (name: string, options: IPlayListOptions, plays: number
   if (originalPlaylist) {
     save({ ...originalPlaylist, current: trackPath });
   }
-  afterTrackAction = AfterTrackAction.Next;
 
   const playListKeys = keypress.makeKeys([
     { name: 'nextTrack', func: doNext, help: 'next track' },
@@ -242,6 +272,7 @@ const doPlayList = async (name: string, options: IPlayListOptions, plays: number
     { name: 'resume', func: doResume, help: 'resume'},
     { name: 'quitAfterTrack', func: doQuitAfter, help: 'quit at end of track' },
     { name: 'pauseAfterTrack', func: doPauseAfter, help: 'pause at end of track' },
+    { name: 'shuffle', func: doShuffle, help: 'toggle shuffle mode' },
     { name: 'stop', func: doStop, help: 'stop playing' },
   ]);
   keypress.addKeys(playListKeys);

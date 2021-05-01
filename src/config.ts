@@ -34,6 +34,7 @@ export interface IKeyAssignments {
   quitAfterTrack?: Partial<IKey>;
   rewind?: Partial<IKey>;
   resume?: Partial<IKey>;
+  shuffle?: Partial<IKey>;
   stop?: Partial<IKey>;
 }
 
@@ -48,6 +49,7 @@ const defaultKeyAssignments: IKeyAssignments = {
   quitAfterTrack: { sequence: 'Q' },
   rewind: { sequence: 'R' },
   resume: { sequence: 'r' },
+  shuffle: { sequence: 'S' },
   stop: { sequence: 's' },
 };
 
