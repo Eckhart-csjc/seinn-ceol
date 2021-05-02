@@ -39,6 +39,9 @@ export class FileHandler<T> {
     }
     fs.appendFileSync(tmpFilename, JSON.stringify(data, undefined, 2), { encoding: 'utf8' });
     fs.renameSync(tmpFilename, this.filename);
+    const stat = fs.statSync(this.filename);
+    this.mtime = stat.mtimeMs;    // Pick up our change, without forcing reload
+    this.cache = data;
   };
 
   private getDefaultPath() {
