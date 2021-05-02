@@ -85,6 +85,7 @@ bumpPlays	src/track.ts	/^export const bumpPlays = (trackPath: string) => {$/;"	v
 bumpRowsPrinted	src/util.ts	/^  bumpRowsPrinted();      \/\/ Potentially innacurate, but as good as we can guess$/;"	m
 bumpRowsPrinted	src/util.ts	/^  bumpRowsPrinted();$/;"	m
 bumpRowsPrinted	src/util.ts	/^export const bumpRowsPrinted = (nLines: number = 1) => rowsPrinted += nLines;$/;"	v
+cache	src/file-handler.ts	/^  cache: T | undefined;$/;"	m
 catalogs	src/track.ts	/^      catalogs: composerDetail?.catalogs?.reduce<ICatalogEntry[]>((accum, c, index) => {$/;"	m
 category	src/track.ts	/^              category: match.groups.category ?$/;"	m
 choices	src/composer.ts	/^      choices: ['OK', 'Redo', 'Cancel'],$/;"	m
@@ -145,7 +146,7 @@ error	src/extractor.ts	/^    error(' '.repeat(result.offset) + '^');$/;"	m
 error	src/extractor.ts	/^    error(`Syntax error in parsed clause at offset ${result.offset}`);$/;"	m
 error	src/extractor.ts	/^    error(`This shouldn't happen, remaining tokens:`, JSON.stringify(tokens, undefined, 2));$/;"	m
 error	src/extractor.ts	/^    error(input);$/;"	m
-error	src/file-handler.ts	/^        error(`Error reading and parsing file ${filename}: ${e.message}`);$/;"	m
+error	src/file-handler.ts	/^          error(`Error reading and parsing file ${this.filename}: ${e.message}`);$/;"	m
 error	src/players/afplay.ts	/^    error(`Error playing track ${track.trackPath}: ${e.message}`);$/;"	m
 error	src/playlist.ts	/^    error(`Could not find playlist "${name}"`);$/;"	m
 error	src/query.ts	/^    error(`Unknown table: ${table}`);$/;"	m
@@ -174,6 +175,7 @@ fetchAll	src/layout.ts	/^export const fetchAll = () => layoutFile.fetch();$/;"	v
 fetchAll	src/playlist.ts	/^export const fetchAll = () => playListFile.fetch();$/;"	v
 fetchAll	src/track.ts	/^export const fetchAll = () => trackFile.fetch();$/;"	v
 fileHandler	src/array-file-handler.ts	/^  fileHandler: FileHandler<T[]>;$/;"	m
+filename	src/file-handler.ts	/^  filename: string;$/;"	m
 filter	src/composer.ts	/^export const filter = (where?: string): IComposer[] => {$/;"	v
 filter	src/layout.ts	/^export const filter = (where?: string): ILayout[] => {$/;"	v
 filter	src/playlist.ts	/^export const filter = (where?: string): IPlayList[] => {$/;"	v
@@ -334,8 +336,9 @@ if	src/extractor.ts	/^  if (operatorPriority[op1.operator] >= operatorPriority[o
 if	src/extractor.ts	/^  if (tokens.length === 1) {$/;"	m
 if	src/extractor.ts	/^  if (tokens.length === 2) {$/;"	m
 if	src/extractor.ts	/^  if (tokens.length === 3) {$/;"	m
+if	src/file-handler.ts	/^      if (this.mtime < stat.mtimeMs) {$/;"	m
 if	src/file-handler.ts	/^    if (!fs.existsSync(folderPath)) {$/;"	m
-if	src/file-handler.ts	/^    if (fs.existsSync(filename)) {$/;"	m
+if	src/file-handler.ts	/^    if (fs.existsSync(this.filename)) {$/;"	m
 if	src/file-handler.ts	/^    if (fs.existsSync(tmpFilename)) {$/;"	m
 if	src/index.test.ts	/^    if (result.offset != input.length) {$/;"	m
 if	src/keypress.ts	/^    if (active) {$/;"	m
@@ -447,6 +450,7 @@ message	src/composer.ts	/^      message: name,$/;"	m
 message	src/track.ts	/^      message: 'Commit these changes?',$/;"	m
 meta	src/keypress.ts	/^  meta: boolean;$/;"	m
 movement	src/track.ts	/^      movement: parseMovement(t.title),$/;"	m
+mtime	src/file-handler.ts	/^  mtime: number;$/;"	m
 n	src/track.ts	/^              n: intOrString(match.groups.n) ?? 0,$/;"	m
 n	src/track.ts	/^  n: string | number;           \/\/ Catalog entry number$/;"	m
 nDisks	src/track.ts	/^    nDisks: c.disk.of || undefined,$/;"	m
