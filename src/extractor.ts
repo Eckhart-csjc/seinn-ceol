@@ -322,8 +322,19 @@ const P = {
 
 const extractParser = P.operationChain();
 
-export const parse = (input: string): Response<IValueToken> => 
-  extractParser.parse(Streams.ofString(input));
+// Memoize parse results so repetition won't be so bad
+const parseCache: Record<string, Response<IValueToken>> = {
+};
+
+export const parse = (input: string): Response<IValueToken> => {
+  const cached = parseCache[input];
+  if (cached) {
+    return cached;
+  }
+  const result = extractParser.parse(Streams.ofString(input));
+  parseCache[input] = result;
+  return result;
+};
 
 // If the following function returns undefined, it means that there was a parsing
 // error, and the error was already displayed to the user

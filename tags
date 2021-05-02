@@ -329,6 +329,7 @@ if	src/composer.ts	/^  if (where && !token) {$/;"	m
 if	src/config.ts	/^  if (text.length < 1) {$/;"	m
 if	src/extractor.ts	/^      if (op1) {$/;"	m
 if	src/extractor.ts	/^  if (!(result.isAccepted() && result.isEos())) {$/;"	m
+if	src/extractor.ts	/^  if (cached) {$/;"	m
 if	src/extractor.ts	/^  if (operatorPriority[op1.operator] >= operatorPriority[op2.operator]) {$/;"	m
 if	src/extractor.ts	/^  if (tokens.length === 1) {$/;"	m
 if	src/extractor.ts	/^  if (tokens.length === 2) {$/;"	m
@@ -561,7 +562,7 @@ padOrTruncate	src/util.ts	/^          padOrTruncate(col, finalWidths[ndx], just[
 padOrTruncate	src/util.ts	/^       padOrTruncate(col, finalWidths[ndx], just[ndx])$/;"	m
 padOrTruncate	src/util.ts	/^export const padOrTruncate = (text: string, width: number, justification?: Justification) =>$/;"	v
 parenthesizedExpression	src/extractor.ts	/^  parenthesizedExpression: (): IParser<IValueToken> =>$/;"	m
-parse	src/extractor.ts	/^export const parse = (input: string): Response<IValueToken> => $/;"	v
+parse	src/extractor.ts	/^export const parse = (input: string): Response<IValueToken> => {$/;"	v
 parseDuration	src/extractor.ts	/^import parseDuration from 'parse-duration';$/;"	I
 parseExtractor	src/extractor.ts	/^export const parseExtractor = (input: string): IValueToken | undefined => {$/;"	v
 parseMovement	src/track.ts	/^export const parseMovement = (title?: string): number|undefined => {$/;"	v
