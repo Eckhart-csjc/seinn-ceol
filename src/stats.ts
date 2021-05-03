@@ -77,12 +77,13 @@ export const cacheStats = () => {
   printColumns([
     ['Source', 'Stores', 'Attempts', 'Hits', '%', 'Misses', '%'],
     ...([
-         [ 'tracks', track.getCacheStats() ],
-         [ 'composers', composer.getCacheStats() ],
-         [ 'playlists', playlist.getCacheStats() ],
-         [ 'layouts', layout.getCacheStats() ],
-         [ 'config', config.getCacheStats() ],
-         [ 'parse', parseCacheStats ],
+         [ 'tracks file', track.getCacheStats() ],
+         [ 'composers file', composer.getCacheStats() ],
+         [ 'composer index', composer.composerIndexCacheStats ],
+         [ 'playlists file', playlist.getCacheStats() ],
+         [ 'layouts file', layout.getCacheStats() ],
+         [ 'config file', config.getCacheStats() ],
+         [ 'parse extractors', parseCacheStats ],
        ] as Array<[string, ICacheStats]>).map(([ file, stats ]) => {
          const attempts = stats.hits + stats.misses;
          return [ 

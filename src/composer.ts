@@ -2,6 +2,7 @@ import * as _ from 'lodash';
 import { ArrayFileHandler } from './array-file-handler';
 import { extract, parseExtractor } from './extractor';
 import * as keypress from './keypress';
+import { ICacheStats } from './stats';
 import * as track from './track';
 import { ask, error, notification, printLn, warning } from './util';
 
@@ -52,13 +53,32 @@ export const filter = (where?: string): IComposer[] => {
     composers;
 };
 
-export const indexComposers = (composers?: IComposer[]) => 
-  (composers ?? fetchAll())
-    .reduce<Record<string,IComposer>>((accum, composer) => ({
+let indexCache: Record<string, IComposer> | undefined = undefined;
+let indexLast: IComposer[] | undefined = undefined;
+
+export const composerIndexCacheStats: ICacheStats = {
+  stores: 0,
+  hits: 0,
+  misses: 0,
+}
+
+export const indexComposers = (composers?: IComposer[]) => {
+  const fetched = composers ?? fetchAll();
+  if (!indexCache || fetched !== indexLast) {    // Not the same cached array
+    composerIndexCacheStats.misses++;
+    const index = fetched.reduce<Record<string,IComposer>>((accum, composer) => ({
        ...accum,
        [composer.name]: composer,
        ...composer.aliases.reduce<Record<string,IComposer>>((ac, alias) => ({ ...ac, [alias]: composer }), {} as Record<string,IComposer>),
     }), {} as Record<string,IComposer>);
+    indexLast = fetched;
+    indexCache = index;
+    composerIndexCacheStats.stores++;
+  } else {
+    composerIndexCacheStats.hits++;
+  }
+  return indexCache;
+}
 
 export const find = (name: string, composers?: IComposer[]) => indexComposers(composers)[name];
 

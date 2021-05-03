@@ -100,6 +100,7 @@ clearTimeout	src/asyncChild.ts	/^      clearTimeout(resolveTimer);$/;"	m
 cmd	src/asyncChild.ts	/^  cmd: string, $/;"	m
 column	src/layout.ts	/^  column: ILayoutColumn, $/;"	m
 composer	src/index.test.ts	/^  composer: 'Johann Sebastian Bach',$/;"	m
+composerIndexCacheStats	src/composer.ts	/^export const composerIndexCacheStats: ICacheStats = {$/;"	v
 composerKey	src/track.ts	/^    composerKey: _.uniq(removeDupNames(trackInfo.composer ?? [])).join(' & ') || undefined,$/;"	m
 composers	src/query.ts	/^  composers: composer,$/;"	m
 constructor	src/array-file-handler.ts	/^  constructor (baseFilename: string, pathOverride?: string) {$/;"	m
@@ -323,6 +324,7 @@ help	src/play.ts	/^      help: 'info on track\/composer',$/;"	m
 help	src/seinn-ceol.ts	/^      help: 'help',$/;"	m
 help	src/seinn-ceol.ts	/^      help: 'quit',$/;"	m
 help	src/track.ts	/^        help: 'stop playing'$/;"	m
+hits	src/composer.ts	/^  hits: 0,$/;"	m
 hits	src/extractor.ts	/^  hits: 0,$/;"	m
 hits	src/file-handler.ts	/^      hits: 0,$/;"	m
 hits	src/stats.ts	/^  hits: number;$/;"	m
@@ -334,6 +336,7 @@ if	src/asyncChild.ts	/^    if (resolveTimer) {$/;"	m
 if	src/composer.ts	/^      if (composer) {$/;"	m
 if	src/composer.ts	/^    if (existingAliases.length > 0) {$/;"	m
 if	src/composer.ts	/^  if (!existing) {$/;"	m
+if	src/composer.ts	/^  if (!indexCache || fetched !== indexLast) {    \/\/ Not the same cached array$/;"	m
 if	src/composer.ts	/^  if (anonToResolve.length) {$/;"	m
 if	src/composer.ts	/^  if (existing) {$/;"	m
 if	src/composer.ts	/^  if (existingAliases.length > 0) {$/;"	m
@@ -419,7 +422,7 @@ if	src/util.ts	/^  if (result.nums[0]?.startsWith('0')) {$/;"	m
 if	src/util.ts	/^  if (totalWidth > process.stdout.columns) {$/;"	m
 indent	src/stats.ts	/^  indent: number = 0,$/;"	m
 index	src/track.ts	/^  index: number;                \/\/ Index of symbol in composerDetail.catalogs$/;"	m
-indexComposers	src/composer.ts	/^export const indexComposers = (composers?: IComposer[]) => $/;"	v
+indexComposers	src/composer.ts	/^export const indexComposers = (composers?: IComposer[]) => {$/;"	v
 indexPad	src/stats.ts	/^  indexPad: number = 0,$/;"	m
 info	src/config.ts	/^  info: { sequence: 'i' },$/;"	m
 info	src/track.ts	/^export const info = async (track:string) => {$/;"	v
@@ -461,6 +464,7 @@ message	src/composer.ts	/^      message: 'Name:', $/;"	m
 message	src/composer.ts	/^      message: name,$/;"	m
 message	src/track.ts	/^      message: 'Commit these changes?',$/;"	m
 meta	src/keypress.ts	/^  meta: boolean;$/;"	m
+misses	src/composer.ts	/^  misses: 0,$/;"	m
 misses	src/extractor.ts	/^  misses: 0,$/;"	m
 misses	src/file-handler.ts	/^      misses: 0,$/;"	m
 misses	src/stats.ts	/^  misses: number;$/;"	m
@@ -699,6 +703,7 @@ stop	src/players/afplay.ts	/^export const stop = async () => {$/;"	v
 stopPlaying	src/play.ts	/^export const stopPlaying = async () => playState.isPlaying ? await getPlayer().stop() : true;$/;"	v
 stopPlaying	src/playlist.ts	/^    stopPlaying();$/;"	m
 stopPlaying	src/playlist.ts	/^  stopPlaying();$/;"	m
+stores	src/composer.ts	/^  stores: 0,$/;"	m
 stores	src/extractor.ts	/^  stores: 0,$/;"	m
 stores	src/file-handler.ts	/^      stores: 0,$/;"	m
 stores	src/stats.ts	/^  stores: number;$/;"	m
