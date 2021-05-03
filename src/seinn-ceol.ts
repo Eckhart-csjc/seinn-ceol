@@ -5,7 +5,7 @@ import * as keypress  from './keypress';
 import { play } from './play';
 import * as playlist from './playlist';
 import { query } from './query';
-import { stats } from './stats';
+import { cacheStats, stats } from './stats';
 import * as track from './track';
 import { printLn } from './util';
 
@@ -13,6 +13,10 @@ getSettings();      // Make sure we can read config.json, even if we don't need 
 keypress.init();
 keypress.addKeys(
   keypress.makeKeys([
+    {
+      name: 'diagnostics',
+      func: cacheStats,
+    },
     {
       name: 'help',
       func: () => { 

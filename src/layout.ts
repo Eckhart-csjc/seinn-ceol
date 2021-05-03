@@ -163,3 +163,5 @@ const parseWidth = (widthText: string, sepLength: number): number => {
     return parseInt(widthText, 10);
   }
 };
+
+export const getCacheStats = () => layoutFile.getCacheStats();

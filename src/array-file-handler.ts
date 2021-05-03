@@ -15,4 +15,6 @@ export class ArrayFileHandler<T> {
   public save(data: T[]) {
     this.fileHandler.save(data);
   }
+
+  public getCacheStats = () => this.fileHandler.stats;
 }

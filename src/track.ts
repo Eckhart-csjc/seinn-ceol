@@ -452,3 +452,5 @@ ${e.message}`);
     notification(`No tracks to remove`);
   }
 };
+
+export const getCacheStats = () => trackFile.getCacheStats();

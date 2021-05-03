@@ -257,3 +257,5 @@ export const formatInfo = (composer?: string[], composerKey?: IComposer | string
     '';
   return `Composer: ${name}${alias}, born: ${c?.born ?? '?'}${c?.died ? ' died: ' + c?.died : ''}`;
 }
+
+export const getCacheStats = () => composerFile.getCacheStats();

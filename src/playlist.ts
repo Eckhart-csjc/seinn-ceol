@@ -281,3 +281,5 @@ const doPlayList = async (name: string, options: IPlayListOptions, plays: number
   keypress.removeKeys(playListKeys);
   return;
 };
+
+export const getCacheStats = () => playListFile.getCacheStats();

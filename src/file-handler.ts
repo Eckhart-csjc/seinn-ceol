@@ -1,10 +1,12 @@
 import * as fs from 'fs';
 import * as os from 'os';
 import * as path from 'path';
+import { ICacheStats } from './stats';
 import { error } from './util';
 
 export class FileHandler<T> {
 
+  public stats: ICacheStats;
   filename: string;
   cache: T | undefined;
   mtime: number;
@@ -13,19 +15,28 @@ export class FileHandler<T> {
     this.filename = this.makeFilename(this.baseFilename, this.pathOverride);
     this.cache = undefined;
     this.mtime = 0;
+    this.stats = {
+      stores: 0,
+      hits: 0,
+      misses: 0,
+    };
   }
 
   public fetch(): T | undefined {
     if (fs.existsSync(this.filename)) {
       const stat = fs.statSync(this.filename);
       if (this.mtime < stat.mtimeMs) {
+        this.stats.misses++;
         try {
           this.cache = JSON.parse(fs.readFileSync(this.filename, { encoding: 'utf8' }).normalize()) as T;
           this.mtime = stat.mtimeMs;
+          this.stats.stores++;
         } catch (e) {
           error(`Error reading and parsing file ${this.filename}: ${e.message}`);
           process.exit(1);
         }
+      } else {
+        this.stats.hits++;
       }
       return this.cache;
     }
@@ -42,6 +53,7 @@ export class FileHandler<T> {
     const stat = fs.statSync(this.filename);
     this.mtime = stat.mtimeMs;    // Pick up our change, without forcing reload
     this.cache = data;
+    this.stats.stores++;
   };
 
   private getDefaultPath() {

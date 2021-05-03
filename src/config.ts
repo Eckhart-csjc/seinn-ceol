@@ -24,6 +24,7 @@ export interface ITheme {
 }
 
 export interface IKeyAssignments {
+  diagnostics?: Partial<IKey>;
   help?: Partial<IKey>;
   info?: Partial<IKey>;
   nextTrack?: Partial<IKey>;
@@ -39,6 +40,7 @@ export interface IKeyAssignments {
 }
 
 const defaultKeyAssignments: IKeyAssignments = {
+  diagnostics: { sequence: 'D' },
   help: { sequence: 'h' },
   info: { sequence: 'i' },
   nextTrack: { sequence: 'j' },
@@ -69,9 +71,10 @@ const defaultConfig: IConfig = {
   keyAssignments: defaultKeyAssignments,
 };
 
+const configFile = new FileHandler<IConfig>('config.json');
+
 export const getSettings = (): IConfig => {
-  const settingsFile = new FileHandler<IConfig>('config.json');
-  const settings = settingsFile.fetch();
+  const settings = configFile.fetch();
   return settings ?
     { ...defaultConfig, ...settings } :
     defaultConfig;
@@ -105,3 +108,5 @@ const applyChalks = (chalks: string[], text: string) => {
   );
   return eval('chalk`' + chalkString + '`');
 }
+
+export const getCacheStats = () => configFile.stats;

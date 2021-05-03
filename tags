@@ -11,6 +11,7 @@ BinaryOpFunc	src/extractor.ts	/^type BinaryOpFunc = (context: object, op1: unkno
 FileHandler	src/file-handler.ts	/^export class FileHandler<T> {$/;"	c
 IBinaryOperationToken	src/extractor.ts	/^interface IBinaryOperationToken extends IValueToken {$/;"	i
 IBinaryOperatorToken	src/extractor.ts	/^interface IBinaryOperatorToken extends IOperatorToken {$/;"	i
+ICacheStats	src/stats.ts	/^export interface ICacheStats {$/;"	i
 ICatalog	src/composer.ts	/^export interface ICatalog {$/;"	i
 ICatalogEntry	src/track.ts	/^export interface ICatalogEntry {$/;"	i
 IComposer	src/composer.ts	/^export interface IComposer {$/;"	i
@@ -86,6 +87,7 @@ bumpRowsPrinted	src/util.ts	/^  bumpRowsPrinted();      \/\/ Potentially innacur
 bumpRowsPrinted	src/util.ts	/^  bumpRowsPrinted();$/;"	m
 bumpRowsPrinted	src/util.ts	/^export const bumpRowsPrinted = (nLines: number = 1) => rowsPrinted += nLines;$/;"	v
 cache	src/file-handler.ts	/^  cache: T | undefined;$/;"	m
+cacheStats	src/stats.ts	/^export const cacheStats = () => {$/;"	v
 catalogs	src/track.ts	/^      catalogs: composerDetail?.catalogs?.reduce<ICatalogEntry[]>((accum, c, index) => {$/;"	m
 category	src/track.ts	/^              category: match.groups.category ?$/;"	m
 choices	src/composer.ts	/^      choices: ['OK', 'Redo', 'Cancel'],$/;"	m
@@ -119,6 +121,7 @@ default	src/track.ts	/^          default: track.composerKey,$/;"	m
 default	src/track.ts	/^          default: track.compositionDate,$/;"	m
 default	src/track.ts	/^      default: SKIP,$/;"	m
 default	src/track.ts	/^      default: false,$/;"	m
+diagnostics	src/config.ts	/^  diagnostics: { sequence: 'D' },$/;"	m
 died	src/composer.ts	/^    died: responses.died,$/;"	m
 disk	src/track.ts	/^      disk: d,$/;"	m
 disk	src/track.ts	/^    disk: c.disk.no || undefined,$/;"	m
@@ -204,7 +207,13 @@ func	src/keypress.ts	/^  func: (key: IKey) => any;$/;"	m
 func	src/play.ts	/^      func: (key: keypress.IKey) =>  {$/;"	m
 func	src/seinn-ceol.ts	/^      func: () => process.exit(0),$/;"	m
 func	src/seinn-ceol.ts	/^      func: () => { $/;"	m
+func	src/seinn-ceol.ts	/^      func: cacheStats,$/;"	m
 func	src/track.ts	/^        func: (k: keypress.IKey) => stopPlaying(),$/;"	m
+getCacheStats	src/composer.ts	/^export const getCacheStats = () => composerFile.getCacheStats();$/;"	v
+getCacheStats	src/config.ts	/^export const getCacheStats = () => configFile.stats;$/;"	v
+getCacheStats	src/layout.ts	/^export const getCacheStats = () => layoutFile.getCacheStats();$/;"	v
+getCacheStats	src/playlist.ts	/^export const getCacheStats = () => playListFile.getCacheStats();$/;"	v
+getCacheStats	src/track.ts	/^export const getCacheStats = () => trackFile.getCacheStats();$/;"	v
 getCurrentTrack	src/playlist.ts	/^export const getCurrentTrack = (playlist: IPlayList) => {$/;"	v
 getDefaultPath	src/file-handler.ts	/^  private getDefaultPath() {$/;"	m
 getInfo	src/track.ts	/^export const getInfo = async (track:string) : Promise<ITrackInfo> => {$/;"	v
@@ -314,6 +323,9 @@ help	src/play.ts	/^      help: 'info on track\/composer',$/;"	m
 help	src/seinn-ceol.ts	/^      help: 'help',$/;"	m
 help	src/seinn-ceol.ts	/^      help: 'quit',$/;"	m
 help	src/track.ts	/^        help: 'stop playing'$/;"	m
+hits	src/extractor.ts	/^  hits: 0,$/;"	m
+hits	src/file-handler.ts	/^      hits: 0,$/;"	m
+hits	src/stats.ts	/^  hits: number;$/;"	m
 hydrateTrack	src/track.ts	/^export const hydrateTrack = ($/;"	v
 identifier	src/extractor.ts	/^  identifier: () : IParser<IIdentifierToken> => $/;"	m
 if	src/asyncChild.ts	/^      if (result.error) {$/;"	m
@@ -449,6 +461,9 @@ message	src/composer.ts	/^      message: 'Name:', $/;"	m
 message	src/composer.ts	/^      message: name,$/;"	m
 message	src/track.ts	/^      message: 'Commit these changes?',$/;"	m
 meta	src/keypress.ts	/^  meta: boolean;$/;"	m
+misses	src/extractor.ts	/^  misses: 0,$/;"	m
+misses	src/file-handler.ts	/^      misses: 0,$/;"	m
+misses	src/stats.ts	/^  misses: number;$/;"	m
 movement	src/track.ts	/^      movement: parseMovement(t.title),$/;"	m
 mtime	src/file-handler.ts	/^  mtime: number;$/;"	m
 n	src/track.ts	/^              n: intOrString(match.groups.n) ?? 0,$/;"	m
@@ -485,6 +500,7 @@ name	src/keypress.ts	/^  name: keyof IKeyAssignments;$/;"	m
 name	src/layout.ts	/^  name: string;           \/\/ Name of this layout$/;"	m
 name	src/play.ts	/^      name: 'info',$/;"	m
 name	src/playlist.ts	/^  name: string;           \/\/ Play list name$/;"	m
+name	src/seinn-ceol.ts	/^      name: 'diagnostics',$/;"	m
 name	src/seinn-ceol.ts	/^      name: 'help',$/;"	m
 name	src/seinn-ceol.ts	/^      name: 'quit',$/;"	m
 name	src/stats.ts	/^  name: 'name',$/;"	m
@@ -567,6 +583,7 @@ padOrTruncate	src/util.ts	/^       padOrTruncate(col, finalWidths[ndx], just[ndx
 padOrTruncate	src/util.ts	/^export const padOrTruncate = (text: string, width: number, justification?: Justification) =>$/;"	v
 parenthesizedExpression	src/extractor.ts	/^  parenthesizedExpression: (): IParser<IValueToken> =>$/;"	m
 parse	src/extractor.ts	/^export const parse = (input: string): Response<IValueToken> => {$/;"	v
+parseCacheStats	src/extractor.ts	/^export const parseCacheStats: ICacheStats = {$/;"	v
 parseDuration	src/extractor.ts	/^import parseDuration from 'parse-duration';$/;"	I
 parseExtractor	src/extractor.ts	/^export const parseExtractor = (input: string): IValueToken | undefined => {$/;"	v
 parseMovement	src/track.ts	/^export const parseMovement = (title?: string): number|undefined => {$/;"	v
@@ -607,6 +624,7 @@ print	src/segout.ts	/^        print(sep, sepTheme);$/;"	m
 print	src/segout.ts	/^      print(prefix, prefixTheme);$/;"	m
 print	src/segout.ts	/^    print(text, theme);$/;"	m
 print	src/util.ts	/^export const print = (text: string, theme?: Theming) =>$/;"	v
+printColumns	src/stats.ts	/^  printColumns([$/;"	m
 printColumns	src/stats.ts	/^  printColumns(rows, ['left', 'right', 'right', 'right', 'right'], true, 1);$/;"	m
 printColumns	src/track.ts	/^    printColumns([$/;"	m
 printColumns	src/util.ts	/^export const printColumns = ($/;"	v
@@ -671,6 +689,7 @@ simple	src/index.test.ts	/^  simple: 42,$/;"	m
 sort	src/track.ts	/^export const sort = (sortKeys: string[], whereClause?: string): ITrackHydrated[] => {$/;"	v
 sortBy	src/util.ts	/^export const sortBy = <T extends ISortable>(items: T[], sortKeys: string[]): T[] => {$/;"	v
 spawnWithProgress	src/asyncChild.ts	/^export const spawnWithProgress = async ($/;"	v
+stats	src/file-handler.ts	/^  public stats: ICacheStats;$/;"	m
 stats	src/stats.ts	/^  stats: IGroupStats, $/;"	m
 stats	src/stats.ts	/^  stats: IGroupStats,$/;"	m
 stats	src/stats.ts	/^export const stats = ($/;"	v
@@ -680,6 +699,9 @@ stop	src/players/afplay.ts	/^export const stop = async () => {$/;"	v
 stopPlaying	src/play.ts	/^export const stopPlaying = async () => playState.isPlaying ? await getPlayer().stop() : true;$/;"	v
 stopPlaying	src/playlist.ts	/^    stopPlaying();$/;"	m
 stopPlaying	src/playlist.ts	/^  stopPlaying();$/;"	m
+stores	src/extractor.ts	/^  stores: 0,$/;"	m
+stores	src/file-handler.ts	/^      stores: 0,$/;"	m
+stores	src/stats.ts	/^  stores: number;$/;"	m
 stringLiteral	src/extractor.ts	/^  stringLiteral: (quote?: string) : IParser<IStringLiteralToken> =>$/;"	m
 subMovement	src/track.ts	/^      subMovement: parseSubMovement(t.title),$/;"	m
 suffix	src/track.ts	/^              suffix: intOrString(match.groups.suffix),$/;"	m

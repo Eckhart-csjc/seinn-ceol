@@ -1,6 +1,7 @@
 import { C, F, IParser, N, Response, Streams, Tuple, VoidParser } from '@masala/parser';
 import * as _ from 'lodash';
 import parseDuration from 'parse-duration';
+import { ICacheStats } from './stats';
 import { debug, error, makeTime } from './util';
 
 const dayjs = require('dayjs');
@@ -326,13 +327,22 @@ const extractParser = P.operationChain();
 const parseCache: Record<string, Response<IValueToken>> = {
 };
 
+export const parseCacheStats: ICacheStats = {
+  stores: 0,
+  hits: 0,
+  misses: 0,
+}
+
 export const parse = (input: string): Response<IValueToken> => {
   const cached = parseCache[input];
   if (cached) {
+    parseCacheStats.hits++;
     return cached;
   }
   const result = extractParser.parse(Streams.ofString(input));
+  parseCacheStats.misses++;
   parseCache[input] = result;
+  parseCacheStats.stores++;
   return result;
 };
 

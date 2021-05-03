@@ -1,11 +1,20 @@
 import * as composer from './composer';
-import { extract, IValueToken, parseExtractor } from './extractor';
+import * as config from './config';
+import { extract, IValueToken, parseCacheStats, parseExtractor } from './extractor';
+import * as layout from './layout';
+import * as playlist from './playlist';
 import * as track from './track';
 import { error, makeString, makeTime, padOrTruncate, parseOrder, print, printColumns, printLn } from './util';
 import * as _ from 'lodash';
 
 const capitalize = require('capitalize');
 const pluralize = require('pluralize');
+
+export interface ICacheStats {
+  stores: number;
+  hits: number;
+  misses: number;
+}
 
 interface IGroupStats {
   name: string;
@@ -61,6 +70,32 @@ export const stats = (
     ...formatGroup(finalizeStats(stats, where), orderBy, options.limit),
   ];
   printColumns(rows, ['left', 'right', 'right', 'right', 'right'], true, 1);
+};
+
+export const cacheStats = () => {
+  process.stdout.clearLine(0);
+  printColumns([
+    ['Source', 'Stores', 'Attempts', 'Hits', '%', 'Misses', '%'],
+    ...([
+         [ 'tracks', track.getCacheStats() ],
+         [ 'composers', composer.getCacheStats() ],
+         [ 'playlists', playlist.getCacheStats() ],
+         [ 'layouts', layout.getCacheStats() ],
+         [ 'config', config.getCacheStats() ],
+         [ 'parse', parseCacheStats ],
+       ] as Array<[string, ICacheStats]>).map(([ file, stats ]) => {
+         const attempts = stats.hits + stats.misses;
+         return [ 
+           file, 
+           `${stats.stores}`, 
+           `${attempts}`, 
+           `${stats.hits}`, 
+           `${(stats.hits * 100 / attempts).toFixed(1)}`, 
+           `${stats.misses}`, 
+           `${(stats.misses * 100 / attempts).toFixed(1)}`
+         ];
+       }),
+  ], ['left', 'right', 'right', 'right', 'right', 'right', 'right'], true, 1);
 };
 
 const makeGroup = (name: string, groups: IValueToken[]) => ({
