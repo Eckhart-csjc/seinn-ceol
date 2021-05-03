@@ -215,10 +215,19 @@ const addTracks = async (
     } else {
       try {
         const t = await makeTrack(trackPath, undefined);
-        return [
-          ...accum,
-          t,
-        ];
+        const nopath = _.omit(t, ["trackPath", "plays", "lastPlayed"]);
+        const dupe = _.find(accum, (a) => _.isEqual(_.omit(a, ["trackPath", "plays", "lastPlayed"]), nopath));
+        if (dupe) {
+          if (!noWarn) {
+            warning(`Track ${trackPath} previously duplicates ${dupe.trackPath} -- skipped`);
+          }
+          return accum;
+        } else {
+          return [
+            ...accum,
+            t,
+          ];
+        }
       } catch (e) {
         if (!noError) {
           error(`Track ${trackPath} is not an audio file we can use`);

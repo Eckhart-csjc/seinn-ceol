@@ -73,7 +73,9 @@ export const stats = (
 };
 
 export const cacheStats = () => {
-  process.stdout.clearLine(0);
+  if (process.stdout.isTTY) {
+    process.stdout.clearLine(0);
+  }
   printColumns([
     ['Source', 'Stores', 'Attempts', 'Hits', '%', 'Misses', '%'],
     ...([

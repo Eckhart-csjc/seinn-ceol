@@ -404,7 +404,10 @@ if	src/segout.ts	/^    if (this.lastCol > 0 && $/;"	m
 if	src/segout.ts	/^    if (this.lastCol > 0) {$/;"	m
 if	src/seinn-ceol.ts	/^  if (process.argv.length < 2) {$/;"	m
 if	src/stats.ts	/^    if (!g) {           \/\/ This should never happen, but the compiler isn't smart enough to see that$/;"	m
+if	src/stats.ts	/^  if (process.stdout.isTTY) {$/;"	m
+if	src/track.ts	/^          if (!noWarn) {$/;"	m
 if	src/track.ts	/^        if (!noError) {$/;"	m
+if	src/track.ts	/^        if (dupe) {$/;"	m
 if	src/track.ts	/^      if (!noWarn) {$/;"	m
 if	src/track.ts	/^      if (composerKey && composerKey !== track.composerKey) {$/;"	m
 if	src/track.ts	/^      if (compositionDate && compositionDate !== track.compositionDate) {$/;"	m
@@ -418,6 +421,7 @@ if	src/track.ts	/^  if (where && !token) {$/;"	m
 if	src/util.ts	/^    if (widths[0] - 10 > diff) {$/;"	m
 if	src/util.ts	/^  if (!totalWidth) {$/;"	m
 if	src/util.ts	/^  if (process.env.DEBUG) {$/;"	m
+if	src/util.ts	/^  if (process.stdout.isTTY) {$/;"	m
 if	src/util.ts	/^  if (result.nums[0]?.startsWith('0')) {$/;"	m
 if	src/util.ts	/^  if (totalWidth > process.stdout.columns) {$/;"	m
 indent	src/stats.ts	/^  indent: number = 0,$/;"	m
@@ -819,6 +823,7 @@ warning	src/players/afplay.ts	/^      warning(`Install ffpmeg to enable pause\/r
 warning	src/playlist.ts	/^        warning(`Current track not found in playlist, going to first`);$/;"	m
 warning	src/playlist.ts	/^        warning(`Current track not found in playlist, going to last`);$/;"	m
 warning	src/playlist.ts	/^    warning(`Playlist ${name} empty`);$/;"	m
+warning	src/track.ts	/^            warning(`Track ${trackPath} previously duplicates ${dupe.trackPath} -- skipped`);$/;"	m
 warning	src/track.ts	/^        warning(`Could not stat ${t.trackPath} -- not removing$/;"	m
 warning	src/track.ts	/^        warning(`Track ${trackPath} previously added -- skipped`);$/;"	m
 warning	src/track.ts	/^    warning(`Track "${updates.trackPath}" not in library -- not updating`);$/;"	m
