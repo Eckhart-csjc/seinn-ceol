@@ -299,6 +299,7 @@ export const bumpPlays = (trackPath: string) => {
     updateTrack({
       trackPath: oldTrack.trackPath,
       plays: oldTrack.plays + 1,
+      playTime: (oldTrack.playTime ?? 0) + (oldTrack.duration ?? 0),
       lastPlayed: dayjs().toString(),
     });
   }

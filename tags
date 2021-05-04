@@ -624,6 +624,7 @@ playTime	src/stats.ts	/^    playTime: existing.playTime + (t.playTime ?? 0),$/;"
 playTime	src/stats.ts	/^  playTime: 'playTime',$/;"	m
 playTime	src/stats.ts	/^  playTime: 0,$/;"	m
 playTime	src/stats.ts	/^  playTime: number;$/;"	m
+playTime	src/track.ts	/^      playTime: (oldTrack.playTime ?? 0) + (oldTrack.duration ?? 0),$/;"	m
 playTime	src/track.ts	/^    playTime: t.playTime ?? (t.duration ? (t.plays * t.duration) : undefined),$/;"	m
 player	src/config.ts	/^  player: 'afplay',$/;"	m
 player	src/config.ts	/^  player: string;$/;"	m
