@@ -40,7 +40,6 @@
     "child-process-promise": "^2.2.1",
     "commander": "^6.2.0",
     "dayjs": "^1.9.8",
-    "fuzzysort": "^1.1.4",
     "inquirer": "^7.3.3",
     "js-levenshtein": "^1.1.6",
     "lodash": "^4.17.20",

@@ -88,8 +88,10 @@ bumpRowsPrinted	src/util.ts	/^  bumpRowsPrinted();$/;"	m
 bumpRowsPrinted	src/util.ts	/^export const bumpRowsPrinted = (nLines: number = 1) => rowsPrinted += nLines;$/;"	v
 cache	src/file-handler.ts	/^  cache: T | undefined;$/;"	m
 cacheStats	src/stats.ts	/^export const cacheStats = () => {$/;"	v
-catalogs	src/track.ts	/^      catalogs: composerDetail?.catalogs?.reduce<ICatalogEntry[]>((accum, c, index) => {$/;"	m
+catalogs	src/track.ts	/^      catalogs: t.catalogs ?? composerDetail?.catalogs?.reduce<ICatalogEntry[]>((accum, c, index) => {$/;"	m
+catalogs	src/track.ts	/^    catalogs: t.catalogs ?? composerDetail?.catalogs?.reduce<ICatalogEntry[]>((accum, c, index) => {$/;"	m
 category	src/track.ts	/^              category: match.groups.category ?$/;"	m
+category	src/track.ts	/^            category: match.groups.category ?$/;"	m
 choices	src/composer.ts	/^      choices: ['OK', 'Redo', 'Cancel'],$/;"	m
 choices	src/composer.ts	/^      choices: options,$/;"	m
 choices	src/track.ts	/^      choices: options,$/;"	m
@@ -102,6 +104,7 @@ column	src/layout.ts	/^  column: ILayoutColumn, $/;"	m
 composer	src/index.test.ts	/^  composer: 'Johann Sebastian Bach',$/;"	m
 composerIndexCacheStats	src/composer.ts	/^export const composerIndexCacheStats: ICacheStats = {$/;"	v
 composerKey	src/track.ts	/^    composerKey: _.uniq(removeDupNames(trackInfo.composer ?? [])).join(' & ') || undefined,$/;"	m
+composerKey	src/track.ts	/^    composerKey: t.composerKey || _.uniq(removeDupNames(t.composer ?? [])).join(' & ') || undefined,$/;"	m
 composers	src/query.ts	/^  composers: composer,$/;"	m
 constructor	src/array-file-handler.ts	/^  constructor (baseFilename: string, pathOverride?: string) {$/;"	m
 constructor	src/file-handler.ts	/^  constructor (public baseFilename: string, public pathOverride?: string) {$/;"	m
@@ -211,7 +214,7 @@ func	src/seinn-ceol.ts	/^      func: () => { $/;"	m
 func	src/seinn-ceol.ts	/^      func: cacheStats,$/;"	m
 func	src/track.ts	/^        func: (k: keypress.IKey) => stopPlaying(),$/;"	m
 getCacheStats	src/composer.ts	/^export const getCacheStats = () => composerFile.getCacheStats();$/;"	v
-getCacheStats	src/config.ts	/^export const getCacheStats = () => configFile.stats;$/;"	v
+getCacheStats	src/config.ts	/^export const getCacheStats = () => configFile?.stats;$/;"	v
 getCacheStats	src/layout.ts	/^export const getCacheStats = () => layoutFile.getCacheStats();$/;"	v
 getCacheStats	src/playlist.ts	/^export const getCacheStats = () => playListFile.getCacheStats();$/;"	v
 getCacheStats	src/track.ts	/^export const getCacheStats = () => trackFile.getCacheStats();$/;"	v
@@ -343,6 +346,7 @@ if	src/composer.ts	/^  if (existingAliases.length > 0) {$/;"	m
 if	src/composer.ts	/^  if (index[name]) {$/;"	m
 if	src/composer.ts	/^  if (updates.aliases) {$/;"	m
 if	src/composer.ts	/^  if (where && !token) {$/;"	m
+if	src/config.ts	/^  if (!configFile) {$/;"	m
 if	src/config.ts	/^  if (text.length < 1) {$/;"	m
 if	src/extractor.ts	/^      if (op1) {$/;"	m
 if	src/extractor.ts	/^  if (!(result.isAccepted() && result.isEos())) {$/;"	m
@@ -468,13 +472,17 @@ message	src/composer.ts	/^      message: 'Name:', $/;"	m
 message	src/composer.ts	/^      message: name,$/;"	m
 message	src/track.ts	/^      message: 'Commit these changes?',$/;"	m
 meta	src/keypress.ts	/^  meta: boolean;$/;"	m
+migrateAllTracks	src/track.ts	/^export const migrateAllTracks = () => {$/;"	v
+migrateTrack	src/track.ts	/^export const migrateTrack = (t: ITrack, composerIndex: Record<string, IComposer>): ITrack => {$/;"	v
 misses	src/composer.ts	/^  misses: 0,$/;"	m
 misses	src/extractor.ts	/^  misses: 0,$/;"	m
 misses	src/file-handler.ts	/^      misses: 0,$/;"	m
 misses	src/stats.ts	/^  misses: number;$/;"	m
-movement	src/track.ts	/^      movement: parseMovement(t.title),$/;"	m
+movement	src/track.ts	/^    movement: parseMovement(trackInfo.title),$/;"	m
+movement	src/track.ts	/^    movement: t.movement ?? parseMovement(t.title),$/;"	m
 mtime	src/file-handler.ts	/^  mtime: number;$/;"	m
 n	src/track.ts	/^              n: intOrString(match.groups.n) ?? 0,$/;"	m
+n	src/track.ts	/^            n: intOrString(match.groups.n) ?? 0,$/;"	m
 n	src/track.ts	/^  n: string | number;           \/\/ Catalog entry number$/;"	m
 nDisks	src/track.ts	/^    nDisks: c.disk.of || undefined,$/;"	m
 nTracks	src/stats.ts	/^        nTracks: accum.nTracks + groupStats.nTracks,$/;"	m
@@ -520,7 +528,8 @@ name	src/track.ts	/^      name: 'commit',$/;"	m
 name	src/track.ts	/^      name: 'option',$/;"	m
 nextTrack	src/config.ts	/^  nextTrack: { sequence: 'j' },$/;"	m
 nl	src/segout.ts	/^  public nl() {$/;"	m
-no	src/track.ts	/^      no: parseNo(t.title),$/;"	m
+no	src/track.ts	/^    no: parseNo(trackInfo.title),$/;"	m
+no	src/track.ts	/^    no: t.no ?? parseNo(t.title),$/;"	m
 not	src/index.test.ts	/^  not: 'nope',$/;"	m
 note	src/index.test.ts	/^  note: 'hello',$/;"	m
 notification	src/composer.ts	/^      notification(tracks.map((t) => _.pick(t, ['title', 'album', 'artists'])));$/;"	m
@@ -579,7 +588,8 @@ operator	src/index.test.ts	/^  operator: {$/;"	m
 optSpace	src/extractor.ts	/^  optSpace: (): VoidParser =>$/;"	m
 options	src/query.ts	/^  options: {$/;"	m
 options	src/stats.ts	/^  options: {$/;"	m
-opus	src/track.ts	/^      opus: parseOpus(t.title),$/;"	m
+opus	src/track.ts	/^    opus: parseOpus(trackInfo.title),$/;"	m
+opus	src/track.ts	/^    opus: t.opus ?? parseOpus(t.title),$/;"	m
 order	src/util.ts	/^      order: ad ?? 'asc'$/;"	m
 orderBy	src/playlist.ts	/^  orderBy: string[];      \/\/ Queries (optionally followed by comma and sort order) for order of play$/;"	m
 orderBy	src/stats.ts	/^  orderBy: string[][],$/;"	m
@@ -614,7 +624,7 @@ playTime	src/stats.ts	/^    playTime: existing.playTime + (t.playTime ?? 0),$/;"
 playTime	src/stats.ts	/^  playTime: 'playTime',$/;"	m
 playTime	src/stats.ts	/^  playTime: 0,$/;"	m
 playTime	src/stats.ts	/^  playTime: number;$/;"	m
-playTime	src/track.ts	/^      playTime: t.duration ? (t.plays * t.duration) : undefined,$/;"	m
+playTime	src/track.ts	/^    playTime: t.playTime ?? (t.duration ? (t.plays * t.duration) : undefined),$/;"	m
 player	src/config.ts	/^  player: 'afplay',$/;"	m
 player	src/config.ts	/^  player: string;$/;"	m
 playlists	src/query.ts	/^  playlists: playlist,$/;"	m
@@ -623,6 +633,7 @@ plays	src/track.ts	/^      plays: oldTrack.plays + 1,$/;"	m
 plays	src/track.ts	/^    plays: 0,$/;"	m
 plays	src/track.ts	/^  plays: number;$/;"	m
 prefix	src/track.ts	/^              prefix: intOrString(match.groups.prefix),$/;"	m
+prefix	src/track.ts	/^            prefix: intOrString(match.groups.prefix),$/;"	m
 prev	src/track.ts	/^    prev: val,$/;"	m
 previousTrack	src/config.ts	/^  previousTrack: { sequence: 'k' },$/;"	m
 print	src/players/afplay.ts	/^      print(' ');$/;"	m
@@ -686,6 +697,7 @@ save	src/layout.ts	/^export const save = (layout: ILayout) => {$/;"	v
 save	src/playlist.ts	/^      save({ ...playlist, current: nextTrack!.trackPath });$/;"	m
 save	src/playlist.ts	/^    save({ ...originalPlaylist, current: trackPath });$/;"	m
 save	src/playlist.ts	/^export const save = (playlist: IPlayList) => {$/;"	v
+saveAll	src/track.ts	/^  saveAll(fetchAll().map((t) => migrateTrack(t, composerIndex)));$/;"	m
 saveAll	src/track.ts	/^export const saveAll = (tracks: ITrack[]) => trackFile.save(tracks);$/;"	v
 sepLength	src/layout.ts	/^  sepLength: number, $/;"	m
 sepLength	src/layout.ts	/^  sepLength: number,$/;"	m
@@ -712,8 +724,10 @@ stores	src/extractor.ts	/^  stores: 0,$/;"	m
 stores	src/file-handler.ts	/^      stores: 0,$/;"	m
 stores	src/stats.ts	/^  stores: number;$/;"	m
 stringLiteral	src/extractor.ts	/^  stringLiteral: (quote?: string) : IParser<IStringLiteralToken> =>$/;"	m
-subMovement	src/track.ts	/^      subMovement: parseSubMovement(t.title),$/;"	m
+subMovement	src/track.ts	/^    subMovement: parseSubMovement(trackInfo.title),$/;"	m
+subMovement	src/track.ts	/^    subMovement: t.subMovement ?? parseSubMovement(t.title),$/;"	m
 suffix	src/track.ts	/^              suffix: intOrString(match.groups.suffix),$/;"	m
+suffix	src/track.ts	/^            suffix: intOrString(match.groups.suffix),$/;"	m
 suggest	src/composer.ts	/^export const suggest = (name: string) => _.sortBy(fetchAll().map((composer:IComposer) => ({$/;"	v
 suspend	src/keypress.ts	/^export const suspend = () => active = false;$/;"	v
 switch	src/composer.ts	/^  switch (option) {$/;"	m
@@ -722,6 +736,7 @@ switch	src/playlist.ts	/^  switch (afterTrackAction) {$/;"	m
 switch	src/track.ts	/^  switch (option) {$/;"	m
 symbol	src/composer.ts	/^  symbol: string;             \/\/ BWV, etc (without period, case inconsequential)$/;"	m
 symbol	src/track.ts	/^              symbol: (match.groups.symbol || c.symbol),$/;"	m
+symbol	src/track.ts	/^            symbol: (match.groups.symbol || c.symbol),$/;"	m
 symbol	src/track.ts	/^  symbol: string;               \/\/ Symbol in composerDetail.catalogs$/;"	m
 t	src/layout.ts	/^  t: track.ITrackHydrated, $/;"	m
 t	src/stats.ts	/^  t: track.ITrackHydrated, $/;"	m

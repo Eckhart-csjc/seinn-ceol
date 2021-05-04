@@ -76,6 +76,7 @@ export const cacheStats = () => {
   if (process.stdout.isTTY) {
     process.stdout.clearLine(0);
   }
+  const configStats = config.getCacheStats();
   printColumns([
     ['Source', 'Stores', 'Attempts', 'Hits', '%', 'Misses', '%'],
     ...([
@@ -84,7 +85,7 @@ export const cacheStats = () => {
          [ 'composer index', composer.composerIndexCacheStats ],
          [ 'playlists file', playlist.getCacheStats() ],
          [ 'layouts file', layout.getCacheStats() ],
-         [ 'config file', config.getCacheStats() ],
+         ...(configStats ? [[ 'config file', configStats ]] : []),
          [ 'parse extractors', parseCacheStats ],
        ] as Array<[string, ICacheStats]>).map(([ file, stats ]) => {
          const attempts = stats.hits + stats.misses;

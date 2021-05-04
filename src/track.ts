@@ -44,9 +44,15 @@ export interface ITrackInfo {
 export interface ITrack extends ITrackInfo {
   trackPath: string;
   composerKey?: string;
-  plays: number;
   lastPlayed?: string;
   compositionDate?: string;
+  opus?: number;        // Parsed from track title
+  no?: number;          // Parsed number from track title
+  movement?: number;    // Parsed roman numeral movement number from title
+  subMovement?: string; // Parsed single-letter submovement from title
+  catalogs?: ICatalogEntry[]; // Parsed from title, based on composerDetail.catalogs, first one found (in composer order) is [0], etc.
+  plays: number;
+  playTime?: number;
 }
 
 export interface ICatalogEntry {
@@ -60,12 +66,6 @@ export interface ICatalogEntry {
 
 export interface ITrackHydrated extends ITrack {
   composerDetail?: IComposer;
-  opus?: number;        // Parsed from track title
-  no?: number;          // Parsed number from track title
-  movement?: number;    // Parsed roman numeral movement number from title
-  subMovement?: string; // Parsed single-letter submovement from title
-  catalogs?: ICatalogEntry[]; // Parsed from title, based on composerDetail.catalogs, first one found (in composer order) is [0], etc.
-  playTime?: number;
   index?: number;       // Added by sort
 }
 
@@ -189,8 +189,50 @@ export const makeTrack = async (trackPath: string, info?: ITrackInfo): Promise<I
     trackPath,
     ...trackInfo,
     composerKey: _.uniq(removeDupNames(trackInfo.composer ?? [])).join(' & ') || undefined,
+    opus: parseOpus(trackInfo.title),
+    no: parseNo(trackInfo.title),
+    movement: parseMovement(trackInfo.title),
+    subMovement: parseSubMovement(trackInfo.title),
     plays: 0,
   });
+};
+
+export const migrateTrack = (t: ITrack, composerIndex: Record<string, IComposer>): ITrack => {
+  const composerDetail = t.composerKey ? 
+    (composerIndex ? composerIndex[t.composerKey] : composer.find(t.composerKey)) : 
+    undefined;
+  return {
+    ...t,
+    composerKey: t.composerKey || _.uniq(removeDupNames(t.composer ?? [])).join(' & ') || undefined,
+    opus: t.opus ?? parseOpus(t.title),
+    no: t.no ?? parseNo(t.title),
+    movement: t.movement ?? parseMovement(t.title),
+    subMovement: t.subMovement ?? parseSubMovement(t.title),
+    catalogs: t.catalogs ?? composerDetail?.catalogs?.reduce<ICatalogEntry[]>((accum, c, index) => {
+      const pattern = new RegExp(c.pattern ?? `\\b${[c.symbol, ...(c.aliases ?? [])].join('|')}\\.?\\s*(?<prefix>[A-Z])?(?<n>\\d+)(?<suffix>[a-z]*)?\\b`, 'i');
+      const match = t.title?.match(pattern);
+      return match?.groups ?
+        [
+          ...accum,
+          {
+            symbol: (match.groups.symbol || c.symbol),
+            index,
+            category: match.groups.category ?
+              (c.isCategoryRoman ? parseRoman(match.groups.category) : intOrString(match.groups.category)) :
+              undefined,
+            prefix: intOrString(match.groups.prefix),
+            n: intOrString(match.groups.n) ?? 0,
+            suffix: intOrString(match.groups.suffix),
+          }
+        ] : accum;
+    }, [] as ICatalogEntry[]),
+    playTime: t.playTime ?? (t.duration ? (t.plays * t.duration) : undefined),
+  };
+};
+
+export const migrateAllTracks = () => {
+  const composerIndex = composer.indexComposers();
+  saveAll(fetchAll().map((t) => migrateTrack(t, composerIndex)));
 };
 
 export const findTrack = (trackPath: string) => {
@@ -305,11 +347,7 @@ export const hydrateTrack = (
     return {
       ...t,
       composerDetail,
-      opus: parseOpus(t.title),
-      no: parseNo(t.title),
-      movement: parseMovement(t.title),
-      subMovement: parseSubMovement(t.title),
-      catalogs: composerDetail?.catalogs?.reduce<ICatalogEntry[]>((accum, c, index) => {
+      catalogs: t.catalogs ?? composerDetail?.catalogs?.reduce<ICatalogEntry[]>((accum, c, index) => {
         const pattern = new RegExp(c.pattern ?? `\\b${[c.symbol, ...(c.aliases ?? [])].join('|')}\\.?\\s*(?<prefix>[A-Z])?(?<n>\\d+)(?<suffix>[a-z]*)?\\b`, 'i');
         const match = t.title?.match(pattern);
         return match?.groups ?
@@ -327,7 +365,6 @@ export const hydrateTrack = (
             }
           ] : accum;
       }, [] as ICatalogEntry[]),
-      playTime: t.duration ? (t.plays * t.duration) : undefined,
     };
 };
 

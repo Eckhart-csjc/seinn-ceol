@@ -71,9 +71,12 @@ const defaultConfig: IConfig = {
   keyAssignments: defaultKeyAssignments,
 };
 
-const configFile = new FileHandler<IConfig>('config.json');
+let configFile: FileHandler<IConfig> | undefined = undefined;
 
 export const getSettings = (): IConfig => {
+  if (!configFile) {
+    configFile = new FileHandler<IConfig>('config.json');
+  }
   const settings = configFile.fetch();
   return settings ?
     { ...defaultConfig, ...settings } :
@@ -109,4 +112,4 @@ const applyChalks = (chalks: string[], text: string) => {
   return eval('chalk`' + chalkString + '`');
 }
 
-export const getCacheStats = () => configFile.stats;
+export const getCacheStats = () => configFile?.stats;
