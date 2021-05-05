@@ -240,8 +240,13 @@ const getPlaylist = (name: string, options: IPlayListOptions) => {
   return { originalPlaylist, playlist };
 };
 
+let statTrackTurnAround: diagnostics.ITimingId | undefined = undefined;
+
 const doPlayList = async (name: string, options: IPlayListOptions, plays: number, nextTrack?: track.ITrackHydrated) : Promise<void> => {
   const statPrep = diagnostics.startTiming('Playlist prep track');
+  if (!statTrackTurnAround) {
+    statTrackTurnAround = diagnostics.startTiming('Playlist track turn-around');
+  }
   const { originalPlaylist, playlist } = getPlaylist(name, options);
   if (!playlist) {
     return;
@@ -281,7 +286,10 @@ const doPlayList = async (name: string, options: IPlayListOptions, plays: number
   ]);
   keypress.addKeys(playListKeys);
   diagnostics.endTiming(statPrep);
-  const finished = await doPlay(theTrack, playlist.trackOverlap ?? settings.trackOverlap ?? 0);
+  const turnAround = diagnostics.endTiming(statTrackTurnAround!);
+  const tat = turnAround?.end ? (turnAround.end - turnAround.start) : 0;
+  const finished = await doPlay(theTrack, tat + (playlist.trackOverlap ?? settings.trackOverlap ?? 0));
+  statTrackTurnAround = diagnostics.startTiming('Playlist track turn-around');
   await afterTrack(name, options, plays + (finished ? 1 : 0));
   keypress.removeKeys(playListKeys);
   return;
