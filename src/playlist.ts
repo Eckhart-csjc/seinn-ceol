@@ -291,7 +291,7 @@ const doPlayList = async (name: string, options: IPlayListOptions, plays: number
   if (statTrackTurnAround) {
     diagnostics.endTiming(statTrackTurnAround!);
   }
-  const turnAroundTimings = diagnostics.getTimings()[TURN_AROUND];
+  const turnAroundTimings = diagnostics.getTimings()[TURN_AROUND]?.filter((t) => !!t.end);
   const turnAround = turnAroundTimings?.length ? turnAroundTimings[turnAroundTimings.length - 1] : undefined;
   const tat = turnAround?.end ? (turnAround.end - turnAround.start) : 0;
   const finished = await doPlay(theTrack, tat + (playlist.trackOverlap ?? settings.trackOverlap ?? 0));
