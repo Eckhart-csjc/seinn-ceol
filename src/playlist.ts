@@ -35,6 +35,9 @@ interface IPlayListOptions {
 
 const playListFile = new ArrayFileHandler<IPlayList>('playlists.json');
 
+let statTrackTurnAround: diagnostics.ITimingId | undefined = undefined;
+const TURN_AROUND = 'Playlist track turn-around';
+
 enum AfterTrackAction {
   Next,
   Pause,
@@ -160,6 +163,7 @@ const afterTrack = async (name: string, options: IPlayListOptions,  plays: numbe
     }
 
     case AfterTrackAction.Pause: {
+      statTrackTurnAround = undefined;      // Don't count this pause in track turn-around time
       removeProgressSuffix(makeAfterMsg('pause'));
       process.stdout.cursorTo(0);
       print(padOrTruncate(' Paused', process.stdout.columns, 'center'), 'paused');
@@ -240,12 +244,10 @@ const getPlaylist = (name: string, options: IPlayListOptions) => {
   return { originalPlaylist, playlist };
 };
 
-let statTrackTurnAround: diagnostics.ITimingId | undefined = undefined;
-
 const doPlayList = async (name: string, options: IPlayListOptions, plays: number, nextTrack?: track.ITrackHydrated) : Promise<void> => {
   const statPrep = diagnostics.startTiming('Playlist prep track');
-  if (!statTrackTurnAround) {
-    statTrackTurnAround = diagnostics.startTiming('Playlist track turn-around');
+  if (!statTrackTurnAround && !nextTrack) {   // If we already loaded the next track, don't count this one from here.
+    statTrackTurnAround = diagnostics.startTiming(TURN_AROUND);
   }
   const { originalPlaylist, playlist } = getPlaylist(name, options);
   if (!playlist) {
@@ -286,10 +288,14 @@ const doPlayList = async (name: string, options: IPlayListOptions, plays: number
   ]);
   keypress.addKeys(playListKeys);
   diagnostics.endTiming(statPrep);
-  const turnAround = diagnostics.endTiming(statTrackTurnAround!);
+  if (statTrackTurnAround) {
+    diagnostics.endTiming(statTrackTurnAround!);
+  }
+  const turnAroundTimings = diagnostics.getTimings()[TURN_AROUND];
+  const turnAround = turnAroundTimings?.length ? turnAroundTimings[turnAroundTimings.length - 1] : undefined;
   const tat = turnAround?.end ? (turnAround.end - turnAround.start) : 0;
   const finished = await doPlay(theTrack, tat + (playlist.trackOverlap ?? settings.trackOverlap ?? 0));
-  statTrackTurnAround = diagnostics.startTiming('Playlist track turn-around');
+  statTrackTurnAround = diagnostics.startTiming(TURN_AROUND);
   await afterTrack(name, options, plays + (finished ? 1 : 0));
   keypress.removeKeys(playListKeys);
   return;

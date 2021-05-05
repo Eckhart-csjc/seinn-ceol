@@ -270,7 +270,7 @@ export const resolve = async (name: string, tracks: track.ITrack[]): Promise<boo
 };
 
 export const formatInfo = (composer?: string[], composerKey?: IComposer | string) => {
-  const name = composer?.join(' & ') ?? composerKey ?? '?';
+  const name = composer?.join(' & ') ?? (typeof composerKey === 'string' ? composerKey : composerKey?.name) ?? '?';
   const c:IComposer|undefined = composerKey ? 
     (typeof composerKey === 'string' ? find(composerKey) : composerKey) : 
     undefined;
