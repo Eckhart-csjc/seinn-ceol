@@ -1,6 +1,7 @@
 import * as _ from 'lodash';
 import { ArrayFileHandler } from './array-file-handler';
 import { getSettings } from './config';
+import * as diagnostics from './diagnostics';
 import { extract, parseExtractor } from './extractor';
 import { IKey } from './keypress';
 import * as keypress from './keypress';
@@ -139,6 +140,7 @@ const doQuitAfter = (key: IKey) => {
 const afterTrack = async (name: string, options: IPlayListOptions,  plays: number): Promise<void> => {
   switch (afterTrackAction) {
     case AfterTrackAction.Next: {
+      const statAfter = diagnostics.startTiming('Playlist next track');
       const { playlist } = getPlaylist(name, options);
       if (!playlist) {
         return;
@@ -153,6 +155,7 @@ const afterTrack = async (name: string, options: IPlayListOptions,  plays: numbe
       const nextIndex = wasStopped ? 
         Math.max(0, lastIndex) :
         (lastIndex >= sorted.length - 1) ? 0 : lastIndex + 1; 
+      diagnostics.endTiming(statAfter);
       return doPlayList(name, options, plays, sorted[nextIndex]);
     }
 
@@ -238,6 +241,7 @@ const getPlaylist = (name: string, options: IPlayListOptions) => {
 };
 
 const doPlayList = async (name: string, options: IPlayListOptions, plays: number, nextTrack?: track.ITrackHydrated) : Promise<void> => {
+  const statPrep = diagnostics.startTiming('Playlist prep track');
   const { originalPlaylist, playlist } = getPlaylist(name, options);
   if (!playlist) {
     return;
@@ -276,6 +280,7 @@ const doPlayList = async (name: string, options: IPlayListOptions, plays: number
     { name: 'stop', func: doStop, help: 'stop playing' },
   ]);
   keypress.addKeys(playListKeys);
+  diagnostics.endTiming(statPrep);
   const finished = await doPlay(theTrack, playlist.trackOverlap ?? settings.trackOverlap ?? 0);
   await afterTrack(name, options, plays + (finished ? 1 : 0));
   keypress.removeKeys(playListKeys);

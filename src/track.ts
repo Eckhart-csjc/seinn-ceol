@@ -5,6 +5,7 @@ import * as path from 'path';
 import { ArrayFileHandler } from './array-file-handler';
 import * as composer from './composer';
 import { IComposer } from './composer';
+import * as diagnostics from './diagnostics';
 import * as keypress from './keypress';
 import { doPlay, stopPlaying } from './play';
 import { 
@@ -67,6 +68,7 @@ export interface ICatalogEntry {
 export interface ITrackHydrated extends ITrack {
   composerDetail?: IComposer;
   index?: number;       // Added by sort
+  keys?: any[];         // Added by sort
 }
 
 export interface ITrackUpdater extends Partial<ITrack> {
@@ -78,15 +80,18 @@ const trackFile = new ArrayFileHandler<ITrack>('tracks.json');
 export const fetchAll = () => trackFile.fetch();
 
 export const filter = (where?: string): ITrackHydrated[] => {
+  const statFilter = diagnostics.startTiming('Filter tracks');
   const token = where && parseExtractor(where);
   if (where && !token) {
     return [];      // A Parse error occurred
   }
   const composerIndex = composer.indexComposers();
   const allTracks = fetchAll().map((t) => hydrateTrack(t, composerIndex));
-  return token ?
+  const result = token ?
     allTracks.filter((t) => !!extract(t, token)) :
     allTracks;
+  diagnostics.endTiming(statFilter);
+  return result;
 };
 
 export const saveAll = (tracks: ITrack[]) => trackFile.save(tracks);
@@ -371,10 +376,10 @@ export const hydrateTrack = (
 
 export const sort = (sortKeys: string[], whereClause?: string): ITrackHydrated[] => {
   const composerIndex = composer.indexComposers();
-  return sortBy<ITrackHydrated>(
-    filter(whereClause).map((t) => hydrateTrack(t, composerIndex)),
-    sortKeys
-  );
+  const statSort = diagnostics.startTiming('Filter and sort tracks');
+  const result = sortBy<ITrackHydrated>(filter(whereClause), sortKeys);
+  diagnostics.endTiming(statSort);
+  return result;
 };
 
 export const resolveAnonymous = async (track: ITrack): Promise<void> => {

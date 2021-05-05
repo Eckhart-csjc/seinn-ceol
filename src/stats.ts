@@ -1,20 +1,15 @@
 import * as composer from './composer';
 import * as config from './config';
+import * as diagnostics from './diagnostics';
 import { extract, IValueToken, parseCacheStats, parseExtractor } from './extractor';
 import * as layout from './layout';
 import * as playlist from './playlist';
 import * as track from './track';
-import { error, makeString, makeTime, padOrTruncate, parseOrder, print, printColumns, printLn } from './util';
+import { error, makeString, makeTime, notification, padOrTruncate, parseOrder, print, printColumns, printLn } from './util';
 import * as _ from 'lodash';
 
 const capitalize = require('capitalize');
 const pluralize = require('pluralize');
-
-export interface ICacheStats {
-  stores: number;
-  hits: number;
-  misses: number;
-}
 
 interface IGroupStats {
   name: string;
@@ -35,7 +30,7 @@ const orders: Record<string, keyof IGroupStats> = {
   playTime: 'playTime',
 };
 
-export const stats = (
+export const showStats = (
   options: {
     groupBy?: string[],
     order?: string[],
@@ -77,6 +72,7 @@ export const cacheStats = () => {
     process.stdout.clearLine(0);
   }
   const configStats = config.getCacheStats();
+  notification('Cache statistics:');
   printColumns([
     ['Source', 'Stores', 'Attempts', 'Hits', '%', 'Misses', '%'],
     ...([
@@ -87,7 +83,7 @@ export const cacheStats = () => {
          [ 'layouts file', layout.getCacheStats() ],
          ...(configStats ? [[ 'config file', configStats ]] : []),
          [ 'parse extractors', parseCacheStats ],
-       ] as Array<[string, ICacheStats]>).map(([ file, stats ]) => {
+       ] as Array<[string, diagnostics.ICacheStats]>).map(([ file, stats ]) => {
          const attempts = stats.hits + stats.misses;
          return [ 
            file, 
@@ -101,6 +97,47 @@ export const cacheStats = () => {
        }),
   ], ['left', 'right', 'right', 'right', 'right', 'right', 'right'], true, 1);
 };
+
+interface ISummaryTimings {
+  total: number;
+  high: number;
+  low: number;
+}
+
+export const showTimings = () => {
+  notification('Timings:');
+  const timings = diagnostics.getTimings();
+  printColumns([
+    ['Name', 'Count', 'Total Ms', 'Avg Ms', 'High Ms', 'Low Ms'],
+    ...Object.keys(timings).sort().map((name) => {
+      const ta = timings[name].filter((t) => !!t.end);
+      const summary = ta.reduce<ISummaryTimings>((acc, t) => {
+        const duration = t.end! - t.start;
+        return {
+          total: acc.total + duration,
+          high: Math.max(acc.high, duration),
+          low: Math.min(acc.low, duration),
+        }
+      }, { total: 0, high: 0, low: Infinity });
+      return [
+        name,
+        `${ta.length}`,
+        `${summary.total.toFixed(1)}`,
+        `${(summary.total / ta.length).toFixed(1)}`,
+        `${summary.high.toFixed(1)}`,
+        `${summary.low.toFixed(1)}`,
+      ];
+    })
+  ],
+  ['left', 'right', 'right', 'right', 'right', 'right'], 
+  true, 1
+  );
+};
+
+export const showDiagnostics = () => {
+  cacheStats();
+  showTimings();
+}
 
 const makeGroup = (name: string, groups: IValueToken[]) => ({
   name,

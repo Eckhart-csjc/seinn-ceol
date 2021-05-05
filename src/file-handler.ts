@@ -1,7 +1,7 @@
 import * as fs from 'fs';
 import * as os from 'os';
 import * as path from 'path';
-import { ICacheStats } from './stats';
+import { ICacheStats } from './diagnostics';
 import { error } from './util';
 
 export class FileHandler<T> {

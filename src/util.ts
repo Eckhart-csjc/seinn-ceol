@@ -2,6 +2,7 @@ import * as _ from 'lodash';
 import { applyThemeSetting, getTheme, Theming } from './config';
 import { extract, parseExtractor } from './extractor';
 import { fixTTY } from './keypress';
+import { endTiming, startTiming } from './diagnostics';
 const chalk = require('chalk');
 const inquirer = require('inquirer');
 const pluralize = require('pluralize');
@@ -194,11 +195,14 @@ export const sortBy = <T extends ISortable>(items: T[], sortKeys: string[]): T[]
       order: ad ?? 'asc'
     };
   }).filter((p) => !!p.parser);
-  return _.orderBy(
+  const statOrder = startTiming('Sort and index');
+  const result = _.orderBy(
     items,
     sortParsers.map((p) => (i:T) => extract(i, p.parser!)),
     sortParsers.map((p) => p.order),
   )
   .map((t, index) => ({ ...t, index }));
+  endTiming(statOrder);
+  return result;
 };
 

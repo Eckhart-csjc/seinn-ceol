@@ -1,7 +1,7 @@
 import { C, F, IParser, N, Response, Streams, Tuple, VoidParser } from '@masala/parser';
 import * as _ from 'lodash';
 import parseDuration from 'parse-duration';
-import { ICacheStats } from './stats';
+import { ICacheStats } from './diagnostics';
 import { debug, error, makeTime } from './util';
 
 const dayjs = require('dayjs');

@@ -1,8 +1,8 @@
 import * as _ from 'lodash';
 import { ArrayFileHandler } from './array-file-handler';
+import * as diagnostics from './diagnostics';
 import { extract, parseExtractor } from './extractor';
 import * as keypress from './keypress';
-import { ICacheStats } from './stats';
 import * as track from './track';
 import { ask, error, notification, printLn, warning } from './util';
 
@@ -56,13 +56,14 @@ export const filter = (where?: string): IComposer[] => {
 let indexCache: Record<string, IComposer> | undefined = undefined;
 let indexLast: IComposer[] | undefined = undefined;
 
-export const composerIndexCacheStats: ICacheStats = {
+export const composerIndexCacheStats: diagnostics.ICacheStats = {
   stores: 0,
   hits: 0,
   misses: 0,
 }
 
 export const indexComposers = (composers?: IComposer[]) => {
+  const statIndex = diagnostics.startTiming('Index composers');
   const fetched = composers ?? fetchAll();
   if (!indexCache || fetched !== indexLast) {    // Not the same cached array
     composerIndexCacheStats.misses++;
@@ -77,6 +78,7 @@ export const indexComposers = (composers?: IComposer[]) => {
   } else {
     composerIndexCacheStats.hits++;
   }
+  diagnostics.endTiming(statIndex);
   return indexCache;
 }
 

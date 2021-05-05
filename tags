@@ -11,7 +11,7 @@ BinaryOpFunc	src/extractor.ts	/^type BinaryOpFunc = (context: object, op1: unkno
 FileHandler	src/file-handler.ts	/^export class FileHandler<T> {$/;"	c
 IBinaryOperationToken	src/extractor.ts	/^interface IBinaryOperationToken extends IValueToken {$/;"	i
 IBinaryOperatorToken	src/extractor.ts	/^interface IBinaryOperatorToken extends IOperatorToken {$/;"	i
-ICacheStats	src/stats.ts	/^export interface ICacheStats {$/;"	i
+ICacheStats	src/diagnostics.ts	/^export interface ICacheStats {$/;"	i
 ICatalog	src/composer.ts	/^export interface ICatalog {$/;"	i
 ICatalogEntry	src/track.ts	/^export interface ICatalogEntry {$/;"	i
 IComposer	src/composer.ts	/^export interface IComposer {$/;"	i
@@ -35,8 +35,11 @@ IPlayer	src/play.ts	/^export interface IPlayer {$/;"	i
 IRegexToken	src/extractor.ts	/^interface IRegexToken extends IValueToken {$/;"	i
 ISortable	src/util.ts	/^export interface ISortable {$/;"	i
 IStringLiteralToken	src/extractor.ts	/^interface IStringLiteralToken extends IValueToken {$/;"	i
+ISummaryTimings	src/stats.ts	/^interface ISummaryTimings {$/;"	i
 ITheme	src/config.ts	/^export interface ITheme {$/;"	i
 IThemeSettings	src/config.ts	/^export interface IThemeSettings {$/;"	i
+ITiming	src/diagnostics.ts	/^export interface ITiming {$/;"	i
+ITimingId	src/diagnostics.ts	/^export interface ITimingId {$/;"	i
 IToken	src/extractor.ts	/^interface IToken {$/;"	i
 ITrack	src/track.ts	/^export interface ITrack extends ITrackInfo {$/;"	i
 ITrackHydrated	src/track.ts	/^export interface ITrackHydrated extends ITrack {$/;"	i
@@ -87,6 +90,7 @@ bumpRowsPrinted	src/util.ts	/^  bumpRowsPrinted();      \/\/ Potentially innacur
 bumpRowsPrinted	src/util.ts	/^  bumpRowsPrinted();$/;"	m
 bumpRowsPrinted	src/util.ts	/^export const bumpRowsPrinted = (nLines: number = 1) => rowsPrinted += nLines;$/;"	v
 cache	src/file-handler.ts	/^  cache: T | undefined;$/;"	m
+cacheStats	src/stats.ts	/^  cacheStats();$/;"	m
 cacheStats	src/stats.ts	/^export const cacheStats = () => {$/;"	v
 catalogs	src/track.ts	/^      catalogs: t.catalogs ?? composerDetail?.catalogs?.reduce<ICatalogEntry[]>((accum, c, index) => {$/;"	m
 catalogs	src/track.ts	/^    catalogs: t.catalogs ?? composerDetail?.catalogs?.reduce<ICatalogEntry[]>((accum, c, index) => {$/;"	m
@@ -102,7 +106,7 @@ clearTimeout	src/asyncChild.ts	/^      clearTimeout(resolveTimer);$/;"	m
 cmd	src/asyncChild.ts	/^  cmd: string, $/;"	m
 column	src/layout.ts	/^  column: ILayoutColumn, $/;"	m
 composer	src/index.test.ts	/^  composer: 'Johann Sebastian Bach',$/;"	m
-composerIndexCacheStats	src/composer.ts	/^export const composerIndexCacheStats: ICacheStats = {$/;"	v
+composerIndexCacheStats	src/composer.ts	/^export const composerIndexCacheStats: diagnostics.ICacheStats = {$/;"	v
 composerKey	src/track.ts	/^    composerKey: _.uniq(removeDupNames(trackInfo.composer ?? [])).join(' & ') || undefined,$/;"	m
 composerKey	src/track.ts	/^    composerKey: t.composerKey || _.uniq(removeDupNames(t.composer ?? [])).join(' & ') || undefined,$/;"	m
 composers	src/query.ts	/^  composers: composer,$/;"	m
@@ -144,11 +148,14 @@ doUnaryOperation	src/extractor.ts	/^    doUnaryOperation(context, operands, (con
 doUnaryOperation	src/extractor.ts	/^    doUnaryOperation(context, operands, (context, op1) =>$/;"	m
 duration	src/track.ts	/^    duration: p.format.duration,$/;"	m
 earlyReturn	src/play.ts	/^  earlyReturn: number = 0,        \/\/ Milliseconds to subtract from duration for return$/;"	m
+endTiming	src/diagnostics.ts	/^export const endTiming = (id: ITimingId): ITiming | undefined => {$/;"	v
+endTiming	src/util.ts	/^  endTiming(statOrder);$/;"	m
 error	src/composer.ts	/^        error(`Could not find existing composer ${option}`);$/;"	m
 error	src/composer.ts	/^      error(`The following aliases for this composer already exist`, existingAliases);$/;"	m
 error	src/composer.ts	/^    error(`Composer ${composer.name} already exists`, existing);$/;"	m
 error	src/composer.ts	/^    error(`No composer named ${updates.name} found to update`);$/;"	m
 error	src/composer.ts	/^    error(`The following aliases for this composer already exist`, existingAliases);$/;"	m
+error	src/diagnostics.ts	/^    error(`endTiming called for an id that was not found: ${JSON.stringify(id)}`);$/;"	m
 error	src/extractor.ts	/^    error(' '.repeat(result.offset) + '^');$/;"	m
 error	src/extractor.ts	/^    error(`Syntax error in parsed clause at offset ${result.offset}`);$/;"	m
 error	src/extractor.ts	/^    error(`This shouldn't happen, remaining tokens:`, JSON.stringify(tokens, undefined, 2));$/;"	m
@@ -186,7 +193,6 @@ filename	src/file-handler.ts	/^  filename: string;$/;"	m
 filter	src/composer.ts	/^export const filter = (where?: string): IComposer[] => {$/;"	v
 filter	src/layout.ts	/^export const filter = (where?: string): ILayout[] => {$/;"	v
 filter	src/playlist.ts	/^export const filter = (where?: string): IPlayList[] => {$/;"	v
-filter	src/track.ts	/^    filter(whereClause).map((t) => hydrateTrack(t, composerIndex)),$/;"	m
 filter	src/track.ts	/^export const filter = (where?: string): ITrackHydrated[] => {$/;"	v
 find	src/composer.ts	/^export const find = (name: string, composers?: IComposer[]) => indexComposers(composers)[name];$/;"	v
 find	src/layout.ts	/^export const find = (name: string, layouts?: ILayout[]) => $/;"	v
@@ -211,7 +217,7 @@ func	src/keypress.ts	/^  func: (key: IKey) => any;$/;"	m
 func	src/play.ts	/^      func: (key: keypress.IKey) =>  {$/;"	m
 func	src/seinn-ceol.ts	/^      func: () => process.exit(0),$/;"	m
 func	src/seinn-ceol.ts	/^      func: () => { $/;"	m
-func	src/seinn-ceol.ts	/^      func: cacheStats,$/;"	m
+func	src/seinn-ceol.ts	/^      func: showDiagnostics,$/;"	m
 func	src/track.ts	/^        func: (k: keypress.IKey) => stopPlaying(),$/;"	m
 getCacheStats	src/composer.ts	/^export const getCacheStats = () => composerFile.getCacheStats();$/;"	v
 getCacheStats	src/config.ts	/^export const getCacheStats = () => configFile?.stats;$/;"	v
@@ -230,6 +236,7 @@ getSettings	src/config.ts	/^  getSettings().theme || {} as Record<string, ITheme
 getSettings	src/config.ts	/^export const getSettings = (): IConfig => {$/;"	v
 getSettings	src/seinn-ceol.ts	/^getSettings();      \/\/ Make sure we can read config.json, even if we don't need it yet$/;"	m
 getTheme	src/config.ts	/^export const getTheme = () => $/;"	v
+getTimings	src/diagnostics.ts	/^export const getTimings = () => timings;$/;"	v
 goodExtract	src/index.test.ts	/^goodExtract('!simple', false);$/;"	m
 goodExtract	src/index.test.ts	/^goodExtract('(simple != 42) or 1', 1);$/;"	m
 goodExtract	src/index.test.ts	/^goodExtract('1 and simple', 42);$/;"	m
@@ -327,10 +334,12 @@ help	src/play.ts	/^      help: 'info on track\/composer',$/;"	m
 help	src/seinn-ceol.ts	/^      help: 'help',$/;"	m
 help	src/seinn-ceol.ts	/^      help: 'quit',$/;"	m
 help	src/track.ts	/^        help: 'stop playing'$/;"	m
+high	src/stats.ts	/^          high: Math.max(acc.high, duration),$/;"	m
+high	src/stats.ts	/^  high: number;$/;"	m
 hits	src/composer.ts	/^  hits: 0,$/;"	m
+hits	src/diagnostics.ts	/^  hits: number;$/;"	m
 hits	src/extractor.ts	/^  hits: 0,$/;"	m
 hits	src/file-handler.ts	/^      hits: 0,$/;"	m
-hits	src/stats.ts	/^  hits: number;$/;"	m
 hydrateTrack	src/track.ts	/^export const hydrateTrack = ($/;"	v
 identifier	src/extractor.ts	/^  identifier: () : IParser<IIdentifierToken> => $/;"	m
 if	src/asyncChild.ts	/^      if (result.error) {$/;"	m
@@ -348,6 +357,8 @@ if	src/composer.ts	/^  if (updates.aliases) {$/;"	m
 if	src/composer.ts	/^  if (where && !token) {$/;"	m
 if	src/config.ts	/^  if (!configFile) {$/;"	m
 if	src/config.ts	/^  if (text.length < 1) {$/;"	m
+if	src/diagnostics.ts	/^  if (!timing) {$/;"	m
+if	src/diagnostics.ts	/^  if (existing) {$/;"	m
 if	src/extractor.ts	/^      if (op1) {$/;"	m
 if	src/extractor.ts	/^  if (!(result.isAccepted() && result.isEos())) {$/;"	m
 if	src/extractor.ts	/^  if (cached) {$/;"	m
@@ -429,6 +440,7 @@ if	src/util.ts	/^  if (process.stdout.isTTY) {$/;"	m
 if	src/util.ts	/^  if (result.nums[0]?.startsWith('0')) {$/;"	m
 if	src/util.ts	/^  if (totalWidth > process.stdout.columns) {$/;"	m
 indent	src/stats.ts	/^  indent: number = 0,$/;"	m
+index	src/diagnostics.ts	/^  index: number;$/;"	m
 index	src/track.ts	/^  index: number;                \/\/ Index of symbol in composerDetail.catalogs$/;"	m
 indexComposers	src/composer.ts	/^export const indexComposers = (composers?: IComposer[]) => {$/;"	v
 indexPad	src/stats.ts	/^  indexPad: number = 0,$/;"	m
@@ -452,6 +464,8 @@ lastCol	src/segout.ts	/^  lastCol: number;$/;"	m
 lastPlayed	src/track.ts	/^      lastPlayed: dayjs().toString(),$/;"	m
 layouts	src/query.ts	/^  layouts: layout,$/;"	m
 limit	src/stats.ts	/^  limit: number[] = [],$/;"	m
+low	src/stats.ts	/^          low: Math.min(acc.low, duration),$/;"	m
+low	src/stats.ts	/^  low: number;$/;"	m
 main	src/seinn-ceol.ts	/^main()$/;"	m
 makeFilename	src/file-handler.ts	/^  private makeFilename(basename: string, pathOverride?: string) {$/;"	m
 makeGroup	src/stats.ts	/^    makeGroup('Totals', groups)$/;"	m
@@ -475,9 +489,9 @@ meta	src/keypress.ts	/^  meta: boolean;$/;"	m
 migrateAllTracks	src/track.ts	/^export const migrateAllTracks = () => {$/;"	v
 migrateTrack	src/track.ts	/^export const migrateTrack = (t: ITrack, composerIndex: Record<string, IComposer>): ITrack => {$/;"	v
 misses	src/composer.ts	/^  misses: 0,$/;"	m
+misses	src/diagnostics.ts	/^  misses: number;$/;"	m
 misses	src/extractor.ts	/^  misses: 0,$/;"	m
 misses	src/file-handler.ts	/^      misses: 0,$/;"	m
-misses	src/stats.ts	/^  misses: number;$/;"	m
 movement	src/track.ts	/^    movement: parseMovement(trackInfo.title),$/;"	m
 movement	src/track.ts	/^    movement: t.movement ?? parseMovement(t.title),$/;"	m
 mtime	src/file-handler.ts	/^  mtime: number;$/;"	m
@@ -498,6 +512,7 @@ name	src/composer.ts	/^      name: 'option',$/;"	m
 name	src/composer.ts	/^    name: responses.name,$/;"	m
 name	src/composer.ts	/^  name: string;                \/\/ Name as key$/;"	m
 name	src/composer.ts	/^  name: string;$/;"	m
+name	src/diagnostics.ts	/^  name: string;$/;"	m
 name	src/extractor.ts	/^        name: result.value.join(``),$/;"	m
 name	src/extractor.ts	/^  name: string;$/;"	m
 name	src/index.test.ts	/^              name: 'B',$/;"	m
@@ -539,6 +554,8 @@ notification	src/composer.ts	/^  notification(option);$/;"	m
 notification	src/keypress.ts	/^      notification(c, key);$/;"	m
 notification	src/playlist.ts	/^  notification(`Shuffle ${shuffleMode ? 'on' : 'off'}`);$/;"	m
 notification	src/query.ts	/^  notification(pluralize(table.replace(\/s$\/, ''), limited.length, true));$/;"	m
+notification	src/stats.ts	/^  notification('Cache statistics:');$/;"	m
+notification	src/stats.ts	/^  notification('Timings:');$/;"	m
 notification	src/track.ts	/^        notification(`Removing ${t.trackPath}`);$/;"	m
 notification	src/track.ts	/^      notification(`Changes discarded`);$/;"	m
 notification	src/track.ts	/^      notification(`Changes saved`);$/;"	m
@@ -705,15 +722,20 @@ sepLength	src/layout.ts	/^  sepLength: number,$/;"	m
 sequence	src/keypress.ts	/^  sequence: string;$/;"	m
 setWidth	src/layout.ts	/^      setWidth(c.header ?? '', c.width ?? '', sep.length, c.justification),$/;"	m
 shift	src/keypress.ts	/^  shift: boolean;$/;"	m
+showDiagnostics	src/stats.ts	/^export const showDiagnostics = () => {$/;"	v
+showStats	src/stats.ts	/^export const showStats = ($/;"	v
+showTimings	src/stats.ts	/^  showTimings();$/;"	m
+showTimings	src/stats.ts	/^export const showTimings = () => {$/;"	v
 shuffle	src/config.ts	/^  shuffle: { sequence: 'S' },$/;"	m
 simple	src/index.test.ts	/^  simple: 42,$/;"	m
 sort	src/track.ts	/^export const sort = (sortKeys: string[], whereClause?: string): ITrackHydrated[] => {$/;"	v
 sortBy	src/util.ts	/^export const sortBy = <T extends ISortable>(items: T[], sortKeys: string[]): T[] => {$/;"	v
 spawnWithProgress	src/asyncChild.ts	/^export const spawnWithProgress = async ($/;"	v
+start	src/diagnostics.ts	/^  start: number;$/;"	m
+startTiming	src/diagnostics.ts	/^export const startTiming = (name: string): ITimingId => {$/;"	v
 stats	src/file-handler.ts	/^  public stats: ICacheStats;$/;"	m
 stats	src/stats.ts	/^  stats: IGroupStats, $/;"	m
 stats	src/stats.ts	/^  stats: IGroupStats,$/;"	m
-stats	src/stats.ts	/^export const stats = ($/;"	v
 stop	src/config.ts	/^  stop: { sequence: 's' },$/;"	m
 stop	src/play.ts	/^  stop: () => Promise<boolean>;   \/\/ true == stopped$/;"	m
 stop	src/players/afplay.ts	/^export const stop = async () => {$/;"	v
@@ -721,9 +743,9 @@ stopPlaying	src/play.ts	/^export const stopPlaying = async () => playState.isPla
 stopPlaying	src/playlist.ts	/^    stopPlaying();$/;"	m
 stopPlaying	src/playlist.ts	/^  stopPlaying();$/;"	m
 stores	src/composer.ts	/^  stores: 0,$/;"	m
+stores	src/diagnostics.ts	/^  stores: number;$/;"	m
 stores	src/extractor.ts	/^  stores: 0,$/;"	m
 stores	src/file-handler.ts	/^      stores: 0,$/;"	m
-stores	src/stats.ts	/^  stores: number;$/;"	m
 stringLiteral	src/extractor.ts	/^  stringLiteral: (quote?: string) : IParser<IStringLiteralToken> =>$/;"	m
 subMovement	src/track.ts	/^    subMovement: parseSubMovement(trackInfo.title),$/;"	m
 subMovement	src/track.ts	/^    subMovement: t.subMovement ?? parseSubMovement(t.title),$/;"	m
@@ -747,6 +769,8 @@ table	src/query.ts	/^  table: string,$/;"	m
 text	src/layout.ts	/^  text: string, $/;"	m
 text	src/segout.ts	/^    text: string,         \/\/ Text to add$/;"	m
 time	src/stats.ts	/^  time: 'totalTime',$/;"	m
+total	src/stats.ts	/^          total: acc.total + duration,$/;"	m
+total	src/stats.ts	/^  total: number;$/;"	m
 totalPlays	src/stats.ts	/^        totalPlays: accum.totalPlays + groupStats.totalPlays,$/;"	m
 totalPlays	src/stats.ts	/^    totalPlays: existing.totalPlays + t.plays,$/;"	m
 totalPlays	src/stats.ts	/^  totalPlays: 0,$/;"	m
