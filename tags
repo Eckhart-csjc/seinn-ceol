@@ -215,8 +215,8 @@ formatInfo	src/track.ts	/^export const formatInfo = (t: ITrackHydrated): string[
 func	src/keypress.ts	/^  func: (key: IKey) => any;     \/\/ Return value is ignored$/;"	m
 func	src/keypress.ts	/^  func: (key: IKey) => any;$/;"	m
 func	src/play.ts	/^      func: (key: keypress.IKey) =>  {$/;"	m
-func	src/seinn-ceol.ts	/^      func: () => process.exit(0),$/;"	m
 func	src/seinn-ceol.ts	/^      func: () => { $/;"	m
+func	src/seinn-ceol.ts	/^      func: () => {$/;"	m
 func	src/seinn-ceol.ts	/^      func: showDiagnostics,$/;"	m
 func	src/track.ts	/^        func: (k: keypress.IKey) => stopPlaying(),$/;"	m
 getCacheStats	src/composer.ts	/^export const getCacheStats = () => composerFile.getCacheStats();$/;"	v
@@ -419,7 +419,9 @@ if	src/query.ts	/^  if (!tableHandler) {$/;"	m
 if	src/segout.ts	/^      if (sep) {$/;"	m
 if	src/segout.ts	/^    if (this.lastCol > 0 && $/;"	m
 if	src/segout.ts	/^    if (this.lastCol > 0) {$/;"	m
+if	src/seinn-ceol.ts	/^        if (program.opts().diagnostics) {$/;"	m
 if	src/seinn-ceol.ts	/^  if (process.argv.length < 2) {$/;"	m
+if	src/seinn-ceol.ts	/^  if (program.opts().diagnostics) {$/;"	m
 if	src/stats.ts	/^    if (!g) {           \/\/ This should never happen, but the compiler isn't smart enough to see that$/;"	m
 if	src/stats.ts	/^  if (process.stdout.isTTY) {$/;"	m
 if	src/track.ts	/^          if (!noWarn) {$/;"	m
@@ -468,7 +470,7 @@ layouts	src/query.ts	/^  layouts: layout,$/;"	m
 limit	src/stats.ts	/^  limit: number[] = [],$/;"	m
 low	src/stats.ts	/^          low: Math.min(acc.low, duration),$/;"	m
 low	src/stats.ts	/^  low: number;$/;"	m
-main	src/seinn-ceol.ts	/^main()$/;"	m
+main	src/seinn-ceol.ts	/^main();$/;"	m
 makeFilename	src/file-handler.ts	/^  private makeFilename(basename: string, pathOverride?: string) {$/;"	m
 makeGroup	src/stats.ts	/^    makeGroup('Totals', groups)$/;"	m
 makeHelpText	src/keypress.ts	/^export const makeHelpText = (): string[] => {$/;"	v
@@ -724,6 +726,8 @@ sepLength	src/layout.ts	/^  sepLength: number,$/;"	m
 sequence	src/keypress.ts	/^  sequence: string;$/;"	m
 setWidth	src/layout.ts	/^      setWidth(c.header ?? '', c.width ?? '', sep.length, c.justification),$/;"	m
 shift	src/keypress.ts	/^  shift: boolean;$/;"	m
+showDiagnostics	src/seinn-ceol.ts	/^          showDiagnostics();$/;"	m
+showDiagnostics	src/seinn-ceol.ts	/^    showDiagnostics();$/;"	m
 showDiagnostics	src/stats.ts	/^export const showDiagnostics = () => {$/;"	v
 showStats	src/stats.ts	/^export const showStats = ($/;"	v
 showTimings	src/stats.ts	/^  showTimings();$/;"	m

@@ -27,13 +27,19 @@ keypress.addKeys(
     },
     {
       name: 'quit',
-      func: () => process.exit(0),
+      func: () => {
+        if (program.opts().diagnostics) {
+          showDiagnostics();
+        }
+        process.exit(0);
+      },
       help: 'quit',
     }
   ])
 );
 
 program
+  .option('-D, --diagnostics', 'Display diagnostics after execution')
   .version(require('../package.json').version)
   ;
 
@@ -113,7 +119,10 @@ const main = async () => {
     return program.outputHelp();
   }
   await program.parseAsync(process.argv);
+  if (program.opts().diagnostics) {
+    showDiagnostics();
+  }
   process.exit(0);          // Required because keypress starts readline in raw mode
 }
 
-main()
+main();
