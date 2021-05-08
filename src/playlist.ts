@@ -10,11 +10,13 @@ import { isPlaying, stopPlaying, doPlay } from './play';
 import * as track from './track';
 import { 
   addProgressSuffix,
+  ask,
   error, 
   getRowsPrinted, 
   notification,
   padOrTruncate, 
   print, 
+  quit,
   removeProgressSuffix,
   warning 
 } from './util';
@@ -29,11 +31,13 @@ export interface IPlayList {
 }
 
 interface IPlayListOptions {
-  where?: string;
+  browse?: boolean;
   shuffle?: boolean;
+  where?: string;
 }
 
-const playListFile = new ArrayFileHandler<IPlayList>('playlists.json');
+let theFile: ArrayFileHandler<IPlayList> | undefined = undefined;
+const playListFile = () => theFile ||= new ArrayFileHandler<IPlayList>('playlists.json');
 
 let statTrackTurnAround: diagnostics.ITimingId | undefined = undefined;
 const TURN_AROUND = 'Playlist track turn-around';
@@ -46,7 +50,7 @@ enum AfterTrackAction {
   Quit,
 }
 
-export const fetchAll = () => playListFile.fetch();
+export const fetchAll = () => playListFile().fetch();
 
 export const find = (name: string, playlists?: IPlayList[]) => _.find(playlists ?? fetchAll(), (pl) => pl.name === name);
 export const save = (playlist: IPlayList) => {
@@ -54,9 +58,9 @@ export const save = (playlist: IPlayList) => {
   const existing = find(playlist.name, playlists);
   if (existing) {
     _.merge(existing, playlist);
-    playListFile.save(playlists);
+    playListFile().save(playlists);
   } else {
-    playListFile.save([ ...playlists, playlist ]);
+    playListFile().save([ ...playlists, playlist ]);
   }
 };
 
@@ -202,24 +206,23 @@ const afterTrack = async (name: string, options: IPlayListOptions,  plays: numbe
       removeProgressSuffix(makeAfterMsg('quit'));
       // First, queue up the next track for when we start again
       const { playlist } = getPlaylist(name, options);
-      if (!playlist) {
-        process.exit(1);
+      if (playlist) {
+        const sorted = track.sort(playlist.orderBy, playlist.where);
+        const lastIndex = playlist.current ? 
+          _.findIndex(sorted, (tr) => tr.trackPath === playlist.current) :
+          -1;
+        const nextIndex = (lastIndex >= sorted.length - 1) ? 0 : lastIndex + 1; 
+        const nextTrack = sorted[nextIndex];
+        save({ ...playlist, current: nextTrack!.trackPath });
       }
-      const sorted = track.sort(playlist.orderBy, playlist.where);
-      const lastIndex = playlist.current ? 
-        _.findIndex(sorted, (tr) => tr.trackPath === playlist.current) :
-        -1;
-      const nextIndex = (lastIndex >= sorted.length - 1) ? 0 : lastIndex + 1; 
-      const nextTrack = sorted[nextIndex];
-      save({ ...playlist, current: nextTrack!.trackPath });
-      process.exit(0);    // Then exit
+      quit();
     }
   }
 };
 
 export const playList = async (name: string, options: IPlayListOptions) => {
   shuffleMode = !!options.shuffle;
-  return doPlayList(name, options, 0);
+  return options.browse ? browse(name, options) : doPlayList(name, options, 0);
 };
 
 export const getCurrentTrack = (playlist: IPlayList) => {
@@ -242,6 +245,49 @@ const getPlaylist = (name: string, options: IPlayListOptions) => {
     } :
     originalPlaylist;
   return { originalPlaylist, playlist };
+};
+
+const browse = async (name: string, options: IPlayListOptions, nextTrack?: track.ITrackHydrated) => {
+  const { playlist } = getPlaylist(name, options);
+  if (!playlist) {
+    return;
+  }
+
+  const theTrack = nextTrack ?? getCurrentTrack(playlist);
+  if (!theTrack) {
+    warning(`Playlist ${name} empty`);
+    return;
+  }
+
+  const settings = getSettings();
+  const layOut = layout.getLayout(playlist.layout ?? settings.layout);
+  if (!layOut?.columns) {
+    return;
+  }
+
+  if (lastHeaderRow === 0 || (getRowsPrinted() - lastHeaderRow) >= (process.stdout.rows-3)) {
+    layout.displayHeaders(playlist.layout ?? settings.layout);
+  }
+
+  const sorted = track.sort(playlist.orderBy, playlist.where);
+  const sep = layOut.separator || '|';
+  const max = process.stdout.columns - 1;
+  const choices = sorted.map((t) => ({
+    name: layout.formatColumns(t, layOut).join(sep).slice(2,max),
+    value: t,
+    short: t.title,
+  }));
+  const defndx = _.findIndex(sorted, (t) => t.trackPath === theTrack.trackPath);
+  const { selectedTrack } = await ask([
+    {
+      name: 'selectedTrack',
+      type: 'list',
+      default: defndx,
+      choices,
+      message: 'Select track to start',
+    }
+  ]);
+  return doPlayList(name, options, 0, selectedTrack);
 };
 
 const doPlayList = async (name: string, options: IPlayListOptions, plays: number, nextTrack?: track.ITrackHydrated) : Promise<void> => {
@@ -301,4 +347,4 @@ const doPlayList = async (name: string, options: IPlayListOptions, plays: number
   return;
 };
 
-export const getCacheStats = () => playListFile.getCacheStats();
+export const getCacheStats = () => playListFile().getCacheStats();

@@ -38,9 +38,10 @@ const ADD = '<add new>';
 const SKIP = '<skip for now>';
 const VIEW = '<view tracks>';
 
-const composerFile = new ArrayFileHandler<IComposer>('composers.json');
+let theFile: ArrayFileHandler<IComposer> | undefined = undefined;
+const composerFile = () => theFile ||= new ArrayFileHandler<IComposer>('composers.json');
 
-export const fetchAll = () => composerFile.fetch();
+export const fetchAll = () => composerFile().fetch();
 
 export const filter = (where?: string): IComposer[] => {
   const token = where && parseExtractor(where);
@@ -121,7 +122,7 @@ export const add = (composer: IComposer): boolean => {
     error(`The following aliases for this composer already exist`, existingAliases);
     return false;
   }
-  composerFile.save([...composers, composer]);
+  composerFile().save([...composers, composer]);
   return true;
 };
 
@@ -140,7 +141,7 @@ export const update = (updates: IComposerUpdater): boolean => {
       return false;
     }
   }
-  composerFile.save(composers);
+  composerFile().save(composers);
   return true;
 };
 
@@ -280,4 +281,4 @@ export const formatInfo = (composer?: string[], composerKey?: IComposer | string
   return `Composer: ${name}${alias}, born: ${c?.born ?? '?'}${c?.died ? ' died: ' + c?.died : ''}`;
 }
 
-export const getCacheStats = () => composerFile.getCacheStats();
+export const getCacheStats = () => composerFile().getCacheStats();

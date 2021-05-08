@@ -31,9 +31,10 @@ export interface ILayoutColumn {
   justification?: Justification;    // Justification of both column and header (def = left)
 };
 
-const layoutFile = new ArrayFileHandler<ILayout>('layouts.json');
+let theFile: ArrayFileHandler<ILayout> | undefined = undefined;
+const layoutFile = () => theFile ||= new ArrayFileHandler<ILayout>('layouts.json');
 
-export const fetchAll = () => layoutFile.fetch();
+export const fetchAll = () => layoutFile().fetch();
 
 export const find = (name: string, layouts?: ILayout[]) => 
   _.find(layouts ?? fetchAll(), (layout) => layout.name === name);
@@ -42,9 +43,9 @@ export const save = (layout: ILayout) => {
   const existing = find(layout.name, layouts);
   if (existing) {
     _.merge(existing, layout);
-    layoutFile.save(layouts);
+    layoutFile().save(layouts);
   } else {
-    layoutFile.save([ ...layouts, layout ]);
+    layoutFile().save([ ...layouts, layout ]);
   }
 };
 
@@ -63,25 +64,38 @@ export const displayColumns = (
   t: track.ITrackHydrated, 
   layoutName?: string
 ) => {
+  const o = new SegOut();
+  process.stdout.cursorTo(0);
+  process.stdout.clearLine(0);
   const layout = getLayout(layoutName);
   if (!layout?.columns) {
     return;
   }
-  const o = new SegOut();
-  process.stdout.cursorTo(0);
-  process.stdout.clearLine(0);
+  const columns = formatColumns(t, layout);
   const sep = layout.separator || '|';
-  layout.columns.map((c) => 
+  columns.map((c, ndx) => 
     o.add(
-      formatColumn(c, t, sep.length), 
+      c,
       sep, 
       undefined,
-      c.theming ?? layout.theming,
+      layout.columns?.[ndx]?.theming ?? layout.theming,
       layout.separatorTheming ?? layout.theming,
     )
   );
   o.nl();
 }
+
+export const formatColumns = (
+  t: track.ITrackHydrated, 
+  layOut?: string | ILayout,
+): string[] => {
+  const layout = typeof layOut === 'object' ? layOut : getLayout(layOut);
+  if (!layout?.columns) {
+    return [];
+  }
+  const sep = layout.separator || '|';
+  return layout.columns.map((c) => formatColumn(c, t, sep.length));
+};
 
 export const displayHeaders = (layoutName?: string) => {
   const layout = getLayout(layoutName);
@@ -104,7 +118,7 @@ export const displayHeaders = (layoutName?: string) => {
   o.nl();
 }
 
-const getLayout = (layoutName?: string): ILayout | undefined => {
+export const getLayout = (layoutName?: string): ILayout | undefined => {
   const name = layoutName ?? getSettings().layout;
   if (!name) {
     return undefined;
@@ -164,4 +178,4 @@ const parseWidth = (widthText: string, sepLength: number): number => {
   }
 };
 
-export const getCacheStats = () => layoutFile.getCacheStats();
+export const getCacheStats = () => layoutFile().getCacheStats();

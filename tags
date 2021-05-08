@@ -106,6 +106,8 @@ clearTimeout	src/asyncChild.ts	/^      clearTimeout(resolveTimer);$/;"	m
 cmd	src/asyncChild.ts	/^  cmd: string, $/;"	m
 column	src/layout.ts	/^  column: ILayoutColumn, $/;"	m
 composer	src/index.test.ts	/^  composer: 'Johann Sebastian Bach',$/;"	m
+composerFile	src/composer.ts	/^  composerFile().save([...composers, composer]);$/;"	m
+composerFile	src/composer.ts	/^  composerFile().save(composers);$/;"	m
 composerIndexCacheStats	src/composer.ts	/^export const composerIndexCacheStats: diagnostics.ICacheStats = {$/;"	v
 composerKey	src/track.ts	/^    composerKey: _.uniq(removeDupNames(trackInfo.composer ?? [])).join(' & ') || undefined,$/;"	m
 composerKey	src/track.ts	/^    composerKey: t.composerKey || _.uniq(removeDupNames(t.composer ?? [])).join(' & ') || undefined,$/;"	m
@@ -125,6 +127,7 @@ default	src/composer.ts	/^      default: known.born,$/;"	m
 default	src/composer.ts	/^      default: known.died,$/;"	m
 default	src/composer.ts	/^      default: known.name, $/;"	m
 default	src/composer.ts	/^    default: {$/;"	m
+default	src/playlist.ts	/^      default: defndx,$/;"	m
 default	src/track.ts	/^          default: track.composerKey,$/;"	m
 default	src/track.ts	/^          default: track.compositionDate,$/;"	m
 default	src/track.ts	/^      default: SKIP,$/;"	m
@@ -184,10 +187,10 @@ extractor	src/layout.ts	/^  extractor: string;      \/\/ extractor against ITrac
 false	src/extractor.ts	/^  false: false,$/;"	m
 fetch	src/array-file-handler.ts	/^  public fetch(): T[] {$/;"	m
 fetch	src/file-handler.ts	/^  public fetch(): T | undefined {$/;"	m
-fetchAll	src/composer.ts	/^export const fetchAll = () => composerFile.fetch();$/;"	v
-fetchAll	src/layout.ts	/^export const fetchAll = () => layoutFile.fetch();$/;"	v
-fetchAll	src/playlist.ts	/^export const fetchAll = () => playListFile.fetch();$/;"	v
-fetchAll	src/track.ts	/^export const fetchAll = () => trackFile.fetch();$/;"	v
+fetchAll	src/composer.ts	/^export const fetchAll = () => composerFile().fetch();$/;"	v
+fetchAll	src/layout.ts	/^export const fetchAll = () => layoutFile().fetch();$/;"	v
+fetchAll	src/playlist.ts	/^export const fetchAll = () => playListFile().fetch();$/;"	v
+fetchAll	src/track.ts	/^export const fetchAll = () => trackFile().fetch();$/;"	v
 fileHandler	src/array-file-handler.ts	/^  fileHandler: FileHandler<T[]>;$/;"	m
 filename	src/file-handler.ts	/^  filename: string;$/;"	m
 filter	src/composer.ts	/^export const filter = (where?: string): IComposer[] => {$/;"	v
@@ -208,7 +211,7 @@ flags	src/index.test.ts	/^  flags: 'i',$/;"	m
 fnc	src/extractor.ts	/^        fnc(context, op1, op2)$/;"	m
 fnc	src/extractor.ts	/^    fnc(context, pack(extract(context, operands[0])));$/;"	m
 fnc	src/extractor.ts	/^    fnc(context, pack(extract(context, operands[0])), extract(context, operands[1]));$/;"	m
-formatColumn	src/layout.ts	/^      formatColumn(c, t, sep.length), $/;"	m
+formatColumns	src/layout.ts	/^export const formatColumns = ($/;"	v
 formatInfo	src/composer.ts	/^export const formatInfo = (composer?: string[], composerKey?: IComposer | string) => {$/;"	v
 formatInfo	src/play.ts	/^        formatInfo(track).map((i) => o.add(i, ' | ', " \\u2192 ", "detail"));$/;"	m
 formatInfo	src/track.ts	/^export const formatInfo = (t: ITrackHydrated): string[] => [$/;"	v
@@ -216,19 +219,20 @@ func	src/keypress.ts	/^  func: (key: IKey) => any;     \/\/ Return value is igno
 func	src/keypress.ts	/^  func: (key: IKey) => any;$/;"	m
 func	src/play.ts	/^      func: (key: keypress.IKey) =>  {$/;"	m
 func	src/seinn-ceol.ts	/^      func: () => { $/;"	m
-func	src/seinn-ceol.ts	/^      func: () => {$/;"	m
+func	src/seinn-ceol.ts	/^      func: quit,$/;"	m
 func	src/seinn-ceol.ts	/^      func: showDiagnostics,$/;"	m
 func	src/track.ts	/^        func: (k: keypress.IKey) => stopPlaying(),$/;"	m
-getCacheStats	src/composer.ts	/^export const getCacheStats = () => composerFile.getCacheStats();$/;"	v
+getCacheStats	src/composer.ts	/^export const getCacheStats = () => composerFile().getCacheStats();$/;"	v
 getCacheStats	src/config.ts	/^export const getCacheStats = () => configFile?.stats;$/;"	v
-getCacheStats	src/layout.ts	/^export const getCacheStats = () => layoutFile.getCacheStats();$/;"	v
-getCacheStats	src/playlist.ts	/^export const getCacheStats = () => playListFile.getCacheStats();$/;"	v
-getCacheStats	src/track.ts	/^export const getCacheStats = () => trackFile.getCacheStats();$/;"	v
+getCacheStats	src/layout.ts	/^export const getCacheStats = () => layoutFile().getCacheStats();$/;"	v
+getCacheStats	src/playlist.ts	/^export const getCacheStats = () => playListFile().getCacheStats();$/;"	v
+getCacheStats	src/track.ts	/^export const getCacheStats = () => trackFile().getCacheStats();$/;"	v
 getCurrentTrack	src/playlist.ts	/^export const getCurrentTrack = (playlist: IPlayList) => {$/;"	v
 getDefaultPath	src/file-handler.ts	/^  private getDefaultPath() {$/;"	m
 getInfo	src/track.ts	/^export const getInfo = async (track:string) : Promise<ITrackInfo> => {$/;"	v
 getKey	src/config.ts	/^export const getKey = (name: keyof IKeyAssignments) => getKeyAssignments()[name];$/;"	v
 getKeyAssignments	src/config.ts	/^export const getKeyAssignments = (): IKeyAssignments => $/;"	v
+getLayout	src/layout.ts	/^export const getLayout = (layoutName?: string): ILayout | undefined => {$/;"	v
 getPlayer	src/play.ts	/^export const getPlayer = (): IPlayer => {$/;"	v
 getRowsPrinted	src/util.ts	/^export const getRowsPrinted = () => rowsPrinted;$/;"	v
 getSettings	src/config.ts	/^  getSettings().keyAssignments ?? defaultKeyAssignments;$/;"	m
@@ -398,7 +402,9 @@ if	src/playlist.ts	/^      if (!playlist) {$/;"	m
 if	src/playlist.ts	/^      if (afterTrackAction === AfterTrackAction.Pause) {$/;"	m
 if	src/playlist.ts	/^      if (afterTrackAction === AfterTrackAction.Quit) {$/;"	m
 if	src/playlist.ts	/^      if (lastIndex < 0) {$/;"	m
+if	src/playlist.ts	/^      if (playlist) {$/;"	m
 if	src/playlist.ts	/^    if (isPlaying()) {$/;"	m
+if	src/playlist.ts	/^  if (!layOut?.columns) {$/;"	m
 if	src/playlist.ts	/^  if (!originalPlaylist) {$/;"	m
 if	src/playlist.ts	/^  if (!playlist) {$/;"	m
 if	src/playlist.ts	/^  if (!statTrackTurnAround && !nextTrack) {   \/\/ If we already loaded the next track, don't count this one from here.$/;"	m
@@ -419,9 +425,7 @@ if	src/query.ts	/^  if (!tableHandler) {$/;"	m
 if	src/segout.ts	/^      if (sep) {$/;"	m
 if	src/segout.ts	/^    if (this.lastCol > 0 && $/;"	m
 if	src/segout.ts	/^    if (this.lastCol > 0) {$/;"	m
-if	src/seinn-ceol.ts	/^        if (program.opts().diagnostics) {$/;"	m
 if	src/seinn-ceol.ts	/^  if (process.argv.length < 2) {$/;"	m
-if	src/seinn-ceol.ts	/^  if (program.opts().diagnostics) {$/;"	m
 if	src/stats.ts	/^    if (!g) {           \/\/ This should never happen, but the compiler isn't smart enough to see that$/;"	m
 if	src/stats.ts	/^  if (process.stdout.isTTY) {$/;"	m
 if	src/track.ts	/^          if (!noWarn) {$/;"	m
@@ -441,6 +445,7 @@ if	src/util.ts	/^    if (widths[0] - 10 > diff) {$/;"	m
 if	src/util.ts	/^  if (!totalWidth) {$/;"	m
 if	src/util.ts	/^  if (process.env.DEBUG) {$/;"	m
 if	src/util.ts	/^  if (process.stdout.isTTY) {$/;"	m
+if	src/util.ts	/^  if (program.opts().diagnostics) {$/;"	m
 if	src/util.ts	/^  if (result.nums[0]?.startsWith('0')) {$/;"	m
 if	src/util.ts	/^  if (totalWidth > process.stdout.columns) {$/;"	m
 indent	src/stats.ts	/^  indent: number = 0,$/;"	m
@@ -466,6 +471,8 @@ killed	src/players/afplay.ts	/^  killed: boolean;$/;"	m
 killed	src/players/afplay.ts	/^  killed: false,$/;"	m
 lastCol	src/segout.ts	/^  lastCol: number;$/;"	m
 lastPlayed	src/track.ts	/^      lastPlayed: dayjs().toString(),$/;"	m
+layoutFile	src/layout.ts	/^    layoutFile().save([ ...layouts, layout ]);$/;"	m
+layoutFile	src/layout.ts	/^    layoutFile().save(layouts);$/;"	m
 layouts	src/query.ts	/^  layouts: layout,$/;"	m
 limit	src/stats.ts	/^  limit: number[] = [],$/;"	m
 low	src/stats.ts	/^          low: Math.min(acc.low, duration),$/;"	m
@@ -488,6 +495,7 @@ message	src/composer.ts	/^      message: 'Died (blank if still living):',$/;"	m
 message	src/composer.ts	/^      message: 'How does it look?',$/;"	m
 message	src/composer.ts	/^      message: 'Name:', $/;"	m
 message	src/composer.ts	/^      message: name,$/;"	m
+message	src/playlist.ts	/^      message: 'Select track to start',$/;"	m
 message	src/track.ts	/^      message: 'Commit these changes?',$/;"	m
 meta	src/keypress.ts	/^  meta: boolean;$/;"	m
 migrateAllTracks	src/track.ts	/^export const migrateAllTracks = () => {$/;"	v
@@ -534,6 +542,8 @@ name	src/index.test.ts	/^  name: `Alice123`,$/;"	m
 name	src/keypress.ts	/^  name: keyof IKeyAssignments;$/;"	m
 name	src/layout.ts	/^  name: string;           \/\/ Name of this layout$/;"	m
 name	src/play.ts	/^      name: 'info',$/;"	m
+name	src/playlist.ts	/^      name: 'selectedTrack',$/;"	m
+name	src/playlist.ts	/^    name: layout.formatColumns(t, layOut).join(sep).slice(2,max),$/;"	m
 name	src/playlist.ts	/^  name: string;           \/\/ Play list name$/;"	m
 name	src/seinn-ceol.ts	/^      name: 'diagnostics',$/;"	m
 name	src/seinn-ceol.ts	/^      name: 'help',$/;"	m
@@ -640,6 +650,8 @@ play	src/play.ts	/^  play: ($/;"	m
 play	src/play.ts	/^export const play = async (track: ITrackHydrated | string): Promise<void> => { await doPlay(track); }$/;"	v
 play	src/players/afplay.ts	/^export const play = async (track: ITrackHydrated, earlyReturn: number = 0): Promise<boolean> => {$/;"	v
 playList	src/playlist.ts	/^export const playList = async (name: string, options: IPlayListOptions) => {$/;"	v
+playListFile	src/playlist.ts	/^    playListFile().save([ ...playlists, playlist ]);$/;"	m
+playListFile	src/playlist.ts	/^    playListFile().save(playlists);$/;"	m
 playTime	src/stats.ts	/^        playTime: accum.playTime + groupStats.playTime,$/;"	m
 playTime	src/stats.ts	/^    playTime: existing.playTime + (t.playTime ?? 0),$/;"	m
 playTime	src/stats.ts	/^  playTime: 'playTime',$/;"	m
@@ -679,6 +691,9 @@ printLn	src/util.ts	/^    printLn(row.map((col, ndx) => $/;"	m
 printLn	src/util.ts	/^export const printLn = (text: string, theme?: Theming) => {$/;"	v
 query	src/query.ts	/^export const query = ($/;"	v
 quit	src/config.ts	/^  quit: { sequence: 'q' },$/;"	m
+quit	src/playlist.ts	/^      quit();$/;"	m
+quit	src/seinn-ceol.ts	/^  quit();          \/\/ Required because keypress starts readline in raw mode$/;"	m
+quit	src/util.ts	/^export const quit = () => {$/;"	v
 quitAfterTrack	src/config.ts	/^  quitAfterTrack: { sequence: 'Q' },$/;"	m
 regex	src/extractor.ts	/^  regex: (): IParser<IRegexToken> =>$/;"	m
 reject	src/asyncChild.ts	/^        reject(new Error(result.error));$/;"	m
@@ -716,19 +731,19 @@ rewind	src/players/afplay.ts	/^  rewind: false,$/;"	m
 save	src/array-file-handler.ts	/^  public save(data: T[]) {$/;"	m
 save	src/file-handler.ts	/^  public save(data: T) {$/;"	m
 save	src/layout.ts	/^export const save = (layout: ILayout) => {$/;"	v
-save	src/playlist.ts	/^      save({ ...playlist, current: nextTrack!.trackPath });$/;"	m
+save	src/playlist.ts	/^        save({ ...playlist, current: nextTrack!.trackPath });$/;"	m
 save	src/playlist.ts	/^    save({ ...originalPlaylist, current: trackPath });$/;"	m
 save	src/playlist.ts	/^export const save = (playlist: IPlayList) => {$/;"	v
 saveAll	src/track.ts	/^  saveAll(fetchAll().map((t) => migrateTrack(t, composerIndex)));$/;"	m
-saveAll	src/track.ts	/^export const saveAll = (tracks: ITrack[]) => trackFile.save(tracks);$/;"	v
+saveAll	src/track.ts	/^export const saveAll = (tracks: ITrack[]) => trackFile().save(tracks);$/;"	v
 sepLength	src/layout.ts	/^  sepLength: number, $/;"	m
 sepLength	src/layout.ts	/^  sepLength: number,$/;"	m
 sequence	src/keypress.ts	/^  sequence: string;$/;"	m
 setWidth	src/layout.ts	/^      setWidth(c.header ?? '', c.width ?? '', sep.length, c.justification),$/;"	m
 shift	src/keypress.ts	/^  shift: boolean;$/;"	m
-showDiagnostics	src/seinn-ceol.ts	/^          showDiagnostics();$/;"	m
-showDiagnostics	src/seinn-ceol.ts	/^    showDiagnostics();$/;"	m
+short	src/playlist.ts	/^    short: t.title,$/;"	m
 showDiagnostics	src/stats.ts	/^export const showDiagnostics = () => {$/;"	v
+showDiagnostics	src/util.ts	/^    showDiagnostics();$/;"	m
 showStats	src/stats.ts	/^export const showStats = ($/;"	v
 showTimings	src/stats.ts	/^  showTimings();$/;"	m
 showTimings	src/stats.ts	/^export const showTimings = () => {$/;"	v
@@ -790,6 +805,9 @@ track	src/play.ts	/^    track: ITrackHydrated,        \/\/ Track to play$/;"	m
 track	src/play.ts	/^  track: ITrackHydrated | string,         \/\/ Track, or trackpath$/;"	m
 track	src/track.ts	/^      track: tr,$/;"	m
 track	src/track.ts	/^    track: c.track.no || undefined,$/;"	m
+trackFile	src/track.ts	/^      trackFile().save(reduced);$/;"	m
+trackFile	src/track.ts	/^    trackFile().save(tracks);$/;"	m
+trackFile	src/track.ts	/^  trackFile().save(newTracks);$/;"	m
 trackPath	src/track.ts	/^      trackPath: oldTrack.trackPath,$/;"	m
 trackPath	src/track.ts	/^  trackPath: string;$/;"	m
 tracks	src/query.ts	/^  tracks: track,$/;"	m
@@ -834,6 +852,7 @@ type	src/index.test.ts	/^  type: TokenType.NumericLiteral,$/;"	m
 type	src/index.test.ts	/^  type: TokenType.Regex,$/;"	m
 type	src/index.test.ts	/^  type: TokenType.StringLiteral,$/;"	m
 type	src/index.test.ts	/^  type: TokenType.UnaryOperation,$/;"	m
+type	src/playlist.ts	/^      type: 'list',$/;"	m
 type	src/track.ts	/^          type: 'input',$/;"	m
 type	src/track.ts	/^      type: 'confirm',$/;"	m
 type	src/track.ts	/^      type: 'list',$/;"	m
@@ -862,6 +881,7 @@ value	src/index.test.ts	/^  value: -1.23,$/;"	m
 value	src/index.test.ts	/^  value: 1,$/;"	m
 value	src/index.test.ts	/^  value: `fr"ed`,$/;"	m
 value	src/index.test.ts	/^  value: `fr'ed`,$/;"	m
+value	src/playlist.ts	/^    value: t,$/;"	m
 warning	src/composer.ts	/^    warning(`Found ${name} -- skipping`);$/;"	m
 warning	src/layout.ts	/^    warning(`Layout ${name} not found`);$/;"	m
 warning	src/play.ts	/^    warning(`Already playing`);$/;"	m

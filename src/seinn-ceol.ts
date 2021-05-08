@@ -6,7 +6,7 @@ import * as playlist from './playlist';
 import { query } from './query';
 import { showDiagnostics, showStats } from './stats';
 import * as track from './track';
-import { printLn } from './util';
+import { printLn, quit } from './util';
 import { program } from 'commander';
 
 getSettings();      // Make sure we can read config.json, even if we don't need it yet
@@ -27,12 +27,7 @@ keypress.addKeys(
     },
     {
       name: 'quit',
-      func: () => {
-        if (program.opts().diagnostics) {
-          showDiagnostics();
-        }
-        process.exit(0);
-      },
+      func: quit,
       help: 'quit',
     }
   ])
@@ -75,6 +70,7 @@ program
   .command('play-list <name>')
   .option('-s, --shuffle', 'Shuffle tracks')
   .option('-w, --where <filter>', 'Additional filter on playlist')
+  .option('-b, --browse', 'Browse playlist before playing')
   .description('play tracks from a playlist')
   .action(playlist.playList)
   ;
@@ -119,10 +115,7 @@ const main = async () => {
     return program.outputHelp();
   }
   await program.parseAsync(process.argv);
-  if (program.opts().diagnostics) {
-    showDiagnostics();
-  }
-  process.exit(0);          // Required because keypress starts readline in raw mode
+  quit();          // Required because keypress starts readline in raw mode
 }
 
 main();

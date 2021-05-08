@@ -1,8 +1,11 @@
+import { program } from 'commander';
 import * as _ from 'lodash';
 import { applyThemeSetting, getTheme, Theming } from './config';
+import { endTiming, startTiming } from './diagnostics';
 import { extract, parseExtractor } from './extractor';
 import { fixTTY } from './keypress';
-import { endTiming, startTiming } from './diagnostics';
+import { showDiagnostics } from './stats';
+
 const chalk = require('chalk');
 const inquirer = require('inquirer');
 const pluralize = require('pluralize');
@@ -206,3 +209,9 @@ export const sortBy = <T extends ISortable>(items: T[], sortKeys: string[]): T[]
   return result;
 };
 
+export const quit = () => {
+  if (program.opts().diagnostics) {
+    showDiagnostics();
+  }
+  process.exit(0);
+};

@@ -75,9 +75,11 @@ export interface ITrackUpdater extends Partial<ITrack> {
   trackPath: string;
 }
 
-const trackFile = new ArrayFileHandler<ITrack>('tracks.json');
+let theFile: ArrayFileHandler<ITrack> | undefined = undefined;
 
-export const fetchAll = () => trackFile.fetch();
+const trackFile = () => theFile ||= new ArrayFileHandler<ITrack>('tracks.json');
+
+export const fetchAll = () => trackFile().fetch();
 
 export const filter = (where?: string): ITrackHydrated[] => {
   const statFilter = diagnostics.startTiming('Filter tracks');
@@ -94,7 +96,7 @@ export const filter = (where?: string): ITrackHydrated[] => {
   return result;
 };
 
-export const saveAll = (tracks: ITrack[]) => trackFile.save(tracks);
+export const saveAll = (tracks: ITrack[]) => trackFile().save(tracks);
 
 export const add = async (tracks:string[], options: { noError: boolean, noWarn: boolean }) => {
   try {
@@ -283,7 +285,7 @@ const addTracks = async (
       }
     }
   }, Promise.resolve(existing));
-  trackFile.save(newTracks);
+  trackFile().save(newTracks);
   return _.difference(newTracks, existing);
 };
 
@@ -292,7 +294,7 @@ const updateTrack = (updates: ITrackUpdater) => {
   const oldTrack = _.find(tracks, (track) => track.trackPath === updates.trackPath);
   if (oldTrack) {
     _.merge(oldTrack, updates);     // mutates oldTrack, and thus tracks (this is to maintain track order)
-    trackFile.save(tracks);
+    trackFile().save(tracks);
   } else {
     warning(`Track "${updates.trackPath}" not in library -- not updating`);
   }
@@ -472,7 +474,7 @@ export const formatInfo = (t: ITrackHydrated): string[] => [
 ];
 
 export const removeDeleted = async () => {
-  const tracks = trackFile.fetch();
+  const tracks = trackFile().fetch();
   const reduced = tracks.reduce((accum, t) => {
     try {
       fs.statSync(t.trackPath);
@@ -495,7 +497,7 @@ ${e.message}`);
       default: false,
     });
     if (commit) {
-      trackFile.save(reduced);
+      trackFile().save(reduced);
       notification(`Changes saved`);
     } else {
       notification(`Changes discarded`);
@@ -505,4 +507,4 @@ ${e.message}`);
   }
 };
 
-export const getCacheStats = () => trackFile.getCacheStats();
+export const getCacheStats = () => trackFile().getCacheStats();
