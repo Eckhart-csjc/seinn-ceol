@@ -1,5 +1,6 @@
 {
   "player": "afplay",
+  "layout": "composer",
   "theme": {
     "detail": {
       "chalk": [

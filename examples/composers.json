@@ -3446,7 +3446,9 @@
   },
   {
     "name": "Niccolo Paganini",
-    "aliases": [],
+    "aliases": [
+      "Niccolò Paganini"
+    ],
     "born": "10/27/1782",
     "died": "5/27/1840",
     "catalogs": [
@@ -4345,7 +4347,8 @@
   {
     "name": "Josquin Des Prez",
     "aliases": [
-      "Josquin des Prez"
+      "Josquin des Prez",
+      "Traditional, Traditional, Josquin Des Prez & Josquin Des Prez"
     ],
     "born": "1440",
     "died": "8/27/1521"
@@ -6973,5 +6976,41 @@
     "aliases": [],
     "born": "April 23, 1857",
     "died": "August 9, 1919"
+  },
+  {
+    "name": "Arnold von Bruck",
+    "aliases": [],
+    "born": "c 1500?",
+    "died": " February 6, 1554"
+  },
+  {
+    "name": "Brüder Hess",
+    "aliases": [],
+    "born": "c 1500 ?",
+    "died": "c 1550 ?"
+  },
+  {
+    "name": "Ludwig Senfl",
+    "aliases": [],
+    "born": "c 1500 ?",
+    "died": "1543"
+  },
+  {
+    "name": "Paul Hofhaimer",
+    "aliases": [],
+    "born": "January 25, 1459",
+    "died": "1537"
+  },
+  {
+    "name": "Robert Morton",
+    "aliases": [],
+    "born": "1430",
+    "died": "13 March 1479 +"
+  },
+  {
+    "name": "Salomone Rossi",
+    "aliases": [],
+    "born": "August 19, 1570",
+    "died": "1630"
   }
 ]

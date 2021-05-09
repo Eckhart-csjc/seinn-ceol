@@ -10,7 +10,7 @@
       },
       {
         "header": "Composer",
-        "extractor": "composer",
+        "extractor": "composer or composerDetail.name",
         "width": "14%"
       },
       {
