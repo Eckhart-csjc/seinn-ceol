@@ -428,14 +428,12 @@ if	src/segout.ts	/^    if (this.lastCol > 0) {$/;"	m
 if	src/seinn-ceol.ts	/^  if (process.argv.length < 2) {$/;"	m
 if	src/stats.ts	/^    if (!g) {           \/\/ This should never happen, but the compiler isn't smart enough to see that$/;"	m
 if	src/stats.ts	/^  if (process.stdout.isTTY) {$/;"	m
-if	src/track.ts	/^          if (!noWarn) {$/;"	m
 if	src/track.ts	/^        if (!noError) {$/;"	m
-if	src/track.ts	/^        if (dupe) {$/;"	m
 if	src/track.ts	/^      if (!noWarn) {$/;"	m
 if	src/track.ts	/^      if (composerKey && composerKey !== track.composerKey) {$/;"	m
 if	src/track.ts	/^      if (compositionDate && compositionDate !== track.compositionDate) {$/;"	m
 if	src/track.ts	/^      if (e.code === 'ENOENT') {$/;"	m
-if	src/track.ts	/^    if (_.find(accum, (e) => e.trackPath === trackPath)) {$/;"	m
+if	src/track.ts	/^    if (byTrack[trackPath]) {$/;"	m
 if	src/track.ts	/^    if (commit) {$/;"	m
 if	src/track.ts	/^  if (d != t.disk || tr != t.track) {$/;"	m
 if	src/track.ts	/^  if (oldTrack) {$/;"	m
@@ -807,7 +805,7 @@ track	src/track.ts	/^      track: tr,$/;"	m
 track	src/track.ts	/^    track: c.track.no || undefined,$/;"	m
 trackFile	src/track.ts	/^      trackFile().save(reduced);$/;"	m
 trackFile	src/track.ts	/^    trackFile().save(tracks);$/;"	m
-trackFile	src/track.ts	/^  trackFile().save(newTracks);$/;"	m
+trackFile	src/track.ts	/^  trackFile().save(uniqd);$/;"	m
 trackPath	src/track.ts	/^      trackPath: oldTrack.trackPath,$/;"	m
 trackPath	src/track.ts	/^  trackPath: string;$/;"	m
 tracks	src/query.ts	/^  tracks: track,$/;"	m
@@ -889,7 +887,6 @@ warning	src/players/afplay.ts	/^      warning(`Install ffpmeg to enable pause\/r
 warning	src/playlist.ts	/^        warning(`Current track not found in playlist, going to first`);$/;"	m
 warning	src/playlist.ts	/^        warning(`Current track not found in playlist, going to last`);$/;"	m
 warning	src/playlist.ts	/^    warning(`Playlist ${name} empty`);$/;"	m
-warning	src/track.ts	/^            warning(`Track ${trackPath} previously duplicates ${dupe.trackPath} -- skipped`);$/;"	m
 warning	src/track.ts	/^        warning(`Could not stat ${t.trackPath} -- not removing$/;"	m
 warning	src/track.ts	/^        warning(`Track ${trackPath} previously added -- skipped`);$/;"	m
 warning	src/track.ts	/^    warning(`Track "${updates.trackPath}" not in library -- not updating`);$/;"	m

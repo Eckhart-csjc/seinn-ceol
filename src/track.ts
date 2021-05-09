@@ -253,10 +253,11 @@ const addTracks = async (
   noError?: boolean
 ): Promise<ITrack[]> => {
   const existing = fetchAll();
+  const byTrack = existing.reduce((acc, t) => ({ ...acc, [t.trackPath]: t }), {} as Record<string, ITrack>);
   const newTracks = await tracks.reduce<Promise<ITrack[]>>(async (acc, track) => {
     const accum = await acc;
     const trackPath = path.resolve(track.normalize());
-    if (_.find(accum, (e) => e.trackPath === trackPath)) {
+    if (byTrack[trackPath]) {
       if (!noWarn) {
         warning(`Track ${trackPath} previously added -- skipped`);
       }
@@ -264,19 +265,11 @@ const addTracks = async (
     } else {
       try {
         const t = await makeTrack(trackPath, undefined);
-        const nopath = _.omit(t, ["trackPath", "plays", "lastPlayed"]);
-        const dupe = _.find(accum, (a) => _.isEqual(_.omit(a, ["trackPath", "plays", "lastPlayed"]), nopath));
-        if (dupe) {
-          if (!noWarn) {
-            warning(`Track ${trackPath} previously duplicates ${dupe.trackPath} -- skipped`);
-          }
-          return accum;
-        } else {
-          return [
-            ...accum,
-            t,
-          ];
-        }
+        byTrack[trackPath] = t;
+        return [
+          ...accum,
+          t,
+        ];
       } catch (e) {
         if (!noError) {
           error(`Track ${trackPath} is not an audio file we can use`);
@@ -285,8 +278,9 @@ const addTracks = async (
       }
     }
   }, Promise.resolve(existing));
-  trackFile().save(newTracks);
-  return _.difference(newTracks, existing);
+  const uniqd = _.uniqBy(newTracks, (t) => `${t.title}${t.album}|${t.composerKey}`);
+  trackFile().save(uniqd);
+  return _.difference(uniqd, existing);
 };
 
 const updateTrack = (updates: ITrackUpdater) => {
