@@ -227,7 +227,7 @@ getCacheStats	src/config.ts	/^export const getCacheStats = () => configFile?.sta
 getCacheStats	src/layout.ts	/^export const getCacheStats = () => layoutFile().getCacheStats();$/;"	v
 getCacheStats	src/playlist.ts	/^export const getCacheStats = () => playListFile().getCacheStats();$/;"	v
 getCacheStats	src/track.ts	/^export const getCacheStats = () => trackFile().getCacheStats();$/;"	v
-getCurrentTrack	src/playlist.ts	/^export const getCurrentTrack = (playlist: IPlayList) => {$/;"	v
+getCurrentTrack	src/playlist.ts	/^export const getCurrentTrack = (playlist: IPlayList, options: IPlayListOptions) => {$/;"	v
 getDefaultPath	src/file-handler.ts	/^  private getDefaultPath() {$/;"	m
 getInfo	src/track.ts	/^export const getInfo = async (track:string) : Promise<ITrackInfo> => {$/;"	v
 getKey	src/config.ts	/^export const getKey = (name: keyof IKeyAssignments) => getKeyAssignments()[name];$/;"	v
@@ -402,8 +402,10 @@ if	src/playlist.ts	/^      if (!playlist) {$/;"	m
 if	src/playlist.ts	/^      if (afterTrackAction === AfterTrackAction.Pause) {$/;"	m
 if	src/playlist.ts	/^      if (afterTrackAction === AfterTrackAction.Quit) {$/;"	m
 if	src/playlist.ts	/^      if (lastIndex < 0) {$/;"	m
+if	src/playlist.ts	/^      if (nextTrack) {$/;"	m
 if	src/playlist.ts	/^      if (playlist) {$/;"	m
 if	src/playlist.ts	/^    if (isPlaying()) {$/;"	m
+if	src/playlist.ts	/^    if (parser) {$/;"	m
 if	src/playlist.ts	/^  if (!layOut?.columns) {$/;"	m
 if	src/playlist.ts	/^  if (!originalPlaylist) {$/;"	m
 if	src/playlist.ts	/^  if (!playlist) {$/;"	m
@@ -416,6 +418,7 @@ if	src/playlist.ts	/^  if (afterTrackAction !== AfterTrackAction.Quit) {$/;"	m
 if	src/playlist.ts	/^  if (existing) {$/;"	m
 if	src/playlist.ts	/^  if (isPlaying()) {$/;"	m
 if	src/playlist.ts	/^  if (lastHeaderRow === 0 || (getRowsPrinted() - lastHeaderRow) >= (process.stdout.rows-3)) {$/;"	m
+if	src/playlist.ts	/^  if (options.next) {$/;"	m
 if	src/playlist.ts	/^  if (originalPlaylist) {$/;"	m
 if	src/playlist.ts	/^  if (shuffleMode && !nextTrack) {$/;"	m
 if	src/playlist.ts	/^  if (shuffleMode) {$/;"	m
@@ -884,6 +887,7 @@ warning	src/composer.ts	/^    warning(`Found ${name} -- skipping`);$/;"	m
 warning	src/layout.ts	/^    warning(`Layout ${name} not found`);$/;"	m
 warning	src/play.ts	/^    warning(`Already playing`);$/;"	m
 warning	src/players/afplay.ts	/^      warning(`Install ffpmeg to enable pause\/resume for this player`);$/;"	m
+warning	src/playlist.ts	/^        warning(`Could not find any track matching: ${options.next}`);$/;"	m
 warning	src/playlist.ts	/^        warning(`Current track not found in playlist, going to first`);$/;"	m
 warning	src/playlist.ts	/^        warning(`Current track not found in playlist, going to last`);$/;"	m
 warning	src/playlist.ts	/^    warning(`Playlist ${name} empty`);$/;"	m

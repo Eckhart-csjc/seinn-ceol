@@ -32,6 +32,7 @@ export interface IPlayList {
 
 interface IPlayListOptions {
   browse?: boolean;
+  next?: string;
   shuffle?: boolean;
   where?: string;
 }
@@ -225,9 +226,23 @@ export const playList = async (name: string, options: IPlayListOptions) => {
   return options.browse ? browse(name, options) : doPlayList(name, options, 0);
 };
 
-export const getCurrentTrack = (playlist: IPlayList) => {
+export const getCurrentTrack = (playlist: IPlayList, options: IPlayListOptions) => {
   const sorted = track.sort(playlist.orderBy, playlist.where);
-  return playlist.current ? (_.find(sorted, (t) => t.trackPath === playlist.current) ?? sorted[0]) :  sorted[0];
+  const current =  playlist.current ? (_.find(sorted, (t) => t.trackPath === playlist.current) ?? sorted[0]) :  sorted[0];
+  if (options.next) {
+    const parser = parseExtractor(options.next);
+    if (parser) {
+      const nextTrack = 
+        _.find(sorted, (t) => !!extract({ current, ...t}, parser), current.index) ??      // Start with current
+        _.find(sorted, (t) => !!extract({ current, ...t}, parser));                      // then wrap around
+      if (nextTrack) {
+        return nextTrack;
+      } else {
+        warning(`Could not find any track matching: ${options.next}`);
+      }
+    }
+  }
+  return current;
 };
 
 const getPlaylist = (name: string, options: IPlayListOptions) => {
@@ -253,7 +268,7 @@ const browse = async (name: string, options: IPlayListOptions, nextTrack?: track
     return;
   }
 
-  const theTrack = nextTrack ?? getCurrentTrack(playlist);
+  const theTrack = nextTrack ?? getCurrentTrack(playlist, options);
   if (!theTrack) {
     warning(`Playlist ${name} empty`);
     return;
@@ -304,7 +319,7 @@ const doPlayList = async (name: string, options: IPlayListOptions, plays: number
     return afterTrack(name, options, plays);
   }
 
-  const theTrack = nextTrack ?? getCurrentTrack(playlist);
+  const theTrack = nextTrack ?? getCurrentTrack(playlist, options);
   if (!theTrack) {
     warning(`Playlist ${name} empty`);
     return;
