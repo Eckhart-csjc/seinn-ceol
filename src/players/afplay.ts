@@ -123,7 +123,7 @@ const doPlay = async (track:ITrackHydrated, earlyReturn: number = 0, offset: num
   if (startOffset) {
     await execPromise(`rm -f ${TMP_TRACKPATH}`)
     await execPromise(
-      `ffmpeg -ss ${startOffset} -i "${track.trackPath.replaceAll(`"`, `\\"`)}" -c copy ${TMP_TRACKPATH}`
+      `ffmpeg -ss ${startOffset} -i "${track.trackPath.replace(/"/g, `\\"`)}" -c copy ${TMP_TRACKPATH}`
     );
   }
   const startPlay = Date.now();

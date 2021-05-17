@@ -107,7 +107,7 @@ const applyChalks = (chalks: string[], text: string) => {
     return text;
   }
   const chalkString = chalks.reverse().reduce(
-    (accum, c) => `{${c} ${accum}}`, text.replaceAll('}', '\\}')
+    (accum, c) => `{${c} ${accum}}`, text.replace(/}/g, '\\}')
   );
   return eval('chalk`' + chalkString + '`');
 }
