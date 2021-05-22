@@ -60,7 +60,7 @@ UnaryArrayFunc	src/extractor.ts	/^type UnaryArrayFunc = (context: object, op1: u
 UnaryOpFunc	src/extractor.ts	/^type UnaryOpFunc = (context: object, op1: unknown) => unknown;$/;"	t
 add	src/composer.ts	/^export const add = (composer: IComposer): boolean => {$/;"	v
 add	src/segout.ts	/^  public add($/;"	m
-add	src/track.ts	/^  add(gatherFiles(path.resolve(directory)), options);$/;"	m
+add	src/track.ts	/^  add(gatherFiles(normalizePath(directory)), options);$/;"	m
 add	src/track.ts	/^export const add = async (tracks:string[], options: { noError: boolean, noWarn: boolean }) => {$/;"	v
 addAll	src/track.ts	/^export const addAll = async (directory: string, options: { noError: boolean, noWarn: boolean }) => $/;"	v
 addKey	src/keypress.ts	/^export const addKey = (keyMapping: IKeyMapping) => {$/;"	v
@@ -79,6 +79,7 @@ args	src/asyncChild.ts	/^  args: string[],$/;"	m
 arry	src/index.test.ts	/^  arry: ['wilma', 'pebbles', 'fred', 'barney'],$/;"	m
 ask	src/util.ts	/^export const ask = async (questions: any): Promise<any> => {$/;"	v
 askAnswered	src/composer.ts	/^      askAnswered: true,$/;"	m
+askAnswered	src/playlist.ts	/^        askAnswered: true,$/;"	m
 beginPause	src/players/afplay.ts	/^  beginPause: 0,$/;"	m
 beginPause	src/players/afplay.ts	/^  beginPause: number;   \/\/ Epoch (ms) of the beginning of any current pause (0 if not paused)$/;"	m
 binaryOperator	src/extractor.ts	/^  binaryOperator: (): IParser<IBinaryOperatorToken> =>$/;"	m
@@ -86,6 +87,7 @@ born	src/composer.ts	/^    born: responses.born,$/;"	m
 born	src/composer.ts	/^  born: string | number;       \/\/ Valid dayjs input$/;"	m
 bumpPlays	src/play.ts	/^    bumpPlays(track.trackPath);$/;"	m
 bumpPlays	src/track.ts	/^export const bumpPlays = (trackPath: string) => {$/;"	v
+bumpRowsPrinted	src/util.ts	/^    bumpRowsPrinted();$/;"	m
 bumpRowsPrinted	src/util.ts	/^  bumpRowsPrinted();      \/\/ Potentially innacurate, but as good as we can guess$/;"	m
 bumpRowsPrinted	src/util.ts	/^  bumpRowsPrinted();$/;"	m
 bumpRowsPrinted	src/util.ts	/^export const bumpRowsPrinted = (nLines: number = 1) => rowsPrinted += nLines;$/;"	v
@@ -127,6 +129,7 @@ default	src/composer.ts	/^      default: known.born,$/;"	m
 default	src/composer.ts	/^      default: known.died,$/;"	m
 default	src/composer.ts	/^      default: known.name, $/;"	m
 default	src/composer.ts	/^    default: {$/;"	m
+default	src/playlist.ts	/^        default: findString || '', $/;"	m
 default	src/playlist.ts	/^      default: defndx,$/;"	m
 default	src/track.ts	/^          default: track.composerKey,$/;"	m
 default	src/track.ts	/^          default: track.compositionDate,$/;"	m
@@ -141,6 +144,7 @@ displayHeaders	src/layout.ts	/^export const displayHeaders = (layoutName?: strin
 distance	src/composer.ts	/^  distance: getBestDistance(name, composer),$/;"	m
 doBinaryArrayOperation	src/extractor.ts	/^    doBinaryArrayOperation(context, operands, (context, op1, op2) =>$/;"	m
 doBinaryOperation	src/extractor.ts	/^    doBinaryOperation(context, operands, (context, op1, op2) => $/;"	m
+doFindNext	src/playlist.ts	/^        doFindNext(key);$/;"	m
 doPause	src/players/afplay.ts	/^function doPause(key: IKey) {$/;"	f
 doPlay	src/play.ts	/^export const doPlay = async ($/;"	v
 doQuit	src/players/afplay.ts	/^function doQuit(key: IKey) {$/;"	f
@@ -166,6 +170,7 @@ error	src/extractor.ts	/^    error(input);$/;"	m
 error	src/file-handler.ts	/^          error(`Error reading and parsing file ${this.filename}: ${e.message}`);$/;"	m
 error	src/players/afplay.ts	/^    error(`Error playing track ${track.trackPath}: ${e.message}`);$/;"	m
 error	src/playlist.ts	/^    error(`Could not find playlist "${name}"`);$/;"	m
+error	src/playlist.ts	/^    error(`Could not update current track in playlist ${name} -- playlist not found`);$/;"	m
 error	src/query.ts	/^    error(`Unknown table: ${table}`);$/;"	m
 error	src/track.ts	/^          error(`Track ${trackPath} is not an audio file we can use`);$/;"	m
 error	src/track.ts	/^    error(`Could not read directory ${dir}: ${e.message}`);$/;"	m
@@ -200,6 +205,9 @@ filter	src/track.ts	/^export const filter = (where?: string): ITrackHydrated[] =
 find	src/composer.ts	/^export const find = (name: string, composers?: IComposer[]) => indexComposers(composers)[name];$/;"	v
 find	src/layout.ts	/^export const find = (name: string, layouts?: ILayout[]) => $/;"	v
 find	src/playlist.ts	/^export const find = (name: string, playlists?: IPlayList[]) => _.find(playlists ?? fetchAll(), (pl) => pl.name === name);$/;"	v
+findBackward	src/config.ts	/^  findBackward: { sequence: '?' },$/;"	m
+findForward	src/config.ts	/^  findForward: { sequence: '\/' },$/;"	m
+findNext	src/config.ts	/^  findNext: { sequence: 'n' },$/;"	m
 findTrack	src/track.ts	/^export const findTrack = (trackPath: string) => {$/;"	v
 fixTTY	src/keypress.ts	/^  fixTTY();$/;"	m
 fixTTY	src/keypress.ts	/^export const fixTTY = () => {$/;"	v
@@ -393,6 +401,7 @@ if	src/play.ts	/^  if (played) {$/;"	m
 if	src/play.ts	/^  if (typeof track === 'string') {$/;"	m
 if	src/players/afplay.ts	/^        if (!playState.killed) {    \/\/ If not killed, assume resume$/;"	m
 if	src/players/afplay.ts	/^        if (playState.beginPause) {$/;"	m
+if	src/players/afplay.ts	/^      if (inAsk) {$/;"	m
 if	src/players/afplay.ts	/^    if (playState.rewind) {$/;"	m
 if	src/players/afplay.ts	/^  if (!playState.beginPause) {$/;"	m
 if	src/players/afplay.ts	/^  if (memoizedCanPause === undefined) {$/;"	m
@@ -401,17 +410,20 @@ if	src/players/afplay.ts	/^  if (startOffset) {$/;"	m
 if	src/playlist.ts	/^      if (!playlist) {$/;"	m
 if	src/playlist.ts	/^      if (afterTrackAction === AfterTrackAction.Pause) {$/;"	m
 if	src/playlist.ts	/^      if (afterTrackAction === AfterTrackAction.Quit) {$/;"	m
-if	src/playlist.ts	/^      if (lastIndex < 0) {$/;"	m
+if	src/playlist.ts	/^      if (found) {$/;"	m
 if	src/playlist.ts	/^      if (nextTrack) {$/;"	m
 if	src/playlist.ts	/^      if (playlist) {$/;"	m
+if	src/playlist.ts	/^      if (target) {$/;"	m
+if	src/playlist.ts	/^    if (findParser) {$/;"	m
 if	src/playlist.ts	/^    if (isPlaying()) {$/;"	m
 if	src/playlist.ts	/^    if (parser) {$/;"	m
+if	src/playlist.ts	/^    if (response.findString) {$/;"	m
 if	src/playlist.ts	/^  if (!layOut?.columns) {$/;"	m
 if	src/playlist.ts	/^  if (!originalPlaylist) {$/;"	m
 if	src/playlist.ts	/^  if (!playlist) {$/;"	m
 if	src/playlist.ts	/^  if (!statTrackTurnAround && !nextTrack) {   \/\/ If we already loaded the next track, don't count this one from here.$/;"	m
+if	src/playlist.ts	/^  if (!suppressColumns) {$/;"	m
 if	src/playlist.ts	/^  if (!theTrack) {$/;"	m
-if	src/playlist.ts	/^  if (!wasStopped) {$/;"	m
 if	src/playlist.ts	/^  if ([AfterTrackAction.Pause, AfterTrackAction.Quit].includes(afterTrackAction)) {$/;"	m
 if	src/playlist.ts	/^  if (afterTrackAction !== AfterTrackAction.Pause) {$/;"	m
 if	src/playlist.ts	/^  if (afterTrackAction !== AfterTrackAction.Quit) {$/;"	m
@@ -438,17 +450,22 @@ if	src/track.ts	/^      if (compositionDate && compositionDate !== track.composi
 if	src/track.ts	/^      if (e.code === 'ENOENT') {$/;"	m
 if	src/track.ts	/^    if (byTrack[trackPath]) {$/;"	m
 if	src/track.ts	/^    if (commit) {$/;"	m
+if	src/track.ts	/^    if (process.stdout.isTTY) {$/;"	m
 if	src/track.ts	/^  if (d != t.disk || tr != t.track) {$/;"	m
 if	src/track.ts	/^  if (oldTrack) {$/;"	m
+if	src/track.ts	/^  if (process.stdout.isTTY) {$/;"	m
 if	src/track.ts	/^  if (reduced.length < tracks.length) {$/;"	m
 if	src/track.ts	/^  if (where && !token) {$/;"	m
 if	src/util.ts	/^    if (widths[0] - 10 > diff) {$/;"	m
+if	src/util.ts	/^  if (!inAsk) {$/;"	m
 if	src/util.ts	/^  if (!totalWidth) {$/;"	m
+if	src/util.ts	/^  if (inAsk) {$/;"	m
 if	src/util.ts	/^  if (process.env.DEBUG) {$/;"	m
 if	src/util.ts	/^  if (process.stdout.isTTY) {$/;"	m
 if	src/util.ts	/^  if (program.opts().diagnostics) {$/;"	m
 if	src/util.ts	/^  if (result.nums[0]?.startsWith('0')) {$/;"	m
 if	src/util.ts	/^  if (totalWidth > process.stdout.columns) {$/;"	m
+inAsk	src/util.ts	/^export let inAsk: boolean = false;$/;"	v
 indent	src/stats.ts	/^  indent: number = 0,$/;"	m
 index	src/diagnostics.ts	/^  index: number;$/;"	m
 index	src/track.ts	/^  index: number;                \/\/ Index of symbol in composerDetail.catalogs$/;"	m
@@ -496,6 +513,7 @@ message	src/composer.ts	/^      message: 'Died (blank if still living):',$/;"	m
 message	src/composer.ts	/^      message: 'How does it look?',$/;"	m
 message	src/composer.ts	/^      message: 'Name:', $/;"	m
 message	src/composer.ts	/^      message: name,$/;"	m
+message	src/playlist.ts	/^        message: `Find ${backward ? '\\u2191' : '\\u2193'}`, $/;"	m
 message	src/playlist.ts	/^      message: 'Select track to start',$/;"	m
 message	src/track.ts	/^      message: 'Commit these changes?',$/;"	m
 meta	src/keypress.ts	/^  meta: boolean;$/;"	m
@@ -543,6 +561,7 @@ name	src/index.test.ts	/^  name: `Alice123`,$/;"	m
 name	src/keypress.ts	/^  name: keyof IKeyAssignments;$/;"	m
 name	src/layout.ts	/^  name: string;           \/\/ Name of this layout$/;"	m
 name	src/play.ts	/^      name: 'info',$/;"	m
+name	src/playlist.ts	/^        name: 'findString', $/;"	m
 name	src/playlist.ts	/^      name: 'selectedTrack',$/;"	m
 name	src/playlist.ts	/^    name: layout.formatColumns(t, layOut).join(sep).slice(2,max),$/;"	m
 name	src/playlist.ts	/^  name: string;           \/\/ Play list name$/;"	m
@@ -560,6 +579,7 @@ nextTrack	src/config.ts	/^  nextTrack: { sequence: 'j' },$/;"	m
 nl	src/segout.ts	/^  public nl() {$/;"	m
 no	src/track.ts	/^    no: parseNo(trackInfo.title),$/;"	m
 no	src/track.ts	/^    no: t.no ?? parseNo(t.title),$/;"	m
+normalizePath	src/util.ts	/^export const normalizePath = (filename: string) => path.resolve(filename.normalize().replace(\/^\\~\/, os.homedir()));$/;"	v
 not	src/index.test.ts	/^  not: 'nope',$/;"	m
 note	src/index.test.ts	/^  note: 'hello',$/;"	m
 notification	src/composer.ts	/^      notification(tracks.map((t) => _.pick(t, ['title', 'album', 'artists'])));$/;"	m
@@ -677,6 +697,7 @@ print	src/playlist.ts	/^      print(padOrTruncate(' Paused', process.stdout.colu
 print	src/segout.ts	/^        print(sep, sepTheme);$/;"	m
 print	src/segout.ts	/^      print(prefix, prefixTheme);$/;"	m
 print	src/segout.ts	/^    print(text, theme);$/;"	m
+print	src/track.ts	/^      print(makeProgressBar(process.stdout.columns, pct, `Processed ${ndx} of ${pluralize('file', tracks.length, true)} (${Math.floor(pct * 100)}%)`));$/;"	m
 print	src/util.ts	/^export const print = (text: string, theme?: Theming) =>$/;"	v
 printColumns	src/stats.ts	/^  printColumns([$/;"	m
 printColumns	src/stats.ts	/^  printColumns(rows, ['left', 'right', 'right', 'right', 'right'], true, 1);$/;"	m
@@ -732,14 +753,16 @@ rewind	src/players/afplay.ts	/^  rewind: false,$/;"	m
 save	src/array-file-handler.ts	/^  public save(data: T[]) {$/;"	m
 save	src/file-handler.ts	/^  public save(data: T) {$/;"	m
 save	src/layout.ts	/^export const save = (layout: ILayout) => {$/;"	v
-save	src/playlist.ts	/^        save({ ...playlist, current: nextTrack!.trackPath });$/;"	m
-save	src/playlist.ts	/^    save({ ...originalPlaylist, current: trackPath });$/;"	m
 save	src/playlist.ts	/^export const save = (playlist: IPlayList) => {$/;"	v
 saveAll	src/track.ts	/^  saveAll(fetchAll().map((t) => migrateTrack(t, composerIndex)));$/;"	m
 saveAll	src/track.ts	/^export const saveAll = (tracks: ITrack[]) => trackFile().save(tracks);$/;"	v
 sepLength	src/layout.ts	/^  sepLength: number, $/;"	m
 sepLength	src/layout.ts	/^  sepLength: number,$/;"	m
 sequence	src/keypress.ts	/^  sequence: string;$/;"	m
+setCurrent	src/playlist.ts	/^        setCurrent(name, found.trackPath);$/;"	m
+setCurrent	src/playlist.ts	/^        setCurrent(name, nextTrack!.trackPath);$/;"	m
+setCurrent	src/playlist.ts	/^    setCurrent(name, trackPath);$/;"	m
+setCurrent	src/playlist.ts	/^export const setCurrent = (name: string, current: string) => {$/;"	v
 setWidth	src/layout.ts	/^      setWidth(c.header ?? '', c.width ?? '', sep.length, c.justification),$/;"	m
 shift	src/keypress.ts	/^  shift: boolean;$/;"	m
 short	src/playlist.ts	/^    short: t.title,$/;"	m
@@ -762,6 +785,7 @@ stop	src/config.ts	/^  stop: { sequence: 's' },$/;"	m
 stop	src/play.ts	/^  stop: () => Promise<boolean>;   \/\/ true == stopped$/;"	m
 stop	src/players/afplay.ts	/^export const stop = async () => {$/;"	v
 stopPlaying	src/play.ts	/^export const stopPlaying = async () => playState.isPlaying ? await getPlayer().stop() : true;$/;"	v
+stopPlaying	src/playlist.ts	/^        stopPlaying();$/;"	m
 stopPlaying	src/playlist.ts	/^    stopPlaying();$/;"	m
 stopPlaying	src/playlist.ts	/^  stopPlaying();$/;"	m
 stores	src/composer.ts	/^  stores: 0,$/;"	m
@@ -853,6 +877,7 @@ type	src/index.test.ts	/^  type: TokenType.NumericLiteral,$/;"	m
 type	src/index.test.ts	/^  type: TokenType.Regex,$/;"	m
 type	src/index.test.ts	/^  type: TokenType.StringLiteral,$/;"	m
 type	src/index.test.ts	/^  type: TokenType.UnaryOperation,$/;"	m
+type	src/playlist.ts	/^        type: 'input', $/;"	m
 type	src/playlist.ts	/^      type: 'list',$/;"	m
 type	src/track.ts	/^          type: 'input',$/;"	m
 type	src/track.ts	/^      type: 'confirm',$/;"	m
@@ -887,9 +912,9 @@ warning	src/composer.ts	/^    warning(`Found ${name} -- skipping`);$/;"	m
 warning	src/layout.ts	/^    warning(`Layout ${name} not found`);$/;"	m
 warning	src/play.ts	/^    warning(`Already playing`);$/;"	m
 warning	src/players/afplay.ts	/^      warning(`Install ffpmeg to enable pause\/resume for this player`);$/;"	m
+warning	src/playlist.ts	/^        warning(`Could not find ${findString}`);$/;"	m
 warning	src/playlist.ts	/^        warning(`Could not find any track matching: ${options.next}`);$/;"	m
-warning	src/playlist.ts	/^        warning(`Current track not found in playlist, going to first`);$/;"	m
-warning	src/playlist.ts	/^        warning(`Current track not found in playlist, going to last`);$/;"	m
+warning	src/playlist.ts	/^      warning(`No previous find target`);$/;"	m
 warning	src/playlist.ts	/^    warning(`Playlist ${name} empty`);$/;"	m
 warning	src/track.ts	/^        warning(`Could not stat ${t.trackPath} -- not removing$/;"	m
 warning	src/track.ts	/^        warning(`Track ${trackPath} previously added -- skipped`);$/;"	m

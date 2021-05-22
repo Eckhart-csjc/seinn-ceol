@@ -5,6 +5,7 @@ import { ITrackHydrated } from '../track';
 import { 
   addProgressSuffix,
   error, 
+  inAsk,
   makeProgressBar, 
   makeTime, 
   print, 
@@ -135,6 +136,9 @@ const doPlay = async (track:ITrackHydrated, earlyReturn: number = 0, offset: num
     `/usr/bin/afplay`, 
     [`-q`,`1`, startOffset ? TMP_TRACKPATH : track.trackPath], 
     (elapsed: number) => {
+      if (inAsk) {
+        return;
+      }
       const netElapsed = elapsed + offset - playState.paused;
       const pct = netElapsed / total;
       print(' ');

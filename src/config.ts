@@ -25,6 +25,9 @@ export interface ITheme {
 
 export interface IKeyAssignments {
   diagnostics?: Partial<IKey>;
+  findBackward?: Partial<IKey>;
+  findForward?: Partial<IKey>;
+  findNext?: Partial<IKey>;
   help?: Partial<IKey>;
   info?: Partial<IKey>;
   nextTrack?: Partial<IKey>;
@@ -41,6 +44,9 @@ export interface IKeyAssignments {
 
 const defaultKeyAssignments: IKeyAssignments = {
   diagnostics: { sequence: 'D' },
+  findBackward: { sequence: '?' },
+  findForward: { sequence: '/' },
+  findNext: { sequence: 'n' },
   help: { sequence: 'h' },
   info: { sequence: 'i' },
   nextTrack: { sequence: 'j' },

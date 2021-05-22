@@ -2,7 +2,7 @@ import * as fs from 'fs';
 import * as os from 'os';
 import * as path from 'path';
 import { ICacheStats } from './diagnostics';
-import { error } from './util';
+import { error, normalizePath } from './util';
 
 export class FileHandler<T> {
 
@@ -57,7 +57,7 @@ export class FileHandler<T> {
   };
 
   private getDefaultPath() {
-    const folderPath = path.resolve(os.homedir(), './.seinn-ceol');
+    const folderPath = normalizePath('~/.seinn-ceol');
     if (!fs.existsSync(folderPath)) {
       fs.mkdirSync(folderPath, { recursive: true, mode: 0o744 });
     }
@@ -65,6 +65,6 @@ export class FileHandler<T> {
   }
 
   private makeFilename(basename: string, pathOverride?: string) {
-    return path.resolve(path.join(pathOverride ?? this.getDefaultPath(), basename));
+    return normalizePath(path.join(pathOverride ?? this.getDefaultPath(), basename));
   }
 }

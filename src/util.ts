@@ -1,5 +1,7 @@
 import { program } from 'commander';
 import * as _ from 'lodash';
+import * as os from 'os';
+import * as path from 'path';
 import { applyThemeSetting, getTheme, Theming } from './config';
 import { endTiming, startTiming } from './diagnostics';
 import { extract, parseExtractor } from './extractor';
@@ -17,29 +19,41 @@ export interface ISortable {
 
 let rowsPrinted: number = 0;
 let barSuffix: string = '';
+export let inAsk: boolean = false;
 
 export const getRowsPrinted = () => rowsPrinted;
 export const bumpRowsPrinted = (nLines: number = 1) => rowsPrinted += nLines;
 
 export const print = (text: string, theme?: Theming) =>
-  process.stdout.write(applyThemeSetting(text, theme));
+  !inAsk && process.stdout.write(applyThemeSetting(text, theme));
 
 export const printLn = (text: string, theme?: Theming) => {
-  console.log(applyThemeSetting(text, theme));
-  bumpRowsPrinted();
+  if (!inAsk) {
+    console.log(applyThemeSetting(text, theme));
+    bumpRowsPrinted();
+  }
 }
 
 export const error = (...args: any[]) => {
+  if (process.stdout.isTTY) {
+    process.stdout.clearLine(0);
+  }
   console.error(...args.map((a: any) => 
     (typeof a === 'string') ? applyThemeSetting(a, 'error') : a));
   bumpRowsPrinted();      // Potentially innacurate, but as good as we can guess
 }
 export const warning = (...args: any) => {
+  if (process.stdout.isTTY) {
+    process.stdout.clearLine(0);
+  }
   console.warn(...args.map((a: any) => 
     (typeof a === 'string') ? applyThemeSetting(a, 'warning') : a));
   bumpRowsPrinted();
 }
 export const notification = (...args: any) => {
+  if (inAsk) {
+    return;
+  }
   if (process.stdout.isTTY) {
     process.stdout.clearLine(0);
   }
@@ -60,6 +74,9 @@ export const printColumns = (
   greenBar?: boolean,
   nmHeaderLines?: number
 ) => {
+  if (inAsk) {
+    return;
+  }
   const widths = output.reduce((accum: number[], row) =>
     row.reduce((acc: number[], col, ndx) => {
       acc[ndx] = Math.max(acc[ndx] ?? 0, col.length + 1);
@@ -99,8 +116,14 @@ export const printColumns = (
 }
 
 export const ask = async (questions: any): Promise<any> => {
+  inAsk = true;
+  if (process.stdout.isTTY) {
+    process.stdout.cursorTo(0);
+    process.stdout.clearLine(0);
+  }
   const response = await inquirer.prompt(questions);
   fixTTY();
+  inAsk = false;
   return response;
 }
 
@@ -215,3 +238,5 @@ export const quit = () => {
   }
   process.exit(0);
 };
+
+export const normalizePath = (filename: string) => path.resolve(filename.normalize().replace(/^\~/, os.homedir()));

@@ -12,8 +12,11 @@ import {
   addProgressSuffix, 
   ask, 
   error, 
+  makeProgressBar,
   makeTime, 
+  normalizePath,
   notification, 
+  print,
   printColumns,
   printLn, 
   removeProgressSuffix, 
@@ -113,24 +116,24 @@ export const add = async (tracks:string[], options: { noError: boolean, noWarn: 
   }
 };
 
-const gatherFiles = (dir: string, incoming: string[] = []): string[] => {
+const gatherFiles = (dir: string): string[] => {
   try {
     const entries = fs.readdirSync(dir);
-    return entries.reduce((accum, file) => {
+    return entries.reduce((accum, file, ndx) => {
       const fullName = path.resolve(dir, file);
       const stat = fs.statSync(fullName);
       return stat.isDirectory() ?
         [ ...accum, ...gatherFiles(fullName) ] :
         (stat.isFile() ? [ ...accum, fullName ] : accum);
-    }, incoming);
+    }, [] as string[]);
   } catch (e) {
     error(`Could not read directory ${dir}: ${e.message}`);
-    return incoming;
+    return [];
   }
 }
 
 export const addAll = async (directory: string, options: { noError: boolean, noWarn: boolean }) => 
-  add(gatherFiles(path.resolve(directory)), options);
+  add(gatherFiles(normalizePath(directory)), options);
 
 export const info = async (track:string) => {
   try {
@@ -243,7 +246,7 @@ export const migrateAllTracks = () => {
 };
 
 export const findTrack = (trackPath: string) => {
-  const tp = path.resolve(trackPath);
+  const tp = normalizePath(trackPath);
   return _.find(fetchAll(), (track) => track.trackPath === tp);
 };
 
@@ -253,10 +256,15 @@ const addTracks = async (
   noError?: boolean
 ): Promise<ITrack[]> => {
   const existing = fetchAll();
-  const byTrack = existing.reduce((acc, t) => ({ ...acc, [t.trackPath]: t }), {} as Record<string, ITrack>);
-  const newTracks = await tracks.reduce<Promise<ITrack[]>>(async (acc, track) => {
+  const byTrack = existing.reduce((acc, t) => { acc[t.trackPath] = t; return acc; }, {} as Record<string, ITrack>);
+  const newTracks = await tracks.reduce<Promise<ITrack[]>>(async (acc, track, ndx) => {
     const accum = await acc;
-    const trackPath = path.resolve(track.normalize());
+    if (process.stdout.isTTY) {
+      const pct = ndx / (tracks.length || 1);
+      print(makeProgressBar(process.stdout.columns, pct, `Processed ${ndx} of ${pluralize('file', tracks.length, true)} (${Math.floor(pct * 100)}%)`));
+      process.stdout.cursorTo(0);
+    }
+    const trackPath = normalizePath(track);
     if (byTrack[trackPath]) {
       if (!noWarn) {
         warning(`Track ${trackPath} previously added -- skipped`);
@@ -278,6 +286,9 @@ const addTracks = async (
       }
     }
   }, Promise.resolve(existing));
+  if (process.stdout.isTTY) {
+    process.stdout.clearLine(0);
+  }
   const uniqd = _.uniqBy(newTracks, (t) => `${t.title}|${t.album}|${t.composer?.join('|')}`);
   trackFile().save(uniqd);
   return _.difference(uniqd, existing);

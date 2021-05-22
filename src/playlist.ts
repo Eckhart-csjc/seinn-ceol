@@ -2,7 +2,7 @@ import * as _ from 'lodash';
 import { ArrayFileHandler } from './array-file-handler';
 import { getSettings } from './config';
 import * as diagnostics from './diagnostics';
-import { extract, parseExtractor } from './extractor';
+import { extract, parseExtractor, IValueToken } from './extractor';
 import { IKey } from './keypress';
 import * as keypress from './keypress';
 import * as layout from './layout';
@@ -65,6 +65,17 @@ export const save = (playlist: IPlayList) => {
   }
 };
 
+export const setCurrent = (name: string, current: string) => {
+  const playlists = fetchAll();
+  const existing = find(name, playlists);
+  if (existing) {
+    _.merge(existing, { current });
+    playListFile().save(playlists);
+  } else {
+    error(`Could not update current track in playlist ${name} -- playlist not found`);
+  }
+}
+
 export const filter = (where?: string): IPlayList[] => {
   const token = where && parseExtractor(where);
   if (where && !token) {
@@ -80,6 +91,10 @@ let afterTrackAction: AfterTrackAction = AfterTrackAction.Next;
 let shuffleMode: boolean = false;
 let lastHeaderRow: number = 0;
 let wasStopped: boolean = false;
+let suppressColumns: boolean = false;
+let findString: string | undefined = undefined;
+let findParser: IValueToken | undefined = undefined;
+let findBackward: boolean = false;
 
 const makeAfterMsg = (action: string) => ` - will ${action} at end of track`;
 
@@ -130,6 +145,7 @@ const doStop = (key: IKey) => {
     afterTrackAction = AfterTrackAction.Pause;
     stopPlaying();
     wasStopped = true;
+    suppressColumns = true;
   }
 };
 
@@ -157,9 +173,6 @@ const afterTrack = async (name: string, options: IPlayListOptions,  plays: numbe
       const lastIndex = playlist.current ? 
         _.findIndex(sorted, (tr) => tr.trackPath === playlist.current) :
         -1;
-      if (lastIndex < 0) {
-        warning(`Current track not found in playlist, going to first`);
-      }
       const nextIndex = wasStopped ? 
         Math.max(0, lastIndex) :
         (lastIndex >= sorted.length - 1) ? 0 : lastIndex + 1; 
@@ -186,9 +199,6 @@ const afterTrack = async (name: string, options: IPlayListOptions,  plays: numbe
       const lastIndex = playlist.current ? 
         _.findIndex(sorted, (tr) => tr.trackPath === playlist.current) :
         -1;
-      if (lastIndex < 0) {
-        warning(`Current track not found in playlist, going to last`);
-      }
       const prevIndex = (lastIndex <= 0) ? sorted.length - 1 : lastIndex - 1; 
       return doPlayList(name, options, plays, sorted[prevIndex]);
     }
@@ -214,7 +224,7 @@ const afterTrack = async (name: string, options: IPlayListOptions,  plays: numbe
           -1;
         const nextIndex = (lastIndex >= sorted.length - 1) ? 0 : lastIndex + 1; 
         const nextTrack = sorted[nextIndex];
-        save({ ...playlist, current: nextTrack!.trackPath });
+        setCurrent(name, nextTrack!.trackPath);
       }
       quit();
     }
@@ -329,21 +339,69 @@ const doPlayList = async (name: string, options: IPlayListOptions, plays: number
     layout.displayHeaders(playlist.layout ?? settings.layout);
     lastHeaderRow = getRowsPrinted();
   }
-  if (!wasStopped) {
+  if (!suppressColumns) {
     layout.displayColumns(theTrack, playlist.layout ?? settings.layout);
   }
+  suppressColumns = false;
   wasStopped = false;
   const trackPath = theTrack.trackPath;
   if (originalPlaylist) {
-    save({ ...originalPlaylist, current: trackPath });
+    setCurrent(name, trackPath);
+  }
+
+  const doFindNext = (key: IKey) => {
+    if (findParser) {
+      const sorted = track.sort(playlist.orderBy, playlist.where);
+      const current =  _.findIndex(sorted, (t) => t.trackPath === theTrack.trackPath);
+      const ordered = findBackward
+      ? [ ...sorted.slice(0,current).reverse(), ...sorted.slice(current).reverse() ]
+      : [ ...sorted.slice(current+1), ...sorted.slice(0,current+1) ];
+      const found = _.find(ordered, (o) => !!extract({ ...o, current: sorted[current] }, findParser!));
+      if (found) {
+        setCurrent(name, found.trackPath);
+        afterTrackAction = AfterTrackAction.Next;
+        stopPlaying();
+        wasStopped = true;
+      } else {
+        warning(`Could not find ${findString}`);
+      }
+    } else {
+      warning(`No previous find target`);
+    }
+  }
+
+  const doFind = async (key: IKey, backward: boolean) => {
+    keypress.suspend();
+    const response = await ask([
+      { 
+        name: 'findString', 
+        type: 'input', 
+        message: `Find ${backward ? '\u2191' : '\u2193'}`, 
+        default: findString || '', 
+        askAnswered: true,
+      },
+    ]);
+    keypress.resume();
+    if (response.findString) {
+      const target = parseExtractor(response.findString);
+      if (target) {
+        findString = response.findString;
+        findParser = target;
+        findBackward = backward;
+        doFindNext(key);
+      }
+    }
   }
 
   const playListKeys = keypress.makeKeys([
+    { name: 'findBackward', func: (key: IKey) => doFind(key, true), help: 'find \u2191' },
+    { name: 'findForward', func: (key: IKey) => doFind(key, false), help: 'find \u2193' },
+    { name: 'findNext', func: doFindNext, help: 'find next' },
     { name: 'nextTrack', func: doNext, help: 'next track' },
-    { name: 'previousTrack', func: doPrevious, help: 'previous track' },
-    { name: 'resume', func: doResume, help: () => afterTrackAction === AfterTrackAction.Pause ? 'cancel pause' : (afterTrackAction === AfterTrackAction.Quit ? 'cancel quit' : '') },
-    { name: 'quitAfterTrack', func: doQuitAfter, help: 'quit at end of track' },
     { name: 'pauseAfterTrack', func: doPauseAfter, help: 'pause at end of track' },
+    { name: 'previousTrack', func: doPrevious, help: 'previous track' },
+    { name: 'quitAfterTrack', func: doQuitAfter, help: 'quit at end of track' },
+    { name: 'resume', func: doResume, help: () => afterTrackAction === AfterTrackAction.Pause ? 'cancel pause' : (afterTrackAction === AfterTrackAction.Quit ? 'cancel quit' : '') },
     { name: 'shuffle', func: doShuffle, help: () => `turn ${shuffleMode ? 'off' : 'on'} shuffle mode` },
     { name: 'stop', func: doStop, help: 'stop playing' },
   ]);
