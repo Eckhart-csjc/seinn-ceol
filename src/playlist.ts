@@ -95,8 +95,57 @@ let suppressColumns: boolean = false;
 let findString: string | undefined = undefined;
 let findParser: IValueToken | undefined = undefined;
 let findBackward: boolean = false;
+let currentPlaylist: IPlayList | undefined = undefined;
+let theTrack: track.ITrack | undefined = undefined;
 
 const makeAfterMsg = (action: string) => ` - will ${action} at end of track`;
+
+const doFindNext = (key: IKey) => {
+  if (findParser && currentPlaylist && theTrack) {
+    const sorted = track.sort(currentPlaylist.orderBy, currentPlaylist.where);
+    const current =  _.findIndex(sorted, (t) => t.trackPath === theTrack?.trackPath);
+    const ordered = findBackward
+    ? [ ...sorted.slice(0,current).reverse(), ...sorted.slice(current).reverse() ]
+    : [ ...sorted.slice(current+1), ...sorted.slice(0,current+1) ];
+    const found = _.find(ordered, (o) => !!extract({ ...o, current: sorted[current] }, findParser!));
+    if (found) {
+      setCurrent(currentPlaylist.name, found.trackPath);
+      afterTrackAction = AfterTrackAction.Next;
+      stopPlaying();
+      wasStopped = true;
+    } else {
+      warning(`Could not find ${findString}`);
+    }
+  } else {
+    warning(`No previous find target`);
+  }
+}
+
+const doFind = async (key: IKey, backward: boolean) => {
+  keypress.suspend();
+  const response = await ask([
+    { 
+      name: 'findString', 
+      type: 'input', 
+      message: `Find ${backward ? '\u2191' : '\u2193'}`, 
+      default: findString || '', 
+      askAnswered: true,
+    },
+  ]);
+  keypress.resume();
+  if (response.findString) {
+    const target = parseExtractor(response.findString);
+    if (target) {
+      findString = response.findString;
+      findParser = target;
+      findBackward = backward;
+      doFindNext(key);
+    }
+  }
+}
+
+const doFindBackward = async (key: IKey) => doFind(key, true);
+const doFindForward = async (key: IKey) => doFind(key, false);
 
 const doNext = (key: IKey) => {
   afterTrackAction = AfterTrackAction.Next;
@@ -278,7 +327,7 @@ const browse = async (name: string, options: IPlayListOptions, nextTrack?: track
     return;
   }
 
-  const theTrack = nextTrack ?? getCurrentTrack(playlist, options);
+  theTrack = nextTrack ?? getCurrentTrack(playlist, options);
   if (!theTrack) {
     warning(`Playlist ${name} empty`);
     return;
@@ -302,7 +351,7 @@ const browse = async (name: string, options: IPlayListOptions, nextTrack?: track
     value: t,
     short: t.title,
   }));
-  const defndx = _.findIndex(sorted, (t) => t.trackPath === theTrack.trackPath);
+  const defndx = _.findIndex(sorted, (t) => t.trackPath === theTrack?.trackPath);
   const { selectedTrack } = await ask([
     {
       name: 'selectedTrack',
@@ -324,12 +373,13 @@ const doPlayList = async (name: string, options: IPlayListOptions, plays: number
   if (!playlist) {
     return;
   }
+  currentPlaylist = playlist;
   afterTrackAction = shuffleMode ? AfterTrackAction.Shuffle : AfterTrackAction.Next;
   if (shuffleMode && !nextTrack) {
     return afterTrack(name, options, plays);
   }
 
-  const theTrack = nextTrack ?? getCurrentTrack(playlist, options);
+  theTrack = nextTrack ?? getCurrentTrack(playlist, options);
   if (!theTrack) {
     warning(`Playlist ${name} empty`);
     return;
@@ -349,53 +399,9 @@ const doPlayList = async (name: string, options: IPlayListOptions, plays: number
     setCurrent(name, trackPath);
   }
 
-  const doFindNext = (key: IKey) => {
-    if (findParser) {
-      const sorted = track.sort(playlist.orderBy, playlist.where);
-      const current =  _.findIndex(sorted, (t) => t.trackPath === theTrack.trackPath);
-      const ordered = findBackward
-      ? [ ...sorted.slice(0,current).reverse(), ...sorted.slice(current).reverse() ]
-      : [ ...sorted.slice(current+1), ...sorted.slice(0,current+1) ];
-      const found = _.find(ordered, (o) => !!extract({ ...o, current: sorted[current] }, findParser!));
-      if (found) {
-        setCurrent(name, found.trackPath);
-        afterTrackAction = AfterTrackAction.Next;
-        stopPlaying();
-        wasStopped = true;
-      } else {
-        warning(`Could not find ${findString}`);
-      }
-    } else {
-      warning(`No previous find target`);
-    }
-  }
-
-  const doFind = async (key: IKey, backward: boolean) => {
-    keypress.suspend();
-    const response = await ask([
-      { 
-        name: 'findString', 
-        type: 'input', 
-        message: `Find ${backward ? '\u2191' : '\u2193'}`, 
-        default: findString || '', 
-        askAnswered: true,
-      },
-    ]);
-    keypress.resume();
-    if (response.findString) {
-      const target = parseExtractor(response.findString);
-      if (target) {
-        findString = response.findString;
-        findParser = target;
-        findBackward = backward;
-        doFindNext(key);
-      }
-    }
-  }
-
   const playListKeys = keypress.makeKeys([
-    { name: 'findBackward', func: (key: IKey) => doFind(key, true), help: 'find \u2191' },
-    { name: 'findForward', func: (key: IKey) => doFind(key, false), help: 'find \u2193' },
+    { name: 'findBackward', func: doFindBackward, help: 'find \u2191' },
+    { name: 'findForward', func: doFindForward, help: 'find \u2193' },
     { name: 'findNext', func: doFindNext, help: 'find next' },
     { name: 'nextTrack', func: doNext, help: 'next track' },
     { name: 'pauseAfterTrack', func: doPauseAfter, help: 'pause at end of track' },

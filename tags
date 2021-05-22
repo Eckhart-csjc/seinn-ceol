@@ -79,7 +79,7 @@ args	src/asyncChild.ts	/^  args: string[],$/;"	m
 arry	src/index.test.ts	/^  arry: ['wilma', 'pebbles', 'fred', 'barney'],$/;"	m
 ask	src/util.ts	/^export const ask = async (questions: any): Promise<any> => {$/;"	v
 askAnswered	src/composer.ts	/^      askAnswered: true,$/;"	m
-askAnswered	src/playlist.ts	/^        askAnswered: true,$/;"	m
+askAnswered	src/playlist.ts	/^      askAnswered: true,$/;"	m
 beginPause	src/players/afplay.ts	/^  beginPause: 0,$/;"	m
 beginPause	src/players/afplay.ts	/^  beginPause: number;   \/\/ Epoch (ms) of the beginning of any current pause (0 if not paused)$/;"	m
 binaryOperator	src/extractor.ts	/^  binaryOperator: (): IParser<IBinaryOperatorToken> =>$/;"	m
@@ -129,8 +129,8 @@ default	src/composer.ts	/^      default: known.born,$/;"	m
 default	src/composer.ts	/^      default: known.died,$/;"	m
 default	src/composer.ts	/^      default: known.name, $/;"	m
 default	src/composer.ts	/^    default: {$/;"	m
-default	src/playlist.ts	/^        default: findString || '', $/;"	m
 default	src/playlist.ts	/^      default: defndx,$/;"	m
+default	src/playlist.ts	/^      default: findString || '', $/;"	m
 default	src/track.ts	/^          default: track.composerKey,$/;"	m
 default	src/track.ts	/^          default: track.compositionDate,$/;"	m
 default	src/track.ts	/^      default: SKIP,$/;"	m
@@ -144,7 +144,7 @@ displayHeaders	src/layout.ts	/^export const displayHeaders = (layoutName?: strin
 distance	src/composer.ts	/^  distance: getBestDistance(name, composer),$/;"	m
 doBinaryArrayOperation	src/extractor.ts	/^    doBinaryArrayOperation(context, operands, (context, op1, op2) =>$/;"	m
 doBinaryOperation	src/extractor.ts	/^    doBinaryOperation(context, operands, (context, op1, op2) => $/;"	m
-doFindNext	src/playlist.ts	/^        doFindNext(key);$/;"	m
+doFindNext	src/playlist.ts	/^      doFindNext(key);$/;"	m
 doPause	src/players/afplay.ts	/^function doPause(key: IKey) {$/;"	f
 doPlay	src/play.ts	/^export const doPlay = async ($/;"	v
 doQuit	src/players/afplay.ts	/^function doQuit(key: IKey) {$/;"	f
@@ -410,14 +410,12 @@ if	src/players/afplay.ts	/^  if (startOffset) {$/;"	m
 if	src/playlist.ts	/^      if (!playlist) {$/;"	m
 if	src/playlist.ts	/^      if (afterTrackAction === AfterTrackAction.Pause) {$/;"	m
 if	src/playlist.ts	/^      if (afterTrackAction === AfterTrackAction.Quit) {$/;"	m
-if	src/playlist.ts	/^      if (found) {$/;"	m
 if	src/playlist.ts	/^      if (nextTrack) {$/;"	m
 if	src/playlist.ts	/^      if (playlist) {$/;"	m
-if	src/playlist.ts	/^      if (target) {$/;"	m
-if	src/playlist.ts	/^    if (findParser) {$/;"	m
+if	src/playlist.ts	/^    if (found) {$/;"	m
 if	src/playlist.ts	/^    if (isPlaying()) {$/;"	m
 if	src/playlist.ts	/^    if (parser) {$/;"	m
-if	src/playlist.ts	/^    if (response.findString) {$/;"	m
+if	src/playlist.ts	/^    if (target) {$/;"	m
 if	src/playlist.ts	/^  if (!layOut?.columns) {$/;"	m
 if	src/playlist.ts	/^  if (!originalPlaylist) {$/;"	m
 if	src/playlist.ts	/^  if (!playlist) {$/;"	m
@@ -428,10 +426,12 @@ if	src/playlist.ts	/^  if ([AfterTrackAction.Pause, AfterTrackAction.Quit].inclu
 if	src/playlist.ts	/^  if (afterTrackAction !== AfterTrackAction.Pause) {$/;"	m
 if	src/playlist.ts	/^  if (afterTrackAction !== AfterTrackAction.Quit) {$/;"	m
 if	src/playlist.ts	/^  if (existing) {$/;"	m
+if	src/playlist.ts	/^  if (findParser && currentPlaylist && theTrack) {$/;"	m
 if	src/playlist.ts	/^  if (isPlaying()) {$/;"	m
 if	src/playlist.ts	/^  if (lastHeaderRow === 0 || (getRowsPrinted() - lastHeaderRow) >= (process.stdout.rows-3)) {$/;"	m
 if	src/playlist.ts	/^  if (options.next) {$/;"	m
 if	src/playlist.ts	/^  if (originalPlaylist) {$/;"	m
+if	src/playlist.ts	/^  if (response.findString) {$/;"	m
 if	src/playlist.ts	/^  if (shuffleMode && !nextTrack) {$/;"	m
 if	src/playlist.ts	/^  if (shuffleMode) {$/;"	m
 if	src/playlist.ts	/^  if (statTrackTurnAround) {$/;"	m
@@ -513,8 +513,8 @@ message	src/composer.ts	/^      message: 'Died (blank if still living):',$/;"	m
 message	src/composer.ts	/^      message: 'How does it look?',$/;"	m
 message	src/composer.ts	/^      message: 'Name:', $/;"	m
 message	src/composer.ts	/^      message: name,$/;"	m
-message	src/playlist.ts	/^        message: `Find ${backward ? '\\u2191' : '\\u2193'}`, $/;"	m
 message	src/playlist.ts	/^      message: 'Select track to start',$/;"	m
+message	src/playlist.ts	/^      message: `Find ${backward ? '\\u2191' : '\\u2193'}`, $/;"	m
 message	src/track.ts	/^      message: 'Commit these changes?',$/;"	m
 meta	src/keypress.ts	/^  meta: boolean;$/;"	m
 migrateAllTracks	src/track.ts	/^export const migrateAllTracks = () => {$/;"	v
@@ -561,7 +561,7 @@ name	src/index.test.ts	/^  name: `Alice123`,$/;"	m
 name	src/keypress.ts	/^  name: keyof IKeyAssignments;$/;"	m
 name	src/layout.ts	/^  name: string;           \/\/ Name of this layout$/;"	m
 name	src/play.ts	/^      name: 'info',$/;"	m
-name	src/playlist.ts	/^        name: 'findString', $/;"	m
+name	src/playlist.ts	/^      name: 'findString', $/;"	m
 name	src/playlist.ts	/^      name: 'selectedTrack',$/;"	m
 name	src/playlist.ts	/^    name: layout.formatColumns(t, layOut).join(sep).slice(2,max),$/;"	m
 name	src/playlist.ts	/^  name: string;           \/\/ Play list name$/;"	m
@@ -759,8 +759,8 @@ saveAll	src/track.ts	/^export const saveAll = (tracks: ITrack[]) => trackFile().
 sepLength	src/layout.ts	/^  sepLength: number, $/;"	m
 sepLength	src/layout.ts	/^  sepLength: number,$/;"	m
 sequence	src/keypress.ts	/^  sequence: string;$/;"	m
-setCurrent	src/playlist.ts	/^        setCurrent(name, found.trackPath);$/;"	m
 setCurrent	src/playlist.ts	/^        setCurrent(name, nextTrack!.trackPath);$/;"	m
+setCurrent	src/playlist.ts	/^      setCurrent(currentPlaylist.name, found.trackPath);$/;"	m
 setCurrent	src/playlist.ts	/^    setCurrent(name, trackPath);$/;"	m
 setCurrent	src/playlist.ts	/^export const setCurrent = (name: string, current: string) => {$/;"	v
 setWidth	src/layout.ts	/^      setWidth(c.header ?? '', c.width ?? '', sep.length, c.justification),$/;"	m
@@ -785,7 +785,7 @@ stop	src/config.ts	/^  stop: { sequence: 's' },$/;"	m
 stop	src/play.ts	/^  stop: () => Promise<boolean>;   \/\/ true == stopped$/;"	m
 stop	src/players/afplay.ts	/^export const stop = async () => {$/;"	v
 stopPlaying	src/play.ts	/^export const stopPlaying = async () => playState.isPlaying ? await getPlayer().stop() : true;$/;"	v
-stopPlaying	src/playlist.ts	/^        stopPlaying();$/;"	m
+stopPlaying	src/playlist.ts	/^      stopPlaying();$/;"	m
 stopPlaying	src/playlist.ts	/^    stopPlaying();$/;"	m
 stopPlaying	src/playlist.ts	/^  stopPlaying();$/;"	m
 stores	src/composer.ts	/^  stores: 0,$/;"	m
@@ -877,7 +877,7 @@ type	src/index.test.ts	/^  type: TokenType.NumericLiteral,$/;"	m
 type	src/index.test.ts	/^  type: TokenType.Regex,$/;"	m
 type	src/index.test.ts	/^  type: TokenType.StringLiteral,$/;"	m
 type	src/index.test.ts	/^  type: TokenType.UnaryOperation,$/;"	m
-type	src/playlist.ts	/^        type: 'input', $/;"	m
+type	src/playlist.ts	/^      type: 'input', $/;"	m
 type	src/playlist.ts	/^      type: 'list',$/;"	m
 type	src/track.ts	/^          type: 'input',$/;"	m
 type	src/track.ts	/^      type: 'confirm',$/;"	m
@@ -912,9 +912,9 @@ warning	src/composer.ts	/^    warning(`Found ${name} -- skipping`);$/;"	m
 warning	src/layout.ts	/^    warning(`Layout ${name} not found`);$/;"	m
 warning	src/play.ts	/^    warning(`Already playing`);$/;"	m
 warning	src/players/afplay.ts	/^      warning(`Install ffpmeg to enable pause\/resume for this player`);$/;"	m
-warning	src/playlist.ts	/^        warning(`Could not find ${findString}`);$/;"	m
 warning	src/playlist.ts	/^        warning(`Could not find any track matching: ${options.next}`);$/;"	m
-warning	src/playlist.ts	/^      warning(`No previous find target`);$/;"	m
+warning	src/playlist.ts	/^      warning(`Could not find ${findString}`);$/;"	m
+warning	src/playlist.ts	/^    warning(`No previous find target`);$/;"	m
 warning	src/playlist.ts	/^    warning(`Playlist ${name} empty`);$/;"	m
 warning	src/track.ts	/^        warning(`Could not stat ${t.trackPath} -- not removing$/;"	m
 warning	src/track.ts	/^        warning(`Track ${trackPath} previously added -- skipped`);$/;"	m
