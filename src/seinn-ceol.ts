@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 import { getSettings } from './config';
 import * as composer from './composer';
 import * as keypress  from './keypress';
