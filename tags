@@ -50,6 +50,7 @@ IUnaryOperatorToken	src/extractor.ts	/^interface IUnaryOperatorToken extends IOp
 IValueToken	src/extractor.ts	/^export interface IValueToken extends IToken {$/;"	i
 Justification	src/util.ts	/^export type Justification = 'left' | 'center' | 'right';$/;"	t
 KeyHelp	src/keypress.ts	/^export type KeyHelp = string | (() => string);$/;"	t
+LazyBinaryOpFunc	src/extractor.ts	/^type LazyBinaryOpFunc = (context: object, op1: () => unknown, op2: () => unknown) => unknown;$/;"	t
 OpFunc	src/extractor.ts	/^type OpFunc = (context: object, operands: IValueToken[]) => unknown;$/;"	t
 Operation	src/extractor.ts	/^export enum Operation {$/;"	e
 SegOut	src/segout.ts	/^export class SegOut {$/;"	c
@@ -145,6 +146,7 @@ distance	src/composer.ts	/^  distance: getBestDistance(name, composer),$/;"	m
 doBinaryArrayOperation	src/extractor.ts	/^    doBinaryArrayOperation(context, operands, (context, op1, op2) =>$/;"	m
 doBinaryOperation	src/extractor.ts	/^    doBinaryOperation(context, operands, (context, op1, op2) => $/;"	m
 doFindNext	src/playlist.ts	/^      doFindNext(key);$/;"	m
+doLazyBinaryOperation	src/extractor.ts	/^    doLazyBinaryOperation(context, operands, (context, op1, op2) => $/;"	m
 doPause	src/players/afplay.ts	/^function doPause(key: IKey) {$/;"	f
 doPlay	src/play.ts	/^export const doPlay = async ($/;"	v
 doQuit	src/players/afplay.ts	/^function doQuit(key: IKey) {$/;"	f
@@ -217,6 +219,7 @@ flags	src/extractor.ts	/^  flags: string;$/;"	m
 flags	src/index.test.ts	/^  flags: '',$/;"	m
 flags	src/index.test.ts	/^  flags: 'i',$/;"	m
 fnc	src/extractor.ts	/^        fnc(context, op1, op2)$/;"	m
+fnc	src/extractor.ts	/^    fnc(context, () => extract(context, operands[0]), () => extract(context, operands[1]));$/;"	m
 fnc	src/extractor.ts	/^    fnc(context, pack(extract(context, operands[0])));$/;"	m
 fnc	src/extractor.ts	/^    fnc(context, pack(extract(context, operands[0])), extract(context, operands[1]));$/;"	m
 formatColumns	src/layout.ts	/^export const formatColumns = ($/;"	v
@@ -297,6 +300,7 @@ goodExtract	src/index.test.ts	/^goodExtract(`dates filter (date dates > date 'Ja
 goodExtract	src/index.test.ts	/^goodExtract(`dates filter dates`, mockContext.dates);$/;"	m
 goodExtract	src/index.test.ts	/^goodExtract(`dates join ' & '`, '1\/1\/2020 & 1\/2\/2020');$/;"	m
 goodExtract	src/index.test.ts	/^goodExtract(`dur '30 mins'`, 1800);$/;"	m
+goodExtract	src/index.test.ts	/^goodExtract(`neg1 >= 0 && dates[neg1]`, false);$/;"	m
 goodExtract	src/index.test.ts	/^goodExtract(`not all (arry = 'fred')`, true);$/;"	m
 goodExtract	src/index.test.ts	/^goodExtract(`not all (date dates > date dates[1])`, true);$/;"	m
 goodExtract	src/index.test.ts	/^goodExtract(`not any (arry = 'betty')`, true);$/;"	m
@@ -575,6 +579,7 @@ name	src/track.ts	/^          name: 'compositionDate',$/;"	m
 name	src/track.ts	/^        name: 'stop', $/;"	m
 name	src/track.ts	/^      name: 'commit',$/;"	m
 name	src/track.ts	/^      name: 'option',$/;"	m
+neg1	src/index.test.ts	/^  neg1: -1,$/;"	m
 nextTrack	src/config.ts	/^  nextTrack: { sequence: 'j' },$/;"	m
 nl	src/segout.ts	/^  public nl() {$/;"	m
 no	src/track.ts	/^    no: parseNo(trackInfo.title),$/;"	m
@@ -609,6 +614,8 @@ notifyInterval	src/asyncChild.ts	/^  notifyInterval: number = 1000,$/;"	m
 numericLiteral	src/extractor.ts	/^  numericLiteral: () : IParser<INumericLiteralToken> =>$/;"	m
 nums	src/util.ts	/^      nums: (val || rem || op.d === 60) ? [ `0${val}`.substr(-2), ...accum.nums ] : accum.nums,$/;"	m
 op1	src/extractor.ts	/^            op1 : $/;"	m
+op1	src/extractor.ts	/^      op1() && op2()),$/;"	m
+op1	src/extractor.ts	/^      op1() || op2()),$/;"	m
 operand	src/extractor.ts	/^        operand: result.value[1]! as IValueToken,$/;"	m
 operand	src/extractor.ts	/^  operand: IValueToken;$/;"	m
 operand	src/index.test.ts	/^  operand: {$/;"	m

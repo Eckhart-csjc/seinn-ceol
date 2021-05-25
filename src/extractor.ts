@@ -364,6 +364,7 @@ type BinaryOpFunc = (context: object, op1: unknown, op2: unknown) => unknown;
 type UnaryOpFunc = (context: object, op1: unknown) => unknown;
 type BinaryArrayFunc = (context: object, op1: unknown[], op2: unknown) => unknown;
 type UnaryArrayFunc = (context: object, op1: unknown[]) => unknown;
+type LazyBinaryOpFunc = (context: object, op1: () => unknown, op2: () => unknown) => unknown;
 
 const pack = (val: any): any[] =>
   Array.isArray(val) ? val : [ val ];
@@ -392,14 +393,18 @@ const doUnaryArrayOperation = (context: object, operands: IValueToken[], fnc: Un
   (operands.length === 1) &&
     fnc(context, pack(extract(context, operands[0])));
 
+const doLazyBinaryOperation = (context: object, operands: IValueToken[], fnc: LazyBinaryOpFunc) =>
+  (operands.length === 2) &&
+    fnc(context, () => extract(context, operands[0]), () => extract(context, operands[1]));
+
 const opFunc: Record<Operation, OpFunc> = {
   [Operation.All]: (context, operands) =>
     doUnaryArrayOperation(context, operands, (context, op1) =>
       op1?.reduce((accum, elem) => accum && !!elem, true)),
       
   [Operation.And]: (context, operands) => 
-    doBinaryOperation(context, operands, (context, op1, op2) => 
-      op1 && op2),
+    doLazyBinaryOperation(context, operands, (context, op1, op2) => 
+      op1() && op2()),
 
   [Operation.Any]: (context, operands) =>
     doUnaryArrayOperation(context, operands, (context, op1) =>
@@ -462,8 +467,8 @@ const opFunc: Record<Operation, OpFunc> = {
       !_.isEqual(op1, op2)),
 
   [Operation.Or]: (context, operands) =>
-    doBinaryOperation(context, operands, (context, op1, op2) => 
-      op1 || op2),
+    doLazyBinaryOperation(context, operands, (context, op1, op2) => 
+      op1() || op2()),
 
   [Operation.Plus]: (context, operands) =>
     doBinaryOperation(context, operands, (context, op1, op2) => 

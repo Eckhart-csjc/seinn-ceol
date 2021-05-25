@@ -297,6 +297,7 @@ const mockContext = {
   not: 'nope',
   arry: ['wilma', 'pebbles', 'fred', 'barney'],
   dates: ['1/1/2020', '1/2/2020'],
+  neg1: -1,
 };
 
 const goodExtract = (input: string, expected: unknown) => {
@@ -367,3 +368,4 @@ goodExtract(`shortTime date dates[0]`, '2020 Jan 1');
 goodExtract(`"fred" =~ /red$/`, true);
 goodExtract(`"fred" =~ /Red$/`, false);
 goodExtract(`"fred" =~ /Red$/i`, true);
+goodExtract(`neg1 >= 0 && dates[neg1]`, false);

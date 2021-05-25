@@ -3951,7 +3951,9 @@
   },
   {
     "name": "Bernardo Pasquini",
-    "aliases": [],
+    "aliases": [
+      "Bernado Pasquini"
+    ],
     "born": "12/07/1637",
     "died": "11/21/1710"
   },
@@ -7012,5 +7014,11 @@
     "aliases": [],
     "born": "August 19, 1570",
     "died": "1630"
+  },
+  {
+    "name": "Anton Karas",
+    "aliases": [],
+    "born": "7 July 1906",
+    "died": "10 January 1985"
   }
 ]

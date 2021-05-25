@@ -10,7 +10,7 @@
       },
       {
         "header": "Composer",
-        "extractor": "composer or composerDetail.name",
+        "extractor": "(composer join ' & ') or composerDetail.name",
         "width": "14%"
       },
       {
