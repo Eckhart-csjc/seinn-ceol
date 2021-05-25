@@ -218,8 +218,8 @@ export const migrateTrack = (t: ITrack, composerIndex: Record<string, IComposer>
     no: t.no ?? parseNo(t.title),
     movement: t.movement ?? parseMovement(t.title),
     subMovement: t.subMovement ?? parseSubMovement(t.title),
-    catalogs: t.catalogs ?? composerDetail?.catalogs?.reduce<ICatalogEntry[]>((accum, c, index) => {
-      const pattern = new RegExp(c.pattern ?? `\\b${[c.symbol, ...(c.aliases ?? [])].join('|')}\\.?\\s*(?<prefix>[A-Z])?(?<n>\\d+)(?<suffix>[a-z]*)?\\b`, 'i');
+    catalogs: composerDetail?.catalogs?.reduce<ICatalogEntry[]>((accum, c, index) => {
+      const pattern = new RegExp(c.pattern ?? `\\b(${[c.symbol, ...(c.aliases ?? [])].join('|')})\\.?\\s*(?<prefix>[A-Z])?(?<n>\\d+)(?<suffix>[a-z]*)?\\b`, 'i');
       const match = t.title?.match(pattern);
       return match?.groups ?
         [
@@ -337,7 +337,7 @@ export const parseSubMovement = (title?: string): string|undefined => {
   return match?.[1];
 };
 
-const intOrString = (val: string | undefined) => val && val.match(/^\d+$/) ? parseInt(val,10) : val;
+const intOrString = (val: string | undefined) => val?.match(/^\d+$/) ? parseInt(val,10) : val;
 
 const ROMAN: Record<string, number> = 
   {'I': 1, 'V': 5, 'X': 10, 'L': 50, 'C': 100, 'D': 500, 'M': 1000};
@@ -361,7 +361,7 @@ export const hydrateTrack = (
       ...t,
       composerDetail,
       catalogs: t.catalogs ?? composerDetail?.catalogs?.reduce<ICatalogEntry[]>((accum, c, index) => {
-        const pattern = new RegExp(c.pattern ?? `\\b${[c.symbol, ...(c.aliases ?? [])].join('|')}\\.?\\s*(?<prefix>[A-Z])?(?<n>\\d+)(?<suffix>[a-z]*)?\\b`, 'i');
+        const pattern = new RegExp(c.pattern ?? `\\b(${[c.symbol, ...(c.aliases ?? [])].join('|')})\\.?\\s*(?<prefix>[A-Z])?(?<n>\\d+)(?<suffix>[a-z]*)?\\b`, 'i');
         const match = t.title?.match(pattern);
         return match?.groups ?
           [
@@ -468,7 +468,7 @@ export const formatInfo = (t: ITrackHydrated): string[] => [
   ...(t.genre ? [ `Genre: ${t.genre.join(', ')}` ] : []),
   ...(t.opus ? [ `Opus ${t.opus}` ]: []),
   ...(t.catalogs && t.catalogs.length ?
-    [ `${pluralize('Catalog', t.catalogs.length)}: ${t.catalogs.map((c) => c.symbol + ' ' + (c.prefix ?? '') + c.n + (c.suffix ?? '')).join(', ')}` ] :
+    [ `${pluralize('Catalog', t.catalogs.length)}: ${t.catalogs.map((c) => c.symbol + ' ' + (c.category ? c.category + ':' : '') + (c.prefix ?? '') + c.n + (c.suffix ?? '')).join(', ')}` ] :
     []),
   ...(t.no ? [ `No. ${t.no}` ]: []),
   ...(t.movement ? [ `Movement ${t.movement}${t.subMovement ?? ''}` ]: []),

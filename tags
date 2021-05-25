@@ -96,7 +96,7 @@ cache	src/file-handler.ts	/^  cache: T | undefined;$/;"	m
 cacheStats	src/stats.ts	/^  cacheStats();$/;"	m
 cacheStats	src/stats.ts	/^export const cacheStats = () => {$/;"	v
 catalogs	src/track.ts	/^      catalogs: t.catalogs ?? composerDetail?.catalogs?.reduce<ICatalogEntry[]>((accum, c, index) => {$/;"	m
-catalogs	src/track.ts	/^    catalogs: t.catalogs ?? composerDetail?.catalogs?.reduce<ICatalogEntry[]>((accum, c, index) => {$/;"	m
+catalogs	src/track.ts	/^    catalogs: composerDetail?.catalogs?.reduce<ICatalogEntry[]>((accum, c, index) => {$/;"	m
 category	src/track.ts	/^              category: match.groups.category ?$/;"	m
 category	src/track.ts	/^            category: match.groups.category ?$/;"	m
 choices	src/composer.ts	/^      choices: ['OK', 'Redo', 'Cancel'],$/;"	m
