@@ -1,7 +1,7 @@
 import { C, F, IParser, N, Response, Streams, Tuple, VoidParser } from '@masala/parser';
 import * as _ from 'lodash';
 import parseDuration from 'parse-duration';
-import { ICacheStats } from './diagnostics';
+import { ICacheStats, startTiming, endTiming } from './diagnostics';
 import { debug, error, makeTime } from './util';
 
 const dayjs = require('dayjs');
@@ -538,5 +538,9 @@ const extractors: Record<TokenType, (context: object, token: IToken) => unknown>
     opFunc[token.operator],
 }
 
-export const extract = (context: object, token: IToken): unknown =>
-  extractors[token.type]({ ...UNIVERSALS, ...context }, token);
+export const extract = (context: object, token: IToken): unknown => {
+  const timing = startTiming('Extract');
+  const result = extractors[token.type]({ ...UNIVERSALS, ...context }, token);
+  endTiming(timing);
+  return result;
+}

@@ -3,7 +3,7 @@ import * as _ from 'lodash';
 import * as os from 'os';
 import * as path from 'path';
 import { applyThemeSetting, getTheme, Theming } from './config';
-import { endTiming, startTiming } from './diagnostics';
+import { endTiming, ITimingId, startTiming } from './diagnostics';
 import { extract, parseExtractor } from './extractor';
 import { fixTTY } from './keypress';
 import { showDiagnostics } from './stats';
@@ -232,7 +232,14 @@ export const sortBy = <T extends ISortable>(items: T[], sortKeys: string[]): T[]
   return result;
 };
 
+let timing: ITimingId;
+
+export const start = () => {
+  timing = startTiming('Total execution');
+};
+
 export const quit = () => {
+  endTiming(timing);
   if (program.opts().diagnostics) {
     showDiagnostics();
   }

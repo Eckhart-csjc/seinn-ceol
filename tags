@@ -158,7 +158,9 @@ doUnaryOperation	src/extractor.ts	/^    doUnaryOperation(context, operands, (con
 duration	src/track.ts	/^    duration: p.format.duration,$/;"	m
 earlyReturn	src/play.ts	/^  earlyReturn: number = 0,        \/\/ Milliseconds to subtract from duration for return$/;"	m
 endTiming	src/diagnostics.ts	/^export const endTiming = (id: ITimingId): ITiming | undefined => {$/;"	v
+endTiming	src/extractor.ts	/^  endTiming(timing);$/;"	m
 endTiming	src/util.ts	/^  endTiming(statOrder);$/;"	m
+endTiming	src/util.ts	/^  endTiming(timing);$/;"	m
 error	src/composer.ts	/^        error(`Could not find existing composer ${option}`);$/;"	m
 error	src/composer.ts	/^      error(`The following aliases for this composer already exist`, existingAliases);$/;"	m
 error	src/composer.ts	/^    error(`Composer ${composer.name} already exists`, existing);$/;"	m
@@ -189,7 +191,7 @@ expect	src/index.test.ts	/^    expect(result.isEos()).toBe(true);$/;"	m
 expect	src/index.test.ts	/^    expect(result.value).toEqual(expected);$/;"	m
 expect	src/index.test.ts	/^    expect(token).toBeTruthy();$/;"	m
 expression	src/extractor.ts	/^  expression: (): IParser<IValueToken> =>$/;"	m
-extract	src/extractor.ts	/^export const extract = (context: object, token: IToken): unknown =>$/;"	v
+extract	src/extractor.ts	/^export const extract = (context: object, token: IToken): unknown => {$/;"	v
 extractor	src/layout.ts	/^  extractor: string;      \/\/ extractor against ITrackHydrated$/;"	m
 false	src/extractor.ts	/^  false: false,$/;"	m
 fetch	src/array-file-handler.ts	/^  public fetch(): T[] {$/;"	m
@@ -784,6 +786,8 @@ sort	src/track.ts	/^export const sort = (sortKeys: string[], whereClause?: strin
 sortBy	src/util.ts	/^export const sortBy = <T extends ISortable>(items: T[], sortKeys: string[]): T[] => {$/;"	v
 spawnWithProgress	src/asyncChild.ts	/^export const spawnWithProgress = async ($/;"	v
 start	src/diagnostics.ts	/^  start: number;$/;"	m
+start	src/seinn-ceol.ts	/^start();$/;"	m
+start	src/util.ts	/^export const start = () => {$/;"	v
 startTiming	src/diagnostics.ts	/^export const startTiming = (name: string): ITimingId => {$/;"	v
 stats	src/file-handler.ts	/^  public stats: ICacheStats;$/;"	m
 stats	src/stats.ts	/^  stats: IGroupStats, $/;"	m

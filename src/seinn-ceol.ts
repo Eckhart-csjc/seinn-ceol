@@ -2,15 +2,17 @@
 
 import { getSettings } from './config';
 import * as composer from './composer';
+import { startTiming, endTiming } from './diagnostics';
 import * as keypress  from './keypress';
 import { play } from './play';
 import * as playlist from './playlist';
 import { query } from './query';
 import { showDiagnostics, showStats } from './stats';
 import * as track from './track';
-import { printLn, quit } from './util';
+import { printLn, start, quit } from './util';
 import { program } from 'commander';
 
+start();
 getSettings();      // Make sure we can read config.json, even if we don't need it yet
 keypress.init();
 keypress.addKeys(
