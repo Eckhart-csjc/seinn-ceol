@@ -13,11 +13,11 @@
       "catalogs[0].suffix",
       "album",
       "(opus || catalogs[0].n) && no",
-      "(opus || catalogs[0].n) && movement",
+      "(opus || catalogs[0].n) && (movement || 0)",
       "disk or 1",
       "track"
     ],
-    "current": "/Users/eckhart/Music/iTunes/iTunes Media/Music/Sophie Yates/The Pleasures of the Imagination_ English 18th Century Music for the Harpsichord/12 3rd Set of Lessons for Harpsichord in B-Flat Major_ I. Prelude. Allegro.m4a"
+    "current": "/Users/eckhart/Music/iTunes/iTunes Media/Music/Andrea Coen/C.P.E. Bach_ Complete Keyboard Variations/09 Allegretto in C Major, H. 65.m4a"
   },
   {
     "name": "familyBach",
@@ -34,7 +34,7 @@
       "catalogs[0].suffix",
       "album",
       "(opus || catalogs[0].n) && no",
-      "(opus || catalogs[0].n) && movement",
+      "(opus || catalogs[0].n) && (movement || 0)",
       "disk or 1",
       "track"
     ],
@@ -55,7 +55,7 @@
       "catalogs[0].suffix",
       "album",
       "(opus || catalogs[0].n) && no",
-      "(opus || catalogs[0].n) && movement",
+      "(opus || catalogs[0].n) && (movement || 0)",
       "disk or 1",
       "track"
     ],
