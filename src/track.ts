@@ -101,7 +101,7 @@ export const filter = (where?: string): ITrackHydrated[] => {
 
 export const saveAll = (tracks: ITrack[]) => trackFile().save(tracks);
 
-export const add = async (tracks:string[], options: { noError: boolean, noWarn: boolean }) => {
+export const cmdAdd = async (tracks:string[], options: { noError: boolean, noWarn: boolean }) => {
   try {
     const newTracks = await addTracks(tracks, options.noWarn, options.noError);
     printColumns([
@@ -132,10 +132,10 @@ const gatherFiles = (dir: string): string[] => {
   }
 }
 
-export const addAll = async (directory: string, options: { noError: boolean, noWarn: boolean }) => 
-  add(gatherFiles(normalizePath(directory)), options);
+export const cmdAddAll = async (directory: string, options: { noError: boolean, noWarn: boolean }) => 
+  cmdAdd(gatherFiles(normalizePath(directory)), options);
 
-export const info = async (track:string) => {
+export const cmdInfo = async (track:string) => {
   try {
     const tags = await getInfo(track);
     notification(tags);
@@ -478,7 +478,7 @@ export const formatInfo = (t: ITrackHydrated): string[] => [
   `Media file: ${t.trackPath}`,
 ];
 
-export const removeDeleted = async () => {
+export const cmdRemoveDeleted = async () => {
   const tracks = trackFile().fetch();
   const reduced = tracks.reduce((accum, t) => {
     try {

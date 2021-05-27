@@ -280,7 +280,7 @@ const afterTrack = async (name: string, options: IPlayListOptions,  plays: numbe
   }
 };
 
-export const playList = async (name: string, options: IPlayListOptions) => {
+export const cmdPlayList = async (name: string, options: IPlayListOptions) => {
   shuffleMode = !!options.shuffle;
   return options.browse ? browse(name, options) : doPlayList(name, options, 0);
 };

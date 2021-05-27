@@ -24,7 +24,7 @@ const tableMap: Record<string, { filter: (where?: string) => object[]; }> = {
   tracks: track,
 };
 
-export const query = (
+export const cmdQuery = (
   table: string,
   options: {
     columns?: string[];

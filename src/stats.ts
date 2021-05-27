@@ -30,7 +30,7 @@ const orders: Record<string, keyof IGroupStats> = {
   playTime: 'playTime',
 };
 
-export const showStats = (
+export const cmdShowStats = (
   options: {
     groupBy?: string[],
     order?: string[],

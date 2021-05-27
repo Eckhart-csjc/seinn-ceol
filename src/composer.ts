@@ -201,7 +201,7 @@ const getValues = async (known: Partial<IComposer>, index: Record<string, ICompo
 
 const isAnon = (name: string | undefined) => !name || name === 'Anonymous' || name === 'Traditional' || name === 'Traditionnel';
 
-export const resolveAll = async () => {
+export const cmdResolveComposers = async () => {
   const index = indexComposers();
   const tracks = track.fetchAll();
   const tracksSansComposer = tracks.filter((t) => isAnon(t.composerKey));

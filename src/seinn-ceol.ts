@@ -4,10 +4,10 @@ import { getSettings } from './config';
 import * as composer from './composer';
 import { startTiming, endTiming } from './diagnostics';
 import * as keypress  from './keypress';
-import { play } from './play';
+import { cmdPlay } from './play';
 import * as playlist from './playlist';
-import { query } from './query';
-import { showDiagnostics, showStats } from './stats';
+import { cmdQuery } from './query';
+import { cmdShowStats, showDiagnostics } from './stats';
 import * as track from './track';
 import { printLn, start, quit } from './util';
 import { program } from 'commander';
@@ -47,7 +47,7 @@ program
   .option('--noError', `ignore files that are not music tracks without error`)
   .option('--noWarn', `ignore previously added tracks without warning`)
   .description('add track(s) to the library')
-  .action(track.add)
+  .action(track.cmdAdd)
   ;
 
 program
@@ -55,19 +55,19 @@ program
   .option('--noError', `ignore files that are not music tracks without error`)
   .option('--noWarn', `ignore previously added tracks without warning`)
   .description('add all files in a directory (and sub-directories)')
-  .action(track.addAll)
+  .action(track.cmdAddAll)
   ;
 
 program
   .command('info <track>')
   .description('get track information from a file')
-  .action(track.info)
+  .action(track.cmdInfo)
   ;
 
 program
   .command('play <track>')
   .description('play a track of music from a file')
-  .action(play)
+  .action(cmdPlay)
   ;
 
 program
@@ -77,19 +77,19 @@ program
   .option('-w, --where <filter>', 'Additional filter on playlist')
   .option('-b, --browse', 'Browse playlist before playing')
   .description('play tracks from a playlist')
-  .action(playlist.playList)
+  .action(playlist.cmdPlayList)
   ;
 
 program
   .command('remove-deleted')
   .description('Remove deleted track files from the tracks list')
-  .action(track.removeDeleted)
+  .action(track.cmdRemoveDeleted)
   ;
 
 program
   .command('resolve-composers')
   .description('Resolve composers for tracks whose composer is not on file')
-  .action(composer.resolveAll)
+  .action(composer.cmdResolveComposers)
   ;
 
 program
@@ -102,7 +102,7 @@ program
   .option('-O, --offset <offset>', 'Start at offset (0 is first)')
   .option('-w, --where <filter>', 'Filter items to include')
   .description('query table contents')
-  .action(query)
+  .action(cmdQuery)
   ;
 
 program
@@ -112,7 +112,7 @@ program
   .option('-w, --where <filter...>', 'Filter tracks to include in stats, followed by filters for groups (use true or 1 as an "all" placeholder where needed)')
   .option('-l, --limit <n...>', 'Limit lists to n items (default for each is unlimited)')
   .description('get statistics')
-  .action(showStats)
+  .action(cmdShowStats)
   ;
 
 const main = async () => {

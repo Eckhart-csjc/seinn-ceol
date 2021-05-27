@@ -61,9 +61,6 @@ UnaryArrayFunc	src/extractor.ts	/^type UnaryArrayFunc = (context: object, op1: u
 UnaryOpFunc	src/extractor.ts	/^type UnaryOpFunc = (context: object, op1: unknown) => unknown;$/;"	t
 add	src/composer.ts	/^export const add = (composer: IComposer): boolean => {$/;"	v
 add	src/segout.ts	/^  public add($/;"	m
-add	src/track.ts	/^  add(gatherFiles(normalizePath(directory)), options);$/;"	m
-add	src/track.ts	/^export const add = async (tracks:string[], options: { noError: boolean, noWarn: boolean }) => {$/;"	v
-addAll	src/track.ts	/^export const addAll = async (directory: string, options: { noError: boolean, noWarn: boolean }) => $/;"	v
 addKey	src/keypress.ts	/^export const addKey = (keyMapping: IKeyMapping) => {$/;"	v
 addKeys	src/keypress.ts	/^export const addKeys = (keys: IKeyMapping[]) =>$/;"	v
 addProgressSuffix	src/players/afplay.ts	/^  addProgressSuffix(PAUSED);$/;"	m
@@ -107,6 +104,16 @@ clearInterval	src/asyncChild.ts	/^    clearInterval(timer);$/;"	m
 clearInterval	src/players/afplay.ts	/^        clearInterval(timer);       \/\/ No more polling$/;"	m
 clearTimeout	src/asyncChild.ts	/^      clearTimeout(resolveTimer);$/;"	m
 cmd	src/asyncChild.ts	/^  cmd: string, $/;"	m
+cmdAdd	src/track.ts	/^  cmdAdd(gatherFiles(normalizePath(directory)), options);$/;"	m
+cmdAdd	src/track.ts	/^export const cmdAdd = async (tracks:string[], options: { noError: boolean, noWarn: boolean }) => {$/;"	v
+cmdAddAll	src/track.ts	/^export const cmdAddAll = async (directory: string, options: { noError: boolean, noWarn: boolean }) => $/;"	v
+cmdInfo	src/track.ts	/^export const cmdInfo = async (track:string) => {$/;"	v
+cmdPlay	src/play.ts	/^export const cmdPlay = async (track: ITrackHydrated | string): Promise<void> => { await doPlay(track); }$/;"	v
+cmdPlayList	src/playlist.ts	/^export const cmdPlayList = async (name: string, options: IPlayListOptions) => {$/;"	v
+cmdQuery	src/query.ts	/^export const cmdQuery = ($/;"	v
+cmdRemoveDeleted	src/track.ts	/^export const cmdRemoveDeleted = async () => {$/;"	v
+cmdResolveComposers	src/composer.ts	/^export const cmdResolveComposers = async () => {$/;"	v
+cmdShowStats	src/stats.ts	/^export const cmdShowStats = ($/;"	v
 column	src/layout.ts	/^  column: ILayoutColumn, $/;"	m
 composer	src/index.test.ts	/^  composer: 'Johann Sebastian Bach',$/;"	m
 composerFile	src/composer.ts	/^  composerFile().save([...composers, composer]);$/;"	m
@@ -478,7 +485,6 @@ index	src/track.ts	/^  index: number;                \/\/ Index of symbol in com
 indexComposers	src/composer.ts	/^export const indexComposers = (composers?: IComposer[]) => {$/;"	v
 indexPad	src/stats.ts	/^  indexPad: number = 0,$/;"	m
 info	src/config.ts	/^  info: { sequence: 'i' },$/;"	m
-info	src/track.ts	/^export const info = async (track:string) => {$/;"	v
 init	src/keypress.ts	/^export const init = (log: boolean = false) => {$/;"	v
 isPlaying	src/play.ts	/^  isPlaying: boolean;$/;"	m
 isPlaying	src/play.ts	/^  isPlaying: false,$/;"	m
@@ -677,9 +683,7 @@ pauseAfterTrack	src/config.ts	/^  pauseAfterTrack: { sequence: 'P' },$/;"	m
 paused	src/players/afplay.ts	/^  paused: 0,$/;"	m
 paused	src/players/afplay.ts	/^  paused: number;       \/\/ Number of milliseconds track has been paused (prior to any current pause)$/;"	m
 play	src/play.ts	/^  play: ($/;"	m
-play	src/play.ts	/^export const play = async (track: ITrackHydrated | string): Promise<void> => { await doPlay(track); }$/;"	v
 play	src/players/afplay.ts	/^export const play = async (track: ITrackHydrated, earlyReturn: number = 0): Promise<boolean> => {$/;"	v
-playList	src/playlist.ts	/^export const playList = async (name: string, options: IPlayListOptions) => {$/;"	v
 playListFile	src/playlist.ts	/^    playListFile().save([ ...playlists, playlist ]);$/;"	m
 playListFile	src/playlist.ts	/^    playListFile().save(playlists);$/;"	m
 playTime	src/stats.ts	/^        playTime: accum.playTime + groupStats.playTime,$/;"	m
@@ -720,7 +724,6 @@ printLn	src/seinn-ceol.ts	/^        printLn(keypress.makeHelpText().join(', '), 
 printLn	src/track.ts	/^  printLn('');$/;"	m
 printLn	src/util.ts	/^    printLn(row.map((col, ndx) => $/;"	m
 printLn	src/util.ts	/^export const printLn = (text: string, theme?: Theming) => {$/;"	v
-query	src/query.ts	/^export const query = ($/;"	v
 quit	src/config.ts	/^  quit: { sequence: 'q' },$/;"	m
 quit	src/playlist.ts	/^      quit();$/;"	m
 quit	src/seinn-ceol.ts	/^  quit();          \/\/ Required because keypress starts readline in raw mode$/;"	m
@@ -731,7 +734,6 @@ reject	src/asyncChild.ts	/^        reject(new Error(result.error));$/;"	m
 reject	src/asyncChild.ts	/^      reject(error);$/;"	m
 reject	src/asyncChild.ts	/^    reject(err);$/;"	m
 remainingGroups	src/stats.ts	/^  remainingGroups: IValueToken[]$/;"	m
-removeDeleted	src/track.ts	/^export const removeDeleted = async () => {$/;"	v
 removeKey	src/keypress.ts	/^export const removeKey = (keyMapping: IKeyMapping) => {$/;"	v
 removeKeys	src/keypress.ts	/^export const removeKeys = (keys: IKeyMapping[]) =>$/;"	v
 removeProgressSuffix	src/players/afplay.ts	/^        removeProgressSuffix(PAUSED);$/;"	m
@@ -745,7 +747,6 @@ resolve	src/asyncChild.ts	/^        resolve(result.stdout || '');$/;"	m
 resolve	src/asyncChild.ts	/^    resolve();$/;"	m
 resolve	src/composer.ts	/^export const resolve = async (name: string, tracks: track.ITrack[]): Promise<boolean> => {$/;"	v
 resolve	src/players/afplay.ts	/^        resolve();                  \/\/ Resume or not, we're done here$/;"	m
-resolveAll	src/composer.ts	/^export const resolveAll = async () => {$/;"	v
 resolveAnonymous	src/track.ts	/^export const resolveAnonymous = async (track: ITrack): Promise<void> => {$/;"	v
 resolveBy	src/asyncChild.ts	/^  resolveBy: number = 0$/;"	m
 result	src/track.ts	/^    result: (val > accum.prev) ? (accum.result - (accum.prev * 2) + val) : (accum.result + val)$/;"	m
@@ -777,7 +778,6 @@ shift	src/keypress.ts	/^  shift: boolean;$/;"	m
 short	src/playlist.ts	/^    short: t.title,$/;"	m
 showDiagnostics	src/stats.ts	/^export const showDiagnostics = () => {$/;"	v
 showDiagnostics	src/util.ts	/^    showDiagnostics();$/;"	m
-showStats	src/stats.ts	/^export const showStats = ($/;"	v
 showTimings	src/stats.ts	/^  showTimings();$/;"	m
 showTimings	src/stats.ts	/^export const showTimings = () => {$/;"	v
 shuffle	src/config.ts	/^  shuffle: { sequence: 'S' },$/;"	m
