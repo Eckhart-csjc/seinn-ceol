@@ -2,17 +2,19 @@ import * as _ from 'lodash';
 import { ArrayFileHandler } from './array-file-handler';
 import { getSettings, Theming } from './config';
 import { extract, parseExtractor } from './extractor';
+import { ITagable } from './query';
 import { SegOut } from './segout';
 import * as track from './track';
 import { 
   addProgressSuffix,
   Justification, 
   makeString,
+  merge,
   padOrTruncate, 
   warning 
 } from './util';
 
-export interface ILayout {
+export interface ILayout extends ITagable {
   name: string;           // Name of this layout
   columns?: ILayoutColumn[];  // Columns to display
   theming?: Theming;      // General theming for display
@@ -42,7 +44,7 @@ export const save = (layout: ILayout) => {
   const layouts = fetchAll();
   const existing = find(layout.name, layouts);
   if (existing) {
-    _.merge(existing, layout);
+    merge(existing, layout);
     layoutFile().save(layouts);
   } else {
     layoutFile().save([ ...layouts, layout ]);
@@ -59,6 +61,24 @@ export const filter = (where?: string): ILayout[] => {
     layouts.filter((t) => !!extract(t, token)) :
     layouts;
 };
+
+export const updateLayouts = (updates: ILayout[]): ILayout[] => {
+  const layouts = fetchAll();
+  const updated = updates.reduce((accum, u) => {
+    const oldLayout = _.find(layouts, (l) => l.name === u.name);
+    if (oldLayout) {
+      return [...accum, merge(oldLayout, u) ];     // mutates oldLayout, and thus layouts (this is to maintain order)
+    } else {
+      warning(`Layout "${u.name}" not found -- adding`);
+      layouts.push(u);
+      return [...accum, u ];
+    }
+  }, [] as ILayout[]);
+  layoutFile().save(layouts);
+  return updated;
+}
+
+export const update = (updates: object[]): ILayout[] => updateLayouts(updates as ILayout[]);
 
 export const displayColumns = (
   t: track.ITrackHydrated, 

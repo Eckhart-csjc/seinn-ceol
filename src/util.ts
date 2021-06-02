@@ -6,6 +6,7 @@ import { applyThemeSetting, getTheme, Theming } from './config';
 import { endTiming, ITimingId, startTiming } from './diagnostics';
 import { extract, parseExtractor } from './extractor';
 import { fixTTY } from './keypress';
+import { ITagable } from './query';
 import { showDiagnostics } from './stats';
 
 const chalk = require('chalk');
@@ -13,7 +14,7 @@ const inquirer = require('inquirer');
 const pluralize = require('pluralize');
 
 export type Justification = 'left' | 'center' | 'right';
-export interface ISortable {
+export interface ISortable extends ITagable {
   index?: number;
 }
 
@@ -247,3 +248,16 @@ export const quit = () => {
 };
 
 export const normalizePath = (filename: string) => path.resolve(filename.normalize().replace(/^\~/, os.homedir()));
+
+export const merge = (a: any, b:any): any => _.keys(b).reduce((accum, k) => {
+  accum[k] = (b != null)
+  ? (_.isArray(b[k])
+    ? b[k]
+    : ((typeof b[k] === 'object')
+      ? merge(a[k], b[k])
+      : b[k]
+    )
+  )
+  : accum[k];
+  return accum;
+}, a);

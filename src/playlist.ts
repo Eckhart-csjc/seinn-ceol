@@ -7,12 +7,14 @@ import { IKey } from './keypress';
 import * as keypress from './keypress';
 import * as layout from './layout';
 import { isPlaying, stopPlaying, doPlay } from './play';
+import { ITagable } from './query';
 import * as track from './track';
 import { 
   addProgressSuffix,
   ask,
   error, 
   getRowsPrinted, 
+  merge,
   notification,
   padOrTruncate, 
   print, 
@@ -21,9 +23,9 @@ import {
   warning 
 } from './util';
 
-export interface IPlayList {
+export interface IPlayList extends ITagable {
   name: string;           // Play list name
-  orderBy: string[];      // Queries (optionally followed by comma and sort order) for order of play
+  orderBy?: string[];     // Queries (optionally followed by comma and sort order) for order of play
   where?: string;         // Optional where clause for filtering tracks
   current?: string;       // trackPath of track started (undefined to start from the top)
   trackOverlap?: number;  // Milliseconds to shave off end of track before advancing
@@ -58,7 +60,7 @@ export const save = (playlist: IPlayList) => {
   const playlists = fetchAll();
   const existing = find(playlist.name, playlists);
   if (existing) {
-    _.merge(existing, playlist);
+    merge(existing, playlist);
     playListFile().save(playlists);
   } else {
     playListFile().save([ ...playlists, playlist ]);
@@ -69,7 +71,7 @@ export const setCurrent = (name: string, current: string) => {
   const playlists = fetchAll();
   const existing = find(name, playlists);
   if (existing) {
-    _.merge(existing, { current });
+    merge(existing, { current });
     playListFile().save(playlists);
   } else {
     error(`Could not update current track in playlist ${name} -- playlist not found`);
@@ -86,6 +88,24 @@ export const filter = (where?: string): IPlayList[] => {
     playlists.filter((t) => !!extract(t, token)) :
     playlists;
 };
+
+export const updatePlayLists = (updates: IPlayList[]): IPlayList[] => {
+  const playlists = fetchAll();
+  const updated = updates.reduce((accum, u) => {
+    const oldPlaylist = _.find(playlists, (l) => l.name === u.name);
+    if (oldPlaylist) {
+      return [...accum, merge(oldPlaylist, u) ];     // mutates oldPlaylist, and thus playlists (this is to maintain order)
+    } else {
+      warning(`Playlist "${u.name}" not found -- adding`);
+      playlists.push(u);
+      return [...accum, u ];
+    }
+  }, [] as IPlayList[]);
+  playListFile().save(playlists);
+  return updated;
+}
+
+export const update = (updates: object[]): IPlayList[] => updatePlayLists(updates as IPlayList[]);
 
 let afterTrackAction: AfterTrackAction = AfterTrackAction.Next;
 let shuffleMode: boolean = false;

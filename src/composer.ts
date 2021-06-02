@@ -3,8 +3,9 @@ import { ArrayFileHandler } from './array-file-handler';
 import * as diagnostics from './diagnostics';
 import { extract, parseExtractor } from './extractor';
 import * as keypress from './keypress';
+import { ITagable } from './query';
 import * as track from './track';
-import { ask, error, notification, printLn, warning } from './util';
+import { ask, error, merge, notification, printLn, warning } from './util';
 
 const dayjs = require('dayjs');
 const levenshtein = require('js-levenshtein');
@@ -22,7 +23,7 @@ export interface ICatalog {
   isCategoryRoman?: boolean;  // category, if found, is a Roman numeral (thanks, Hoboken)
 }
 
-export interface IComposer {
+export interface IComposer extends ITagable {
   name: string;                // Name as key
   aliases: string[];           // Other ways of representing name
   born: string | number;       // Valid dayjs input
@@ -105,9 +106,9 @@ export const suggest = (name: string) => _.sortBy(fetchAll().map((composer:IComp
   composer,
 })), ['distance']);
 
-const checkAliases = (composer: IComposer, composers: IComposer[]) => {
+const checkAliases = (composer: IComposer, composers: IComposer[], newAliases: string[] = []) => {
   const index = indexComposers(composers);
-  return composer.aliases.map<IComposer | undefined>((alias) => index[alias]).filter((c) => !!c && c !== composer);
+  return [ ...composer.aliases, ...newAliases].map<IComposer | undefined>((alias) => index[alias]).filter((c) => !!c && c !== composer);
 }
   
 export const add = (composer: IComposer): boolean => {
@@ -126,24 +127,47 @@ export const add = (composer: IComposer): boolean => {
   return true;
 };
 
-export const update = (updates: IComposerUpdater): boolean => {
+export const updateComposer = (updates: IComposerUpdater): boolean => {
   const composers = fetchAll();
   const existing = find(updates.name, composers);
   if (!existing) {
     error(`No composer named ${updates.name} found to update`);
     return false;
   }
-  _.merge(existing, updates);
   if (updates.aliases) {
-    const existingAliases = checkAliases(existing, composers);
+    const existingAliases = checkAliases(existing, composers, updates.aliases);
     if (existingAliases.length > 0) {
       error(`The following aliases for this composer already exist`, existingAliases);
       return false;
     }
   }
+  merge(existing, updates);
   composerFile().save(composers);
   return true;
 };
+
+export const updateComposers = (updates: IComposerUpdater[]): IComposer[] => {
+  const composers = fetchAll();
+  const updated = updates.reduce((accum, u) => {
+    const existing = find(u.name, composers);
+    if (!existing) {
+      error(`No composer named ${u.name} found to update`);
+      return accum;
+    }
+    if (u.aliases) {
+      const existingAliases = checkAliases(existing, composers, u.aliases);
+      if (existingAliases.length > 0) {
+        error(`The following aliases for this composer already exist`, existingAliases);
+        return accum;
+      }
+    }
+    return [ ...accum, merge(existing, u) ];      // NOTE: merge mutates existing
+  }, [] as IComposer[]);
+  composerFile().save(composers);
+  return updated;
+}
+
+export const update = (updates: object[]) => updateComposers(updates as IComposerUpdater[]);
 
 const getValues = async (known: Partial<IComposer>, index: Record<string, IComposer>, existing?: IComposer): Promise<IComposer | undefined> => {
   keypress.suspend();
@@ -260,7 +284,7 @@ export const resolve = async (name: string, tracks: track.ITrack[]): Promise<boo
     default: {
       const composer = index[option];
       if (composer) {
-        update({ name: composer.name, aliases: _.uniq([...composer.aliases || [], name]) });
+        updateComposer({ name: composer.name, aliases: _.uniq([...composer.aliases || [], name]) });
       } else {
         error(`Could not find existing composer ${option}`);
       }

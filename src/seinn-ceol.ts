@@ -6,7 +6,7 @@ import { startTiming, endTiming } from './diagnostics';
 import * as keypress  from './keypress';
 import { cmdPlay } from './play';
 import * as playlist from './playlist';
-import { cmdQuery } from './query';
+import { cmdQuery, cmdTag } from './query';
 import { cmdShowStats, showDiagnostics } from './stats';
 import * as track from './track';
 import { printLn, start, quit } from './util';
@@ -81,18 +81,6 @@ program
   ;
 
 program
-  .command('remove-deleted')
-  .description('Remove deleted track files from the tracks list')
-  .action(track.cmdRemoveDeleted)
-  ;
-
-program
-  .command('resolve-composers')
-  .description('Resolve composers for tracks whose composer is not on file')
-  .action(composer.cmdResolveComposers)
-  ;
-
-program
   .command('query <table>')
   .option('-c, --columns <columns...>', 'Columns to show (using query syntax)')
   .option('-H, --headings <headings...>', 'Overrides for default headings (any blank or not provided will still default)')
@@ -106,6 +94,18 @@ program
   ;
 
 program
+  .command('remove-deleted')
+  .description('Remove deleted track files from the tracks list')
+  .action(track.cmdRemoveDeleted)
+  ;
+
+program
+  .command('resolve-composers')
+  .description('Resolve composers for tracks whose composer is not on file')
+  .action(composer.cmdResolveComposers)
+  ;
+
+program
   .command('stats')
   .option('-g, --groupBy <group-spec...>', 'Fields to create sub-group statistics')
   .option('-o, --order <order...>', 'Order subgroups by name|time|tracks|plays|playTime, optionally followed by comma and asc/desc',)
@@ -113,6 +113,15 @@ program
   .option('-l, --limit <n...>', 'Limit lists to n items (default for each is unlimited)')
   .description('get statistics')
   .action(cmdShowStats)
+  ;
+
+program
+  .command('tag <table>')
+  .option('-a, --add <tag...>', 'Add tags')
+  .option('-r, --remove <tag...>', 'Remove tags')
+  .option('-w, --where <filter>', 'Apply tagging to only these items (required)')
+  .description('add or remove tags')
+  .action(cmdTag)
   ;
 
 const main = async () => {

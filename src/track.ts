@@ -8,12 +8,14 @@ import { IComposer } from './composer';
 import * as diagnostics from './diagnostics';
 import * as keypress from './keypress';
 import { doPlay, stopPlaying } from './play';
+import { ITagable } from './query';
 import { 
   addProgressSuffix, 
   ask, 
   error, 
   makeProgressBar,
   makeTime, 
+  merge,
   normalizePath,
   notification, 
   print,
@@ -45,7 +47,7 @@ export interface ITrackInfo {
   duration?: number;
 }
 
-export interface ITrack extends ITrackInfo {
+export interface ITrack extends ITrackInfo, ITagable {
   trackPath: string;
   composerKey?: string;
   lastPlayed?: string;
@@ -294,16 +296,33 @@ const addTracks = async (
   return _.difference(uniqd, existing);
 };
 
-const updateTrack = (updates: ITrackUpdater) => {
+export const updateTrack = (updates: ITrackUpdater) => {
   const tracks = fetchAll();
   const oldTrack = _.find(tracks, (track) => track.trackPath === updates.trackPath);
   if (oldTrack) {
-    _.merge(oldTrack, updates);     // mutates oldTrack, and thus tracks (this is to maintain track order)
+    merge(oldTrack, updates);     // mutates oldTrack, and thus tracks (this is to maintain track order)
     trackFile().save(tracks);
   } else {
     warning(`Track "${updates.trackPath}" not in library -- not updating`);
   }
 };
+
+export const updateTracks = (updates: ITrackUpdater[]): ITrack[] => {
+  const tracks = fetchAll();
+  const updated = updates.reduce((accum, u) => {
+    const oldTrack = _.find(tracks, (t) => t.trackPath === u.trackPath);
+    if (oldTrack) {
+      return [...accum, merge(oldTrack, u) ];     // mutates oldTrack, and thus tracks (this is to maintain track order)
+    } else {
+      warning(`Track "${u.trackPath}" not in library -- not updating`);
+      return accum;
+    }
+  }, [] as ITrack[]);
+  trackFile().save(tracks);
+  return updated;
+}
+
+export const update = (updates: object[]): ITrack[] => updateTracks(updates as ITrackUpdater[]);
 
 export const bumpPlays = (trackPath: string) => {
   const oldTrack = findTrack(trackPath);
@@ -381,10 +400,11 @@ export const hydrateTrack = (
     };
 };
 
-export const sort = (sortKeys: string[], whereClause?: string): ITrackHydrated[] => {
+export const sort = (sortKeys?: string[], whereClause?: string): ITrackHydrated[] => {
   const composerIndex = composer.indexComposers();
   const statSort = diagnostics.startTiming('Filter and sort tracks');
-  const result = sortBy<ITrackHydrated>(filter(whereClause), sortKeys);
+  const filtered = filter(whereClause);
+  const result = sortKeys ? sortBy<ITrackHydrated>(filtered, sortKeys) : filtered;
   diagnostics.endTiming(statSort);
   return result;
 };

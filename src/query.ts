@@ -17,7 +17,16 @@ import {
 } from './util';
 const pluralize = require('pluralize');
 
-const tableMap: Record<string, { filter: (where?: string) => object[]; }> = {
+export interface ITagable {
+  tags?: string[];
+}
+
+export interface ITableHandler {
+  filter: (where?: string) => ISortable[];
+  update: (updates: ITagable[]) => ITagable[];
+}
+
+const tableMap: Record<string, ITableHandler> = {
   composers: composer,
   layouts: layout,
   playlists: playlist,
@@ -70,6 +79,31 @@ export const cmdQuery = (
   }, true);
   printLn('');
   notification(pluralize(table.replace(/s$/, ''), limited.length, true));
+};
+
+export const cmdTag = (
+  table: string,
+  options: {
+    add?: string[];
+    remove?: string[];
+    where?: string;
+  }
+) => {
+  const tableHandler = tableMap[table.toLowerCase()];
+  if (!tableHandler) {
+    error(`Unknown table: ${table}`);
+    return;
+  }
+  if (!options.where) {
+    error(`--where option is required (use 'true' if you really want to affect all ${table})`);
+    return;
+  }
+  const items = tableHandler.filter(options.where);
+  const updates = items.map((i) => ({
+    ...i,
+    tags: _.difference(_.union(i.tags ?? [], options.add ?? []), options.remove ?? []),
+  }));
+  tableHandler.update(updates);
 };
 
 const makeJustification = (justification?: string): Justification =>
