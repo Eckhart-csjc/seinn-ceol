@@ -308,14 +308,15 @@ export const formatInfo = (composer?: string[], composerKey?: IComposer | string
   const c:IComposer|undefined = composerKey ? 
     (typeof composerKey === 'string' ? find(composerKey) : composerKey) : 
     undefined;
-  const alias = (c?.name && c?.name !== name) ? c?.name : '';
-  return [ 
+  const alias = (c?.name !== name) ? c?.name : '';
+  const info = [ 
     `Composer: ${name}`, 
     alias ? `Alias: ${alias}` : '',
     c?.born ? `Born: ${c?.born}` : '',
     c?.died ? `Died: ${c?.died}` : '',
     c?.tags?.length ? `Tags: ${c?.tags?.join(' ')}` : '',
-  ].filter((s) => !!s);
+  ];
+  return info.filter((s) => !!s);
 }
 
 export const getCacheStats = () => composerFile().getCacheStats();

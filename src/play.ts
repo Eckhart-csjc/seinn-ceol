@@ -49,7 +49,7 @@ export const doPlay = async (
         process.stdout.cursorTo(0);
         process.stdout.clearLine(0);
         const o = new SegOut();
-        const t = findTrack(track.trackPath) ?? track;   // Get most up to date
+        const t = hydrateTrack(findTrack(track.trackPath) ?? track);   // Get most up to date
         formatInfo(t).map((i) => o.add(i, ' | ', " \u2192 ", "detail"));
         o.nl();
       },
