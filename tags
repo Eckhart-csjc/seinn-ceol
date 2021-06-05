@@ -180,6 +180,7 @@ error	src/composer.ts	/^    error(`No composer named ${updates.name} found to up
 error	src/composer.ts	/^    error(`The following aliases for this composer already exist`, existingAliases);$/;"	m
 error	src/diagnostics.ts	/^    error(`endTiming called for an id that was not found: ${JSON.stringify(id)}`);$/;"	m
 error	src/extractor.ts	/^    error(' '.repeat(result.offset) + '^');$/;"	m
+error	src/extractor.ts	/^    error(`Syntax error at offset ${result.offset}`);$/;"	m
 error	src/extractor.ts	/^    error(`Syntax error in parsed clause at offset ${result.offset}`);$/;"	m
 error	src/extractor.ts	/^    error(`This shouldn't happen, remaining tokens:`, JSON.stringify(tokens, undefined, 2));$/;"	m
 error	src/extractor.ts	/^    error(input);$/;"	m
@@ -239,7 +240,7 @@ fnc	src/extractor.ts	/^    fnc(context, () => extract(context, operands[0]), () 
 fnc	src/extractor.ts	/^    fnc(context, pack(extract(context, operands[0])));$/;"	m
 fnc	src/extractor.ts	/^    fnc(context, pack(extract(context, operands[0])), extract(context, operands[1]));$/;"	m
 formatColumns	src/layout.ts	/^export const formatColumns = ($/;"	v
-formatInfo	src/composer.ts	/^export const formatInfo = (composer?: string[], composerKey?: IComposer | string) => {$/;"	v
+formatInfo	src/composer.ts	/^export const formatInfo = (composer?: string[], composerKey?: IComposer | string): string[] => {$/;"	v
 formatInfo	src/play.ts	/^        formatInfo(track).map((i) => o.add(i, ' | ', " \\u2192 ", "detail"));$/;"	m
 formatInfo	src/track.ts	/^export const formatInfo = (t: ITrackHydrated): string[] => [$/;"	v
 func	src/keypress.ts	/^  func: (key: IKey) => any;     \/\/ Return value is ignored$/;"	m
@@ -463,6 +464,7 @@ if	src/playlist.ts	/^  if (statTrackTurnAround) {$/;"	m
 if	src/playlist.ts	/^  if (where && !token) {$/;"	m
 if	src/query.ts	/^  if (!options.where) {$/;"	m
 if	src/query.ts	/^  if (!tableHandler) {$/;"	m
+if	src/query.ts	/^  if (limited.length > 0) {$/;"	m
 if	src/segout.ts	/^      if (sep) {$/;"	m
 if	src/segout.ts	/^    if (this.lastCol > 0 && $/;"	m
 if	src/segout.ts	/^    if (this.lastCol > 0) {$/;"	m
@@ -697,6 +699,7 @@ parseOpus	src/track.ts	/^export const parseOpus = (title?: string): number|undef
 parseOrder	src/util.ts	/^export const parseOrder = (order: string): [ string, 'asc' | 'desc' | undefined ] => {$/;"	v
 parseRoman	src/track.ts	/^export const parseRoman = (val: string) => [...val].reduce<{prev: number, result: number}>((accum, c) => {$/;"	v
 parseSubMovement	src/track.ts	/^export const parseSubMovement = (title?: string): string|undefined => {$/;"	v
+parseTags	src/extractor.ts	/^export const parseTags = (input: string) => {$/;"	v
 parser	src/util.ts	/^      parser: parseExtractor(query),$/;"	m
 pause	src/config.ts	/^  pause: { sequence: 'p' },$/;"	m
 pauseAfterTrack	src/config.ts	/^  pauseAfterTrack: { sequence: 'P' },$/;"	m
@@ -739,7 +742,7 @@ printColumns	src/track.ts	/^    printColumns([$/;"	m
 printColumns	src/util.ts	/^export const printColumns = ($/;"	v
 printLn	src/composer.ts	/^    printLn('');$/;"	m
 printLn	src/composer.ts	/^  printLn('');$/;"	m
-printLn	src/query.ts	/^  printLn('');$/;"	m
+printLn	src/query.ts	/^    printLn('');$/;"	m
 printLn	src/segout.ts	/^    printLn('');$/;"	m
 printLn	src/seinn-ceol.ts	/^        printLn(keypress.makeHelpText().join(', '), 'help');$/;"	m
 printLn	src/track.ts	/^  printLn('');$/;"	m

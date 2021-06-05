@@ -477,7 +477,7 @@ export const resolveAnonymous = async (track: ITrack): Promise<void> => {
 
 export const formatInfo = (t: ITrackHydrated): string[] => [
   `Title: ${t.title || '?'}`,
-  composer.formatInfo(t.composer, t.composerDetail),
+  ...composer.formatInfo(t.composer, t.composerDetail),
   ...(t.compositionDate ? [ `Composition Date: ${t.compositionDate}` ] : []),
   `Album: ${t.album || '?'}`,
   ...((t.nDisks && t.nDisks > 1) ? [ `Disk ${t.disk} of ${t.nDisks}` ] : []),
@@ -495,6 +495,7 @@ export const formatInfo = (t: ITrackHydrated): string[] => [
   `Duration: ${makeTime((t.duration ?? 1) * 1000)}`,
   `Plays: ${t.plays}`,
   ...(t.lastPlayed ? [`Last played: ${t.lastPlayed}`] : []),
+  ...(t.tags?.length ? [`Tags: ${t.tags.join(' ')}` ] : []),
   `Media file: ${t.trackPath}`,
 ];
 

@@ -55,29 +55,31 @@ export const cmdQuery = (
   const limited = (options.offset || options.limit) ? 
     sorted.slice(parseInt(options.offset || '0', 10), parseInt(options.offset || '0', 10) + (parseInt(options.limit || '0', 10) || sorted.length)) : 
     sorted;
-  const columns = options.columns ?? limited.reduce<string[]>((accum, i) => _.uniq([ ...accum, ...Object.keys(i) ]), []);
-  const colp = columns.map((c) => parseExtractor(c));
-  const rows = [
-    columns.map((c, ndx) => options.headings?.[ndx] || c),
-    ...limited.map((i) => columns.map((c,cndx) => colp[cndx] ? queryMakeString(extract(i, colp[cndx]!)) : '#ERR')),
-  ];
-  const maxs = rows.reduce<number[]>((acc, r) =>
-    columns.map((c, ndx) => Math.max(acc[ndx] ?? 0, r[ndx]?.length ?? 0)),
-  [] as number[]);
-  const justification = columns.map((c, ndx) => makeJustification(options.justification?.[ndx]));
-  const theme = config.getTheme();
-  const out = new SegOut();
-  rows.reduce((acc, r, rownum) => {
-    r.reduce((ac, c, ndx) => {
-      out.add(padOrTruncate(c, maxs[ndx] || 0, justification[ndx]), '│', undefined, 
-        (rownum == 0) ? theme.greenBarHeader ?? theme.greenBar1 :
-          ((rownum % 2 == 0) ? theme.greenBar1 : theme.greenBar2));
-      return ac;
-    }, acc)
-    out.nl();
-    return acc;
-  }, true);
-  printLn('');
+  if (limited.length > 0) {
+    const columns = options.columns ?? limited.reduce<string[]>((accum, i) => _.uniq([ ...accum, ...Object.keys(i) ]), []);
+    const colp = columns.map((c) => parseExtractor(c));
+    const rows = [
+      columns.map((c, ndx) => options.headings?.[ndx] || c),
+      ...limited.map((i) => columns.map((c,cndx) => colp[cndx] ? queryMakeString(extract(i, colp[cndx]!)) : '#ERR')),
+    ];
+    const maxs = rows.reduce<number[]>((acc, r) =>
+      columns.map((c, ndx) => Math.max(acc[ndx] ?? 0, r[ndx]?.length ?? 0)),
+    [] as number[]);
+    const justification = columns.map((c, ndx) => makeJustification(options.justification?.[ndx]));
+    const theme = config.getTheme();
+    const out = new SegOut();
+    rows.reduce((acc, r, rownum) => {
+      r.reduce((ac, c, ndx) => {
+        out.add(padOrTruncate(c, maxs[ndx] || 0, justification[ndx]), '│', undefined, 
+          (rownum == 0) ? theme.greenBarHeader ?? theme.greenBar1 :
+            ((rownum % 2 == 0) ? theme.greenBar1 : theme.greenBar2));
+        return ac;
+      }, acc)
+      out.nl();
+      return acc;
+    }, true);
+    printLn('');
+  }
   notification(pluralize(table.replace(/s$/, ''), limited.length, true));
 };
 

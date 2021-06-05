@@ -294,15 +294,19 @@ export const resolve = async (name: string, tracks: track.ITrack[]): Promise<boo
   return false;
 };
 
-export const formatInfo = (composer?: string[], composerKey?: IComposer | string) => {
+export const formatInfo = (composer?: string[], composerKey?: IComposer | string): string[] => {
   const name = composer?.join(' & ') ?? (typeof composerKey === 'string' ? composerKey : composerKey?.name) ?? '?';
   const c:IComposer|undefined = composerKey ? 
     (typeof composerKey === 'string' ? find(composerKey) : composerKey) : 
     undefined;
-  const alias = (c?.name && c?.name !== name) ?
-    ` (${c?.name})` :
-    '';
-  return `Composer: ${name}${alias}, born: ${c?.born ?? '?'}${c?.died ? ' died: ' + c?.died : ''}`;
+  const alias = (c?.name && c?.name !== name) ? c?.name : '';
+  return [ 
+    `Composer: ${name}`, 
+    alias ? `Alias: ${alias}` : '',
+    c?.born ? `Born: ${c?.born}` : '',
+    c?.died ? `Died: ${c?.died}` : '',
+    c?.tags?.length ? `Tags: ${c?.tags?.join(' ')}` : '',
+  ].filter((s) => !!s);
 }
 
 export const getCacheStats = () => composerFile().getCacheStats();

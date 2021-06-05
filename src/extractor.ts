@@ -323,6 +323,22 @@ const P = {
 
 const extractParser = P.operationChain();
 
+const tagsParser = ((F.try(P.stringLiteral())
+                     .or(P.identifier()))
+                     .then(P.optSpace())
+                   ).optrep();
+
+export const parseTags = (input: string) => {
+  const result = tagsParser.parse(Streams.ofString(input));
+  if (!(result.isAccepted() && result.isEos())) {
+    error(`Syntax error at offset ${result.offset}`);
+    error(input);
+    error(' '.repeat(result.offset) + '^');
+    return undefined;
+  }
+  return result.value?.value?.map((token: any) => token.value ?? token.name);
+}
+
 // Memoize parse results so repetition won't be so bad
 const parseCache: Record<string, Response<IValueToken>> = {
 };
