@@ -1,7 +1,7 @@
 import * as _ from 'lodash';
 import { ArrayFileHandler } from './array-file-handler';
 import * as diagnostics from './diagnostics';
-import { extract, parseExtractor } from './extractor';
+import { extract, parseExtractor, parseTags } from './extractor';
 import * as keypress from './keypress';
 import { ITagable } from './query';
 import * as track from './track';
@@ -197,6 +197,14 @@ const getValues = async (known: Partial<IComposer>, index: Record<string, ICompo
       askAnswered: true,
     },
     {
+      name: 'tags',
+      type: 'input',
+      message: 'Tags:',
+      default: known.tags,
+      validate: (val:string) => !!parseTags(val),
+      askAnswered: true,
+    },
+    {
       name: 'action',
       type: 'list',
       message: 'How does it look?',
@@ -212,6 +220,7 @@ const getValues = async (known: Partial<IComposer>, index: Record<string, ICompo
     aliases: (known.name && known.name !== responses.name) ? _.uniq([ ...aliases, known.name]) : aliases,
     born: responses.born,
     died: responses.died,
+    tags: parseTags(responses.tags),
   };
   switch (responses.action) {
     case 'OK':

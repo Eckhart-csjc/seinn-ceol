@@ -139,6 +139,7 @@ default	src/composer.ts	/^      default: SKIP,$/;"	m
 default	src/composer.ts	/^      default: known.born,$/;"	m
 default	src/composer.ts	/^      default: known.died,$/;"	m
 default	src/composer.ts	/^      default: known.name, $/;"	m
+default	src/composer.ts	/^      default: known.tags,$/;"	m
 default	src/composer.ts	/^    default: {$/;"	m
 default	src/playlist.ts	/^      default: current.tags?.map(maybeQuote).join(' '),$/;"	m
 default	src/playlist.ts	/^      default: defndx,$/;"	m
@@ -554,6 +555,7 @@ message	src/composer.ts	/^      message: 'Born:',$/;"	m
 message	src/composer.ts	/^      message: 'Died (blank if still living):',$/;"	m
 message	src/composer.ts	/^      message: 'How does it look?',$/;"	m
 message	src/composer.ts	/^      message: 'Name:', $/;"	m
+message	src/composer.ts	/^      message: 'Tags:',$/;"	m
 message	src/composer.ts	/^      message: name,$/;"	m
 message	src/playlist.ts	/^      message: 'Select track to start',$/;"	m
 message	src/playlist.ts	/^      message: 'Tags', $/;"	m
@@ -583,6 +585,7 @@ name	src/composer.ts	/^      name: 'born',$/;"	m
 name	src/composer.ts	/^      name: 'died',$/;"	m
 name	src/composer.ts	/^      name: 'name', $/;"	m
 name	src/composer.ts	/^      name: 'option',$/;"	m
+name	src/composer.ts	/^      name: 'tags',$/;"	m
 name	src/composer.ts	/^    name: responses.name,$/;"	m
 name	src/composer.ts	/^  name: string;                \/\/ Name as key$/;"	m
 name	src/composer.ts	/^  name: string;$/;"	m
@@ -857,6 +860,7 @@ t	src/stats.ts	/^  t: track.ITrackHydrated,$/;"	m
 t	src/track.ts	/^  t: ITrack, $/;"	m
 table	src/query.ts	/^  table: string,$/;"	m
 tag	src/config.ts	/^  tag: { sequence: 't' },$/;"	m
+tags	src/composer.ts	/^    tags: parseTags(responses.tags),$/;"	m
 tags	src/query.ts	/^    tags: _.difference(_.union(i.tags ?? [], options.add ?? []), options.remove ?? []),$/;"	m
 text	src/layout.ts	/^  text: string, $/;"	m
 text	src/segout.ts	/^    text: string,         \/\/ Text to add$/;"	m
@@ -949,6 +953,7 @@ updateTrack	src/track.ts	/^        updateTrack({ trackPath: track.trackPath, com
 updateTrack	src/track.ts	/^    updateTrack({$/;"	m
 updateTrack	src/track.ts	/^export const updateTrack = (updates: ITrackUpdater) => {$/;"	v
 updateTracks	src/track.ts	/^export const updateTracks = (updates: ITrackUpdater[]): ITrack[] => {$/;"	v
+validate	src/composer.ts	/^      validate: (val:string) => !!parseTags(val),$/;"	m
 validate	src/composer.ts	/^      validate: (val:string) => !val ? 'Composer name is required' : (index[val] && index[val] !== existing) ? 'Composer name already in use' : true,$/;"	m
 validate	src/composer.ts	/^      validate: (val:string) => (!!val && dayjs(val).year != NaN) ? true : 'Invalid date',$/;"	m
 validate	src/composer.ts	/^      validate: (val:string) => (!val || dayjs(val).year != NaN) ? true : 'Invalid date',$/;"	m
