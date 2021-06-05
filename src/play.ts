@@ -49,7 +49,8 @@ export const doPlay = async (
         process.stdout.cursorTo(0);
         process.stdout.clearLine(0);
         const o = new SegOut();
-        formatInfo(track).map((i) => o.add(i, ' | ', " \u2192 ", "detail"));
+        const t = findTrack(track.trackPath) ?? track;   // Get most up to date
+        formatInfo(t).map((i) => o.add(i, ' | ', " \u2192 ", "detail"));
         o.nl();
       },
       help: 'info on track/composer',

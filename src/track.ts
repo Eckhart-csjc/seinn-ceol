@@ -15,6 +15,7 @@ import {
   error, 
   makeProgressBar,
   makeTime, 
+  maybeQuote,
   merge,
   normalizePath,
   notification, 
@@ -305,6 +306,7 @@ export const updateTrack = (updates: ITrackUpdater) => {
   } else {
     warning(`Track "${updates.trackPath}" not in library -- not updating`);
   }
+  return oldTrack;
 };
 
 export const updateTracks = (updates: ITrackUpdater[]): ITrack[] => {
@@ -495,7 +497,7 @@ export const formatInfo = (t: ITrackHydrated): string[] => [
   `Duration: ${makeTime((t.duration ?? 1) * 1000)}`,
   `Plays: ${t.plays}`,
   ...(t.lastPlayed ? [`Last played: ${t.lastPlayed}`] : []),
-  ...(t.tags?.length ? [`Tags: ${t.tags.join(' ')}` ] : []),
+  ...(t.tags?.length ? [`Tags: ${t.tags.map(maybeQuote).join(' ')}` ] : []),
   `Media file: ${t.trackPath}`,
 ];
 

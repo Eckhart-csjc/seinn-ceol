@@ -261,3 +261,7 @@ export const merge = (a: any, b:any): any => _.keys(b).reduce((accum, k) => {
   : accum[k];
   return accum;
 }, a);
+
+export const maybeQuote = (input: string) => input.match(/^[a-z0-9_]+$/i)
+  ? input
+  : `"${input.replace(/"/, '\\"')}"`;

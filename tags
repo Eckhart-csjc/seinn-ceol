@@ -140,6 +140,7 @@ default	src/composer.ts	/^      default: known.born,$/;"	m
 default	src/composer.ts	/^      default: known.died,$/;"	m
 default	src/composer.ts	/^      default: known.name, $/;"	m
 default	src/composer.ts	/^    default: {$/;"	m
+default	src/playlist.ts	/^      default: current.tags?.map(maybeQuote).join(' '),$/;"	m
 default	src/playlist.ts	/^      default: defndx,$/;"	m
 default	src/playlist.ts	/^      default: findString || '', $/;"	m
 default	src/track.ts	/^          default: track.composerKey,$/;"	m
@@ -186,8 +187,10 @@ error	src/extractor.ts	/^    error(`This shouldn't happen, remaining tokens:`, J
 error	src/extractor.ts	/^    error(input);$/;"	m
 error	src/file-handler.ts	/^          error(`Error reading and parsing file ${this.filename}: ${e.message}`);$/;"	m
 error	src/players/afplay.ts	/^    error(`Error playing track ${track.trackPath}: ${e.message}`);$/;"	m
+error	src/playlist.ts	/^    error('No current track');$/;"	m
 error	src/playlist.ts	/^    error(`Could not find playlist "${name}"`);$/;"	m
 error	src/playlist.ts	/^    error(`Could not update current track in playlist ${name} -- playlist not found`);$/;"	m
+error	src/playlist.ts	/^    error(`Unable to read current track`);$/;"	m
 error	src/query.ts	/^    error(`--where option is required (use 'true' if you really want to affect all ${table})`);$/;"	m
 error	src/query.ts	/^    error(`Unknown table: ${table}`);$/;"	m
 error	src/track.ts	/^          error(`Track ${trackPath} is not an audio file we can use`);$/;"	m
@@ -241,7 +244,7 @@ fnc	src/extractor.ts	/^    fnc(context, pack(extract(context, operands[0])));$/;
 fnc	src/extractor.ts	/^    fnc(context, pack(extract(context, operands[0])), extract(context, operands[1]));$/;"	m
 formatColumns	src/layout.ts	/^export const formatColumns = ($/;"	v
 formatInfo	src/composer.ts	/^export const formatInfo = (composer?: string[], composerKey?: IComposer | string): string[] => {$/;"	v
-formatInfo	src/play.ts	/^        formatInfo(track).map((i) => o.add(i, ' | ', " \\u2192 ", "detail"));$/;"	m
+formatInfo	src/play.ts	/^        formatInfo(t).map((i) => o.add(i, ' | ', " \\u2192 ", "detail"));$/;"	m
 formatInfo	src/track.ts	/^export const formatInfo = (t: ITrackHydrated): string[] => [$/;"	v
 func	src/keypress.ts	/^  func: (key: IKey) => any;     \/\/ Return value is ignored$/;"	m
 func	src/keypress.ts	/^  func: (key: IKey) => any;$/;"	m
@@ -442,11 +445,13 @@ if	src/playlist.ts	/^    if (isPlaying()) {$/;"	m
 if	src/playlist.ts	/^    if (oldPlaylist) {$/;"	m
 if	src/playlist.ts	/^    if (parser) {$/;"	m
 if	src/playlist.ts	/^    if (target) {$/;"	m
+if	src/playlist.ts	/^  if (!current) {$/;"	m
 if	src/playlist.ts	/^  if (!layOut?.columns) {$/;"	m
 if	src/playlist.ts	/^  if (!originalPlaylist) {$/;"	m
 if	src/playlist.ts	/^  if (!playlist) {$/;"	m
 if	src/playlist.ts	/^  if (!statTrackTurnAround && !nextTrack) {   \/\/ If we already loaded the next track, don't count this one from here.$/;"	m
 if	src/playlist.ts	/^  if (!suppressColumns) {$/;"	m
+if	src/playlist.ts	/^  if (!tags) {$/;"	m
 if	src/playlist.ts	/^  if (!theTrack) {$/;"	m
 if	src/playlist.ts	/^  if ([AfterTrackAction.Pause, AfterTrackAction.Quit].includes(afterTrackAction)) {$/;"	m
 if	src/playlist.ts	/^  if (afterTrackAction !== AfterTrackAction.Pause) {$/;"	m
@@ -461,6 +466,7 @@ if	src/playlist.ts	/^  if (response.findString) {$/;"	m
 if	src/playlist.ts	/^  if (shuffleMode && !nextTrack) {$/;"	m
 if	src/playlist.ts	/^  if (shuffleMode) {$/;"	m
 if	src/playlist.ts	/^  if (statTrackTurnAround) {$/;"	m
+if	src/playlist.ts	/^  if (theTrack?.trackPath === updated?.trackPath) {$/;"	m
 if	src/playlist.ts	/^  if (where && !token) {$/;"	m
 if	src/query.ts	/^  if (!options.where) {$/;"	m
 if	src/query.ts	/^  if (!tableHandler) {$/;"	m
@@ -537,6 +543,7 @@ makeTime	src/stats.ts	/^    makeTime(stats.totalTime * 1000), $/;"	m
 makeTime	src/util.ts	/^export const makeTime = (milli: number) => {$/;"	v
 makeTrack	src/track.ts	/^export const makeTrack = async (trackPath: string, info?: ITrackInfo): Promise<ITrack> => {$/;"	v
 maybeCorrectTrack	src/track.ts	/^export const maybeCorrectTrack = (t: ITrack) => {$/;"	v
+maybeQuote	src/util.ts	/^export const maybeQuote = (input: string) => input.match(\/^[a-z0-9_]+$\/i)$/;"	v
 merge	src/composer.ts	/^  merge(existing, updates);$/;"	m
 merge	src/layout.ts	/^    merge(existing, layout);$/;"	m
 merge	src/playlist.ts	/^    merge(existing, playlist);$/;"	m
@@ -549,6 +556,7 @@ message	src/composer.ts	/^      message: 'How does it look?',$/;"	m
 message	src/composer.ts	/^      message: 'Name:', $/;"	m
 message	src/composer.ts	/^      message: name,$/;"	m
 message	src/playlist.ts	/^      message: 'Select track to start',$/;"	m
+message	src/playlist.ts	/^      message: 'Tags', $/;"	m
 message	src/playlist.ts	/^      message: `Find ${backward ? '\\u2191' : '\\u2193'}`, $/;"	m
 message	src/track.ts	/^      message: 'Commit these changes?',$/;"	m
 meta	src/keypress.ts	/^  meta: boolean;$/;"	m
@@ -598,6 +606,7 @@ name	src/layout.ts	/^  name: string;           \/\/ Name of this layout$/;"	m
 name	src/play.ts	/^      name: 'info',$/;"	m
 name	src/playlist.ts	/^      name: 'findString', $/;"	m
 name	src/playlist.ts	/^      name: 'selectedTrack',$/;"	m
+name	src/playlist.ts	/^      name: 'tags', $/;"	m
 name	src/playlist.ts	/^    name: layout.formatColumns(t, layOut).join(sep).slice(2,max),$/;"	m
 name	src/playlist.ts	/^  name: string;           \/\/ Play list name$/;"	m
 name	src/seinn-ceol.ts	/^      name: 'diagnostics',$/;"	m
@@ -847,6 +856,7 @@ t	src/stats.ts	/^  t: track.ITrackHydrated, $/;"	m
 t	src/stats.ts	/^  t: track.ITrackHydrated,$/;"	m
 t	src/track.ts	/^  t: ITrack, $/;"	m
 table	src/query.ts	/^  table: string,$/;"	m
+tag	src/config.ts	/^  tag: { sequence: 't' },$/;"	m
 tags	src/query.ts	/^    tags: _.difference(_.union(i.tags ?? [], options.add ?? []), options.remove ?? []),$/;"	m
 text	src/layout.ts	/^  text: string, $/;"	m
 text	src/segout.ts	/^    text: string,         \/\/ Text to add$/;"	m
@@ -870,6 +880,7 @@ trackFile	src/track.ts	/^      trackFile().save(reduced);$/;"	m
 trackFile	src/track.ts	/^    trackFile().save(tracks);$/;"	m
 trackFile	src/track.ts	/^  trackFile().save(tracks);$/;"	m
 trackFile	src/track.ts	/^  trackFile().save(uniqd);$/;"	m
+trackPath	src/playlist.ts	/^    trackPath: current.trackPath,$/;"	m
 trackPath	src/track.ts	/^      trackPath: oldTrack.trackPath,$/;"	m
 trackPath	src/track.ts	/^  trackPath: string;$/;"	m
 tracks	src/query.ts	/^  tracks: track,$/;"	m

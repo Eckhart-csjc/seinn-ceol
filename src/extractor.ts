@@ -336,7 +336,8 @@ export const parseTags = (input: string) => {
     error(' '.repeat(result.offset) + '^');
     return undefined;
   }
-  return result.value?.value?.map((token: any) => token.value ?? token.name);
+  const tags = result.value?.value?.map((token: any) => token.value ?? token.name);
+  return tags ? _.uniq(tags) : undefined;
 }
 
 // Memoize parse results so repetition won't be so bad

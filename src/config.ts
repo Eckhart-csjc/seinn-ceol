@@ -40,6 +40,7 @@ export interface IKeyAssignments {
   resume?: Partial<IKey>;
   shuffle?: Partial<IKey>;
   stop?: Partial<IKey>;
+  tag?: Partial<IKey>;
 }
 
 const defaultKeyAssignments: IKeyAssignments = {
@@ -59,6 +60,7 @@ const defaultKeyAssignments: IKeyAssignments = {
   resume: { sequence: 'r' },
   shuffle: { sequence: 'S' },
   stop: { sequence: 's' },
+  tag: { sequence: 't' },
 };
 
 export type ThemeElement = keyof ITheme;

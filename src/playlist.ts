@@ -2,7 +2,7 @@ import * as _ from 'lodash';
 import { ArrayFileHandler } from './array-file-handler';
 import { getSettings } from './config';
 import * as diagnostics from './diagnostics';
-import { extract, parseExtractor, IValueToken } from './extractor';
+import { extract, IValueToken, parseExtractor, parseTags} from './extractor';
 import { IKey } from './keypress';
 import * as keypress from './keypress';
 import * as layout from './layout';
@@ -14,6 +14,7 @@ import {
   ask,
   error, 
   getRowsPrinted, 
+  maybeQuote,
   merge,
   notification,
   padOrTruncate, 
@@ -230,6 +231,40 @@ const doQuitAfter = (key: IKey) => {
   }
 };
 
+const doTag = async (key: IKey): Promise<void> => {
+  if (!theTrack) {
+    error('No current track');
+    return;
+  }
+  const current = track.findTrack(theTrack.trackPath);
+  if (!current) {
+    error(`Unable to read current track`);
+    return;
+  }
+  keypress.suspend();
+  const response = await ask([
+    { 
+      name: 'tags', 
+      type: 'input', 
+      message: 'Tags', 
+      askAnswered: true,
+      default: current.tags?.map(maybeQuote).join(' '),
+    },
+  ]);
+  keypress.resume();
+  const tags = parseTags(response.tags);
+  if (!tags) {
+    return doTag(key);
+  }
+  const updated = track.updateTrack({
+    trackPath: current.trackPath,
+    tags,
+  });
+  if (theTrack?.trackPath === updated?.trackPath) {
+    theTrack = updated;     // Reload copy in memory
+  }
+};
+
 const afterTrack = async (name: string, options: IPlayListOptions,  plays: number): Promise<void> => {
   switch (afterTrackAction) {
     case AfterTrackAction.Next: {
@@ -430,6 +465,7 @@ const doPlayList = async (name: string, options: IPlayListOptions, plays: number
     { name: 'resume', func: doResume, help: () => afterTrackAction === AfterTrackAction.Pause ? 'cancel pause' : (afterTrackAction === AfterTrackAction.Quit ? 'cancel quit' : '') },
     { name: 'shuffle', func: doShuffle, help: () => `turn ${shuffleMode ? 'off' : 'on'} shuffle mode` },
     { name: 'stop', func: doStop, help: 'stop playing' },
+    { name: 'tag', func: doTag, help: 'tags' },
   ]);
   keypress.addKeys(playListKeys);
   diagnostics.endTiming(statPrep);
