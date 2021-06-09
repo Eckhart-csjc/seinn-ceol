@@ -287,6 +287,18 @@ goodParse(`(A and B) = (C or D)`, {
   ],
 });
 
+goodParse('fetch tracks', {
+  type: TokenType.UnaryOperation,
+  operator: {
+    type: TokenType.UnaryOperator,
+    operator: Operation.Fetch,
+  },
+  operand: {
+    type: TokenType.Identifier,
+    name: 'tracks',
+  }
+});
+
 // Extractor tests
 
 const mockContext = {
@@ -374,3 +386,6 @@ goodExtract(`objs where name = 'fred'`, [{ name: 'fred', val: 1 }]);
 goodExtract(`objs where val > 1`, [{ name: 'wilma', val: 2 }, { name: 'barney', val: 3 }]);
 goodExtract(`objs[0] where true`, [{ name: 'fred', val: 1 }]);
 goodExtract(`arry where this =~ /r/`, ['fred', 'barney']);
+goodExtract(`fetch tracks where false`, []);
+goodExtract(`count arry`, 4);
+goodExtract(`count (objs where val > 1)`, 2);

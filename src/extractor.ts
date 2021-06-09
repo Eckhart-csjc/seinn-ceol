@@ -2,6 +2,7 @@ import { C, F, IParser, N, Response, Streams, Tuple, VoidParser } from '@masala/
 import * as _ from 'lodash';
 import parseDuration from 'parse-duration';
 import { ICacheStats, startTiming, endTiming } from './diagnostics';
+import { getTableHandler } from './query';
 import { debug, error, makeTime } from './util';
 
 const dayjs = require('dayjs');
@@ -10,16 +11,24 @@ const dayjs = require('dayjs');
 const UNIVERSALS = {
   true: true,
   false: false,
+  composers: 'composers',   // Table names, so you can say `fetch compsoers` instead of `fetch "composers"`
+  layouts: 'layouts',
+  playlists: 'playlists',
+  tracks: 'tracks',
 }
+
+const fetchCache: Record<string, unknown[]> = {};
 
 export enum Operation {
   All = 'All',
   And = 'And',
   Any = 'Any',
+  Count = 'Count',
   Date = 'Date',
   DividedBy = 'DividedBy',
   Duration = 'Duration',
   Equals = 'Equals',
+  Fetch = 'Fetch',
   Filter = 'Filter',
   GreaterThan = 'GreaterThan',
   GreaterThanOrEquals = 'GreaterThanOrEquals',
@@ -108,10 +117,13 @@ const IDENTIFIER_CHARACTERS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvw
 const unaryOperators: Record<string, Operation> = {
   ['all ']: Operation.All,
   ['any ']: Operation.Any,
+  ['count ']: Operation.Count,
   ['date ']: Operation.Date,
   ['dur ']: Operation.Duration,
   ['!']:  Operation.Not,
   ['not ']: Operation.Not,
+  ['fetch ']: Operation.Fetch,
+  ['query ']: Operation.Fetch,
   ['shortDate ']: Operation.ShortDate,
   ['shortDur ']: Operation.ShortDur,
   ['shortTime ']: Operation.ShortTime,
@@ -135,9 +147,9 @@ const binaryOperators: Record<string, Operation> = {
   ['||']: Operation.Or,
   ['or ']: Operation.Or,
   ['*']: Operation.Times,
-  ['matches ']: Operation.Matches,
   ['filter ']: Operation.Filter,
   ['join ']: Operation.Join,
+  ['matches ']: Operation.Matches,
   ['where ']: Operation.Where,
 };
 
@@ -145,10 +157,12 @@ const operatorPriority: Record<Operation, number> = {
   [Operation.All]: 6,
   [Operation.And]: 1,
   [Operation.Any]: 6,
+  [Operation.Count]: 6,
   [Operation.Date]: 6,
   [Operation.DividedBy]: 5,
   [Operation.Duration]: 6,
   [Operation.Equals]: 2,
+  [Operation.Fetch]: 6,
   [Operation.Filter]: 6,
   [Operation.GreaterThan]: 3,
   [Operation.GreaterThanOrEquals]: 3,
@@ -387,7 +401,7 @@ type UnaryArrayFunc = (context: object, op1: unknown[]) => unknown;
 type LazyBinaryOpFunc = (context: object, op1: () => unknown, op2: () => unknown) => unknown;
 
 const pack = (val: any): any[] =>
-  Array.isArray(val) ? val : [ val ];
+  _.isArray(val) ? val : [ val ];
 
 const unpack = (val: any[]): any =>
   val.length > 1 ? val : val[0];
@@ -430,6 +444,10 @@ const opFunc: Record<Operation, OpFunc> = {
     doUnaryArrayOperation(context, operands, (context, op1) =>
       op1?.reduce((accum, elem) => accum || !!elem, false)),
 
+  [Operation.Count]: (context, operands) =>
+    doUnaryArrayOperation(context, operands, (context, op1) =>
+      _.isArray(op1) ? op1.length : (_.isNil(op1) ? 0 : 1)),
+
   [Operation.Date]: (context, operands) =>
     doUnaryOperation(context, operands, (context, op1) =>
       new Date(dayjs(op1)).getTime() / 1000),
@@ -445,6 +463,23 @@ const opFunc: Record<Operation, OpFunc> = {
   [Operation.Equals]: (context, operands) =>
     doBinaryOperation(context, operands, (context, op1, op2) => 
       _.isEqual(op1, op2)),
+
+  [Operation.Fetch]: (context, operands) =>
+    doUnaryOperation(context, operands, (context, op1) => {
+      const table = `${op1}`;
+      const cached = fetchCache[table];
+      if (cached) {
+        return cached;
+      }
+      const handler = getTableHandler(table);
+      if (!handler) {
+        error(`Fetch: unknown table name: ${table}`);
+        return [];
+      }
+      const rows = handler.filter();    // Any real filtering happens in a Where operation
+      fetchCache[table] = rows;
+      return rows;
+    }),
 
   [Operation.Filter]: (context, operands) =>
     doBinaryArrayOperation(context, operands, (context, op1, op2) =>
@@ -532,13 +567,17 @@ const opFunc: Record<Operation, OpFunc> = {
 
   [Operation.Where]: (context, operands) => {
     if (operands.length === 2) {
+      const timer = startTiming('Extract:where');
       const arr = extract(context, operands[0]);
-      return (_.isArray(arr) ? arr : [ arr ])
-        .filter((e) => extract({
+      const token = operands[1];
+      const result = (_.isArray(arr) ? arr : [ arr ])
+        .filter((e) => extractors[token.type]({
           ...(_.isObjectLike(e) ? e : {}),
           ...context,
           this: e,
-        }, operands[1]));
+        }, token));
+      endTiming(timer);
+      return result;
     }
     return false;   // Should never happen based on parsing
   },
@@ -573,7 +612,10 @@ const extractors: Record<TokenType, (context: object, token: IToken) => unknown>
 
 export const extract = (context: object, token: IToken): unknown => {
   const timing = startTiming('Extract');
-  const result = extractors[token.type]({ ...UNIVERSALS, ...context }, token);
+  const result = extractors[token.type]({ 
+    ...UNIVERSALS, 
+    ...context, 
+  }, token);
   endTiming(timing);
   return result;
 }

@@ -33,6 +33,8 @@ const tableMap: Record<string, ITableHandler> = {
   tracks: track,
 };
 
+export const getTableHandler = (table: string) => tableMap[table.toLowerCase()];
+
 export const cmdQuery = (
   table: string,
   options: {
@@ -45,7 +47,7 @@ export const cmdQuery = (
     justification?: string[];
   }
 ) => {
-  const tableHandler = tableMap[table.toLowerCase()];
+  const tableHandler = getTableHandler(table);
   if (!tableHandler) {
     error(`Unknown table: ${table}`);
     return;
@@ -91,7 +93,7 @@ export const cmdTag = (
     where?: string;
   }
 ) => {
-  const tableHandler = tableMap[table.toLowerCase()];
+  const tableHandler = getTableHandler(table);
   if (!tableHandler) {
     error(`Unknown table: ${table}`);
     return;

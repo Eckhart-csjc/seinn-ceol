@@ -91,6 +91,7 @@ getLayout	src/layout.ts	/^export const getLayout = (layoutName?: string): ILayou
 getPlayer	src/play.ts	/^export const getPlayer = (): IPlayer => {$/;"	v
 getRowsPrinted	src/util.ts	/^export const getRowsPrinted = () => rowsPrinted;$/;"	v
 getSettings	src/config.ts	/^export const getSettings = (): IConfig => {$/;"	v
+getTableHandler	src/query.ts	/^export const getTableHandler = (table: string) => tableMap[table.toLowerCase()];$/;"	v
 getTheme	src/config.ts	/^export const getTheme = () => $/;"	v
 getTimings	src/diagnostics.ts	/^export const getTimings = () => timings;$/;"	v
 hydrateTrack	src/track.ts	/^export const hydrateTrack = ($/;"	v
