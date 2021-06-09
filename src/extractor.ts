@@ -36,6 +36,7 @@ export enum Operation {
   ShortDur = 'ShortDur',
   ShortTime = 'ShortTime',
   Times = 'Times',
+  Where = 'Where',
 }
 
 export enum TokenType {
@@ -137,6 +138,7 @@ const binaryOperators: Record<string, Operation> = {
   ['matches ']: Operation.Matches,
   ['filter ']: Operation.Filter,
   ['join ']: Operation.Join,
+  ['where ']: Operation.Where,
 };
 
 const operatorPriority: Record<Operation, number> = {
@@ -163,6 +165,7 @@ const operatorPriority: Record<Operation, number> = {
   [Operation.ShortDur]: 6,
   [Operation.ShortTime]: 6,
   [Operation.Times]: 5,
+  [Operation.Where]: 0,
 }
 
 const groupOperations = (tokens: IToken[]): IValueToken => {
@@ -526,6 +529,19 @@ const opFunc: Record<Operation, OpFunc> = {
   [Operation.Times]: (context, operands) =>
     doBinaryOperation(context, operands, (context, op1, op2) => 
       (op1 as any) * (op2 as any)),
+
+  [Operation.Where]: (context, operands) => {
+    if (operands.length === 2) {
+      const arr = extract(context, operands[0]);
+      return (_.isArray(arr) ? arr : [ arr ])
+        .filter((e) => extract({
+          ...(_.isObjectLike(e) ? e : {}),
+          ...context,
+          this: e,
+        }, operands[1]));
+    }
+    return false;   // Should never happen based on parsing
+  },
 }
 
 const extractors: Record<TokenType, (context: object, token: IToken) => unknown> = {

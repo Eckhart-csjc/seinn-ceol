@@ -10,7 +10,7 @@
     "clean": "rm -rf dist",
     "precompile": "npm run clean",
     "compile": "node_modules/.bin/tsc -p .",
-    "tag": "if [[ -x /usr/local/bin/ctags ]]; then /usr/local/bin/ctags -R src; fi",
+    "tag": "if [[ -x /usr/local/bin/ctags ]]; then /usr/local/bin/ctags -R -f - src | sed -e '/^[0-9$]/d' -e '/^if\t/d' > tags; fi",
     "build": "npm run compile && npm run tag",
     "pretest": "npm run build",
     "test": "jest"

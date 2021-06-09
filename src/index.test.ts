@@ -298,6 +298,7 @@ const mockContext = {
   arry: ['wilma', 'pebbles', 'fred', 'barney'],
   dates: ['1/1/2020', '1/2/2020'],
   neg1: -1,
+  objs: [ { name: 'fred', val: 1 }, { name: 'wilma', val: 2 }, { name: 'barney', val: 3 } ],
 };
 
 const goodExtract = (input: string, expected: unknown) => {
@@ -369,3 +370,7 @@ goodExtract(`"fred" =~ /red$/`, true);
 goodExtract(`"fred" =~ /Red$/`, false);
 goodExtract(`"fred" =~ /Red$/i`, true);
 goodExtract(`neg1 >= 0 && dates[neg1]`, false);
+goodExtract(`objs where name = 'fred'`, [{ name: 'fred', val: 1 }]);
+goodExtract(`objs where val > 1`, [{ name: 'wilma', val: 2 }, { name: 'barney', val: 3 }]);
+goodExtract(`objs[0] where true`, [{ name: 'fred', val: 1 }]);
+goodExtract(`arry where this =~ /r/`, ['fred', 'barney']);
