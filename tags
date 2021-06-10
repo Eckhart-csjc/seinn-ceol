@@ -60,6 +60,7 @@ displayHeaders	src/layout.ts	/^export const displayHeaders = (layoutName?: strin
 doPlay	src/play.ts	/^export const doPlay = async ($/;"	v
 endTiming	src/diagnostics.ts	/^export const endTiming = (id: ITimingId): ITiming | undefined => {$/;"	v
 error	src/util.ts	/^export const error = (...args: any[]) => {$/;"	v
+escapeRegExp	src/util.ts	/^export const escapeRegExp = (input: string) => input.replace(\/[.*+?^${}()|[\\]\\\\]\/g, '\\\\$&');$/;"	v
 execWithProgress	src/asyncChild.ts	/^export const execWithProgress = async ($/;"	v
 extract	src/extractor.ts	/^export const extract = (context: object, token: IToken): unknown => {$/;"	v
 fetchAll	src/composer.ts	/^export const fetchAll = () => composerFile().fetch();$/;"	v

@@ -3,7 +3,7 @@ import * as _ from 'lodash';
 import parseDuration from 'parse-duration';
 import { ICacheStats, startTiming, endTiming } from './diagnostics';
 import { getTableHandler } from './query';
-import { debug, error, makeTime } from './util';
+import { debug, error, escapeRegExp, makeTime } from './util';
 
 const dayjs = require('dayjs');
 
@@ -28,6 +28,7 @@ export enum Operation {
   DividedBy = 'DividedBy',
   Duration = 'Duration',
   Equals = 'Equals',
+  Escape = 'Escape',
   Fetch = 'Fetch',
   Filter = 'Filter',
   GreaterThan = 'GreaterThan',
@@ -122,6 +123,7 @@ const unaryOperators: Record<string, Operation> = {
   ['dur ']: Operation.Duration,
   ['!']:  Operation.Not,
   ['not ']: Operation.Not,
+  ['escape ']: Operation.Escape,
   ['fetch ']: Operation.Fetch,
   ['query ']: Operation.Fetch,
   ['shortDate ']: Operation.ShortDate,
@@ -162,6 +164,7 @@ const operatorPriority: Record<Operation, number> = {
   [Operation.DividedBy]: 5,
   [Operation.Duration]: 6,
   [Operation.Equals]: 2,
+  [Operation.Escape]: 6,
   [Operation.Fetch]: 6,
   [Operation.Filter]: 6,
   [Operation.GreaterThan]: 3,
@@ -463,6 +466,10 @@ const opFunc: Record<Operation, OpFunc> = {
   [Operation.Equals]: (context, operands) =>
     doBinaryOperation(context, operands, (context, op1, op2) => 
       _.isEqual(op1, op2)),
+
+  [Operation.Escape]: (context, operands) =>
+    doUnaryOperation(context, operands, (context, op1) =>
+      escapeRegExp(`${op1}`)),
 
   [Operation.Fetch]: (context, operands) =>
     doUnaryOperation(context, operands, (context, op1) => {

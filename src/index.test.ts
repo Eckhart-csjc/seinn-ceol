@@ -389,3 +389,4 @@ goodExtract(`arry where this =~ /r/`, ['fred', 'barney']);
 goodExtract(`fetch tracks where false`, []);
 goodExtract(`count arry`, 4);
 goodExtract(`count (objs where val > 1)`, 2);
+goodExtract(`escape "*Hello world!*"`, `\\*Hello world!\\*`);
