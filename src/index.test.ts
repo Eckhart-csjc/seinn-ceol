@@ -311,6 +311,7 @@ const mockContext = {
   dates: ['1/1/2020', '1/2/2020'],
   neg1: -1,
   objs: [ { name: 'fred', val: 1 }, { name: 'wilma', val: 2 }, { name: 'barney', val: 3 } ],
+  str: '*abc//\\($^.',
 };
 
 const goodExtract = (input: string, expected: unknown) => {
@@ -390,3 +391,5 @@ goodExtract(`fetch tracks where false`, []);
 goodExtract(`count arry`, 4);
 goodExtract(`count (objs where val > 1)`, 2);
 goodExtract(`escape "*Hello world!*"`, `\\*Hello world!\\*`);
+goodExtract(`str =~ escape str`, true);
+goodExtract(`str =~ '^' + escape str + '$'`, true);

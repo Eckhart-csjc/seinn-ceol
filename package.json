@@ -13,7 +13,8 @@
     "tag": "if [[ -x /usr/local/bin/ctags ]]; then /usr/local/bin/ctags -R -f - src | sed -e '/^[0-9$]/d' -e '/^if\t/d' > tags; fi",
     "build": "npm run compile && npm run tag",
     "pretest": "npm run build",
-    "test": "jest"
+    "test": "jest",
+    "debug": "node --inspect dist/seinn-ceol.js $*"
   },
   "repository": {
     "type": "git",
