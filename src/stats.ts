@@ -5,7 +5,7 @@ import { extract, IValueToken, parseCacheStats, parseExtractor } from './extract
 import * as layout from './layout';
 import * as playlist from './playlist';
 import * as track from './track';
-import { error, makeString, makeTime, notification, padOrTruncate, parseOrder, print, printColumns, printLn } from './util';
+import { error, clearLine, makeString, makeTime, notification, padOrTruncate, parseOrder, print, printColumns, printLn } from './util';
 import * as _ from 'lodash';
 
 const capitalize = require('capitalize');
@@ -68,9 +68,7 @@ export const cmdShowStats = (
 };
 
 export const cacheStats = () => {
-  if (process.stdout.isTTY) {
-    process.stdout.clearLine(0);
-  }
+  clearLine();
   const configStats = config.getCacheStats();
   notification('Cache statistics:');
   printColumns([

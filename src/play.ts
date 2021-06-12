@@ -2,7 +2,7 @@ import { getSettings } from './config';
 import * as keypress from './keypress';
 import { SegOut } from './segout';
 import { bumpPlays, findTrack, formatInfo, hydrateTrack, ITrackHydrated, makeTrack, } from './track';
-import { warning } from './util';
+import { eraseLine, warning } from './util';
 
 export interface IPlayer {
   play: (
@@ -46,8 +46,7 @@ export const doPlay = async (
     { 
       name: 'info',
       func: (key: keypress.IKey) =>  {
-        process.stdout.cursorTo(0);
-        process.stdout.clearLine(0);
+        eraseLine();
         const o = new SegOut();
         const t = hydrateTrack(findTrack(track.trackPath) ?? track);   // Get most up to date
         formatInfo(t).map((i) => o.add(i, ' | ', " \u2192 ", "detail"));

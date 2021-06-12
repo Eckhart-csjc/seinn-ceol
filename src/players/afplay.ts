@@ -4,6 +4,7 @@ import * as keypress from '../keypress';
 import { ITrackHydrated } from '../track';
 import { 
   addProgressSuffix,
+  cursorTo,
   error, 
   inAsk,
   makeProgressBar, 
@@ -144,7 +145,7 @@ const doPlay = async (track:ITrackHydrated, earlyReturn: number = 0, offset: num
       print(' ');
       print(makeProgressBar(barWidth, pct,
         `${makeTime(netElapsed)} of ${totalFmt} (${Math.floor(pct * 100)}%)`));
-      process.stdout.cursorTo(0);
+      cursorTo(0);
     }, 
     100, 
     ((track.duration ?? 0) * 1000) - offset - earlyReturn

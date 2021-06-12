@@ -9,7 +9,7 @@ import * as playlist from './playlist';
 import { cmdQuery, cmdTag } from './query';
 import { cmdShowStats, showDiagnostics } from './stats';
 import * as track from './track';
-import { ask, printLn, start, quit } from './util';
+import { ask, clearLine, printLn, start, quit } from './util';
 import { program } from 'commander';
 
 start();
@@ -24,7 +24,7 @@ keypress.addKeys(
     {
       name: 'help',
       func: () => { 
-        process.stdout.clearLine(0); 
+        clearLine();
         printLn(keypress.makeHelpText().join(', '), 'help');
       },
       help: 'help',

@@ -36,17 +36,13 @@ export const printLn = (text: string, theme?: Theming) => {
 }
 
 export const error = (...args: any[]) => {
-  if (process.stdout.isTTY) {
-    process.stdout.clearLine(0);
-  }
+  clearLine();
   console.error(...args.map((a: any) => 
     (typeof a === 'string') ? applyThemeSetting(a, 'error') : a));
   bumpRowsPrinted();      // Potentially innacurate, but as good as we can guess
 }
 export const warning = (...args: any) => {
-  if (process.stdout.isTTY) {
-    process.stdout.clearLine(0);
-  }
+  clearLine();
   console.warn(...args.map((a: any) => 
     (typeof a === 'string') ? applyThemeSetting(a, 'warning') : a));
   bumpRowsPrinted();
@@ -55,9 +51,7 @@ export const notification = (...args: any) => {
   if (inAsk) {
     return;
   }
-  if (process.stdout.isTTY) {
-    process.stdout.clearLine(0);
-  }
+  clearLine();
   console.log(...args.map((a: any) => 
     (typeof a === 'string') ? applyThemeSetting(a, 'notification') : a));
   bumpRowsPrinted();
@@ -118,10 +112,7 @@ export const printColumns = (
 
 export const ask = async (questions: any): Promise<any> => {
   inAsk = true;
-  if (process.stdout.isTTY) {
-    process.stdout.cursorTo(0);
-    process.stdout.clearLine(0);
-  }
+  eraseLine();
   const response = await inquirer.prompt(questions);
   fixTTY();
   inAsk = false;
@@ -267,3 +258,11 @@ export const maybeQuote = (input: string) => input.match(/^[a-z0-9_]+$/i)
   : `"${input.replace(/"/, '\\"')}"`;
 
 export const escapeRegExp = (input: string) => input.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
+export type Direction = 1 | 0 | -1;
+export const clearLine = (dir: Direction = 0) => process.stdout.isTTY && process.stdout.clearLine(dir);
+export const cursorTo = (x: number = 0, y?: number) => process.stdout.isTTY && process.stdout.cursorTo(x, y);
+export const eraseLine = () => { 
+  cursorTo(0); 
+  clearLine(); 
+};

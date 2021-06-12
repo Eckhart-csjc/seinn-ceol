@@ -12,6 +12,8 @@ import { ITagable } from './query';
 import { 
   addProgressSuffix, 
   ask, 
+  clearLine,
+  cursorTo,
   error, 
   makeProgressBar,
   makeTime, 
@@ -265,7 +267,7 @@ const addTracks = async (
     if (process.stdout.isTTY) {
       const pct = ndx / (tracks.length || 1);
       print(makeProgressBar(process.stdout.columns, pct, `Processed ${ndx} of ${pluralize('file', tracks.length, true)} (${Math.floor(pct * 100)}%)`));
-      process.stdout.cursorTo(0);
+      cursorTo(0);
     }
     const trackPath = normalizePath(track);
     if (byTrack[trackPath]) {
@@ -289,9 +291,7 @@ const addTracks = async (
       }
     }
   }, Promise.resolve(existing));
-  if (process.stdout.isTTY) {
-    process.stdout.clearLine(0);
-  }
+  clearLine();
   const uniqd = _.uniqBy(newTracks, (t) => `${t.title}|${t.album}|${t.composer?.join('|')}`);
   trackFile().save(uniqd);
   return _.difference(uniqd, existing);

@@ -12,6 +12,8 @@ import * as track from './track';
 import { 
   addProgressSuffix,
   ask,
+  clearLine,
+  cursorTo,
   error, 
   getRowsPrinted, 
   maybeQuote,
@@ -204,7 +206,7 @@ const doResume = (key: IKey) => {
     if (isPlaying()) {
       removeProgressSuffix(makeAfterMsg(afterTrackAction === AfterTrackAction.Pause ? 'pause' : 'quit'))
     } else {
-      process.stdout.clearLine(0);    // Erase paused message so we know we did it
+      clearLine();
     }
     afterTrackAction = shuffleMode ? AfterTrackAction.Shuffle : AfterTrackAction.Next;
   }
@@ -287,9 +289,9 @@ const afterTrack = async (name: string, options: IPlayListOptions,  plays: numbe
     case AfterTrackAction.Pause: {
       statTrackTurnAround = undefined;      // Don't count this pause in track turn-around time
       removeProgressSuffix(makeAfterMsg('pause'));
-      process.stdout.cursorTo(0);
+      cursorTo(0);
       print(padOrTruncate(' Paused', process.stdout.columns, 'center'), 'paused');
-      process.stdout.cursorTo(0);
+      cursorTo(0);
       await new Promise((resolve, reject) => setTimeout(resolve, 500));
       return afterTrack(name, options, plays);
     }

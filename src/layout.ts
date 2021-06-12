@@ -7,6 +7,7 @@ import { SegOut } from './segout';
 import * as track from './track';
 import { 
   addProgressSuffix,
+  eraseLine,
   Justification, 
   makeString,
   merge,
@@ -85,8 +86,7 @@ export const displayColumns = (
   layoutName?: string
 ) => {
   const o = new SegOut();
-  process.stdout.cursorTo(0);
-  process.stdout.clearLine(0);
+  eraseLine();
   const layout = getLayout(layoutName);
   if (!layout?.columns) {
     return;
@@ -123,8 +123,7 @@ export const displayHeaders = (layoutName?: string) => {
     return;
   }
   const o = new SegOut();
-  process.stdout.cursorTo(0);
-  process.stdout.clearLine(0);
+  eraseLine();
   const sep = layout.separator || '|';
   layout.columns.map((c) => 
     o.add(

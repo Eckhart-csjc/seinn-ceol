@@ -1,4 +1,5 @@
 ArrayFileHandler	src/array-file-handler.ts	/^export class ArrayFileHandler<T> {$/;"	c
+Direction	src/util.ts	/^export type Direction = 1 | 0 | -1;$/;"	t
 FileHandler	src/file-handler.ts	/^export class FileHandler<T> {$/;"	c
 ICacheStats	src/diagnostics.ts	/^export interface ICacheStats {$/;"	i
 ICatalog	src/composer.ts	/^export interface ICatalog {$/;"	i
@@ -43,6 +44,7 @@ ask	src/util.ts	/^export const ask = async (questions: any): Promise<any> => {$/
 bumpPlays	src/track.ts	/^export const bumpPlays = (trackPath: string) => {$/;"	v
 bumpRowsPrinted	src/util.ts	/^export const bumpRowsPrinted = (nLines: number = 1) => rowsPrinted += nLines;$/;"	v
 cacheStats	src/stats.ts	/^export const cacheStats = () => {$/;"	v
+clearLine	src/util.ts	/^export const clearLine = (dir: Direction = 0) => process.stdout.isTTY && process.stdout.clearLine(dir);$/;"	v
 cmdAdd	src/track.ts	/^export const cmdAdd = async (tracks:string[], options: { noError: boolean, noWarn: boolean }) => {$/;"	v
 cmdAddAll	src/track.ts	/^export const cmdAddAll = async (directory: string, options: { noError: boolean, noWarn: boolean }) => $/;"	v
 cmdInfo	src/track.ts	/^export const cmdInfo = async (track:string) => {$/;"	v
@@ -54,11 +56,13 @@ cmdResolveComposers	src/composer.ts	/^export const cmdResolveComposers = async (
 cmdShowStats	src/stats.ts	/^export const cmdShowStats = ($/;"	v
 cmdTag	src/query.ts	/^export const cmdTag = ($/;"	v
 composerIndexCacheStats	src/composer.ts	/^export const composerIndexCacheStats: diagnostics.ICacheStats = {$/;"	v
+cursorTo	src/util.ts	/^export const cursorTo = (x: number = 0, y?: number) => process.stdout.isTTY && process.stdout.cursorTo(x, y);$/;"	v
 debug	src/util.ts	/^export const debug = (...args: any[]) => {$/;"	v
 displayColumns	src/layout.ts	/^export const displayColumns = ($/;"	v
 displayHeaders	src/layout.ts	/^export const displayHeaders = (layoutName?: string) => {$/;"	v
 doPlay	src/play.ts	/^export const doPlay = async ($/;"	v
 endTiming	src/diagnostics.ts	/^export const endTiming = (id: ITimingId | undefined): ITiming | undefined => {$/;"	v
+eraseLine	src/util.ts	/^export const eraseLine = () => { $/;"	v
 error	src/util.ts	/^export const error = (...args: any[]) => {$/;"	v
 escapeRegExp	src/util.ts	/^export const escapeRegExp = (input: string) => input.replace(\/[.*+?^${}()|[\\]\\\\]\/g, '\\\\$&');$/;"	v
 execWithProgress	src/asyncChild.ts	/^export const execWithProgress = async ($/;"	v
