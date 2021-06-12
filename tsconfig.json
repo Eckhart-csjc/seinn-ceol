@@ -1,21 +1,22 @@
 {
   "compilerOptions": {
-    "target": "es2017",
+    "target": "es2020",
     "lib": [
-      "esnext"
+      "es2020"
     ],
     "outDir": "dist",
-    "module": "commonjs",
-    "allowSyntheticDefaultImports": true,
+    "module": "es2020",
     "esModuleInterop": true,
     "moduleResolution": "node",
     "declaration": true,
     "declarationMap": true,
+    "composite": true,
     "noImplicitAny": true,
     "removeComments": true,
     "inlineSourceMap": true,
     "inlineSources": true,
     "strictNullChecks": true,
+    "noImplicitAny": true,
     "noImplicitThis": true,
     "noImplicitReturns": true,
     "noUnusedParameters": false,

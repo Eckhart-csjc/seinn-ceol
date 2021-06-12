@@ -1,0 +1,16 @@
+{
+  "env": {
+    "browser": true,
+    "es6": true,
+    "node": true
+  },
+  "ignorePatterns": ["**/*.js", "dist", "node_modules"],
+  "extends": ["eslint-config-prettier"],
+  "plugins": ["simple-import-sort", "eslint-plugin-no-null", "eslint-plugin-prefer-arrow", "@typescript-eslint"],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "project": "tsconfig.json"
+  },
+  "rules": {
+  }
+}
