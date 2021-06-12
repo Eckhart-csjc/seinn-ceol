@@ -58,7 +58,7 @@ debug	src/util.ts	/^export const debug = (...args: any[]) => {$/;"	v
 displayColumns	src/layout.ts	/^export const displayColumns = ($/;"	v
 displayHeaders	src/layout.ts	/^export const displayHeaders = (layoutName?: string) => {$/;"	v
 doPlay	src/play.ts	/^export const doPlay = async ($/;"	v
-endTiming	src/diagnostics.ts	/^export const endTiming = (id: ITimingId): ITiming | undefined => {$/;"	v
+endTiming	src/diagnostics.ts	/^export const endTiming = (id: ITimingId | undefined): ITiming | undefined => {$/;"	v
 error	src/util.ts	/^export const error = (...args: any[]) => {$/;"	v
 escapeRegExp	src/util.ts	/^export const escapeRegExp = (input: string) => input.replace(\/[.*+?^${}()|[\\]\\\\]\/g, '\\\\$&');$/;"	v
 execWithProgress	src/asyncChild.ts	/^export const execWithProgress = async ($/;"	v
@@ -146,7 +146,7 @@ sort	src/track.ts	/^export const sort = (sortKeys?: string[], whereClause?: stri
 sortBy	src/util.ts	/^export const sortBy = <T extends ISortable>(items: T[], sortKeys: string[]): T[] => {$/;"	v
 spawnWithProgress	src/asyncChild.ts	/^export const spawnWithProgress = async ($/;"	v
 start	src/util.ts	/^export const start = () => {$/;"	v
-startTiming	src/diagnostics.ts	/^export const startTiming = (name: string): ITimingId => {$/;"	v
+startTiming	src/diagnostics.ts	/^export const startTiming = (name: string): ITimingId | undefined => {$/;"	v
 stop	src/players/afplay.ts	/^export const stop = async () => {$/;"	v
 stopPlaying	src/play.ts	/^export const stopPlaying = async () => playState.isPlaying ? await getPlayer().stop() : true;$/;"	v
 suggest	src/composer.ts	/^export const suggest = (name: string) => _.sortBy(fetchAll().map((composer:IComposer) => ({$/;"	v

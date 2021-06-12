@@ -233,7 +233,7 @@ export const sortBy = <T extends ISortable>(items: T[], sortKeys: string[]): T[]
   return result;
 };
 
-let timing: ITimingId;
+let timing: ITimingId | undefined;
 
 export const start = () => {
   timing = startTiming('Total execution');

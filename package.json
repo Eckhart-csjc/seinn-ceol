@@ -14,7 +14,7 @@
     "build": "npm run compile && npm run tag",
     "pretest": "npm run build",
     "test": "jest",
-    "debug": "node --inspect dist/seinn-ceol.js $*"
+    "debug": "SEINN_CEOL_DEBUG=1 node --inspect dist/seinn-ceol.js"
   },
   "repository": {
     "type": "git",

@@ -9,7 +9,7 @@ import * as playlist from './playlist';
 import { cmdQuery, cmdTag } from './query';
 import { cmdShowStats, showDiagnostics } from './stats';
 import * as track from './track';
-import { printLn, start, quit } from './util';
+import { ask, printLn, start, quit } from './util';
 import { program } from 'commander';
 
 start();
@@ -38,7 +38,8 @@ keypress.addKeys(
 );
 
 program
-  .option('-D, --diagnostics', 'Display diagnostics after execution')
+  .option('-d, --debug', 'debug mode')
+  .option('-D, --diagnostics', 'display diagnostics after execution')
   .version(require('../package.json').version)
   ;
 
@@ -125,8 +126,16 @@ program
   ;
 
 const main = async () => {
-  if (process.argv.length < 2) {
-    return program.outputHelp();
+  if (process.env.SEINN_CEOL_DEBUG === '1') {   // Back door for attaching a debugger
+    const { cont } = await ask({
+      type: 'confirm',
+      name: 'cont',
+      message: 'Ready?',
+      default: true,
+    });
+    if (!cont) {
+      quit();
+    }
   }
   await program.parseAsync(process.argv);
   quit();          // Required because keypress starts readline in raw mode
