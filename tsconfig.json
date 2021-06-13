@@ -1,16 +1,16 @@
 {
   "compilerOptions": {
-    "target": "es2020",
+    "target": "es2017",
     "lib": [
-      "es2020"
+      "esnext"
     ],
     "outDir": "dist",
-    "module": "es2020",
+    "module": "commonjs",
+    "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "moduleResolution": "node",
     "declaration": true,
     "declarationMap": true,
-    "composite": true,
     "noImplicitAny": true,
     "removeComments": true,
     "inlineSourceMap": true,
@@ -34,7 +34,5 @@
   "exclude": [
     "node_modules",
     "dist",
-    "src/client/dist",
-    "src/client/node_modules"
   ]
 }

@@ -74,54 +74,54 @@ program
 
 program
   .command('play-list <name>')
-  .option('-s, --shuffle', 'Shuffle tracks')
-  .option('-n, --next <filter>', 'Advance to the next track matching the filter')
-  .option('-w, --where <filter>', 'Additional filter on playlist')
-  .option('-b, --browse', 'Browse playlist before playing')
+  .option('-s, --shuffle', 'shuffle tracks')
+  .option('-n, --next <filter>', 'advance to the next track matching the filter')
+  .option('-w, --where <filter>', 'additional filter on playlist')
+  .option('-b, --browse', 'browse playlist before playing')
   .description('play tracks from a playlist')
   .action(playlist.cmdPlayList)
   ;
 
 program
   .command('query <table>')
-  .option('-c, --columns <columns...>', 'Columns to show (using query syntax)')
-  .option('-H, --headings <headings...>', 'Overrides for default headings (any blank or not provided will still default)')
-  .option('-j, --justification <justifications...>', 'Overrides for column justification (left|center|right, can be abbreviated, default: left)')
-  .option('-l, --limit <limit>', 'Limit output to n items')
-  .option('-o, --order <order...>', 'Order items.  Each order iq a query, optionally followed by a comma and sort order')
-  .option('-O, --offset <offset>', 'Start at offset (0 is first)')
-  .option('-w, --where <filter>', 'Filter items to include')
+  .option('-c, --columns <columns...>', 'columns to show (using query syntax)')
+  .option('-H, --headings <headings...>', 'overrides for default headings (any blank or not provided will still default)')
+  .option('-j, --justification <justifications...>', 'overrides for column justification (left|center|right, can be abbreviated, default: left)')
+  .option('-l, --limit <limit>', 'limit output to n items')
+  .option('-o, --order <order...>', 'order items.  Each order iq a query, optionally followed by a comma and sort order')
+  .option('-O, --offset <offset>', 'start at offset (0 is first)')
+  .option('-w, --where <filter>', 'filter items to include')
   .description('query table contents')
   .action(cmdQuery)
   ;
 
 program
   .command('remove-deleted')
-  .description('Remove deleted track files from the tracks list')
+  .description('remove deleted track files from the tracks list')
   .action(track.cmdRemoveDeleted)
   ;
 
 program
   .command('resolve-composers')
-  .description('Resolve composers for tracks whose composer is not on file')
+  .description('resolve composers for tracks whose composer is not on file')
   .action(composer.cmdResolveComposers)
   ;
 
 program
   .command('stats')
-  .option('-g, --groupBy <group-spec...>', 'Fields to create sub-group statistics')
-  .option('-o, --order <order...>', 'Order subgroups by name|time|tracks|plays|playTime, optionally followed by comma and asc/desc',)
-  .option('-w, --where <filter...>', 'Filter tracks to include in stats, followed by filters for groups (use true or 1 as an "all" placeholder where needed)')
-  .option('-l, --limit <n...>', 'Limit lists to n items (default for each is unlimited)')
+  .option('-g, --groupBy <group-spec...>', 'fields for sub-group statistics')
+  .option('-o, --order <order...>', 'order subgroups by name|time|tracks|plays|playTime, optionally followed by comma and asc/desc',)
+  .option('-w, --where <filter...>', 'filter tracks to include in stats, followed by filters for groups (use true or 1 as an "all" placeholder where needed)')
+  .option('-l, --limit <n...>', 'limit lists to n items (default for each is unlimited)')
   .description('get statistics')
   .action(cmdShowStats)
   ;
 
 program
   .command('tag <table>')
-  .option('-a, --add <tag...>', 'Add tags')
-  .option('-r, --remove <tag...>', 'Remove tags')
-  .option('-w, --where <filter>', 'Apply tagging to only these items (required)')
+  .option('-a, --add <tag...>', 'add tags')
+  .option('-r, --remove <tag...>', 'remove tags')
+  .option('-w, --where <filter>', 'apply tagging to only these items (required)')
   .description('add or remove tags')
   .action(cmdTag)
   ;
