@@ -1,4 +1,4 @@
-import { extract, parse, parseExtractor, Operation, TokenType } from './extractor';
+import { extract, Operation, parse, parseExtractor, TokenType } from './extractor';
 
 const chalk = require('chalk');
 
@@ -7,12 +7,12 @@ const goodParse = (input: string, expected: any) => {
     const result = parse(input);
     expect(result.isAccepted()).toBe(true);
     if (result.offset != input.length) {
-      console.log(input.slice(0, result.offset) + chalk.bgRed.black(input.slice(result.offset)))
+      console.log(input.slice(0, result.offset) + chalk.bgRed.black(input.slice(result.offset)));
     }
     expect(result.value).toEqual(expected);
     expect(result.isEos()).toBe(true);
   });
-}
+};
 
 goodParse('1', {
   type: TokenType.NumericLiteral,
@@ -320,7 +320,7 @@ const goodExtract = (input: string, expected: unknown) => {
     expect(token).toBeTruthy();
     expect(extract(mockContext, token!)).toEqual(expected);
   });
-}
+};
 
 goodExtract(`'a string'`, 'a string');
 goodExtract('123.45', 123.45);

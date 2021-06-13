@@ -1,4 +1,5 @@
 import * as _ from 'lodash';
+
 import * as composer from './composer';
 import * as config from './config';
 import { extract, parseExtractor } from './extractor';
@@ -6,8 +7,8 @@ import * as layout from './layout';
 import * as playlist from './playlist';
 import { SegOut } from './segout';
 import * as track from './track';
-import { 
-  error, 
+import {
+  error,
   ISortable,
   Justification,
   notification,
@@ -54,8 +55,8 @@ export const cmdQuery = (
   }
   const items = tableHandler.filter(options.where);
   const sorted = sortBy<ISortable>(items, options.order ?? []);     // Still want indexing
-  const limited = (options.offset || options.limit) ? 
-    sorted.slice(parseInt(options.offset || '0', 10), parseInt(options.offset || '0', 10) + (parseInt(options.limit || '0', 10) || sorted.length)) : 
+  const limited = (options.offset || options.limit) ?
+    sorted.slice(parseInt(options.offset || '0', 10), parseInt(options.offset || '0', 10) + (parseInt(options.limit || '0', 10) || sorted.length)) :
     sorted;
   if (limited.length > 0) {
     const columns = options.columns ?? limited.reduce<string[]>((accum, i) => _.uniq([ ...accum, ...Object.keys(i) ]), []);
@@ -72,11 +73,11 @@ export const cmdQuery = (
     const out = new SegOut();
     rows.reduce((acc, r, rownum) => {
       r.reduce((ac, c, ndx) => {
-        out.add(padOrTruncate(c, maxs[ndx] || 0, justification[ndx]), '│', undefined, 
+        out.add(padOrTruncate(c, maxs[ndx] || 0, justification[ndx]), '│', undefined,
           (rownum == 0) ? theme.greenBarHeader ?? theme.greenBar1 :
             ((rownum % 2 == 0) ? theme.greenBar1 : theme.greenBar2));
         return ac;
-      }, acc)
+      }, acc);
       out.nl();
       return acc;
     }, true);
@@ -111,8 +112,8 @@ export const cmdTag = (
 };
 
 const makeJustification = (justification?: string): Justification =>
-  ((justification && 
-    _.find(['left', 'center', 'right'], (v) => v.startsWith(justification.toLowerCase()))) ?? 
+  ((justification &&
+    _.find(['left', 'center', 'right'], (v) => v.startsWith(justification.toLowerCase()))) ??
       'left') as Justification;
 
 const queryMakeString = (val: any) => (typeof val === 'object') ? JSON.stringify(val) : `${val}`;

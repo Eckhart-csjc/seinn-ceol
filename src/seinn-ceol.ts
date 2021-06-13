@@ -1,16 +1,17 @@
 #!/usr/bin/env node
 
-import { getSettings } from './config';
+import { program } from 'commander';
+
 import * as composer from './composer';
-import { startTiming, endTiming } from './diagnostics';
+import { getSettings } from './config';
+import { endTiming,startTiming } from './diagnostics';
 import * as keypress  from './keypress';
 import { cmdPlay } from './play';
 import * as playlist from './playlist';
 import { cmdQuery, cmdTag } from './query';
 import { cmdShowStats, showDiagnostics } from './stats';
 import * as track from './track';
-import { ask, clearLine, printLn, start, quit } from './util';
-import { program } from 'commander';
+import { ask, clearLine, printLn, quit,start } from './util';
 
 start();
 getSettings();      // Make sure we can read config.json, even if we don't need it yet
@@ -23,7 +24,7 @@ keypress.addKeys(
     },
     {
       name: 'help',
-      func: () => { 
+      func: () => {
         clearLine();
         printLn(keypress.makeHelpText().join(', '), 'help');
       },
@@ -139,6 +140,6 @@ const main = async () => {
   }
   await program.parseAsync(process.argv);
   quit();          // Required because keypress starts readline in raw mode
-}
+};
 
 main();

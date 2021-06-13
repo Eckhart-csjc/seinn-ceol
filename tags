@@ -38,17 +38,17 @@ add	src/composer.ts	/^export const add = (composer: IComposer): boolean => {$/;"
 addKey	src/keypress.ts	/^export const addKey = (keyMapping: IKeyMapping) => {$/;"	v
 addKeys	src/keypress.ts	/^export const addKeys = (keys: IKeyMapping[]) =>$/;"	v
 addProgressSuffix	src/util.ts	/^export const addProgressSuffix = (suffix: string) => barSuffix += suffix;$/;"	v
-applyThemeSetting	src/config.ts	/^export const applyThemeSetting = (text: string, element?: Theming) => $/;"	v
-applyThemeSettings	src/config.ts	/^export const applyThemeSettings = (text: string, themeSettings?: IThemeSettings) => $/;"	v
+applyThemeSetting	src/config.ts	/^export const applyThemeSetting = (text: string, element?: Theming) =>$/;"	v
+applyThemeSettings	src/config.ts	/^export const applyThemeSettings = (text: string, themeSettings?: IThemeSettings) =>$/;"	v
 ask	src/util.ts	/^export const ask = async (questions: any): Promise<any> => {$/;"	v
 bumpPlays	src/track.ts	/^export const bumpPlays = (trackPath: string) => {$/;"	v
 bumpRowsPrinted	src/util.ts	/^export const bumpRowsPrinted = (nLines: number = 1) => rowsPrinted += nLines;$/;"	v
 cacheStats	src/stats.ts	/^export const cacheStats = () => {$/;"	v
 clearLine	src/util.ts	/^export const clearLine = (dir: Direction = 0) => process.stdout.isTTY && process.stdout.clearLine(dir);$/;"	v
-cmdAdd	src/track.ts	/^export const cmdAdd = async (tracks:string[], options: { noError: boolean, noWarn: boolean }) => {$/;"	v
-cmdAddAll	src/track.ts	/^export const cmdAddAll = async (directory: string, options: { noError: boolean, noWarn: boolean }) => $/;"	v
-cmdInfo	src/track.ts	/^export const cmdInfo = async (track:string) => {$/;"	v
-cmdPlay	src/play.ts	/^export const cmdPlay = async (track: ITrackHydrated | string): Promise<void> => { await doPlay(track); }$/;"	v
+cmdAdd	src/track.ts	/^export const cmdAdd = async (tracks: string[], options: { noError: boolean; noWarn: boolean }) => {$/;"	v
+cmdAddAll	src/track.ts	/^export const cmdAddAll = async (directory: string, options: { noError: boolean; noWarn: boolean }) =>$/;"	v
+cmdInfo	src/track.ts	/^export const cmdInfo = async (track: string) => {$/;"	v
+cmdPlay	src/play.ts	/^export const cmdPlay = async (track: ITrackHydrated | string): Promise<void> => { await doPlay(track); };$/;"	v
 cmdPlayList	src/playlist.ts	/^export const cmdPlayList = async (name: string, options: IPlayListOptions) => {$/;"	v
 cmdQuery	src/query.ts	/^export const cmdQuery = ($/;"	v
 cmdRemoveDeleted	src/track.ts	/^export const cmdRemoveDeleted = async () => {$/;"	v
@@ -62,7 +62,7 @@ displayColumns	src/layout.ts	/^export const displayColumns = ($/;"	v
 displayHeaders	src/layout.ts	/^export const displayHeaders = (layoutName?: string) => {$/;"	v
 doPlay	src/play.ts	/^export const doPlay = async ($/;"	v
 endTiming	src/diagnostics.ts	/^export const endTiming = (id: ITimingId | undefined): ITiming | undefined => {$/;"	v
-eraseLine	src/util.ts	/^export const eraseLine = () => { $/;"	v
+eraseLine	src/util.ts	/^export const eraseLine = () => {$/;"	v
 error	src/util.ts	/^export const error = (...args: any[]) => {$/;"	v
 escapeRegExp	src/util.ts	/^export const escapeRegExp = (input: string) => input.replace(\/[.*+?^${}()|[\\]\\\\]\/g, '\\\\$&');$/;"	v
 execWithProgress	src/asyncChild.ts	/^export const execWithProgress = async ($/;"	v
@@ -76,7 +76,7 @@ filter	src/layout.ts	/^export const filter = (where?: string): ILayout[] => {$/;
 filter	src/playlist.ts	/^export const filter = (where?: string): IPlayList[] => {$/;"	v
 filter	src/track.ts	/^export const filter = (where?: string): ITrackHydrated[] => {$/;"	v
 find	src/composer.ts	/^export const find = (name: string, composers?: IComposer[]) => indexComposers(composers)[name];$/;"	v
-find	src/layout.ts	/^export const find = (name: string, layouts?: ILayout[]) => $/;"	v
+find	src/layout.ts	/^export const find = (name: string, layouts?: ILayout[]) =>$/;"	v
 find	src/playlist.ts	/^export const find = (name: string, playlists?: IPlayList[]) => _.find(playlists ?? fetchAll(), (pl) => pl.name === name);$/;"	v
 findTrack	src/track.ts	/^export const findTrack = (trackPath: string) => {$/;"	v
 fixTTY	src/keypress.ts	/^export const fixTTY = () => {$/;"	v
@@ -89,15 +89,15 @@ getCacheStats	src/layout.ts	/^export const getCacheStats = () => layoutFile().ge
 getCacheStats	src/playlist.ts	/^export const getCacheStats = () => playListFile().getCacheStats();$/;"	v
 getCacheStats	src/track.ts	/^export const getCacheStats = () => trackFile().getCacheStats();$/;"	v
 getCurrentTrack	src/playlist.ts	/^export const getCurrentTrack = (playlist: IPlayList, options: IPlayListOptions) => {$/;"	v
-getInfo	src/track.ts	/^export const getInfo = async (track:string) : Promise<ITrackInfo> => {$/;"	v
+getInfo	src/track.ts	/^export const getInfo = async (track: string): Promise<ITrackInfo> => {$/;"	v
 getKey	src/config.ts	/^export const getKey = (name: keyof IKeyAssignments) => getKeyAssignments()[name];$/;"	v
-getKeyAssignments	src/config.ts	/^export const getKeyAssignments = (): IKeyAssignments => $/;"	v
+getKeyAssignments	src/config.ts	/^export const getKeyAssignments = (): IKeyAssignments =>$/;"	v
 getLayout	src/layout.ts	/^export const getLayout = (layoutName?: string): ILayout | undefined => {$/;"	v
 getPlayer	src/play.ts	/^export const getPlayer = (): IPlayer => {$/;"	v
 getRowsPrinted	src/util.ts	/^export const getRowsPrinted = () => rowsPrinted;$/;"	v
 getSettings	src/config.ts	/^export const getSettings = (): IConfig => {$/;"	v
 getTableHandler	src/query.ts	/^export const getTableHandler = (table: string) => tableMap[table.toLowerCase()];$/;"	v
-getTheme	src/config.ts	/^export const getTheme = () => $/;"	v
+getTheme	src/config.ts	/^export const getTheme = () =>$/;"	v
 getTimings	src/diagnostics.ts	/^export const getTimings = () => timings;$/;"	v
 hydrateTrack	src/track.ts	/^export const hydrateTrack = ($/;"	v
 inAsk	src/util.ts	/^export let inAsk: boolean = false;$/;"	v
@@ -112,7 +112,7 @@ makeTime	src/util.ts	/^export const makeTime = (milli: number) => {$/;"	v
 makeTrack	src/track.ts	/^export const makeTrack = async (trackPath: string, info?: ITrackInfo): Promise<ITrack> => {$/;"	v
 maybeCorrectTrack	src/track.ts	/^export const maybeCorrectTrack = (t: ITrack) => {$/;"	v
 maybeQuote	src/util.ts	/^export const maybeQuote = (input: string) => input.match(\/^[a-z0-9_]+$\/i)$/;"	v
-merge	src/util.ts	/^export const merge = (a: any, b:any): any => _.keys(b).reduce((accum, k) => {$/;"	v
+merge	src/util.ts	/^export const merge = (a: any, b: any): any => _.keys(b).reduce((accum, k) => {$/;"	v
 migrateAllTracks	src/track.ts	/^export const migrateAllTracks = () => {$/;"	v
 migrateTrack	src/track.ts	/^export const migrateTrack = (t: ITrack, composerIndex: Record<string, IComposer>): ITrack => {$/;"	v
 normalizePath	src/util.ts	/^export const normalizePath = (filename: string) => path.resolve(filename.normalize().replace(\/^\\~\/, os.homedir()));$/;"	v
@@ -126,7 +126,7 @@ parseMovement	src/track.ts	/^export const parseMovement = (title?: string): numb
 parseNo	src/track.ts	/^export const parseNo = (title?: string): number|undefined => {$/;"	v
 parseOpus	src/track.ts	/^export const parseOpus = (title?: string): number|undefined => {$/;"	v
 parseOrder	src/util.ts	/^export const parseOrder = (order: string): [ string, 'asc' | 'desc' | undefined ] => {$/;"	v
-parseRoman	src/track.ts	/^export const parseRoman = (val: string) => [...val].reduce<{prev: number, result: number}>((accum, c) => {$/;"	v
+parseRoman	src/track.ts	/^export const parseRoman = (val: string) => [...val].reduce<{prev: number; result: number}>((accum, c) => {$/;"	v
 parseSubMovement	src/track.ts	/^export const parseSubMovement = (title?: string): string|undefined => {$/;"	v
 parseTags	src/extractor.ts	/^export const parseTags = (input: string) => {$/;"	v
 play	src/players/afplay.ts	/^export const play = async (track: ITrackHydrated, earlyReturn: number = 0): Promise<boolean> => {$/;"	v
@@ -153,7 +153,7 @@ start	src/util.ts	/^export const start = () => {$/;"	v
 startTiming	src/diagnostics.ts	/^export const startTiming = (name: string): ITimingId | undefined => {$/;"	v
 stop	src/players/afplay.ts	/^export const stop = async () => {$/;"	v
 stopPlaying	src/play.ts	/^export const stopPlaying = async () => playState.isPlaying ? await getPlayer().stop() : true;$/;"	v
-suggest	src/composer.ts	/^export const suggest = (name: string) => _.sortBy(fetchAll().map((composer:IComposer) => ({$/;"	v
+suggest	src/composer.ts	/^export const suggest = (name: string) => _.sortBy(fetchAll().map((composer: IComposer) => ({$/;"	v
 suspend	src/keypress.ts	/^export const suspend = () => active = false;$/;"	v
 update	src/composer.ts	/^export const update = (updates: object[]) => updateComposers(updates as IComposerUpdater[]);$/;"	v
 update	src/layout.ts	/^export const update = (updates: object[]): ILayout[] => updateLayouts(updates as ILayout[]);$/;"	v

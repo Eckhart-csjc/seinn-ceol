@@ -1,18 +1,19 @@
 import * as _ from 'lodash';
+
 import { ArrayFileHandler } from './array-file-handler';
 import { getSettings, Theming } from './config';
 import { extract, parseExtractor } from './extractor';
 import { ITagable } from './query';
 import { SegOut } from './segout';
 import * as track from './track';
-import { 
+import {
   addProgressSuffix,
   eraseLine,
-  Justification, 
+  Justification,
   makeString,
   merge,
-  padOrTruncate, 
-  warning 
+  padOrTruncate,
+  warning
 } from './util';
 
 export interface ILayout extends ITagable {
@@ -30,16 +31,16 @@ export interface ILayoutColumn {
   extractor: string;      // extractor against ITrackHydrated
   width?: string;         // "N", "N%", or range of these separated by ":" (both optional)
   theming?: Theming;      // Theming override for this column only
-  hdrTheming?: Theming;   // Theming override for header 
+  hdrTheming?: Theming;   // Theming override for header
   justification?: Justification;    // Justification of both column and header (def = left)
 };
 
-let theFile: ArrayFileHandler<ILayout> | undefined = undefined;
+let theFile: ArrayFileHandler<ILayout> | undefined;
 const layoutFile = () => theFile ||= new ArrayFileHandler<ILayout>('layouts.json');
 
 export const fetchAll = () => layoutFile().fetch();
 
-export const find = (name: string, layouts?: ILayout[]) => 
+export const find = (name: string, layouts?: ILayout[]) =>
   _.find(layouts ?? fetchAll(), (layout) => layout.name === name);
 export const save = (layout: ILayout) => {
   const layouts = fetchAll();
@@ -77,12 +78,12 @@ export const updateLayouts = (updates: ILayout[]): ILayout[] => {
   }, [] as ILayout[]);
   layoutFile().save(layouts);
   return updated;
-}
+};
 
 export const update = (updates: object[]): ILayout[] => updateLayouts(updates as ILayout[]);
 
 export const displayColumns = (
-  t: track.ITrackHydrated, 
+  t: track.ITrackHydrated,
   layoutName?: string
 ) => {
   const o = new SegOut();
@@ -93,20 +94,20 @@ export const displayColumns = (
   }
   const columns = formatColumns(t, layout);
   const sep = layout.separator || '|';
-  columns.map((c, ndx) => 
+  columns.map((c, ndx) =>
     o.add(
       c,
-      sep, 
+      sep,
       undefined,
       layout.columns?.[ndx]?.theming ?? layout.theming,
       layout.separatorTheming ?? layout.theming,
     )
   );
   o.nl();
-}
+};
 
 export const formatColumns = (
-  t: track.ITrackHydrated, 
+  t: track.ITrackHydrated,
   layOut?: string | ILayout,
 ): string[] => {
   const layout = typeof layOut === 'object' ? layOut : getLayout(layOut);
@@ -125,17 +126,17 @@ export const displayHeaders = (layoutName?: string) => {
   const o = new SegOut();
   eraseLine();
   const sep = layout.separator || '|';
-  layout.columns.map((c) => 
+  layout.columns.map((c) =>
     o.add(
       setWidth(c.header ?? '', c.width ?? '', sep.length, c.justification),
-      sep, 
+      sep,
       undefined,
       c.hdrTheming ?? layout.hdrTheming ?? c.theming ?? layout.theming,
       layout.hdrSeparatorTheming ?? layout.hdrTheming ?? layout.separatorTheming ?? layout.theming,
     )
   );
   o.nl();
-}
+};
 
 export const getLayout = (layoutName?: string): ILayout | undefined => {
   const name = layoutName ?? getSettings().layout;
@@ -151,7 +152,7 @@ export const getLayout = (layoutName?: string): ILayout | undefined => {
 };
 
 const formatColumn = (
-  column: ILayoutColumn, 
+  column: ILayoutColumn,
   track: track.ITrackHydrated,
   sepLength: number,
 ) => {
@@ -162,12 +163,12 @@ const formatColumn = (
   } catch (e) {
     return 'ERR!';
   }
-}
+};
 
 const setWidth = (
-  text: string, 
-  width: string, 
-  sepLength: number, 
+  text: string,
+  width: string,
+  sepLength: number,
   justification?: Justification
 ) => {
   if (!width) {

@@ -2,7 +2,7 @@ import { Theming } from './config';
 import { print, printLn } from './util';
 
 export class SegOut {
-  
+
   lastCol: number;
 
   constructor() {
@@ -17,7 +17,7 @@ export class SegOut {
     sepTheme?: Theming,   // Any theming for the separator
     prefixTheme?: Theming,// Any theming for the prefix
   ) {
-    if (this.lastCol > 0 && 
+    if (this.lastCol > 0 &&
       (this.lastCol + text.length + (sep?.length || 0) > process.stdout.columns)) {
       this.nl();
     }

@@ -1,7 +1,8 @@
 import { C, F, IParser, N, Response, Streams, Tuple, VoidParser } from '@masala/parser';
 import * as _ from 'lodash';
 import parseDuration from 'parse-duration';
-import { ICacheStats, startTiming, endTiming } from './diagnostics';
+
+import { endTiming,ICacheStats, startTiming } from './diagnostics';
 import { getTableHandler } from './query';
 import { debug, error, escapeRegExp, makeTime } from './util';
 
@@ -15,7 +16,7 @@ const UNIVERSALS = {
   layouts: 'layouts',
   playlists: 'playlists',
   tracks: 'tracks',
-}
+};
 
 const fetchCache: Record<string, unknown[]> = {};
 
@@ -36,7 +37,7 @@ export enum Operation {
   Join = 'Join',
   LessThan = 'LessThan',
   LessThanOrEquals = 'LessThanOrEquals',
-  Matches = "Matches",
+  Matches = 'Matches',
   Minus = 'Minus',
   Not = 'Not',
   NotEquals = 'NotEquals',
@@ -183,7 +184,7 @@ const operatorPriority: Record<Operation, number> = {
   [Operation.ShortTime]: 6,
   [Operation.Times]: 5,
   [Operation.Where]: 0,
-}
+};
 
 const groupOperations = (tokens: IToken[]): IValueToken => {
   debug('Token chain', JSON.stringify(tokens, undefined, 2));
@@ -201,38 +202,38 @@ const groupOperations = (tokens: IToken[]): IValueToken => {
       operands: [tokens[0], tokens[2]],
     } as IBinaryOperationToken;
   }
-  const [ left, op1, right, op2 ] = 
+  const [ left, op1, right, op2 ] =
     tokens as [IValueToken, IBinaryOperatorToken, IValueToken, IBinaryOperatorToken];
   if (operatorPriority[op1.operator] >= operatorPriority[op2.operator]) {
     const binaryToken = {
       type: TokenType.BinaryOperation,
       operator: op1,
       operands: [left, right],
-    }
+    };
     return groupOperations([binaryToken, ...tokens.slice(3)]);
   }
   const nextPeerOp = _.findIndex(
-    tokens, 
-    (token) => token.type === TokenType.BinaryOperator && 
-      operatorPriority[(token as IBinaryOperatorToken).operator] <= 
+    tokens,
+    (token) => token.type === TokenType.BinaryOperator &&
+      operatorPriority[(token as IBinaryOperatorToken).operator] <=
         operatorPriority[op1.operator],
     5     // Look ahead for any operator that we should precede
   );
-  return nextPeerOp >= 0 ? 
+  return nextPeerOp >= 0 ?
     groupOperations([
       groupOperations([
-        left, 
-        op1, 
-        groupOperations(tokens.slice(2,nextPeerOp)), 
+        left,
+        op1,
+        groupOperations(tokens.slice(2,nextPeerOp)),
       ]),
       ...tokens.slice(nextPeerOp)
-    ]) : 
+    ]) :
     groupOperations([
       left,
       op1,
       groupOperations(tokens.slice(2))
     ]);
-}
+};
 
 const operationChainMapper = (result: Tuple<IToken>) => groupOperations(result.value);
 
@@ -256,7 +257,7 @@ const P = {
         ) as IParser<IToken>
       ),
 
-  identifier: () : IParser<IIdentifierToken> => 
+  identifier: (): IParser<IIdentifierToken> =>
     C.letterAs(C.ASCII_LETTER)
       .then(C.charIn(IDENTIFIER_CHARACTERS).optrep())
       .map((result: Tuple<string>) => ({
@@ -264,7 +265,7 @@ const P = {
         name: result.value.join(``),
       }) as IIdentifierToken),
 
-  numericLiteral: () : IParser<INumericLiteralToken> =>
+  numericLiteral: (): IParser<INumericLiteralToken> =>
     N.number()
       .map((value: number) => ({
         type: TokenType.NumericLiteral,
@@ -305,7 +306,7 @@ const P = {
         flags: result.value.slice(1).join(''),
       }) as IRegexToken),
 
-  stringLiteral: (quote?: string) : IParser<IStringLiteralToken> =>
+  stringLiteral: (quote?: string): IParser<IStringLiteralToken> =>
     quote ?
       C.char(quote)
         .drop()
@@ -358,7 +359,7 @@ export const parseTags = (input: string) => {
   }
   const tags = result.value?.value?.map((token: any) => token.value ?? token.name);
   return tags ? _.uniq(tags) : undefined;
-}
+};
 
 // Memoize parse results so repetition won't be so bad
 const parseCache: Record<string, Response<IValueToken>> = {
@@ -368,7 +369,7 @@ export const parseCacheStats: ICacheStats = {
   stores: 0,
   hits: 0,
   misses: 0,
-}
+};
 
 export const parse = (input: string): Response<IValueToken> => {
   const cached = parseCache[input];
@@ -394,7 +395,7 @@ export const parseExtractor = (input: string): IValueToken | undefined => {
     return undefined;
   }
   return result.value;
-}
+};
 
 type OpFunc = (context: object, operands: IValueToken[]) => unknown;
 type BinaryOpFunc = (context: object, op1: unknown, op2: unknown) => unknown;
@@ -411,14 +412,14 @@ const unpack = (val: any[]): any =>
 
 const doBinaryOperation = (context: object, operands: IValueToken[], fnc: BinaryOpFunc) =>
   (operands.length === 2) &&
-    unpack(pack(extract(context, operands[0])).reduce((accum, op1) => [ 
+    unpack(pack(extract(context, operands[0])).reduce((accum, op1) => [
       ...pack(extract(context, operands[1])).reduce((acc2, op2) => [
         ...acc2,
         fnc(context, op1, op2)
       ], accum)
     ], [] as any[]));
 
-const doUnaryOperation = (context: object, operands: IValueToken[], fnc: UnaryOpFunc) => 
+const doUnaryOperation = (context: object, operands: IValueToken[], fnc: UnaryOpFunc) =>
   (operands.length === 1) &&
     unpack(pack(extract(context, operands[0])).map((op1) => fnc(context, op1)));
 
@@ -438,9 +439,9 @@ const opFunc: Record<Operation, OpFunc> = {
   [Operation.All]: (context, operands) =>
     doUnaryArrayOperation(context, operands, (context, op1) =>
       op1?.reduce((accum, elem) => accum && !!elem, true)),
-      
-  [Operation.And]: (context, operands) => 
-    doLazyBinaryOperation(context, operands, (context, op1, op2) => 
+
+  [Operation.And]: (context, operands) =>
+    doLazyBinaryOperation(context, operands, (context, op1, op2) =>
       op1() && op2()),
 
   [Operation.Any]: (context, operands) =>
@@ -456,7 +457,7 @@ const opFunc: Record<Operation, OpFunc> = {
       new Date(dayjs(op1)).getTime() / 1000),
 
   [Operation.DividedBy]: (context, operands) =>
-    doBinaryOperation(context, operands, (context, op1, op2) => 
+    doBinaryOperation(context, operands, (context, op1, op2) =>
       (op1 as any) / (op2 as any)),
 
   [Operation.Duration]: (context, operands) =>
@@ -464,7 +465,7 @@ const opFunc: Record<Operation, OpFunc> = {
       (parseDuration(`${op1}`) ?? 0) / 1000),
 
   [Operation.Equals]: (context, operands) =>
-    doBinaryOperation(context, operands, (context, op1, op2) => 
+    doBinaryOperation(context, operands, (context, op1, op2) =>
       _.isEqual(op1, op2)),
 
   [Operation.Escape]: (context, operands) =>
@@ -493,11 +494,11 @@ const opFunc: Record<Operation, OpFunc> = {
       ((array2) => op1?.filter((elem, ndx) => !!array2[ndx]))(pack(op2))),
 
   [Operation.GreaterThan]: (context, operands) =>
-    doBinaryOperation(context, operands, (context, op1, op2) => 
+    doBinaryOperation(context, operands, (context, op1, op2) =>
       (op1 as any) > (op2 as any)),
 
   [Operation.GreaterThanOrEquals]: (context, operands) =>
-    doBinaryOperation(context, operands, (context, op1, op2) => 
+    doBinaryOperation(context, operands, (context, op1, op2) =>
       (op1 as any) >= (op2 as any)),
 
   [Operation.Join]: (context, operands) =>
@@ -505,19 +506,19 @@ const opFunc: Record<Operation, OpFunc> = {
       op1?.join(`${op2 ?? ''}`)),
 
   [Operation.LessThan]: (context, operands) =>
-    doBinaryOperation(context, operands, (context, op1, op2) => 
+    doBinaryOperation(context, operands, (context, op1, op2) =>
       (op1 as any) < (op2 as any)),
 
   [Operation.LessThanOrEquals]: (context, operands) =>
-    doBinaryOperation(context, operands, (context, op1, op2) => 
+    doBinaryOperation(context, operands, (context, op1, op2) =>
       (op1 as any) <= (op2 as any)),
 
   [Operation.Matches]: (context, operands) =>
-    doBinaryOperation(context, operands, (context, op1, op2) => 
+    doBinaryOperation(context, operands, (context, op1, op2) =>
       !!`${op1}`.match(op2 as any)),
 
   [Operation.Minus]: (context, operands) =>
-    doBinaryOperation(context, operands, (context, op1, op2) => 
+    doBinaryOperation(context, operands, (context, op1, op2) =>
       (op1 as any) - (op2 as any)),
 
   [Operation.Not]: (context, operands) =>
@@ -525,25 +526,25 @@ const opFunc: Record<Operation, OpFunc> = {
       !op1),
 
   [Operation.NotEquals]: (context, operands) =>
-    doBinaryOperation(context, operands, (context, op1, op2) => 
+    doBinaryOperation(context, operands, (context, op1, op2) =>
       !_.isEqual(op1, op2)),
 
   [Operation.Or]: (context, operands) =>
-    doLazyBinaryOperation(context, operands, (context, op1, op2) => 
+    doLazyBinaryOperation(context, operands, (context, op1, op2) =>
       op1() || op2()),
 
   [Operation.Plus]: (context, operands) =>
-    doBinaryOperation(context, operands, (context, op1, op2) => 
+    doBinaryOperation(context, operands, (context, op1, op2) =>
       (op1 as any) + (op2 as any)),
 
   [Operation.ShortDate]: (context, operands) =>
     doUnaryOperation(context, operands, (context, op1) =>
       op1 ?
         (
-          (typeof op1 === 'string' && op1.length <= 8) ? 
-            op1 : 
+          (typeof op1 === 'string' && op1.length <= 8) ?
+            op1 :
             dayjs(typeof op1 === 'number' ? op1 * 1000 : op1).format('YYYY-MM-DD')
-        ) : 
+        ) :
         ''
       ),
 
@@ -567,9 +568,9 @@ const opFunc: Record<Operation, OpFunc> = {
       }
       return '';
     }),
-      
+
   [Operation.Times]: (context, operands) =>
-    doBinaryOperation(context, operands, (context, op1, op2) => 
+    doBinaryOperation(context, operands, (context, op1, op2) =>
       (op1 as any) * (op2 as any)),
 
   [Operation.Where]: (context, operands) => {
@@ -588,41 +589,41 @@ const opFunc: Record<Operation, OpFunc> = {
     }
     return false;   // Should never happen based on parsing
   },
-}
+};
 
 const extractors: Record<TokenType, (context: object, token: IToken) => unknown> = {
 
-  [TokenType.BinaryOperation]: (context, token:IBinaryOperationToken) => 
+  [TokenType.BinaryOperation]: (context, token: IBinaryOperationToken) =>
     (extract(context, token.operator) as OpFunc)(context, token.operands),
 
-  [TokenType.BinaryOperator]: (context, token:IBinaryOperatorToken) => 
+  [TokenType.BinaryOperator]: (context, token: IBinaryOperatorToken) =>
     opFunc[token.operator],
 
-  [TokenType.Identifier] : (context, token:IIdentifierToken) => 
+  [TokenType.Identifier] : (context, token: IIdentifierToken) =>
     _.get(context, token.name),
 
-  [TokenType.NumericLiteral]: (context, token:INumericLiteralToken) => 
+  [TokenType.NumericLiteral]: (context, token: INumericLiteralToken) =>
     token.value,
 
-  [TokenType.Regex]: (context, token:IRegexToken) =>
+  [TokenType.Regex]: (context, token: IRegexToken) =>
     new RegExp(token.value, token.flags),
 
-  [TokenType.StringLiteral]: (context, token:IStringLiteralToken) => 
+  [TokenType.StringLiteral]: (context, token: IStringLiteralToken) =>
     token.value,
 
-  [TokenType.UnaryOperation]: (context, token:IUnaryOperationToken) => 
+  [TokenType.UnaryOperation]: (context, token: IUnaryOperationToken) =>
     (extract(context, token.operator) as OpFunc)(context, [token.operand]),
 
-  [TokenType.UnaryOperator]: (context, token:IUnaryOperatorToken) => 
+  [TokenType.UnaryOperator]: (context, token: IUnaryOperatorToken) =>
     opFunc[token.operator],
-}
+};
 
 export const extract = (context: object, token: IToken): unknown => {
   const timing = startTiming('Extract');
-  const result = extractors[token.type]({ 
-    ...UNIVERSALS, 
-    ...context, 
+  const result = extractors[token.type]({
+    ...UNIVERSALS,
+    ...context,
   }, token);
   endTiming(timing);
   return result;
-}
+};

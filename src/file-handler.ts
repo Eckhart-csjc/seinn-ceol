@@ -1,6 +1,7 @@
 import * as fs from 'fs';
 import * as os from 'os';
 import * as path from 'path';
+
 import { ICacheStats } from './diagnostics';
 import { error, normalizePath } from './util';
 
@@ -11,7 +12,7 @@ export class FileHandler<T> {
   cache: T | undefined;
   mtime: number;
 
-  constructor (public baseFilename: string, public pathOverride?: string) {
+  constructor(public baseFilename: string, public pathOverride?: string) {
     this.filename = this.makeFilename(this.baseFilename, this.pathOverride);
     this.cache = undefined;
     this.mtime = 0;

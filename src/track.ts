@@ -2,33 +2,34 @@ import * as fs from 'fs';
 import * as _ from 'lodash';
 import * as mm from 'music-metadata';
 import * as path from 'path';
+
 import { ArrayFileHandler } from './array-file-handler';
 import * as composer from './composer';
 import { IComposer } from './composer';
 import * as diagnostics from './diagnostics';
+import { extract, parseExtractor } from './extractor';
 import * as keypress from './keypress';
 import { doPlay, stopPlaying } from './play';
 import { ITagable } from './query';
-import { 
-  addProgressSuffix, 
-  ask, 
+import {
+  addProgressSuffix,
+  ask,
   clearLine,
   cursorTo,
-  error, 
+  error,
   makeProgressBar,
-  makeTime, 
+  makeTime,
   maybeQuote,
   merge,
   normalizePath,
-  notification, 
+  notification,
   print,
   printColumns,
-  printLn, 
-  removeProgressSuffix, 
+  printLn,
+  removeProgressSuffix,
   sortBy,
-  warning 
+  warning
 } from './util';
-import { extract, parseExtractor } from './extractor';
 
 const dayjs = require('dayjs');
 const pluralize = require('pluralize');
@@ -83,7 +84,7 @@ export interface ITrackUpdater extends Partial<ITrack> {
   trackPath: string;
 }
 
-let theFile: ArrayFileHandler<ITrack> | undefined = undefined;
+let theFile: ArrayFileHandler<ITrack> | undefined;
 
 const trackFile = () => theFile ||= new ArrayFileHandler<ITrack>('tracks.json');
 
@@ -106,12 +107,12 @@ export const filter = (where?: string): ITrackHydrated[] => {
 
 export const saveAll = (tracks: ITrack[]) => trackFile().save(tracks);
 
-export const cmdAdd = async (tracks:string[], options: { noError: boolean, noWarn: boolean }) => {
+export const cmdAdd = async (tracks: string[], options: { noError: boolean; noWarn: boolean }) => {
   try {
     const newTracks = await addTracks(tracks, options.noWarn, options.noError);
     printColumns([
       ['Composer', 'Title'],
-      ...newTracks.map((track) => 
+      ...newTracks.map((track) =>
         [track.composer?.join(' & ') || 'Anonymous', track.title ?? '']
       ),
     ], undefined, true, 1);
@@ -135,12 +136,12 @@ const gatherFiles = (dir: string): string[] => {
     error(`Could not read directory ${dir}: ${e.message}`);
     return [];
   }
-}
+};
 
-export const cmdAddAll = async (directory: string, options: { noError: boolean, noWarn: boolean }) => 
+export const cmdAddAll = async (directory: string, options: { noError: boolean; noWarn: boolean }) =>
   cmdAdd(gatherFiles(normalizePath(directory)), options);
 
-export const cmdInfo = async (track:string) => {
+export const cmdInfo = async (track: string) => {
   try {
     const tags = await getInfo(track);
     notification(tags);
@@ -149,7 +150,7 @@ export const cmdInfo = async (track:string) => {
   }
 };
 
-export const getInfo = async (track:string) : Promise<ITrackInfo> => {
+export const getInfo = async (track: string): Promise<ITrackInfo> => {
   const p = await mm.parseFile(track);
   const c = _.mapValues(p.common, (v) => (typeof v === 'string') ? v.normalize() : v) as any;
   return {
@@ -160,7 +161,7 @@ export const getInfo = async (track:string) : Promise<ITrackInfo> => {
     ..._.pick(c, ['title','artists','composer','album','grouping','genre','year','date','copyright']),
     duration: p.format.duration,
   };
-}
+};
 
 export const maybeCorrectTrack = (t: ITrack) => {
   const basename = path.basename(t.trackPath);
@@ -182,14 +183,14 @@ export const maybeCorrectTrack = (t: ITrack) => {
       track: tr,
       composer,
       artists,
-    }
+    };
   }
   return {
     ...t,
     composer,
     artists,
   };
-}
+};
 
 // Some m4a sources provide conposer and artist names duplicated with &
 const removeDupNames = (names?: string[]) =>
@@ -213,8 +214,8 @@ export const makeTrack = async (trackPath: string, info?: ITrackInfo): Promise<I
 };
 
 export const migrateTrack = (t: ITrack, composerIndex: Record<string, IComposer>): ITrack => {
-  const composerDetail = t.composerKey ? 
-    (composerIndex ? composerIndex[t.composerKey] : composer.find(t.composerKey)) : 
+  const composerDetail = t.composerKey ?
+    (composerIndex ? composerIndex[t.composerKey] : composer.find(t.composerKey)) :
     undefined;
   return {
     ...t,
@@ -256,8 +257,8 @@ export const findTrack = (trackPath: string) => {
 };
 
 const addTracks = async (
-  tracks: string[], 
-  noWarn?: boolean, 
+  tracks: string[],
+  noWarn?: boolean,
   noError?: boolean
 ): Promise<ITrack[]> => {
   const existing = fetchAll();
@@ -322,7 +323,7 @@ export const updateTracks = (updates: ITrackUpdater[]): ITrack[] => {
   }, [] as ITrack[]);
   trackFile().save(tracks);
   return updated;
-}
+};
 
 export const update = (updates: object[]): ITrack[] => updateTracks(updates as ITrackUpdater[]);
 
@@ -360,10 +361,10 @@ export const parseSubMovement = (title?: string): string|undefined => {
 
 const intOrString = (val: string | undefined) => val?.match(/^\d+$/) ? parseInt(val,10) : val;
 
-const ROMAN: Record<string, number> = 
-  {'I': 1, 'V': 5, 'X': 10, 'L': 50, 'C': 100, 'D': 500, 'M': 1000};
+const ROMAN: Record<string, number> =
+  {I: 1, V: 5, X: 10, L: 50, C: 100, D: 500, M: 1000};
 
-export const parseRoman = (val: string) => [...val].reduce<{prev: number, result: number}>((accum, c) => {
+export const parseRoman = (val: string) => [...val].reduce<{prev: number; result: number}>((accum, c) => {
   const val = ROMAN[c] ?? 0;
   return {
     prev: val,
@@ -372,11 +373,11 @@ export const parseRoman = (val: string) => [...val].reduce<{prev: number, result
 }, { prev: 0, result: 0 }).result;
 
 export const hydrateTrack = (
-  t: ITrack, 
+  t: ITrack,
   composerIndex?: Record<string, IComposer>
 ): ITrackHydrated => {
-    const composerDetail = t.composerKey ? 
-      (composerIndex ? composerIndex[t.composerKey] : composer.find(t.composerKey)) : 
+    const composerDetail = t.composerKey ?
+      (composerIndex ? composerIndex[t.composerKey] : composer.find(t.composerKey)) :
       undefined;
     return {
       ...t,
@@ -432,8 +433,8 @@ export const resolveAnonymous = async (track: ITrack): Promise<void> => {
       return;
 
     case PLAY: {
-      const playKeys = keypress.makeKeys([{ 
-        name: 'stop', 
+      const playKeys = keypress.makeKeys([{
+        name: 'stop',
         func: (k: keypress.IKey) => stopPlaying(),
         help: 'stop playing'
       }]);
@@ -475,7 +476,7 @@ export const resolveAnonymous = async (track: ITrack): Promise<void> => {
       return;
     }
   }
-}
+};
 
 export const formatInfo = (t: ITrackHydrated): string[] => [
   `Title: ${t.title || '?'}`,

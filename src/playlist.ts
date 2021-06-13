@@ -1,4 +1,5 @@
 import * as _ from 'lodash';
+
 import { ArrayFileHandler } from './array-file-handler';
 import { getSettings } from './config';
 import * as diagnostics from './diagnostics';
@@ -6,24 +7,24 @@ import { extract, IValueToken, parseExtractor, parseTags} from './extractor';
 import { IKey } from './keypress';
 import * as keypress from './keypress';
 import * as layout from './layout';
-import { isPlaying, stopPlaying, doPlay } from './play';
+import { doPlay,isPlaying, stopPlaying } from './play';
 import { ITagable } from './query';
 import * as track from './track';
-import { 
+import {
   addProgressSuffix,
   ask,
   clearLine,
   cursorTo,
-  error, 
-  getRowsPrinted, 
+  error,
+  getRowsPrinted,
   maybeQuote,
   merge,
   notification,
-  padOrTruncate, 
-  print, 
+  padOrTruncate,
+  print,
   quit,
   removeProgressSuffix,
-  warning 
+  warning
 } from './util';
 
 export interface IPlayList extends ITagable {
@@ -42,10 +43,10 @@ interface IPlayListOptions {
   where?: string;
 }
 
-let theFile: ArrayFileHandler<IPlayList> | undefined = undefined;
+let theFile: ArrayFileHandler<IPlayList> | undefined;
 const playListFile = () => theFile ||= new ArrayFileHandler<IPlayList>('playlists.json');
 
-let statTrackTurnAround: diagnostics.ITimingId | undefined = undefined;
+let statTrackTurnAround: diagnostics.ITimingId | undefined;
 const TURN_AROUND = 'Playlist track turn-around';
 
 enum AfterTrackAction {
@@ -79,7 +80,7 @@ export const setCurrent = (name: string, current: string) => {
   } else {
     error(`Could not update current track in playlist ${name} -- playlist not found`);
   }
-}
+};
 
 export const filter = (where?: string): IPlayList[] => {
   const token = where && parseExtractor(where);
@@ -106,7 +107,7 @@ export const updatePlayLists = (updates: IPlayList[]): IPlayList[] => {
   }, [] as IPlayList[]);
   playListFile().save(playlists);
   return updated;
-}
+};
 
 export const update = (updates: object[]): IPlayList[] => updatePlayLists(updates as IPlayList[]);
 
@@ -115,11 +116,11 @@ let shuffleMode: boolean = false;
 let lastHeaderRow: number = 0;
 let wasStopped: boolean = false;
 let suppressColumns: boolean = false;
-let findString: string | undefined = undefined;
-let findParser: IValueToken | undefined = undefined;
+let findString: string | undefined;
+let findParser: IValueToken | undefined;
 let findBackward: boolean = false;
-let currentPlaylist: IPlayList | undefined = undefined;
-let theTrack: track.ITrack | undefined = undefined;
+let currentPlaylist: IPlayList | undefined;
+let theTrack: track.ITrack | undefined;
 
 const makeAfterMsg = (action: string) => ` - will ${action} at end of track`;
 
@@ -142,16 +143,16 @@ const doFindNext = (key: IKey) => {
   } else {
     warning(`No previous find target`);
   }
-}
+};
 
 const doFind = async (key: IKey, backward: boolean) => {
   keypress.suspend();
   const response = await ask([
-    { 
-      name: 'findString', 
-      type: 'input', 
-      message: `Find ${backward ? '\u2191' : '\u2193'}`, 
-      default: findString || '', 
+    {
+      name: 'findString',
+      type: 'input',
+      message: `Find ${backward ? '\u2191' : '\u2193'}`,
+      default: findString || '',
       askAnswered: true,
     },
   ]);
@@ -165,7 +166,7 @@ const doFind = async (key: IKey, backward: boolean) => {
       doFindNext(key);
     }
   }
-}
+};
 
 const doFindBackward = async (key: IKey) => doFind(key, true);
 const doFindForward = async (key: IKey) => doFind(key, false);
@@ -204,7 +205,7 @@ const doShuffle = (key: IKey) => {
 const doResume = (key: IKey) => {
   if ([AfterTrackAction.Pause, AfterTrackAction.Quit].includes(afterTrackAction)) {
     if (isPlaying()) {
-      removeProgressSuffix(makeAfterMsg(afterTrackAction === AfterTrackAction.Pause ? 'pause' : 'quit'))
+      removeProgressSuffix(makeAfterMsg(afterTrackAction === AfterTrackAction.Pause ? 'pause' : 'quit'));
     } else {
       clearLine();
     }
@@ -245,10 +246,10 @@ const doTag = async (key: IKey): Promise<void> => {
   }
   keypress.suspend();
   const response = await ask([
-    { 
-      name: 'tags', 
-      type: 'input', 
-      message: 'Tags', 
+    {
+      name: 'tags',
+      type: 'input',
+      message: 'Tags',
       askAnswered: true,
       default: current.tags?.map(maybeQuote).join(' '),
     },
@@ -276,12 +277,12 @@ const afterTrack = async (name: string, options: IPlayListOptions,  plays: numbe
         return;
       }
       const sorted = track.sort(playlist.orderBy, playlist.where);
-      const lastIndex = playlist.current ? 
+      const lastIndex = playlist.current ?
         _.findIndex(sorted, (tr) => tr.trackPath === playlist.current) :
         -1;
-      const nextIndex = wasStopped ? 
+      const nextIndex = wasStopped ?
         Math.max(0, lastIndex) :
-        (lastIndex >= sorted.length - 1) ? 0 : lastIndex + 1; 
+        (lastIndex >= sorted.length - 1) ? 0 : lastIndex + 1;
       diagnostics.endTiming(statAfter);
       return doPlayList(name, options, plays, sorted[nextIndex]);
     }
@@ -302,10 +303,10 @@ const afterTrack = async (name: string, options: IPlayListOptions,  plays: numbe
         return;
       }
       const sorted = track.sort(playlist.orderBy, playlist.where);
-      const lastIndex = playlist.current ? 
+      const lastIndex = playlist.current ?
         _.findIndex(sorted, (tr) => tr.trackPath === playlist.current) :
         -1;
-      const prevIndex = (lastIndex <= 0) ? sorted.length - 1 : lastIndex - 1; 
+      const prevIndex = (lastIndex <= 0) ? sorted.length - 1 : lastIndex - 1;
       return doPlayList(name, options, plays, sorted[prevIndex]);
     }
 
@@ -325,10 +326,10 @@ const afterTrack = async (name: string, options: IPlayListOptions,  plays: numbe
       const { playlist } = getPlaylist(name, options);
       if (playlist) {
         const sorted = track.sort(playlist.orderBy, playlist.where);
-        const lastIndex = playlist.current ? 
+        const lastIndex = playlist.current ?
           _.findIndex(sorted, (tr) => tr.trackPath === playlist.current) :
           -1;
-        const nextIndex = (lastIndex >= sorted.length - 1) ? 0 : lastIndex + 1; 
+        const nextIndex = (lastIndex >= sorted.length - 1) ? 0 : lastIndex + 1;
         const nextTrack = sorted[nextIndex];
         setCurrent(name, nextTrack!.trackPath);
       }
@@ -348,7 +349,7 @@ export const getCurrentTrack = (playlist: IPlayList, options: IPlayListOptions) 
   if (options.next) {
     const parser = parseExtractor(options.next);
     if (parser) {
-      const nextTrack = 
+      const nextTrack =
         _.find(sorted, (t) => !!extract({ current, ...t}, parser), current.index) ??      // Start with current
         _.find(sorted, (t) => !!extract({ current, ...t}, parser));                      // then wrap around
       if (nextTrack) {
@@ -370,7 +371,7 @@ const getPlaylist = (name: string, options: IPlayListOptions) => {
   const playlist = options.where ?
     {
       ...originalPlaylist,
-      where: originalPlaylist.where ? 
+      where: originalPlaylist.where ?
         `(${originalPlaylist.where}) && (${options.where})` :
         options.where,
     } :
@@ -421,7 +422,7 @@ const browse = async (name: string, options: IPlayListOptions, nextTrack?: track
   return doPlayList(name, options, 0, selectedTrack);
 };
 
-const doPlayList = async (name: string, options: IPlayListOptions, plays: number, nextTrack?: track.ITrackHydrated) : Promise<void> => {
+const doPlayList = async (name: string, options: IPlayListOptions, plays: number, nextTrack?: track.ITrackHydrated): Promise<void> => {
   const statPrep = diagnostics.startTiming('Playlist prep track');
   if (!statTrackTurnAround && !nextTrack) {   // If we already loaded the next track, don't count this one from here.
     statTrackTurnAround = diagnostics.startTiming(TURN_AROUND);

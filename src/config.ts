@@ -79,7 +79,7 @@ const defaultConfig: IConfig = {
   keyAssignments: defaultKeyAssignments,
 };
 
-let configFile: FileHandler<IConfig> | undefined = undefined;
+let configFile: FileHandler<IConfig> | undefined;
 
 export const getSettings = (): IConfig => {
   if (!configFile) {
@@ -93,19 +93,19 @@ export const getSettings = (): IConfig => {
 
 export const getKey = (name: keyof IKeyAssignments) => getKeyAssignments()[name];
 
-export const getKeyAssignments = (): IKeyAssignments => 
+export const getKeyAssignments = (): IKeyAssignments =>
   getSettings().keyAssignments ?? defaultKeyAssignments;
 
-export const getTheme = () => 
+export const getTheme = () =>
   getSettings().theme || {} as Record<string, IThemeSettings>;
 
-export const applyThemeSettings = (text: string, themeSettings?: IThemeSettings) => 
+export const applyThemeSettings = (text: string, themeSettings?: IThemeSettings) =>
   themeSettings?.chalk ? applyChalks(themeSettings.chalk, text) : text;
 
-export const applyThemeSetting = (text: string, element?: Theming) => 
+export const applyThemeSetting = (text: string, element?: Theming) =>
   element ?
     applyThemeSettings(
-      text, 
+      text,
       (typeof element === 'string') ? getTheme()[element] : element
     ) :
     text;
@@ -118,6 +118,6 @@ const applyChalks = (chalks: string[], text: string) => {
     (accum, c) => `{${c} ${accum}}`, text.replace(/}/g, '\\}')
   );
   return eval('chalk`' + chalkString + '`');
-}
+};
 
 export const getCacheStats = () => configFile?.stats;

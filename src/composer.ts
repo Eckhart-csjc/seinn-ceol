@@ -1,4 +1,5 @@
 import * as _ from 'lodash';
+
 import { ArrayFileHandler } from './array-file-handler';
 import * as diagnostics from './diagnostics';
 import { extract, parseExtractor, parseTags } from './extractor';
@@ -39,7 +40,7 @@ const ADD = '<add new>';
 const SKIP = '<skip for now>';
 const VIEW = '<view tracks>';
 
-let theFile: ArrayFileHandler<IComposer> | undefined = undefined;
+let theFile: ArrayFileHandler<IComposer> | undefined;
 const composerFile = () => theFile ||= new ArrayFileHandler<IComposer>('composers.json');
 
 export const fetchAll = () => composerFile().fetch();
@@ -55,14 +56,14 @@ export const filter = (where?: string): IComposer[] => {
     composers;
 };
 
-let indexCache: Record<string, IComposer> | undefined = undefined;
-let indexLast: IComposer[] | undefined = undefined;
+let indexCache: Record<string, IComposer> | undefined;
+let indexLast: IComposer[] | undefined;
 
 export const composerIndexCacheStats: diagnostics.ICacheStats = {
   stores: 0,
   hits: 0,
   misses: 0,
-}
+};
 
 export const indexComposers = (composers?: IComposer[]) => {
   const statIndex = diagnostics.startTiming('Index composers');
@@ -82,13 +83,13 @@ export const indexComposers = (composers?: IComposer[]) => {
   }
   diagnostics.endTiming(statIndex);
   return indexCache;
-}
+};
 
 export const find = (name: string, composers?: IComposer[]) => indexComposers(composers)[name];
 
 const splitWords = (s: string) => s.split(/[ \-&,]/);
 
-const getDistance = (a:string, b:string) => {
+const getDistance = (a: string, b: string) => {
   const bw = splitWords(b).filter((w) => !!w);
   const scores = _.flatten(splitWords(a).filter((w) => !!w).map((w) => bw.map((w2) => levenshtein(w, w2)))).sort();
   const score = scores.slice(0, 2).reduce((acc, s) => acc + s, 0) / 2;
@@ -99,9 +100,9 @@ const getBestDistance = (name: string, composer: IComposer) => {
   const distances = [ getDistance(name, composer.name), ...composer.aliases.map((alias) => getDistance(name, alias)) ];
   const best = distances.sort()[0];
   return best;
-}
+};
 
-export const suggest = (name: string) => _.sortBy(fetchAll().map((composer:IComposer) => ({
+export const suggest = (name: string) => _.sortBy(fetchAll().map((composer: IComposer) => ({
   distance: getBestDistance(name, composer),
   composer,
 })), ['distance']);
@@ -109,8 +110,8 @@ export const suggest = (name: string) => _.sortBy(fetchAll().map((composer:IComp
 const checkAliases = (composer: IComposer, composers: IComposer[], newAliases: string[] = []) => {
   const index = indexComposers(composers);
   return [ ...composer.aliases, ...newAliases].map<IComposer | undefined>((alias) => index[alias]).filter((c) => !!c && c !== composer);
-}
-  
+};
+
 export const add = (composer: IComposer): boolean => {
   const composers = fetchAll();
   const existing = find(composer.name, composers);
@@ -165,19 +166,19 @@ export const updateComposers = (updates: IComposerUpdater[]): IComposer[] => {
   }, [] as IComposer[]);
   composerFile().save(composers);
   return updated;
-}
+};
 
 export const update = (updates: object[]) => updateComposers(updates as IComposerUpdater[]);
 
 const getValues = async (known: Partial<IComposer>, index: Record<string, IComposer>, existing?: IComposer): Promise<IComposer | undefined> => {
   keypress.suspend();
   const responses = await ask([
-    { 
-      name: 'name', 
-      type: 'input', 
-      message: 'Name:', 
-      default: known.name, 
-      validate: (val:string) => !val ? 'Composer name is required' : (index[val] && index[val] !== existing) ? 'Composer name already in use' : true,
+    {
+      name: 'name',
+      type: 'input',
+      message: 'Name:',
+      default: known.name,
+      validate: (val: string) => !val ? 'Composer name is required' : (index[val] && index[val] !== existing) ? 'Composer name already in use' : true,
       askAnswered: true,
     },
     {
@@ -185,7 +186,7 @@ const getValues = async (known: Partial<IComposer>, index: Record<string, ICompo
       type: 'input',
       message: 'Born:',
       default: known.born,
-      validate: (val:string) => (!!val && dayjs(val).year != NaN) ? true : 'Invalid date',
+      validate: (val: string) => (!!val && dayjs(val).year != NaN) ? true : 'Invalid date',
       askAnswered: true,
     },
     {
@@ -193,7 +194,7 @@ const getValues = async (known: Partial<IComposer>, index: Record<string, ICompo
       type: 'input',
       message: 'Died (blank if still living):',
       default: known.died,
-      validate: (val:string) => (!val || dayjs(val).year != NaN) ? true : 'Invalid date',
+      validate: (val: string) => (!val || dayjs(val).year != NaN) ? true : 'Invalid date',
       askAnswered: true,
     },
     {
@@ -201,7 +202,7 @@ const getValues = async (known: Partial<IComposer>, index: Record<string, ICompo
       type: 'input',
       message: 'Tags:',
       default: known.tags,
-      validate: (val:string) => !!parseTags(val),
+      validate: (val: string) => !!parseTags(val),
       askAnswered: true,
     },
     {
@@ -305,18 +306,18 @@ export const resolve = async (name: string, tracks: track.ITrack[]): Promise<boo
 
 export const formatInfo = (composer?: string[], composerKey?: IComposer | string): string[] => {
   const name = composer?.join(' & ') ?? (typeof composerKey === 'string' ? composerKey : composerKey?.name) ?? '?';
-  const c:IComposer|undefined = composerKey ? 
-    (typeof composerKey === 'string' ? find(composerKey) : composerKey) : 
+  const c: IComposer|undefined = composerKey ?
+    (typeof composerKey === 'string' ? find(composerKey) : composerKey) :
     undefined;
   const alias = (c?.name !== name) ? c?.name : '';
-  const info = [ 
-    `Composer: ${name}`, 
+  const info = [
+    `Composer: ${name}`,
     alias ? `Alias: ${alias}` : '',
     c?.born ? `Born: ${c?.born}` : '',
     c?.died ? `Died: ${c?.died}` : '',
     c?.tags?.length ? `Tags: ${c?.tags?.join(' ')}` : '',
   ];
   return info.filter((s) => !!s);
-}
+};
 
 export const getCacheStats = () => composerFile().getCacheStats();

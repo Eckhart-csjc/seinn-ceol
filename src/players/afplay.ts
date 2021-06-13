@@ -1,18 +1,17 @@
 import { spawnWithProgress } from '../asyncChild';
-import { IKey, IKeyMaker, IKeyMapping } from '../keypress';
+import { IKey, IKeyMaker } from '../keypress';
 import * as keypress from '../keypress';
 import { ITrackHydrated } from '../track';
-import { 
+import {
   addProgressSuffix,
   cursorTo,
-  error, 
+  error,
   inAsk,
-  makeProgressBar, 
-  makeTime, 
-  print, 
-  printLn, 
+  makeProgressBar,
+  makeTime,
+  print,
   removeProgressSuffix,
-  warning 
+  warning
 } from '../util';
 
 const execPromise = require('child-process-promise').exec;
@@ -34,7 +33,7 @@ const playState: IPlayState = {
 const TMP_TRACKPATH = '/tmp/seinn-ceol-sample.m4a';
 const PAUSED  = ' - Paused';
 
-let memoizedCanPause: boolean | undefined = undefined;
+let memoizedCanPause: boolean | undefined;
 const canPause = async () => {
   if (memoizedCanPause === undefined) {
     try {
@@ -46,12 +45,12 @@ const canPause = async () => {
     }
   }
   return memoizedCanPause;
-}
+};
 
 const makePlayKeys = async () => keypress.makeKeys([
   { name: 'quit', func: doQuit, help: 'quit' },
   { name: 'rewind', func: doRewind, help: 'rewind track' },
-  ...((await canPause()) ? 
+  ...((await canPause()) ?
     [
       { name: 'pause', func: doPause, help: () => playState.beginPause ? '' : 'pause' },
       { name: 'resume', func: doResume, help: () => playState.beginPause ? 'resume' : ''},
@@ -64,14 +63,14 @@ function doPause(key: IKey) {
   if (playState.beginPause) {
     return;
   }
-  killPlayer();
+  void killPlayer();
   playState.beginPause = Date.now();
   addProgressSuffix(PAUSED);
 }
 
 function doQuit(key: IKey) {
   playState.beginPause = 0;
-  killPlayer();
+  void killPlayer();
 }
 
 function doResume(key: IKey) {
@@ -85,11 +84,11 @@ function doResume(key: IKey) {
 
 function doRewind(key: IKey) {
   playState.rewind = true;
-  killPlayer();
+  void killPlayer();
 }
 
 async function killPlayer() {
-  execPromise("pkill afplay || true");
+  execPromise('pkill afplay || true');
   playState.killed = true;
   playState.beginPause = 0;
 }
@@ -97,7 +96,7 @@ async function killPlayer() {
 export const stop = async () => {
   await killPlayer();
   return true;
-}
+};
 
 export const play = async (track: ITrackHydrated, earlyReturn: number = 0): Promise<boolean> => {
   const playKeys = await makePlayKeys();
@@ -116,14 +115,14 @@ export const play = async (track: ITrackHydrated, earlyReturn: number = 0): Prom
   return !playState.killed;
 };
 
-const doPlay = async (track:ITrackHydrated, earlyReturn: number = 0, offset: number = 0) => {
+const doPlay = async (track: ITrackHydrated, earlyReturn: number = 0, offset: number = 0) => {
   const total = (track.duration || 1) * 1000;
   const totalFmt = makeTime(total);
   const maxWidth = process.stdout.columns || 80;
   const barWidth = maxWidth - 1;
   const startOffset = Math.floor(offset / 1000);  // Offset in seconds
   if (startOffset) {
-    await execPromise(`rm -f ${TMP_TRACKPATH}`)
+    await execPromise(`rm -f ${TMP_TRACKPATH}`);
     await execPromise(
       `ffmpeg -ss ${startOffset} -i "${track.trackPath.replace(/"/g, `\\"`)}" -c copy ${TMP_TRACKPATH}`
     );
@@ -134,8 +133,8 @@ const doPlay = async (track:ITrackHydrated, earlyReturn: number = 0, offset: num
   playState.killed = false;
   playState.rewind = false;
   await spawnWithProgress(
-    `/usr/bin/afplay`, 
-    [`-q`,`1`, startOffset ? TMP_TRACKPATH : track.trackPath], 
+    `/usr/bin/afplay`,
+    [`-q`,`1`, startOffset ? TMP_TRACKPATH : track.trackPath],
     (elapsed: number) => {
       if (inAsk) {
         return;
@@ -146,8 +145,8 @@ const doPlay = async (track:ITrackHydrated, earlyReturn: number = 0, offset: num
       print(makeProgressBar(barWidth, pct,
         `${makeTime(netElapsed)} of ${totalFmt} (${Math.floor(pct * 100)}%)`));
       cursorTo(0);
-    }, 
-    100, 
+    },
+    100,
     ((track.duration ?? 0) * 1000) - offset - earlyReturn
   );
   if (playState.beginPause) {
@@ -166,4 +165,4 @@ const doPlay = async (track:ITrackHydrated, earlyReturn: number = 0, offset: num
       }, 500);
     });
   }
-}
+};

@@ -14,7 +14,8 @@
     "build": "npm run compile && npm run tag",
     "pretest": "npm run build",
     "test": "jest",
-    "debug": "SEINN_CEOL_DEBUG=1 node --inspect dist/seinn-ceol.js"
+    "debug": "SEINN_CEOL_DEBUG=1 node --inspect dist/seinn-ceol.js",
+    "lint": "./node_modules/.bin/eslint src/**/*.ts --fix --max-warnings 0"
   },
   "repository": {
     "type": "git",

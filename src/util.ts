@@ -2,6 +2,7 @@ import { program } from 'commander';
 import * as _ from 'lodash';
 import * as os from 'os';
 import * as path from 'path';
+
 import { applyThemeSetting, getTheme, Theming } from './config';
 import { endTiming, ITimingId, startTiming } from './diagnostics';
 import { extract, parseExtractor } from './extractor';
@@ -33,39 +34,39 @@ export const printLn = (text: string, theme?: Theming) => {
     console.log(applyThemeSetting(text, theme));
     bumpRowsPrinted();
   }
-}
+};
 
 export const error = (...args: any[]) => {
   clearLine();
-  console.error(...args.map((a: any) => 
+  console.error(...args.map((a: any) =>
     (typeof a === 'string') ? applyThemeSetting(a, 'error') : a));
   bumpRowsPrinted();      // Potentially innacurate, but as good as we can guess
-}
+};
 export const warning = (...args: any) => {
   clearLine();
-  console.warn(...args.map((a: any) => 
+  console.warn(...args.map((a: any) =>
     (typeof a === 'string') ? applyThemeSetting(a, 'warning') : a));
   bumpRowsPrinted();
-}
+};
 export const notification = (...args: any) => {
   if (inAsk) {
     return;
   }
   clearLine();
-  console.log(...args.map((a: any) => 
+  console.log(...args.map((a: any) =>
     (typeof a === 'string') ? applyThemeSetting(a, 'notification') : a));
   bumpRowsPrinted();
-}
+};
 
 export const debug = (...args: any[]) => {
   if (process.env.DEBUG) {
     console.log(...args);
   }
-}
+};
 
 export const printColumns = (
-  output: string[][], 
-  justification?: Justification[], 
+  output: string[][],
+  justification?: Justification[],
   greenBar?: boolean,
   nmHeaderLines?: number
 ) => {
@@ -96,10 +97,10 @@ export const printColumns = (
   );
   const theme = getTheme();
   output.forEach((row, rownum) =>
-    printLn(row.map((col, ndx) => 
+    printLn(row.map((col, ndx) =>
       greenBar ?
         applyThemeSetting(
-          padOrTruncate(col, finalWidths[ndx], just[ndx]), 
+          padOrTruncate(col, finalWidths[ndx], just[ndx]),
           (theme.greenBarHeader && rownum < (nmHeaderLines ?? 0)) ?
             theme.greenBarHeader :
             ((rownum % 2 == 0) ? theme.greenBar1 : theme.greenBar2)
@@ -108,7 +109,7 @@ export const printColumns = (
       ).join('')
     )
   );
-}
+};
 
 export const ask = async (questions: any): Promise<any> => {
   inAsk = true;
@@ -117,14 +118,14 @@ export const ask = async (questions: any): Promise<any> => {
   fixTTY();
   inAsk = false;
   return response;
-}
+};
 
 export const makeString = (input: unknown): string =>
   (input != null) ?
-    (Array.isArray(input) ? 
-      input.map((e) => `${makeString(e)}`).join(' & ') : 
-      (typeof input === 'object' ? 
-        JSON.stringify(input) : 
+    (Array.isArray(input) ?
+      input.map((e) => `${makeString(e)}`).join(' & ') :
+      (typeof input === 'object' ?
+        JSON.stringify(input) :
         `${input}`)) :
     '';
 
@@ -133,13 +134,13 @@ export const makeTime = (milli: number) => {
     { t: '', d: 60 },
     { t: ':', d: 60 },
     { t: ':', d: 24 },
-  ].reduce<{ nums: string[], rem: number}>((accum, op) => {
+  ].reduce<{ nums: string[]; rem: number}>((accum, op) => {
     const val = accum.rem % op.d;
     const rem = Math.floor((accum.rem - val) / op.d);
     return {
       nums: (val || rem || op.d === 60) ? [ `0${val}`.substr(-2), ...accum.nums ] : accum.nums,
       rem,
-    }
+    };
   }, { nums: [], rem: Math.floor(milli / 1000) });
   if (result.nums[0]?.startsWith('0')) {
     result.nums[0] = result.nums[0].slice(1);   // No leading 0 on first time element
@@ -152,11 +153,11 @@ export const makeProgressBar = (width: number, pct: number, text: string = '') =
   const ticks = Math.floor(Math.max(0,Math.min(width, Math.floor(width * pct))));
   const togo = width - ticks;
   const theme = getTheme();
-  const ticksBar = applyThemeSetting(body.slice(0, ticks), 
-    barSuffix ? 
+  const ticksBar = applyThemeSetting(body.slice(0, ticks),
+    barSuffix ?
       (theme.progressBarWithMessage ?? theme.progressBar) :
       theme.progressBar);
-  const togoBar = applyThemeSetting(body.slice(ticks), 
+  const togoBar = applyThemeSetting(body.slice(ticks),
     barSuffix ?
       (theme.progressBarWithMessageBackground ?? theme.progressBackground) :
       theme.progressBackground);
@@ -184,7 +185,7 @@ export const padOrTruncate = (text: string, width: number, justification?: Justi
         ((width < text.length) ?
           ((text.length - width) >= 2 ? ELLIPSIS : '') +
             text.slice(Math.floor((text.length - width) / 2), width - 1) + ELLIPSIS :
-          (' '.repeat(Math.floor((width - text.length) / 2)) + 
+          (' '.repeat(Math.floor((width - text.length) / 2)) +
             text + ' '.repeat(Math.ceil((width - text.length) / 2))
           )
         ) :
@@ -201,14 +202,14 @@ export const parseOrder = (order: string): [ string, 'asc' | 'desc' | undefined 
         [ query, 'desc' ] :
         [ order, undefined]
       )
-    ) : 
+    ) :
   [ order, undefined ];
 };
 
 export const sortBy = <T extends ISortable>(items: T[], sortKeys: string[]): T[] => {
-  const sortParsers = sortKeys.map((k) => { 
+  const sortParsers = sortKeys.map((k) => {
     const [ query, ad ] = parseOrder(k);
-    return { 
+    return {
       parser: parseExtractor(query),
       order: ad ?? 'asc'
     };
@@ -216,7 +217,7 @@ export const sortBy = <T extends ISortable>(items: T[], sortKeys: string[]): T[]
   const statOrder = startTiming('Sort and index');
   const result = _.orderBy(
     items,
-    sortParsers.map((p) => (i:T) => extract(i, p.parser!)),
+    sortParsers.map((p) => (i: T) => extract(i, p.parser!)),
     sortParsers.map((p) => p.order),
   )
   .map((t, index) => ({ ...t, index }));
@@ -240,7 +241,7 @@ export const quit = () => {
 
 export const normalizePath = (filename: string) => path.resolve(filename.normalize().replace(/^\~/, os.homedir()));
 
-export const merge = (a: any, b:any): any => _.keys(b).reduce((accum, k) => {
+export const merge = (a: any, b: any): any => _.keys(b).reduce((accum, k) => {
   accum[k] = (b != null)
   ? (_.isArray(b[k])
     ? b[k]
@@ -262,7 +263,7 @@ export const escapeRegExp = (input: string) => input.replace(/[.*+?^${}()|[\]\\]
 export type Direction = 1 | 0 | -1;
 export const clearLine = (dir: Direction = 0) => process.stdout.isTTY && process.stdout.clearLine(dir);
 export const cursorTo = (x: number = 0, y?: number) => process.stdout.isTTY && process.stdout.cursorTo(x, y);
-export const eraseLine = () => { 
-  cursorTo(0); 
-  clearLine(); 
+export const eraseLine = () => {
+  cursorTo(0);
+  clearLine();
 };

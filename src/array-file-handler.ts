@@ -4,7 +4,7 @@ export class ArrayFileHandler<T> {
 
   fileHandler: FileHandler<T[]>;
 
-  constructor (baseFilename: string, pathOverride?: string) {
+  constructor(baseFilename: string, pathOverride?: string) {
     this.fileHandler = new FileHandler<T[]>(baseFilename, pathOverride);
   }
 

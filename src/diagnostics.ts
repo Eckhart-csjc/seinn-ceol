@@ -1,4 +1,5 @@
 import { program } from 'commander';
+
 import { error } from './util';
 
 export interface ICacheStats {
@@ -33,7 +34,7 @@ export const startTiming = (name: string): ITimingId | undefined => {
     return { name, index: 0 };
   }
   return undefined;
-}
+};
 
 export const endTiming = (id: ITimingId | undefined): ITiming | undefined => {
   if (id) {
@@ -47,6 +48,6 @@ export const endTiming = (id: ITimingId | undefined): ITiming | undefined => {
     return timing;
   }
   return undefined;
-}
+};
 
 export const getTimings = () => timings;

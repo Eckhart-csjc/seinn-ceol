@@ -29,7 +29,7 @@ export const getPlayer = (): IPlayer => {
 
 export const stopPlaying = async () => playState.isPlaying ? await getPlayer().stop() : true;
 
-export const cmdPlay = async (track: ITrackHydrated | string): Promise<void> => { await doPlay(track); }
+export const cmdPlay = async (track: ITrackHydrated | string): Promise<void> => { await doPlay(track); };
 
 export const doPlay = async (
   track: ITrackHydrated | string,         // Track, or trackpath
@@ -43,13 +43,13 @@ export const doPlay = async (
     warning(`Already playing`);
   }
   const playKeys = keypress.makeKeys([
-    { 
+    {
       name: 'info',
       func: (key: keypress.IKey) =>  {
         eraseLine();
         const o = new SegOut();
         const t = hydrateTrack(findTrack(track.trackPath) ?? track);   // Get most up to date
-        formatInfo(t).map((i) => o.add(i, ' | ', " \u2192 ", "detail"));
+        formatInfo(t).map((i) => o.add(i, ' | ', ' \u2192 ', 'detail'));
         o.nl();
       },
       help: 'info on track/composer',
@@ -64,4 +64,4 @@ export const doPlay = async (
   playState.isPlaying = false;
   keypress.removeKeys(playKeys);
   return played;
-}
+};

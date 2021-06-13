@@ -1,6 +1,7 @@
+import * as _ from 'lodash';
+
 import { getKey, IKeyAssignments } from './config';
 import { notification } from './util';
-import * as _ from 'lodash';
 
 export interface IKey {
   name?: string;
@@ -36,7 +37,7 @@ const keysMatch = (k1: Partial<IKey>, k2: Partial<IKey>) =>
   k1.meta === k2.meta &&
   k1.sequence === k2.sequence;
 
-const keyMappingsMatch = (k1: IKeyMapping, k2: IKeyMapping) => 
+const keyMappingsMatch = (k1: IKeyMapping, k2: IKeyMapping) =>
   keysMatch(k1.key, k2.key) &&
   k1.func === k2.func;
 
@@ -51,9 +52,9 @@ const findKeyMapping = (keyMapping: IKeyMapping): IKeyMapping[] =>
   keyMappings.filter((km) => keyMappingsMatch(keyMapping, km));
 
 export const makeKeys = (makers: IKeyMaker[]): IKeyMapping[] =>
-  makers.map((maker) => ({ 
-    key: getKey(maker.name), 
-    ..._.pick(maker, ['func', 'help']) 
+  makers.map((maker) => ({
+    key: getKey(maker.name),
+    ..._.pick(maker, ['func', 'help'])
   })).filter((km) => !!km.key) as IKeyMapping[];
 
 export const addKeys = (keys: IKeyMapping[]) =>
@@ -68,13 +69,13 @@ export const addKey = (keyMapping: IKeyMapping) => {
     return true;
   }
   return false;
-}
+};
 
 export const removeKey = (keyMapping: IKeyMapping) => {
   const old = keyMappings;
   keyMappings = keyMappings.filter((km) => !keyMappingsMatch(keyMapping, km));
   return old.length > keyMappings.length;
-}
+};
 
 export const suspend = () => active = false;
 export const resume = () => active = true;
@@ -104,16 +105,16 @@ export const init = (log: boolean = false) => {
       keyMappings.filter((km) => keyMappingApplies(key, km))
       .map((km) => km.func(key));
     }
-  })
+  });
 };
 
-const keyText = (k: Partial<IKey>): string => 
+const keyText = (k: Partial<IKey>): string =>
   `${k.ctrl ? '^' : ''}${k.meta ? '\u2318' : ''}${(k.shift ? k.name?.toUpperCase() : k.name) ?? k.sequence}`;
 
 export const makeHelpText = (): string[] => {
-  const byKey = 
+  const byKey =
     _.groupBy(
-      keyMappings.filter((keyMapping) => !!keyMapping.help), 
+      keyMappings.filter((keyMapping) => !!keyMapping.help),
       (km) => keyText(km.key)
     );
   return Object.keys(byKey)

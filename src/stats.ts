@@ -1,3 +1,5 @@
+import * as _ from 'lodash';
+
 import * as composer from './composer';
 import * as config from './config';
 import * as diagnostics from './diagnostics';
@@ -5,8 +7,7 @@ import { extract, IValueToken, parseCacheStats, parseExtractor } from './extract
 import * as layout from './layout';
 import * as playlist from './playlist';
 import * as track from './track';
-import { error, clearLine, makeString, makeTime, notification, padOrTruncate, parseOrder, print, printColumns, printLn } from './util';
-import * as _ from 'lodash';
+import { clearLine, error, makeString, makeTime, notification, padOrTruncate, parseOrder, print, printColumns, printLn } from './util';
 
 const capitalize = require('capitalize');
 const pluralize = require('pluralize');
@@ -32,10 +33,10 @@ const orders: Record<string, keyof IGroupStats> = {
 
 export const cmdShowStats = (
   options: {
-    groupBy?: string[],
-    order?: string[],
-    where?: string[],
-    limit?: number[],
+    groupBy?: string[];
+    order?: string[];
+    where?: string[];
+    limit?: number[];
   }
 ) => {
   const tracks = track.filter(options.where?.[0]);
@@ -53,10 +54,10 @@ export const cmdShowStats = (
   });
   const stats = tracks.reduce<IGroupStats>(
     (accum, t, ndx) => addStats(
-      accum, 
-      t, 
+      accum,
+      t,
       groups
-    ), 
+    ),
     makeGroup('Totals', groups)
   );
   const where = options.where?.slice(1).map((w) => parseExtractor(w));
@@ -83,13 +84,13 @@ export const cacheStats = () => {
          [ 'parse extractors', parseCacheStats ],
        ] as Array<[string, diagnostics.ICacheStats]>).map(([ file, stats ]) => {
          const attempts = stats.hits + stats.misses;
-         return [ 
-           file, 
-           `${stats.stores}`, 
-           `${attempts}`, 
-           `${stats.hits}`, 
-           `${(stats.hits * 100 / attempts).toFixed(1)}`, 
-           `${stats.misses}`, 
+         return [
+           file,
+           `${stats.stores}`,
+           `${attempts}`,
+           `${stats.hits}`,
+           `${(stats.hits * 100 / attempts).toFixed(1)}`,
+           `${stats.misses}`,
            `${(stats.misses * 100 / attempts).toFixed(1)}`
          ];
        }),
@@ -115,7 +116,7 @@ export const showTimings = () => {
           total: acc.total + duration,
           high: Math.max(acc.high, duration),
           low: Math.min(acc.low, duration),
-        }
+        };
       }, { total: 0, high: 0, low: Infinity });
       return [
         name,
@@ -127,7 +128,7 @@ export const showTimings = () => {
       ];
     })
   ],
-  ['left', 'right', 'right', 'right', 'right', 'right'], 
+  ['left', 'right', 'right', 'right', 'right', 'right'],
   true, 1
   );
 };
@@ -135,7 +136,7 @@ export const showTimings = () => {
 export const showDiagnostics = () => {
   cacheStats();
   showTimings();
-}
+};
 
 const makeGroup = (name: string, groups: IValueToken[]) => ({
   name,
@@ -150,8 +151,8 @@ const makeGroup = (name: string, groups: IValueToken[]) => ({
 });
 
 const addStats = (
-  existing: IGroupStats, 
-  t: track.ITrackHydrated, 
+  existing: IGroupStats,
+  t: track.ITrackHydrated,
   groups: IValueToken[]
 ): IGroupStats => ({
   ...existing,
@@ -167,8 +168,8 @@ const addStats = (
 });
 
 const addGroupStats = (
-  grouping: IValueToken, 
-  groups: Record<string, IGroupStats>, 
+  grouping: IValueToken,
+  groups: Record<string, IGroupStats>,
   t: track.ITrackHydrated,
   remainingGroups: IValueToken[]
 ) => {
@@ -177,7 +178,7 @@ const addGroupStats = (
     ...groups,
     [name] : addStats(groups[name] ?? makeGroup(name, remainingGroups), t, remainingGroups),
   };
-}
+};
 
 const finalizeStats = (
   stats: IGroupStats,
@@ -211,34 +212,34 @@ const finalizeStats = (
   }) : stats;
 
 const formatGroup = (
-  stats: IGroupStats, 
+  stats: IGroupStats,
   orderBy: string[][],
   limit: number[] = [],
   indent: number = 0,
   indexPad: number = 0,
 ): string[][] => {
-  const base = [ 
+  const base = [
     ' '.repeat(indent) +
       `${stats.index ?? ''}`.padStart(indexPad,' ') +
-      ` ${stats.name}`, 
-    `${stats.nTracks}`, 
-    makeTime(stats.totalTime * 1000), 
+      ` ${stats.name}`,
+    `${stats.nTracks}`,
+    makeTime(stats.totalTime * 1000),
     `${stats.totalPlays}`,
     makeTime(stats.playTime * 1000),
   ];
   return stats.groups ?
     _.orderBy(
-      _.values(stats.groups), 
+      _.values(stats.groups),
       ...orderBy[0],
     )
     .slice(0, limit[0] || Infinity)
     .map((s, index) => ({ ...s, index: index + 1 }))
     .reduce(
-      (accum, group, ndx, arry) => [ 
-        ...accum, 
-        ...formatGroup(group, orderBy.slice(1), limit.slice(1), indent + indexPad + 1, `${arry.length}`.length) 
+      (accum, group, ndx, arry) => [
+        ...accum,
+        ...formatGroup(group, orderBy.slice(1), limit.slice(1), indent + indexPad + 1, `${arry.length}`.length)
       ],
       [ base ]
-    ) 
+    )
   : [ base ];
 };
