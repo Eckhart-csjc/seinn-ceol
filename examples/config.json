@@ -1,12 +1,8 @@
 {
   "player": "afplay",
   "layout": "composer",
+  "infoLayout": "detail",
   "theme": {
-    "detail": {
-      "chalk": [
-        "rgb(100,255,220)"
-      ]
-    },
     "error": {
       "chalk": [
         "redBright"

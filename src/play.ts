@@ -1,6 +1,6 @@
 import { getSettings } from './config';
 import * as keypress from './keypress';
-import { SegOut } from './segout';
+import { displayColumns } from './layout';
 import { bumpPlays, findTrack, formatInfo, hydrateTrack, ITrackHydrated, makeTrack, } from './track';
 import { eraseLine, warning } from './util';
 
@@ -22,9 +22,15 @@ const playState: IPlayState = {
 
 export const isPlaying = () => playState.isPlaying;
 
+const players: Record<string, IPlayer> = {
+};
+
 export const getPlayer = (): IPlayer => {
   const playerName = getSettings().player;
-  return require(`./players/${playerName}`);
+  if (!players[playerName]) {
+    players[playerName] = require(`./players/${playerName}`);
+  }
+  return players[playerName];
 };
 
 export const stopPlaying = async () => playState.isPlaying ? await getPlayer().stop() : true;
@@ -46,11 +52,13 @@ export const doPlay = async (
     {
       name: 'info',
       func: (key: keypress.IKey) =>  {
-        eraseLine();
-        const o = new SegOut();
-        const t = hydrateTrack(findTrack(track.trackPath) ?? track);   // Get most up to date
-        formatInfo(t).map((i) => o.add(i, ' | ', ' \u2192 ', 'detail'));
-        o.nl();
+        const infoLayout = getSettings().infoLayout;
+        if (infoLayout) {
+          const t = hydrateTrack(findTrack(track.trackPath) ?? track);   // Get most up to date
+          displayColumns(t, getSettings().infoLayout);
+        } else {
+          warning('No infoLayout defined in config.json');
+        }
       },
       help: 'info on track/composer',
     },

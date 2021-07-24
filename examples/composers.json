@@ -400,7 +400,8 @@
       {
         "symbol": "JEB"
       }
-    ]
+    ],
+    "tags": []
   },
   {
     "name": "John Tavener",
@@ -1017,7 +1018,8 @@
       {
         "symbol": "CPEB"
       }
-    ]
+    ],
+    "tags": []
   },
   {
     "name": "Josef Myslivecek",
@@ -1184,7 +1186,8 @@
       {
         "symbol": "Anh.II"
       }
-    ]
+    ],
+    "tags": []
   },
   {
     "name": "Modest Petrovich Mussorgsky",
@@ -2378,7 +2381,8 @@
       {
         "symbol": "HW"
       }
-    ]
+    ],
+    "tags": []
   },
   {
     "name": "Pablo Bruna",
@@ -2981,7 +2985,8 @@
           "W"
         ]
       }
-    ]
+    ],
+    "tags": []
   },
   {
     "name": "Anton Diabelli",
@@ -3359,7 +3364,33 @@
   {
     "name": "Franz Liszt",
     "aliases": [
-      "Franz Liszt & Ludwig van Beethoven"
+      "Franz Liszt & Ludwig van Beethoven",
+      "Franz Liszt & Alexandre Dumas",
+      "Franz Liszt & Alfred de Musset",
+      "Franz Liszt & August Heinrich Hoffmann von Fallersleben",
+      "Franz Liszt & Emanuel Geibel",
+      "Franz Liszt & Emil Kuh",
+      "Franz Liszt & Ferdinand von Saar",
+      "Franz Liszt & Franz von Dingelstedt",
+      "Franz Liszt & Friedrich Rückert",
+      "Franz Liszt & Friedrich von Schiller",
+      "Franz Liszt & Georg Herwegh",
+      "Franz Liszt & Giuseppe Verdi",
+      "Franz Liszt & Heinrich Heine",
+      "Franz Liszt & Johann Ludwig Uhland",
+      "Franz Liszt & Johann Wolfgang von Goethe",
+      "Franz Liszt & Johannes Nordmann",
+      "Franz Liszt & Karl Graf Coronini-Cronberg",
+      "Franz Liszt & Ludwig Rellstab",
+      "Franz Liszt & Marchese Cesare Boccella",
+      "Franz Liszt & Nicolaus Lenau",
+      "Franz Liszt & Oskar Von Redwitz",
+      "Franz Liszt & Peter Cornelius",
+      "Franz Liszt & Pierre-Jean de Béranger",
+      "Franz Liszt & Prinzessin Therese von Hohenlohe",
+      "Franz Liszt & Richard Pohl",
+      "Franz Liszt & Victor Hugo",
+      "Otto Roquette & Franz Liszt"
     ],
     "born": "10/22/1811",
     "died": "7/31/1886",
@@ -3764,7 +3795,8 @@
           "Fk"
         ]
       }
-    ]
+    ],
+    "tags": []
   },
   {
     "name": "Conradin Kreutzer",
@@ -5897,8 +5929,7 @@
   {
     "name": "Jonas Kvarnström & Andy Spence",
     "aliases": [],
-    "born": "c 1960 ?",
-    "died": ""
+    "born": "c 1960 ?"
   },
   {
     "name": "Eduardo Sainz De La Maza",
@@ -6053,8 +6084,7 @@
     "aliases": [
       "Anonymous, Jan Garbarek & Public Domain"
     ],
-    "born": "March 4, 1947",
-    "died": ""
+    "born": "March 4, 1947"
   },
   {
     "name": "Antoine Busnois",
@@ -6108,8 +6138,7 @@
     "aliases": [
       "Benedictines of Mary, Queen of Apostles & St. Alphonsus Liguori"
     ],
-    "born": "1995",
-    "died": ""
+    "born": "1995"
   },
   {
     "name": "Biagio Marini",
@@ -6120,8 +6149,7 @@
   {
     "name": "Bill Holman",
     "aliases": [],
-    "born": "May 21, 1927",
-    "died": ""
+    "born": "May 21, 1927"
   },
   {
     "name": "Bobby Troup",
@@ -6336,8 +6364,7 @@
     "aliases": [
       "Joan Javits & Philip Springer"
     ],
-    "born": "1928",
-    "died": ""
+    "born": "1928"
   },
   {
     "name": "Johann Gottfried Walther",
@@ -6480,14 +6507,12 @@
   {
     "name": "Ola Gjeilo",
     "aliases": [],
-    "born": "May 5, 1978",
-    "died": ""
+    "born": "May 5, 1978"
   },
   {
     "name": "P.J. Van Damme",
     "aliases": [],
-    "born": "c 1990 ?",
-    "died": ""
+    "born": "c 1990 ?"
   },
   {
     "name": "Philippe Le Chancelier",
@@ -6635,8 +6660,7 @@
   {
     "name": "Wayne Shorter",
     "aliases": [],
-    "born": "August 25, 1933",
-    "died": ""
+    "born": "August 25, 1933"
   },
   {
     "name": "Wipo Of Burgundy",
@@ -6679,14 +6703,12 @@
   {
     "name": "Paul David Hewson (Bono)",
     "aliases": [],
-    "born": "May 10, 1960",
-    "died": ""
+    "born": "May 10, 1960"
   },
   {
     "name": "Tony Sandate",
     "aliases": [],
-    "born": "October 25, 1954",
-    "died": ""
+    "born": "October 25, 1954"
   },
   {
     "name": "Rabanus Maurus",
@@ -6705,8 +6727,7 @@
   {
     "name": "Sterling W. Camden, IV",
     "aliases": [],
-    "born": "October 22, 1959",
-    "died": ""
+    "born": "October 22, 1959"
   },
   {
     "name": "Saint Ephrem the Syrian",
@@ -6801,8 +6822,7 @@
   {
     "name": "Kurt Schneeweiss",
     "aliases": [],
-    "born": "c 1964 ?",
-    "died": ""
+    "born": "c 1964 ?"
   },
   {
     "name": "Cy Coleman",
@@ -6819,8 +6839,7 @@
   {
     "name": "Ed Sheeran",
     "aliases": [],
-    "born": "February 17, 1991",
-    "died": ""
+    "born": "February 17, 1991"
   },
   {
     "name": "Jerome Kern",
@@ -6837,8 +6856,7 @@
   {
     "name": "Octobop",
     "aliases": [],
-    "born": "1999",
-    "died": ""
+    "born": "1999"
   },
   {
     "name": "Paul Desmond",
@@ -7020,5 +7038,19 @@
     "aliases": [],
     "born": "7 July 1906",
     "died": "10 January 1985"
+  },
+  {
+    "name": "Paul Viardot",
+    "aliases": [],
+    "born": "20 July 1857",
+    "died": "1 December 1941",
+    "tags": []
+  },
+  {
+    "name": "Pauline Viardot",
+    "aliases": [],
+    "born": "18 July 1821",
+    "died": "18 May 1910",
+    "tags": []
   }
 ]

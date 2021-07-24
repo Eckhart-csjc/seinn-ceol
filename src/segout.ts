@@ -17,6 +17,9 @@ export class SegOut {
     sepTheme?: Theming,   // Any theming for the separator
     prefixTheme?: Theming,// Any theming for the prefix
   ) {
+    if (text.length < 1) {
+      return;             // No separator for no text
+    }
     if (this.lastCol > 0 &&
       (this.lastCol + text.length + (sep?.length || 0) > process.stdout.columns)) {
       this.nl();

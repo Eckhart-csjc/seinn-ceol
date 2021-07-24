@@ -89,5 +89,85 @@
         "gray"
       ]
     }
+  },
+  {
+    "name": "detail",
+    "columns": [
+      {
+        "extractor": "'Title: ' + title"
+      },
+      {
+        "extractor": "'Composer: ' + (composer join ' & ') + (((composer join ' & ') != composerDetail.name) && (' (' + composerDetail.name + ')') || '')"
+      },
+      {
+        "extractor": "'Born: ' + composerDetail.born"
+      },
+      {
+        "extractor": "'Died: ' + composerDetail.died"
+      },
+      {
+        "extractor": "compositionDate && ('Composition Date: ' + compositionDate)"
+      },
+      {
+        "extractor": "opus && ('Opus ' + opus)"
+      },
+      {
+        "extractor": "categories"
+      },
+      {
+        "extractor": "no && ('No. ' + no)"
+      },
+      {
+        "extractor": "movement && ('Movement ' + movement + (subMovement || ''))"
+      },
+      {
+        "extractor": "'Artist: ' + (artists join ' & ')"
+      },
+      {
+        "extractor": "'Album: ' + album"
+      },
+      {
+        "extractor": "copyright"
+      },
+      {
+        "extractor": "'Genre: ' + (genre join ', ')"
+      },
+      {
+        "extractor": "date && (shortDate date)"
+      },
+      {
+        "extractor": "(disk || nDisks) && ('Disk ' + disk + ' of ' + nDisks)"
+      },
+      {
+        "extractor": "(track || nTracks) && ('Track ' + track + ' of ' + nTracks)"
+      },
+      {
+        "extractor": "'Duration: ' + (shortDur duration)"
+      },
+      {
+        "extractor": "'Plays: ' + (plays || '0')"
+      },
+      {
+        "extractor": "lastPlayed && ('Last played: ' + (shortTime lastPlayed))"
+      },
+      {
+        "extractor": "tags && ('Tags: ' + (tags join ' '))"
+      },
+      {
+        "extractor": "'File: ' + trackPath"
+      }
+    ],
+    "separator": " │ ",
+    "separatorTheming": {
+      "chalk": [
+        "gray"
+      ]
+    },
+    "theming": {
+      "chalk": [
+        "rgb(100,255,220)"
+      ]
+    },
+    "prefix": " → "
   }
 ]

@@ -8,7 +8,6 @@ export interface IThemeSettings {
 };
 
 export interface ITheme {
-  detail?: IThemeSettings;                            // Track information detail
   error?: IThemeSettings;                             // Text of error messages
   greenBarHeader?: IThemeSettings;                    // Headings for greenbar output (use odd or even by default)
   greenBar1?: IThemeSettings;                         // Odd lines of greenBar output
@@ -70,6 +69,7 @@ export interface IConfig {
   player: string;
   trackOverlap?: number;  // Milliseconds to shave off end of track before advancing (by default)
   layout?: string;
+  infoLayout?: string;
   theme?: ITheme;
   keyAssignments?: IKeyAssignments;
 }

@@ -10,14 +10,14 @@
       "catalogs[0].category",
       "catalogs[0].prefix",
       "catalogs[0].n",
-      "catalogs[0].suffix",
+      "catalogs[0].suffix || ''",
       "album",
       "(opus || catalogs[0].n) && no",
       "(opus || catalogs[0].n) && (movement || 0)",
       "disk or 1",
       "track"
     ],
-    "current": "/Users/eckhart/Music/iTunes/iTunes Media/Music/Andrea Coen/C.P.E. Bach_ Complete Keyboard Variations/09 Allegretto in C Major, H. 65.m4a"
+    "current": "/Users/eckhart/Music/iTunes/iTunes Media/Music/Philharmonia Orchestra & Giuseppe Sinopoli/Mahler_ The Complete Recordings/2-02 Symphony No. 1 in D_ II. Kräftig Bewegt.m4a"
   },
   {
     "name": "familyBach",
@@ -31,7 +31,7 @@
       "catalogs[0].category",
       "catalogs[0].prefix",
       "catalogs[0].n",
-      "catalogs[0].suffix",
+      "catalogs[0].suffix || ''",
       "album",
       "(opus || catalogs[0].n) && no",
       "(opus || catalogs[0].n) && (movement || 0)",
@@ -52,7 +52,7 @@
       "catalogs[0].category",
       "catalogs[0].prefix",
       "catalogs[0].n",
-      "catalogs[0].suffix",
+      "catalogs[0].suffix || ''",
       "album",
       "(opus || catalogs[0].n) && no",
       "(opus || catalogs[0].n) && (movement || 0)",
