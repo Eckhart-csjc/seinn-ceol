@@ -399,6 +399,7 @@ const browse = async (name: string, options: IPlayListOptions, nextTrack?: track
 
   if (lastHeaderRow === 0 || (getRowsPrinted() - lastHeaderRow) >= (process.stdout.rows-3)) {
     layout.displayHeaders(playlist.layout ?? settings.layout);
+    lastHeaderRow = getRowsPrinted();
   }
 
   const sorted = track.sort(playlist.orderBy, playlist.where);
