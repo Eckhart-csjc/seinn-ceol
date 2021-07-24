@@ -24,6 +24,8 @@ export interface ILayout extends ITagable {
   separator?: string;     // Column separator (default is '|')
   separatorTheming?: Theming; // Theming for separator
   hdrSeparatorTheming?: Theming; // Theming for separator in header
+  prefix?: string;        // Line prefix
+  prefixTheming?: Theming;  // Theming for prefix
 }
 
 export interface ILayoutColumn {
@@ -98,9 +100,10 @@ export const displayColumns = (
     o.add(
       c,
       sep,
-      undefined,
+      layout.prefix,
       layout.columns?.[ndx]?.theming ?? layout.theming,
       layout.separatorTheming ?? layout.theming,
+      layout.prefixTheming ?? layout.theming,
     )
   );
   o.nl();
@@ -130,9 +133,10 @@ export const displayHeaders = (layoutName?: string) => {
     o.add(
       setWidth(c.header ?? '', c.width ?? '', sep.length, c.justification),
       sep,
-      undefined,
+      layout.prefix,
       c.hdrTheming ?? layout.hdrTheming ?? c.theming ?? layout.theming,
       layout.hdrSeparatorTheming ?? layout.hdrTheming ?? layout.separatorTheming ?? layout.theming,
+      layout.prefixTheming ?? layout.hdrTheming ?? layout.theming,
     )
   );
   o.nl();
