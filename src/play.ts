@@ -1,7 +1,7 @@
 import { getSettings } from './config';
 import * as keypress from './keypress';
 import { displayColumns } from './layout';
-import { bumpPlays, findTrack, formatInfo, hydrateTrack, ITrackHydrated, makeTrack, } from './track';
+import { bumpPlays, findTrack, hydrateTrack, ITrackHydrated, makeTrack, } from './track';
 import { eraseLine, warning } from './util';
 
 export interface IPlayer {

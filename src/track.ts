@@ -478,30 +478,6 @@ export const resolveAnonymous = async (track: ITrack): Promise<void> => {
   }
 };
 
-export const formatInfo = (t: ITrackHydrated): string[] => [
-  `Title: ${t.title || '?'}`,
-  ...composer.formatInfo(t.composer, t.composerDetail),
-  ...(t.compositionDate ? [ `Composition Date: ${t.compositionDate}` ] : []),
-  `Album: ${t.album || '?'}`,
-  ...((t.nDisks && t.nDisks > 1) ? [ `Disk ${t.disk} of ${t.nDisks}` ] : []),
-  ...(t.nTracks ? [ `Track ${t.track} of ${t.nTracks}` ] : []),
-  ...(t.artists ? [ `Artist: ${t.artists.join(' & ')}` ] : []),
-  ...(t.date ? [ dayjs(t.date).format('MMMM D, YYYY') ] : []),
-  ...(t.copyright ? [ t.copyright ] : []),
-  ...(t.genre ? [ `Genre: ${t.genre.join(', ')}` ] : []),
-  ...(t.opus ? [ `Opus ${t.opus}` ]: []),
-  ...(t.catalogs && t.catalogs.length ?
-    [ `${pluralize('Catalog', t.catalogs.length)}: ${t.catalogs.map((c) => c.symbol + ' ' + (c.category ? c.category + ':' : '') + (c.prefix ?? '') + c.n + (c.suffix ?? '')).join(', ')}` ] :
-    []),
-  ...(t.no ? [ `No. ${t.no}` ]: []),
-  ...(t.movement ? [ `Movement ${t.movement}${t.subMovement ?? ''}` ]: []),
-  `Duration: ${makeTime((t.duration ?? 1) * 1000)}`,
-  `Plays: ${t.plays}`,
-  ...(t.lastPlayed ? [`Last played: ${t.lastPlayed}`] : []),
-  ...(t.tags?.length ? [`Tags: ${t.tags.map(maybeQuote).join(' ')}` ] : []),
-  `Media file: ${t.trackPath}`,
-];
-
 export const cmdRemoveDeleted = async () => {
   const tracks = trackFile().fetch();
   const reduced = tracks.reduce((accum, t) => {

@@ -81,8 +81,6 @@ find	src/playlist.ts	/^export const find = (name: string, playlists?: IPlayList[
 findTrack	src/track.ts	/^export const findTrack = (trackPath: string) => {$/;"	v
 fixTTY	src/keypress.ts	/^export const fixTTY = () => {$/;"	v
 formatColumns	src/layout.ts	/^export const formatColumns = ($/;"	v
-formatInfo	src/composer.ts	/^export const formatInfo = (composer?: string[], composerKey?: IComposer | string): string[] => {$/;"	v
-formatInfo	src/track.ts	/^export const formatInfo = (t: ITrackHydrated): string[] => [$/;"	v
 getCacheStats	src/composer.ts	/^export const getCacheStats = () => composerFile().getCacheStats();$/;"	v
 getCacheStats	src/config.ts	/^export const getCacheStats = () => configFile?.stats;$/;"	v
 getCacheStats	src/layout.ts	/^export const getCacheStats = () => layoutFile().getCacheStats();$/;"	v

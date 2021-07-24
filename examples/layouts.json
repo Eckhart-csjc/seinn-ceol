@@ -106,6 +106,9 @@
         "extractor": "'Died: ' + composerDetail.died"
       },
       {
+        "extractor": "composerDetail.tags && 'Tags: ' + (tags join ' ')"
+      },
+      {
         "extractor": "compositionDate && ('Composition Date: ' + compositionDate)"
       },
       {
