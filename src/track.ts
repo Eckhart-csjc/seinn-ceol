@@ -293,7 +293,7 @@ const addTracks = async (
     }
   }, Promise.resolve(existing));
   clearLine();
-  const uniqd = _.uniqBy(newTracks, (t) => `${t.title}|${t.album}|${t.composer?.join('|')}`);
+  const uniqd = _.uniqBy(newTracks, (t) => `${t.title}|${t.album}|${t.composer?.join('|')}|${t.duration}`);
   trackFile().save(uniqd);
   return _.difference(uniqd, existing);
 };
