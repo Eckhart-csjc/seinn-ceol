@@ -4,7 +4,7 @@
     "columns": [
       {
         "header": "#",
-        "extractor": "unfilteredIndex",
+        "extractor": "index",
         "width": "3%",
         "justification": "right"
       },
