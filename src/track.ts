@@ -76,6 +76,7 @@ export interface ICatalogEntry {
 
 export interface ITrackHydrated extends ITrack {
   composerDetail?: IComposer;
+  unfilteredIndex?: number;  // Index before filtering
   index?: number;       // Added by sort
   keys?: any[];         // Added by sort
 }
@@ -97,7 +98,7 @@ export const filter = (where?: string): ITrackHydrated[] => {
     return [];      // A Parse error occurred
   }
   const composerIndex = composer.indexComposers();
-  const allTracks = fetchAll().map((t) => hydrateTrack(t, composerIndex));
+  const allTracks = fetchAll().map((t, ndx) => hydrateTrack(t, composerIndex, ndx));
   const result = token ?
     allTracks.filter((t) => !!extract(t, token)) :
     allTracks;
@@ -374,13 +375,15 @@ export const parseRoman = (val: string) => [...val].reduce<{prev: number; result
 
 export const hydrateTrack = (
   t: ITrack,
-  composerIndex?: Record<string, IComposer>
+  composerIndex?: Record<string, IComposer>,
+  unfilteredIndex?: number,
 ): ITrackHydrated => {
     const composerDetail = t.composerKey ?
       (composerIndex ? composerIndex[t.composerKey] : composer.find(t.composerKey)) :
       undefined;
     return {
       ...t,
+      unfilteredIndex,
       composerDetail,
       catalogs: t.catalogs ?? composerDetail?.catalogs?.reduce<ICatalogEntry[]>((accum, c, index) => {
         const pattern = new RegExp(c.pattern ?? `\\b(${[c.symbol, ...(c.aliases ?? [])].join('|')})\\.?\\s*(?<prefix>[A-Z])?(?<n>\\d+)(?<suffix>[a-z]*)?\\b`, 'i');
