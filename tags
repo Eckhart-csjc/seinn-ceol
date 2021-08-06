@@ -13,6 +13,8 @@ IKeyMaker	src/keypress.ts	/^export interface IKeyMaker {$/;"	i
 IKeyMapping	src/keypress.ts	/^export interface IKeyMapping {$/;"	i
 ILayout	src/layout.ts	/^export interface ILayout extends ITagable {$/;"	i
 ILayoutColumn	src/layout.ts	/^export interface ILayoutColumn {$/;"	i
+IOrder	src/order.ts	/^export interface IOrder {$/;"	i
+IOrderSegment	src/order.ts	/^export interface IOrderSegment {$/;"	i
 IPlayList	src/playlist.ts	/^export interface IPlayList extends ITagable {$/;"	i
 IPlayer	src/play.ts	/^export interface IPlayer {$/;"	i
 ISortable	src/util.ts	/^export interface ISortable extends ITagable {$/;"	i
@@ -69,6 +71,7 @@ execWithProgress	src/asyncChild.ts	/^export const execWithProgress = async ($/;"
 extract	src/extractor.ts	/^export const extract = (context: object, token: IToken): unknown => {$/;"	v
 fetchAll	src/composer.ts	/^export const fetchAll = () => composerFile().fetch();$/;"	v
 fetchAll	src/layout.ts	/^export const fetchAll = () => layoutFile().fetch();$/;"	v
+fetchAll	src/order.ts	/^export const fetchAll = () => orderFile().fetch();$/;"	v
 fetchAll	src/playlist.ts	/^export const fetchAll = () => playListFile().fetch();$/;"	v
 fetchAll	src/track.ts	/^export const fetchAll = () => trackFile().fetch();$/;"	v
 filter	src/composer.ts	/^export const filter = (where?: string): IComposer[] => {$/;"	v
@@ -77,6 +80,7 @@ filter	src/playlist.ts	/^export const filter = (where?: string): IPlayList[] => 
 filter	src/track.ts	/^export const filter = (where?: string): ITrackHydrated[] => {$/;"	v
 find	src/composer.ts	/^export const find = (name: string, composers?: IComposer[]) => indexComposers(composers)[name];$/;"	v
 find	src/layout.ts	/^export const find = (name: string, layouts?: ILayout[]) =>$/;"	v
+find	src/order.ts	/^export const find = (name: string, orders?: IOrder[]) => _.find(orders ?? fetchAll(), (o) => o.name === name);$/;"	v
 find	src/playlist.ts	/^export const find = (name: string, playlists?: IPlayList[]) => _.find(playlists ?? fetchAll(), (pl) => pl.name === name);$/;"	v
 findTrack	src/track.ts	/^export const findTrack = (trackPath: string) => {$/;"	v
 fixTTY	src/keypress.ts	/^export const fixTTY = () => {$/;"	v
@@ -104,6 +108,7 @@ init	src/keypress.ts	/^export const init = (log: boolean = false) => {$/;"	v
 isPlaying	src/play.ts	/^export const isPlaying = () => playState.isPlaying;$/;"	v
 makeHelpText	src/keypress.ts	/^export const makeHelpText = (): string[] => {$/;"	v
 makeKeys	src/keypress.ts	/^export const makeKeys = (makers: IKeyMaker[]): IKeyMapping[] =>$/;"	v
+makeKeys	src/order.ts	/^export const makeKeys = (orderName: string): string[] => {$/;"	v
 makeProgressBar	src/util.ts	/^export const makeProgressBar = (width: number, pct: number, text: string = '') => {$/;"	v
 makeString	src/util.ts	/^export const makeString = (input: unknown): string =>$/;"	v
 makeTime	src/util.ts	/^export const makeTime = (milli: number) => {$/;"	v
@@ -139,6 +144,7 @@ resolve	src/composer.ts	/^export const resolve = async (name: string, tracks: tr
 resolveAnonymous	src/track.ts	/^export const resolveAnonymous = async (track: ITrack): Promise<void> => {$/;"	v
 resume	src/keypress.ts	/^export const resume = () => active = true;$/;"	v
 save	src/layout.ts	/^export const save = (layout: ILayout) => {$/;"	v
+save	src/order.ts	/^export const save = (order: IOrder) => {$/;"	v
 save	src/playlist.ts	/^export const save = (playlist: IPlayList) => {$/;"	v
 saveAll	src/track.ts	/^export const saveAll = (tracks: ITrack[]) => trackFile().save(tracks);$/;"	v
 setCurrent	src/playlist.ts	/^export const setCurrent = (name: string, current: string) => {$/;"	v

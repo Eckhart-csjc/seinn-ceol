@@ -7,6 +7,7 @@ import { extract, IValueToken, parseExtractor, parseTags} from './extractor';
 import { IKey } from './keypress';
 import * as keypress from './keypress';
 import * as layout from './layout';
+import { makeKeys } from './order';
 import { doPlay,isPlaying, stopPlaying } from './play';
 import { ITagable } from './query';
 import * as track from './track';
@@ -29,7 +30,8 @@ import {
 
 export interface IPlayList extends ITagable {
   name: string;           // Play list name
-  orderBy?: string[];     // Queries (optionally followed by comma and sort order) for order of play
+  order?: string;         // Name of an order from the orders file
+  orderBy?: string[];     // Queries (optionally followed by comma and sort order) for order of play (these follow `order`)
   where?: string;         // Optional where clause for filtering tracks
   current?: string;       // trackPath of track started (undefined to start from the top)
   trackOverlap?: number;  // Milliseconds to shave off end of track before advancing
@@ -124,9 +126,14 @@ let theTrack: track.ITrack | undefined;
 
 const makeAfterMsg = (action: string) => ` - will ${action} at end of track`;
 
+const sortKeys = (playlist: IPlayList) => [
+  ...(playlist.order ? makeKeys(playlist.order) : []),
+  ...(playlist.orderBy ?? []),
+];
+
 const doFindNext = (key: IKey) => {
   if (findParser && currentPlaylist && theTrack) {
-    const sorted = track.sort(currentPlaylist.orderBy, currentPlaylist.where);
+    const sorted = track.sort(sortKeys(currentPlaylist), currentPlaylist.where);
     const current =  _.findIndex(sorted, (t) => t.trackPath === theTrack?.trackPath);
     const ordered = findBackward
     ? [ ...sorted.slice(0,current).reverse(), ...sorted.slice(current).reverse() ]
@@ -276,7 +283,7 @@ const afterTrack = async (name: string, options: IPlayListOptions,  plays: numbe
       if (!playlist) {
         return;
       }
-      const sorted = track.sort(playlist.orderBy, playlist.where);
+      const sorted = track.sort(sortKeys(playlist), playlist.where);
       const lastIndex = playlist.current ?
         _.findIndex(sorted, (tr) => tr.trackPath === playlist.current) :
         -1;
@@ -302,7 +309,7 @@ const afterTrack = async (name: string, options: IPlayListOptions,  plays: numbe
       if (!playlist) {
         return;
       }
-      const sorted = track.sort(playlist.orderBy, playlist.where);
+      const sorted = track.sort(sortKeys(playlist), playlist.where);
       const lastIndex = playlist.current ?
         _.findIndex(sorted, (tr) => tr.trackPath === playlist.current) :
         -1;
@@ -325,7 +332,7 @@ const afterTrack = async (name: string, options: IPlayListOptions,  plays: numbe
       // First, queue up the next track for when we start again
       const { playlist } = getPlaylist(name, options);
       if (playlist) {
-        const sorted = track.sort(playlist.orderBy, playlist.where);
+        const sorted = track.sort(sortKeys(playlist), playlist.where);
         const lastIndex = playlist.current ?
           _.findIndex(sorted, (tr) => tr.trackPath === playlist.current) :
           -1;
@@ -344,7 +351,7 @@ export const cmdPlayList = async (name: string, options: IPlayListOptions) => {
 };
 
 export const getCurrentTrack = (playlist: IPlayList, options: IPlayListOptions) => {
-  const sorted = track.sort(playlist.orderBy, playlist.where);
+  const sorted = track.sort(sortKeys(playlist), playlist.where);
   const current =  playlist.current ? (_.find(sorted, (t) => t.trackPath === playlist.current) ?? sorted[0]) :  sorted[0];
   if (options.next) {
     const parser = parseExtractor(options.next);
@@ -402,7 +409,7 @@ const browse = async (name: string, options: IPlayListOptions, nextTrack?: track
     lastHeaderRow = getRowsPrinted();
   }
 
-  const sorted = track.sort(playlist.orderBy, playlist.where);
+  const sorted = track.sort(sortKeys(playlist), playlist.where);
   const sep = layOut.separator || '|';
   const max = process.stdout.columns - 1;
   const choices = sorted.map((t) => ({
