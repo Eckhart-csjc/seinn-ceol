@@ -1,0 +1,27 @@
+[
+  {
+    "name": "composersByBirth",
+    "segments": [
+      { "query": "date (composerDetail.born or compositionDate)" },
+      { "query": "date composerDetail.died" },
+      { "query": "composerDetail.name" },
+      { "query": "opus" },
+      { "include": "catalog" },
+      { "query": "album" },
+      { "query": "(opus || catalogs[0].n) && no" },
+      { "query": "(opus || catalogs[0].n) && (movement || 0)" },
+      { "query": "disk or 1" },
+      { "query": "track" }
+    ]
+  },
+  {
+    "name": "catalog",
+    "segments": [
+      { "query": "catalogs[0].index" },
+      { "query": "catalogs[0].category" },
+      { "query": "catalogs[0].prefix" },
+      { "query": "catalogs[0].n" },
+      { "query": "catalogs[0].suffix || ''" }
+    ]
+  }
+]

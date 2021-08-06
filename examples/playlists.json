@@ -1,64 +1,19 @@
 [
   {
     "name": "composersByBirth",
-    "orderBy": [
-      "date (composerDetail.born or compositionDate)",
-      "date composerDetail.died",
-      "composerDetail.name",
-      "opus",
-      "catalogs[0].index",
-      "catalogs[0].category",
-      "catalogs[0].prefix",
-      "catalogs[0].n",
-      "catalogs[0].suffix || ''",
-      "album",
-      "(opus || catalogs[0].n) && no",
-      "(opus || catalogs[0].n) && (movement || 0)",
-      "disk or 1",
-      "track"
-    ],
-    "current": "/Users/eckhart/Music/iTunes/iTunes Media/Music/Philharmonia Orchestra & Giuseppe Sinopoli/Mahler_ The Complete Recordings/2-02 Symphony No. 1 in D_ II. Kräftig Bewegt.m4a"
+    "order": "composersByBirth",
+    "current": "/Users/eckhart/Music/iTunes/iTunes Media/Music/London Philharmonic Orchestra & Sir Adrian Boult/Vaughan Williams_ Complete Symphonies/4-06 Symphony No. 6 in E Minor_ II. Moderato.m4a"
   },
   {
     "name": "familyBach",
     "where": "composerDetail.name =~ /\\\\bBach$/",
-    "orderBy": [
-      "date (composerDetail.born or compositionDate)",
-      "date composerDetail.died",
-      "composerDetail.name",
-      "opus",
-      "catalogs[0].index",
-      "catalogs[0].category",
-      "catalogs[0].prefix",
-      "catalogs[0].n",
-      "catalogs[0].suffix || ''",
-      "album",
-      "(opus || catalogs[0].n) && no",
-      "(opus || catalogs[0].n) && (movement || 0)",
-      "disk or 1",
-      "track"
-    ],
-    "current": "/Users/eckhart/Music/iTunes/iTunes Media/Music/Compilations/Wilhelm Friedemann Bach Edition/219 Erzittert und fallet, F. 83_ II. Aria. Was für reizend sanfte Blicke.m4a"
+    "order": "composersByBirth",
+    "current": "/Users/eckhart/Music/iTunes/iTunes Media/Music/Karl Richter/Bach, J.S._ Organ Concertos Nos.1 - 6/15 Konzert nach einem unbekannten Vorbild, BWV 597 Anh.II 46_ 1. - Unknown.m4a"
   },
   {
     "name": "classOf1685",
     "where": "date composerDetail.born >= date '1685' && date composerDetail.born < date '1686'",
-    "orderBy": [
-      "date (composerDetail.born or compositionDate)",
-      "date composerDetail.died",
-      "composerDetail.name",
-      "opus",
-      "catalogs[0].index",
-      "catalogs[0].category",
-      "catalogs[0].prefix",
-      "catalogs[0].n",
-      "catalogs[0].suffix || ''",
-      "album",
-      "(opus || catalogs[0].n) && no",
-      "(opus || catalogs[0].n) && (movement || 0)",
-      "disk or 1",
-      "track"
-    ],
+    "order": "composersByBirth",
     "current": "/Users/eckhart/Music/iTunes/iTunes Media/Music/Ede Inhoff_ Hungarian State Chamber Orchestra/Baroque Trumpet Concerti/27 Sonata for Trumpet, Strings and Basso Continuo - Overture (Georg Friedrich Handel).m4a"
   }
 ]
