@@ -36,6 +36,18 @@ export interface IPlayList extends ITagable {
   current?: string;       // trackPath of track started (undefined to start from the top)
   trackOverlap?: number;  // Milliseconds to shave off end of track before advancing
   layout?: string;        // Name of layout (defaults to config layout)
+  events?: IPlayListEvent[];  // Actions troggered by conditions
+}
+
+enum PlayListAction {
+  Layout = 'layout',      // Output the specified layout
+  Headers = 'headers',    // Output the headers for the specified layout
+}
+
+interface IPlayListEvent {
+  condition: string;      // query that if results in truthiness, execute the action
+  action: PlayListAction;
+  layout: string;
 }
 
 interface IPlayListOptions {
@@ -123,6 +135,7 @@ let findParser: IValueToken | undefined;
 let findBackward: boolean = false;
 let currentPlaylist: IPlayList | undefined;
 let theTrack: track.ITrack | undefined;
+let previousTrack: track.ITrack | undefined;
 
 const makeAfterMsg = (action: string) => ` - will ${action} at end of track`;
 
@@ -130,6 +143,18 @@ const sortKeys = (playlist: IPlayList) => [
   ...(playlist.order ? makeKeys(playlist.order) : []),
   ...(playlist.orderBy ?? []),
 ];
+
+const actionHandler: Record<PlayListAction, (context: object, event: IPlayListEvent) => void> = {
+  [PlayListAction.Layout]: (context, event) => layout.displayColumns(context, event.layout),
+  [PlayListAction.Headers]: (context, event) => layout.displayHeaders(event.layout),
+};
+
+const checkEvent = (e: IPlayListEvent, context: object) => {
+  const token = parseExtractor(e.condition);
+  if (token && extract(context, token)) {
+    actionHandler[e.action](context, e);
+  }
+};
 
 const doFindNext = (key: IKey) => {
   if (findParser && currentPlaylist && theTrack) {
@@ -451,12 +476,19 @@ const doPlayList = async (name: string, options: IPlayListOptions, plays: number
     return;
   }
   const settings = getSettings();
-  if (lastHeaderRow === 0 || (getRowsPrinted() - lastHeaderRow) >= (process.stdout.rows-3)) {
+  const outputHeaders = lastHeaderRow === 0 || (getRowsPrinted() - lastHeaderRow) >= (process.stdout.rows-3);
+  const context = {
+      ...theTrack,
+      previousTrack,
+      outputHeaders,
+  }
+  playlist.events?.map((e) => checkEvent(e, context));
+  if (outputHeaders) {
     layout.displayHeaders(playlist.layout ?? settings.layout);
     lastHeaderRow = getRowsPrinted();
   }
   if (!suppressColumns) {
-    layout.displayColumns(theTrack, playlist.layout ?? settings.layout);
+    layout.displayColumns(context, playlist.layout ?? settings.layout);
   }
   suppressColumns = false;
   wasStopped = false;
@@ -487,6 +519,7 @@ const doPlayList = async (name: string, options: IPlayListOptions, plays: number
   const turnAround = turnAroundTimings?.length ? turnAroundTimings[turnAroundTimings.length - 1] : undefined;
   const tat = turnAround?.end ? (turnAround.end - turnAround.start) : 0;
   const finished = await doPlay(theTrack, tat + (playlist.trackOverlap ?? settings.trackOverlap ?? 0));
+  previousTrack = theTrack;
   statTrackTurnAround = diagnostics.startTiming(TURN_AROUND);
   await afterTrack(name, options, plays + (finished ? 1 : 0));
   keypress.removeKeys(playListKeys);

@@ -91,6 +91,80 @@
     }
   },
   {
+    "name": "track",
+    "columns": [
+      {
+        "header": "#",
+        "extractor": "index",
+        "width": "3%",
+        "justification": "right"
+      },
+      {
+        "header": "Title",
+        "extractor": "title",
+        "width": "30%"
+      },
+      {
+        "header": "Artist",
+        "extractor": "artists",
+        "width": "20%"
+      },
+      {
+        "header": "Album",
+        "extractor": "album",
+        "width": "28%"
+      },
+      {
+        "header": "Disk",
+        "extractor": "(disk || '') + '/' + (nDisks || '')",
+        "width": "3%",
+        "justification": "center"
+      },
+      {
+        "header": "Track",
+        "extractor": "(track || '') + '/' + (nTracks || '')",
+        "width": "4%",
+        "justification": "center"
+      },
+      {
+        "header": "Time",
+        "extractor": "shortDur duration",
+        "width": "3%",
+        "justification": "right"
+      },
+      {
+        "header": "Plays",
+        "extractor": "plays || '0'",
+        "width": "3%",
+        "justification": "right"
+      },
+      {
+        "header": "Last played",
+        "extractor": "shortTime lastPlayed",
+        "width": "6%",
+        "justification": "right"
+      }
+    ],
+    "separator": "│",
+    "hdrTheming": {
+      "chalk": [
+        "italic",
+        "underline",
+        "blueBright"
+      ]
+    },
+    "separatorTheming": {
+      "chalk": [
+        "gray"
+      ]
+    },
+    "hdrSeparatorTheming": {
+      "chalk": [
+        "gray"
+      ]
+    }
+  },
+  {
     "name": "detail",
     "columns": [
       {
@@ -106,7 +180,7 @@
         "extractor": "'Died: ' + composerDetail.died"
       },
       {
-        "extractor": "composerDetail.tags && 'Tags: ' + (tags join ' ')"
+        "extractor": "(composerDetail.tags join ' ') && 'Tags: ' + (composerDetail.tags join ' ')"
       },
       {
         "extractor": "compositionDate && ('Composition Date: ' + compositionDate)"
@@ -154,7 +228,7 @@
         "extractor": "lastPlayed && ('Last played: ' + (shortTime lastPlayed))"
       },
       {
-        "extractor": "tags && ('Tags: ' + (tags join ' '))"
+        "extractor": "(tags join ' ') && ('Tags: ' + (tags join ' '))"
       },
       {
         "extractor": "'File: ' + trackPath"
@@ -172,5 +246,29 @@
       ]
     },
     "prefix": " → "
+  },
+  {
+    "name": "composerHeader",
+    "columns": [
+      {
+        "extractor": "'Composer: ' + (composer join ' & ') + (((composer join ' & ') != composerDetail.name) && (' (' + composerDetail.name + ')') || '')"
+      },
+      {
+        "extractor": "'Born: ' + composerDetail.born"
+      },
+      {
+        "extractor": "'Died: ' + composerDetail.died"
+      },
+      {
+        "extractor": "(composerDetail.tags join ' ') && 'Tags: ' + (composerDetail.tags join ' ')"
+      }
+    ],
+    "separator": ", ",
+    "theming": {
+      "chalk": [
+        "blueBright",
+        "bold"
+      ]
+    }
   }
 ]

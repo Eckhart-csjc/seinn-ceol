@@ -2,18 +2,42 @@
   {
     "name": "composersByBirth",
     "order": "composersByBirth",
-    "current": "/Users/eckhart/Music/iTunes/iTunes Media/Music/London Philharmonic Orchestra & Sir Adrian Boult/Vaughan Williams_ Complete Symphonies/4-06 Symphony No. 6 in E Minor_ II. Moderato.m4a"
+    "layout": "track",
+    "events": [
+      {
+        "condition": "outputHeaders || composerDetail.name != previousTrack.composerDetail.name",
+        "action": "layout",
+        "layout": "composerHeader"
+      }
+    ],
+    "current": "/Users/eckhart/Music/iTunes/iTunes Media/Music/Various Artists/Rachmaninoff_ Complete Works for Piano Solo/2-23 Morceaux de Salon, Op. 10_ Mélodie in E Minor.m4a"
   },
   {
     "name": "familyBach",
     "where": "composerDetail.name =~ /\\\\bBach$/",
     "order": "composersByBirth",
-    "current": "/Users/eckhart/Music/iTunes/iTunes Media/Music/Karl Richter/Bach, J.S._ Organ Concertos Nos.1 - 6/15 Konzert nach einem unbekannten Vorbild, BWV 597 Anh.II 46_ 1. - Unknown.m4a"
+    "layout": "track",
+    "events": [
+      {
+        "condition": "outputHeaders || composerDetail.name != previousTrack.composerDetail.name",
+        "action": "layout",
+        "layout": "composerHeader"
+      }
+    ],
+    "current": "/Users/eckhart/Music/iTunes/iTunes Media/Music/Helmut Walcha/Bach_ Organ Works/7-06 Gelobet seist du, Jesu Christ, BWV 604.m4a"
   },
   {
     "name": "classOf1685",
     "where": "date composerDetail.born >= date '1685' && date composerDetail.born < date '1686'",
     "order": "composersByBirth",
+    "layout": "track",
+    "events": [
+      {
+        "condition": "outputHeaders || composerDetail.name != previousTrack.composerDetail.name",
+        "action": "layout",
+        "layout": "composerHeader"
+      }
+    ],
     "current": "/Users/eckhart/Music/iTunes/iTunes Media/Music/Ede Inhoff_ Hungarian State Chamber Orchestra/Baroque Trumpet Concerti/27 Sonata for Trumpet, Strings and Basso Continuo - Overture (Georg Friedrich Handel).m4a"
   }
 ]
