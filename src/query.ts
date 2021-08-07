@@ -4,6 +4,7 @@ import * as composer from './composer';
 import * as config from './config';
 import { extract, parseExtractor } from './extractor';
 import * as layout from './layout';
+import { makeKeys } from './order';
 import * as playlist from './playlist';
 import { SegOut } from './segout';
 import * as track from './track';
@@ -40,7 +41,8 @@ export const cmdQuery = (
   table: string,
   options: {
     columns?: string[];
-    order?: string[];
+    order?: string;
+    orderBy?: string[];
     where?: string;
     offset?: string;
     limit?: string;
@@ -54,7 +56,11 @@ export const cmdQuery = (
     return;
   }
   const items = tableHandler.filter(options.where);
-  const sorted = sortBy<ISortable>(items, options.order ?? []);     // Still want indexing
+  const keys = [
+    ...(options.order ? makeKeys(options.order) : []),
+    ...(options.orderBy ?? []),
+  ];
+  const sorted = sortBy<ISortable>(items, keys);     // Still want indexing
   const limited = (options.offset || options.limit) ?
     sorted.slice(parseInt(options.offset || '0', 10), parseInt(options.offset || '0', 10) + (parseInt(options.limit || '0', 10) || sorted.length)) :
     sorted;

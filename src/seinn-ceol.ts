@@ -84,12 +84,13 @@ program
 
 program
   .command('query <table>')
-  .option('-c, --columns <columns...>', 'columns to show (using query syntax)')
-  .option('-H, --headings <headings...>', 'overrides for default headings (any blank or not provided will still default)')
+  .option('-c, --columns <column...>', 'columns to show (using query syntax)')
+  .option('-H, --headings <heading...>', 'overrides for default headings (any blank or not provided will still default)')
   .option('-j, --justification <justifications...>', 'overrides for column justification (left|center|right, can be abbreviated, default: left)')
   .option('-l, --limit <limit>', 'limit output to n items')
-  .option('-o, --order <order...>', 'order items.  Each order iq a query, optionally followed by a comma and sort order')
-  .option('-O, --offset <offset>', 'start at offset (0 is first)')
+  .option('-O, --order <order>', 'use a named order from the orders file')
+  .option('-o, --orderBy <key...>', 'order items.  Each order is a query, optionally followed by a comma and sort order')
+  .option('--offset <offset>', 'start at offset (0 is first)')
   .option('-w, --where <filter>', 'filter items to include')
   .description('query table contents')
   .action(cmdQuery)
