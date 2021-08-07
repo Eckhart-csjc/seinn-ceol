@@ -40,6 +40,7 @@ export const getTableHandler = (table: string) => tableMap[table.toLowerCase()];
 export const cmdQuery = (
   table: string,
   options: {
+    layout?: string;
     columns?: string[];
     order?: string;
     orderBy?: string[];
@@ -65,7 +66,7 @@ export const cmdQuery = (
     sorted.slice(parseInt(options.offset || '0', 10), parseInt(options.offset || '0', 10) + (parseInt(options.limit || '0', 10) || sorted.length)) :
     sorted;
   if (limited.length > 0) {
-    const columns = options.columns ?? limited.reduce<string[]>((accum, i) => _.uniq([ ...accum, ...Object.keys(i) ]), []);
+    const columns = options.columns ?? (options.layout ? [] : limited.reduce<string[]>((accum, i) => _.uniq([ ...accum, ...Object.keys(i) ]), []));
     const colp = columns.map((c) => parseExtractor(c));
     const rows = [
       columns.map((c, ndx) => options.headings?.[ndx] || c),
@@ -76,17 +77,37 @@ export const cmdQuery = (
     [] as number[]);
     const justification = columns.map((c, ndx) => makeJustification(options.justification?.[ndx]));
     const theme = config.getTheme();
+    const theLayout = options.layout ? layout.getLayout(options.layout) : undefined;
     const out = new SegOut();
-    rows.reduce((acc, r, rownum) => {
-      r.reduce((ac, c, ndx) => {
-        out.add(padOrTruncate(c, maxs[ndx] || 0, justification[ndx]), '│', undefined,
-          (rownum == 0) ? theme.greenBarHeader ?? theme.greenBar1 :
-            ((rownum % 2 == 0) ? theme.greenBar1 : theme.greenBar2));
-        return ac;
-      }, acc);
+
+    const addField = (c: string, ndx: number, theming?: config.Theming, separatorTheming?: config.Theming, prefixTheming?: config.Theming) =>
+      out.add(padOrTruncate(c, maxs[ndx] || 0, justification[ndx]), 
+        theLayout?.separator ?? '│', theLayout?.prefix, theming, separatorTheming, prefixTheming);
+
+    if (options.layout) {
+      layout.displayHeaders(options.layout, out);
+    }
+    if (columns.length) {
+      rows[0].map((c, ndx) => addField(c, ndx,
+        theLayout?.hdrTheming ?? theLayout?.theming ?? theme.greenBarHeader ?? theme.greenBar1,
+        theLayout?.hdrSeparatorTheming ?? theLayout?.hdrTheming ?? theLayout?.separatorTheming ?? theLayout?.theming,
+        theLayout?.prefixTheming ?? theLayout?.hdrTheming ?? theLayout?.theming));
+    }
+    out.nl();
+
+    limited.map((i, n) => {
+      if (options.layout) {
+        layout.displayColumns(i, options.layout, out);
+      }
+      if (columns.length) {
+        const rownum = n + 1;
+        rows[rownum]?.map((c, ndx) => addField(c, ndx,
+          theLayout?.theming ?? ((rownum % 2 == 0) ? theme.greenBar1 : theme.greenBar2),
+          theLayout?.separatorTheming ?? theLayout?.theming,
+          theLayout?.prefixTheming ?? theLayout?.theming));
+      }
       out.nl();
-      return acc;
-    }, true);
+    });
     printLn('');
   }
   notification(pluralize(table.replace(/s$/, ''), limited.length, true));

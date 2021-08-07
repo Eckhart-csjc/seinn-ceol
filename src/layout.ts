@@ -85,10 +85,11 @@ export const updateLayouts = (updates: ILayout[]): ILayout[] => {
 export const update = (updates: object[]): ILayout[] => updateLayouts(updates as ILayout[]);
 
 export const displayColumns = (
-  t: track.ITrackHydrated,
-  layoutName?: string
+  t: object,
+  layoutName?: string,
+  output?: SegOut,
 ) => {
-  const o = new SegOut();
+  const o = output ?? new SegOut();
   eraseLine();
   const layout = getLayout(layoutName);
   if (!layout?.columns) {
@@ -106,11 +107,13 @@ export const displayColumns = (
       layout.prefixTheming ?? layout.theming,
     )
   );
-  o.nl();
+  if (!output) {
+    o.nl();
+  }
 };
 
 export const formatColumns = (
-  t: track.ITrackHydrated,
+  t: object,
   layOut?: string | ILayout,
 ): string[] => {
   const layout = typeof layOut === 'object' ? layOut : getLayout(layOut);
@@ -121,12 +124,12 @@ export const formatColumns = (
   return layout.columns.map((c) => formatColumn(c, t, sep.length));
 };
 
-export const displayHeaders = (layoutName?: string) => {
+export const displayHeaders = (layoutName?: string, output?: SegOut) => {
   const layout = getLayout(layoutName);
   if (!layout?.columns) {
     return;
   }
-  const o = new SegOut();
+  const o = output ?? new SegOut();
   eraseLine();
   const sep = layout.separator || '|';
   layout.columns.map((c) =>
@@ -139,7 +142,9 @@ export const displayHeaders = (layoutName?: string) => {
       layout.prefixTheming ?? layout.hdrTheming ?? layout.theming,
     )
   );
-  o.nl();
+  if (!output) {
+    o.nl();
+  }
 };
 
 export const getLayout = (layoutName?: string): ILayout | undefined => {
@@ -157,7 +162,7 @@ export const getLayout = (layoutName?: string): ILayout | undefined => {
 
 const formatColumn = (
   column: ILayoutColumn,
-  track: track.ITrackHydrated,
+  track: object,
   sepLength: number,
 ) => {
   try {

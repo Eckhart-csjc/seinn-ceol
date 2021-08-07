@@ -61,7 +61,7 @@ composerIndexCacheStats	src/composer.ts	/^export const composerIndexCacheStats: 
 cursorTo	src/util.ts	/^export const cursorTo = (x: number = 0, y?: number) => process.stdout.isTTY && process.stdout.cursorTo(x, y);$/;"	v
 debug	src/util.ts	/^export const debug = (...args: any[]) => {$/;"	v
 displayColumns	src/layout.ts	/^export const displayColumns = ($/;"	v
-displayHeaders	src/layout.ts	/^export const displayHeaders = (layoutName?: string) => {$/;"	v
+displayHeaders	src/layout.ts	/^export const displayHeaders = (layoutName?: string, output?: SegOut) => {$/;"	v
 doPlay	src/play.ts	/^export const doPlay = async ($/;"	v
 endTiming	src/diagnostics.ts	/^export const endTiming = (id: ITimingId | undefined): ITiming | undefined => {$/;"	v
 eraseLine	src/util.ts	/^export const eraseLine = () => {$/;"	v
