@@ -5,12 +5,12 @@
     "layout": "track",
     "events": [
       {
-        "condition": "outputHeaders || composerDetail.name != previousTrack.composerDetail.name",
+        "condition": "outputHeaders || composerDetail.name != previousTrack.composerDetail.name || composer != previousTrack.composer",
         "action": "layout",
         "layout": "composerHeader"
       }
     ],
-    "current": "/Users/eckhart/Music/iTunes/iTunes Media/Music/Various Artists/Rachmaninoff_ Complete Works for Piano Solo/2-23 Morceaux de Salon, Op. 10_ Mélodie in E Minor.m4a"
+    "current": "/Users/eckhart/Music/iTunes/iTunes Media/Music/Compilations/Dances of the Renaissance/1-01 Dances from Terpsichore_ I. Entrée - Courante.m4a"
   },
   {
     "name": "familyBach",
@@ -19,7 +19,7 @@
     "layout": "track",
     "events": [
       {
-        "condition": "outputHeaders || composerDetail.name != previousTrack.composerDetail.name",
+        "condition": "outputHeaders || composerDetail.name != previousTrack.composerDetail.name || composer != previousTrack.composer",
         "action": "layout",
         "layout": "composerHeader"
       }
@@ -33,7 +33,7 @@
     "layout": "track",
     "events": [
       {
-        "condition": "outputHeaders || composerDetail.name != previousTrack.composerDetail.name",
+        "condition": "outputHeaders || composerDetail.name != previousTrack.composerDetail.name || composer != previousTrack.composer",
         "action": "layout",
         "layout": "composerHeader"
       }

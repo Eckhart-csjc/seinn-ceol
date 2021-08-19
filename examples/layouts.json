@@ -189,7 +189,7 @@
         "extractor": "opus && ('Opus ' + opus)"
       },
       {
-        "extractor": "categories"
+        "extractor": "catalogs[0] && ('Catalog ' + catalogs[0].symbol + ' ' + (catalogs[0].category || '') + (catalogs[0].prefix || '') + catalogs[0].n + (catalogs[0].suffix || ''))"
       },
       {
         "extractor": "no && ('No. ' + no)"
@@ -251,7 +251,7 @@
     "name": "composerHeader",
     "columns": [
       {
-        "extractor": "'Composer: ' + (composer join ' & ') + (((composer join ' & ') != composerDetail.name) && (' (' + composerDetail.name + ')') || '')"
+        "extractor": "(composer join ' & ') + (((composer join ' & ') != composerDetail.name) && (' (' + composerDetail.name + ')') || '')"
       },
       {
         "extractor": "'Born: ' + composerDetail.born"
@@ -266,8 +266,9 @@
     "separator": ", ",
     "theming": {
       "chalk": [
-        "blueBright",
-        "bold"
+        "cyan",
+        "bold",
+        "underline"
       ]
     }
   }

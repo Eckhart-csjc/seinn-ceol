@@ -2488,7 +2488,9 @@
   },
   {
     "name": "Stephen Collins Foster",
-    "aliases": [],
+    "aliases": [
+      "S. Foster"
+    ],
     "born": "7/04/1826",
     "died": "1/13/1864"
   },
@@ -2572,7 +2574,9 @@
   },
   {
     "name": "Anton Stepanovich Arensky",
-    "aliases": [],
+    "aliases": [
+      "Anton Arensky"
+    ],
     "born": "7/12/1861",
     "died": "2/25/1906"
   },
@@ -3438,7 +3442,9 @@
   },
   {
     "name": "Alexander Tikhonovich Gretchaninov",
-    "aliases": [],
+    "aliases": [
+      "Alexander Tikhonovitch Gretchaninov"
+    ],
     "born": "10/25/1864",
     "died": "1/03/1956"
   },
@@ -6026,7 +6032,9 @@
   },
   {
     "name": "Alonso Mudarra",
-    "aliases": [],
+    "aliases": [
+      "Alonso de Mudarra"
+    ],
     "born": "1510",
     "died": "April 1, 1580"
   },
@@ -6355,7 +6363,9 @@
   },
   {
     "name": "Joan Ambrosio Dalza",
-    "aliases": [],
+    "aliases": [
+      "Joan Ambrozio Dalza"
+    ],
     "born": "c 1460 ?",
     "died": "1508"
   },
@@ -7058,6 +7068,422 @@
     "aliases": [],
     "born": "June 24, 1908",
     "died": "November 1, 1942",
+    "tags": []
+  },
+  {
+    "name": "Antonio Stringari",
+    "aliases": [],
+    "born": "c 1480",
+    "died": "1515",
+    "tags": []
+  },
+  {
+    "name": "Eustachio Gallo",
+    "aliases": [],
+    "born": "c 1480 ?",
+    "died": "c 1521 ?",
+    "tags": []
+  },
+  {
+    "name": "Giovanni Ambrosio Dalza",
+    "aliases": [],
+    "born": "c 1480 ?",
+    "died": "c 1520 ?",
+    "tags": []
+  },
+  {
+    "name": "Giovanni Lulino",
+    "aliases": [],
+    "born": "c 1480 ?",
+    "died": "c 1520 ?",
+    "tags": []
+  },
+  {
+    "name": "Marchetto Cara",
+    "aliases": [],
+    "born": "c 1465",
+    "died": "1525",
+    "tags": []
+  },
+  {
+    "name": "Alexander Arkhangelsky",
+    "aliases": [],
+    "born": "October 23, 1846",
+    "died": "November 16, 1924",
+    "tags": []
+  },
+  {
+    "name": "Alexander Kastalsky",
+    "aliases": [],
+    "born": "November 28, 1856",
+    "died": "December 17, 1926",
+    "tags": []
+  },
+  {
+    "name": "Alexander Nikolsky",
+    "aliases": [],
+    "born": "July 4, 1874",
+    "died": "March 19, 1943",
+    "tags": []
+  },
+  {
+    "name": "Alexander Taneyev",
+    "aliases": [],
+    "born": "January 17, 1850",
+    "died": "February 7, 1918",
+    "tags": []
+  },
+  {
+    "name": "Andrei Chistiakov",
+    "aliases": [],
+    "born": "January 4th, 1949",
+    "died": "November 29th, 2000",
+    "tags": []
+  },
+  {
+    "name": "Artemy Vedel",
+    "aliases": [],
+    "born": "1767",
+    "died": "July 14, 1808",
+    "tags": []
+  },
+  {
+    "name": "Dmitri Bortniansky",
+    "aliases": [],
+    "born": "October 28, 1751",
+    "died": "October 10, 1825",
+    "tags": []
+  },
+  {
+    "name": "Episcop Lucian Moushitsky",
+    "aliases": [],
+    "born": "c 1800 ?",
+    "died": "c 1870 ?",
+    "tags": []
+  },
+  {
+    "name": "Evstafy Azeyev",
+    "aliases": [],
+    "born": "1851",
+    "died": "1918",
+    "tags": []
+  },
+  {
+    "name": "F. Stepanov",
+    "aliases": [],
+    "born": "c 1850 ?",
+    "died": "c 1918 ?",
+    "tags": []
+  },
+  {
+    "name": "Gavriil Lomakin",
+    "aliases": [],
+    "born": "25 March 1812",
+    "died": "9 May 1885",
+    "tags": []
+  },
+  {
+    "name": "Grigor Lvovsky",
+    "aliases": [],
+    "born": "1830",
+    "died": "1894",
+    "tags": []
+  },
+  {
+    "name": "I. Liamin",
+    "aliases": [],
+    "born": "c 1850 ?",
+    "died": "c 1918 ?",
+    "tags": []
+  },
+  {
+    "name": "Kulchitsky",
+    "aliases": [],
+    "born": "c 1850 ?",
+    "died": "c 1918 ?",
+    "tags": []
+  },
+  {
+    "name": "Mikhail Rechkunov",
+    "aliases": [],
+    "born": "1870",
+    "died": "1921",
+    "tags": []
+  },
+  {
+    "name": "Nikolai Tcherepnine",
+    "aliases": [],
+    "born": "May 3, 1873",
+    "died": "June 26, 1945",
+    "tags": []
+  },
+  {
+    "name": "Pavel Chesnokov",
+    "aliases": [],
+    "born": "November 12, 1877",
+    "died": "March 14, 1944",
+    "tags": []
+  },
+  {
+    "name": "Semyon Panchenko",
+    "aliases": [],
+    "born": "1867",
+    "died": "1937",
+    "tags": []
+  },
+  {
+    "name": "Stepan Degtiarev",
+    "aliases": [],
+    "born": "1766",
+    "died": "May 5, 1813",
+    "tags": []
+  },
+  {
+    "name": "Stepan Smolensky",
+    "aliases": [],
+    "born": "August 20, 1848",
+    "died": "August 2, 1909",
+    "tags": []
+  },
+  {
+    "name": "Alexei Fyodorovich Lvov",
+    "aliases": [
+      "Алексей Львов"
+    ],
+    "born": "June 5, 1798",
+    "died": "December 28, 1870",
+    "tags": []
+  },
+  {
+    "name": "Adrien Le Roy",
+    "aliases": [],
+    "born": "1520",
+    "died": "1598",
+    "tags": []
+  },
+  {
+    "name": "Bernard Schmid the Elder",
+    "aliases": [
+      "Be. Schmid d. Ä."
+    ],
+    "born": "1535",
+    "died": "1592",
+    "tags": []
+  },
+  {
+    "name": "Dave Brubeck",
+    "aliases": [
+      "D. Brubeck"
+    ],
+    "born": "December 6, 1920",
+    "died": "December 5, 2012",
+    "tags": []
+  },
+  {
+    "name": "Don Luys Milan",
+    "aliases": [],
+    "born": "c 1500",
+    "died": "c 1561",
+    "tags": []
+  },
+  {
+    "name": "Erasmus Widmann",
+    "aliases": [],
+    "born": "September 15, 1572",
+    "died": "October 31, 1634",
+    "tags": []
+  },
+  {
+    "name": "Francesco de la Torre",
+    "aliases": [],
+    "born": "1470",
+    "died": "1520",
+    "tags": []
+  },
+  {
+    "name": "Hans Neusidler",
+    "aliases": [],
+    "born": "1508",
+    "died": "February 2, 1563",
+    "tags": []
+  },
+  {
+    "name": "Jakob Paix",
+    "aliases": [
+      "Ja. Paix"
+    ],
+    "born": "1556",
+    "died": "1623",
+    "tags": []
+  },
+  {
+    "name": "Jean-Baptiste Bésard",
+    "aliases": [],
+    "born": "1567",
+    "died": "1625",
+    "tags": []
+  },
+  {
+    "name": "Guilielmus Messaus",
+    "aliases": [
+      "M. Gulielmus"
+    ],
+    "born": "2 July 1589",
+    "died": "8 March 1640",
+    "tags": []
+  },
+  {
+    "name": "Mario Fabrizio Caroso",
+    "aliases": [],
+    "born": "1526",
+    "died": "1600",
+    "tags": []
+  },
+  {
+    "name": "Pierre Attaingnant",
+    "aliases": [],
+    "born": "1494",
+    "died": "1552",
+    "tags": []
+  },
+  {
+    "name": "Pierre Francisque Caroubel",
+    "aliases": [],
+    "born": "August 1549",
+    "died": "1611",
+    "tags": []
+  },
+  {
+    "name": "Pierre Phalèse",
+    "aliases": [],
+    "born": "1510",
+    "died": "1573",
+    "tags": []
+  },
+  {
+    "name": "Tielman Susato",
+    "aliases": [],
+    "born": "1500",
+    "died": "1561",
+    "tags": []
+  },
+  {
+    "name": "Valentin Haussmann",
+    "aliases": [],
+    "born": "1565",
+    "died": "1614",
+    "tags": []
+  },
+  {
+    "name": "Arthur Murray Goodhart ",
+    "aliases": [
+      "A. Goodhart, A. Hoffman & M. SIGLER"
+    ],
+    "born": " 25 July 1866",
+    "died": "1941",
+    "tags": []
+  },
+  {
+    "name": "Ahmad Jamal",
+    "aliases": [],
+    "born": "July 2, 1930",
+    "died": "",
+    "tags": []
+  },
+  {
+    "name": "Earl Rudolph \"Bud\" Powell",
+    "aliases": [
+      "Bud Powell"
+    ],
+    "born": "September 27, 1924",
+    "died": "July 31, 1966",
+    "tags": []
+  },
+  {
+    "name": "Cyndi Lauper",
+    "aliases": [
+      "Cyndi Lauper & Robert Hyman"
+    ],
+    "born": "June 22, 1953",
+    "died": "",
+    "tags": []
+  },
+  {
+    "name": "Frank Edwin Churchill",
+    "aliases": [
+      "Frank Churchill"
+    ],
+    "born": "October 20, 1901",
+    "died": "May 14, 1942",
+    "tags": []
+  },
+  {
+    "name": "Ian Ernest Gilmore Evans",
+    "aliases": [
+      "Gil Evans"
+    ],
+    "born": "May 13, 1912",
+    "died": "March 20, 1988",
+    "tags": []
+  },
+  {
+    "name": "Hugh Martin",
+    "aliases": [
+      "H. Martin & R. BLANE"
+    ],
+    "born": "August 11, 1914",
+    "died": "March 11, 2011",
+    "tags": []
+  },
+  {
+    "name": "Hermeto Pascoal",
+    "aliases": [],
+    "born": "June 22, 1936",
+    "died": "",
+    "tags": []
+  },
+  {
+    "name": "William Henry Marcus Miller Jr.",
+    "aliases": [
+      "Marcus Miller"
+    ],
+    "born": "June 14, 1959",
+    "died": "",
+    "tags": []
+  },
+  {
+    "name": "Miles Dewey Davis III",
+    "aliases": [
+      "Miles Davis",
+      "Miles Davis & Gil Evans"
+    ],
+    "born": "May 26, 1926",
+    "died": "September 28, 1991",
+    "tags": []
+  },
+  {
+    "name": "Ray Henderson",
+    "aliases": [],
+    "born": "December 1, 1896",
+    "died": "December 31, 1970",
+    "tags": []
+  },
+  {
+    "name": "Richard Lynn Carpenter",
+    "aliases": [
+      "Richard Carpenter"
+    ],
+    "born": "October 15, 1946",
+    "died": "",
+    "tags": []
+  },
+  {
+    "name": "Thelonious Sphere Monk",
+    "aliases": [
+      "Thelonious Monk & Clarence Williams"
+    ],
+    "born": "October 10, 1917",
+    "died": "February 17, 1982",
     "tags": []
   }
 ]
