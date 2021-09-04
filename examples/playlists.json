@@ -5,12 +5,17 @@
     "layout": "track",
     "events": [
       {
-        "condition": "outputHeaders || composerDetail.name != previousTrack.composerDetail.name || composer != previousTrack.composer",
+        "condition": "composerDetail.name != previousTrack.composerDetail.name || composer != previousTrack.composer",
         "action": "layout",
         "layout": "composerHeader"
+      },
+      {
+        "condition": "album != previousTrack.album",
+        "action": "layout",
+        "layout": "albumHeader"
       }
     ],
-    "current": "/Users/eckhart/Music/iTunes/iTunes Media/Music/Compilations/Dances of the Renaissance/1-01 Dances from Terpsichore_ I. Entrée - Courante.m4a"
+    "current": "/Users/eckhart/Music/iTunes/iTunes Media/Music/In Dulci Jubilo/Ambrosian Chant_ Early Christian Chant of the Ambrosian Rite/19 Antiphonae (alleluia, noli flere Maria).m4a"
   },
   {
     "name": "familyBach",
@@ -19,9 +24,14 @@
     "layout": "track",
     "events": [
       {
-        "condition": "outputHeaders || composerDetail.name != previousTrack.composerDetail.name || composer != previousTrack.composer",
+        "condition": "composerDetail.name != previousTrack.composerDetail.name || composer != previousTrack.composer",
         "action": "layout",
         "layout": "composerHeader"
+      },
+      {
+        "condition": "album != previousTrack.album",
+        "action": "layout",
+        "layout": "albumHeader"
       }
     ],
     "current": "/Users/eckhart/Music/iTunes/iTunes Media/Music/Helmut Walcha/Bach_ Organ Works/7-06 Gelobet seist du, Jesu Christ, BWV 604.m4a"
@@ -33,9 +43,14 @@
     "layout": "track",
     "events": [
       {
-        "condition": "outputHeaders || composerDetail.name != previousTrack.composerDetail.name || composer != previousTrack.composer",
+        "condition": "composerDetail.name != previousTrack.composerDetail.name || composer != previousTrack.composer",
         "action": "layout",
         "layout": "composerHeader"
+      },
+      {
+        "condition": "album != previousTrack.album",
+        "action": "layout",
+        "layout": "albumHeader"
       }
     ],
     "current": "/Users/eckhart/Music/iTunes/iTunes Media/Music/Ede Inhoff_ Hungarian State Chamber Orchestra/Baroque Trumpet Concerti/27 Sonata for Trumpet, Strings and Basso Continuo - Overture (Georg Friedrich Handel).m4a"

@@ -102,17 +102,12 @@
       {
         "header": "Title",
         "extractor": "title",
-        "width": "30%"
+        "width": "44%"
       },
       {
         "header": "Artist",
         "extractor": "artists",
-        "width": "20%"
-      },
-      {
-        "header": "Album",
-        "extractor": "album",
-        "width": "28%"
+        "width": "34%"
       },
       {
         "header": "Disk",
@@ -171,13 +166,13 @@
         "extractor": "'Title: ' + title"
       },
       {
-        "extractor": "'Composer: ' + (composer join ' & ') + (((composer join ' & ') != composerDetail.name) && (' (' + composerDetail.name + ')') || '')"
+        "extractor": "'Composer: ' + ((composer join ' & ') || 'unknown') + (((composer join ' & ') != composerDetail.name) && (' (' + composerDetail.name + ')') || '')"
       },
       {
         "extractor": "'Born: ' + composerDetail.born"
       },
       {
-        "extractor": "'Died: ' + composerDetail.died"
+        "extractor": "(composerDetail.died && ('Died: ' + composerDetail.died)) || 'Still living'"
       },
       {
         "extractor": "(composerDetail.tags join ' ') && 'Tags: ' + (composerDetail.tags join ' ')"
@@ -251,18 +246,39 @@
     "name": "composerHeader",
     "columns": [
       {
-        "extractor": "(composer join ' & ') + (((composer join ' & ') != composerDetail.name) && (' (' + composerDetail.name + ')') || '')"
+        "extractor": "((composer join ' & ') || 'unknown') + (composerDetail.name && ((composer join ' & ') != composerDetail.name) && (' (' + composerDetail.name + ')') || '')"
       },
       {
-        "extractor": "'Born: ' + composerDetail.born"
+        "extractor": "(composerDetail.born && ('Born: ' + composerDetail.born)) || ''"
       },
       {
-        "extractor": "'Died: ' + composerDetail.died"
+        "extractor": "(composerDetail.died && ('Died: ' + composerDetail.died)) || ''"
       },
       {
         "extractor": "(composerDetail.tags join ' ') && 'Tags: ' + (composerDetail.tags join ' ')"
       }
     ],
+    "separator": ", ",
+    "theming": {
+      "chalk": [
+        "cyan",
+        "bold",
+        "underline"
+      ]
+    }
+  },
+  {
+    "name": "albumHeader",
+    "columns": [
+      {
+        "extractor": "'Album: ' + (album || 'None')"
+      },
+      {
+        "extractor": "copyright || ''"
+      }
+    ],
+    "prefix": "  ",
+    "prefixTheming": {},
     "separator": ", ",
     "theming": {
       "chalk": [

@@ -1191,7 +1191,9 @@
   },
   {
     "name": "Modest Petrovich Mussorgsky",
-    "aliases": [],
+    "aliases": [
+      "Modest Mussorgsky"
+    ],
     "born": "3/21/1839",
     "died": "3/28/1881"
   },
@@ -3175,7 +3177,8 @@
       "Buddy DeSylva & George Gershwin & Ira Gershwin",
       "George Gershwin & ARTHUR JACKSON",
       "George Gershwin & Ira Gershwin",
-      "George Gershwin & George Gershwin & Ira Gershwin"
+      "George Gershwin & George Gershwin & Ira Gershwin",
+      "Ira Gershwin & George Gershwin"
     ],
     "born": "9/26/1898",
     "died": "7/11/1937"
@@ -5933,8 +5936,10 @@
     "died": "February 16, 1882"
   },
   {
-    "name": "Jonas Kvarnström & Andy Spence",
-    "aliases": [],
+    "name": "Jonas Kvarnström",
+    "aliases": [
+      "Jonas Kvarnström & Andy Spence"
+    ],
     "born": "c 1960 ?"
   },
   {
@@ -6663,7 +6668,11 @@
   },
   {
     "name": "Vince Guaraldi",
-    "aliases": [],
+    "aliases": [
+      "Vince Guaraldi & Lee Mendelson",
+      "Vince Guaraldi & San Francisco Diocese",
+      "Vince Guaraldi & William Siden"
+    ],
     "born": "July 17, 1928",
     "died": "February 6, 1976"
   },
@@ -6813,7 +6822,9 @@
   },
   {
     "name": "Henry Mancini",
-    "aliases": [],
+    "aliases": [
+      "Henry Mancini & Johnny Mercer"
+    ],
     "born": "April 16, 1924",
     "died": "June 14, 1994"
   },
@@ -7484,6 +7495,102 @@
     ],
     "born": "October 10, 1917",
     "died": "February 17, 1982",
+    "tags": []
+  },
+  {
+    "name": "Antônio Carlos Jobim",
+    "aliases": [
+      "Antônio Carlos Jobim, Maria Bonfa & Luiz Bonfá",
+      "Maria Bonfa, Luiz Bonfá & Antônio Carlos Jobim",
+      "Norman Gimbel, Antônio Carlos Jobim & Vinicius de Moraes"
+    ],
+    "born": "January 25, 1927",
+    "died": "December 8, 1994",
+    "tags": []
+  },
+  {
+    "name": "William Thomas Strayhorn ",
+    "aliases": [
+      "Billy Strayhorn"
+    ],
+    "born": "November 29, 1915",
+    "died": "May 31, 1967",
+    "tags": []
+  },
+  {
+    "name": "Bronisław Kaper",
+    "aliases": [
+      "Bronisław Kaper & Ned Washington"
+    ],
+    "born": "February 5, 1902",
+    "died": "April 26, 1983",
+    "tags": []
+  },
+  {
+    "name": "Jule Styne",
+    "aliases": [
+      "Jule Styne, Betty Comden & Adolph Green"
+    ],
+    "born": "December 31, 1905",
+    "died": "September 20, 1994",
+    "tags": []
+  },
+  {
+    "name": "Nathaniel Carlyle Adderley",
+    "aliases": [
+      "Nat Adderley & Oscar Brown, Jr."
+    ],
+    "born": "November 25, 1931",
+    "died": "January 2, 2000",
+    "tags": []
+  },
+  {
+    "name": "Oscar Greeley Clendenning Hammerstein II",
+    "aliases": [
+      "Oscar Hammerstein II & Sigmund Romberg"
+    ],
+    "born": "July 12, 1895",
+    "died": "August 23, 1960",
+    "tags": []
+  },
+  {
+    "name": "Thomas Wright \"Fats\" Waller",
+    "aliases": [
+      "Thomas Waller"
+    ],
+    "born": "May 21, 1904",
+    "died": "December 15, 1943",
+    "tags": []
+  },
+  {
+    "name": "Joseph Kosma",
+    "aliases": [],
+    "born": "October 22, 1905",
+    "died": "August 7, 1969",
+    "tags": []
+  },
+  {
+    "name": "John Rutter",
+    "aliases": [
+      "John Rutter & C.F. Alexander",
+      "John Rutter & Folliott Sanford Pierpoint",
+      "John Rutter & Lancelot Andrewes",
+      "John Rutter & Psalm 81, vv. 3, 4",
+      "John Rutter & Psalms",
+      "John Rutter & Robert Herrick",
+      "John Rutter & Sarum Antiphon",
+      "John Rutter & The Bible",
+      "John Rutter & Traditional"
+    ],
+    "born": "September 24, 1945",
+    "died": "",
+    "tags": []
+  },
+  {
+    "name": "Joe Satriani",
+    "aliases": [],
+    "born": "July 15, 1956",
+    "died": "",
     "tags": []
   }
 ]
