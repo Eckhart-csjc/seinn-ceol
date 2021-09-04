@@ -1,6 +1,6 @@
 {
   "name": "seinn-ceol",
-  "version": "2.8.1",
+  "version": "2.8.2",
   "description": "A simple music player that does what I want",
   "main": "dist/seinn-ceol.js",
   "bin": {
