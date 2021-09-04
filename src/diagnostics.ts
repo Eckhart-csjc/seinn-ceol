@@ -21,19 +21,16 @@ export interface ITimingId {
 const timings: Record<string, ITiming[]> = {};
 
 export const startTiming = (name: string): ITimingId | undefined => {
-  if (program.opts().diagnostics) {
-    const existing = timings[name];
-    const timing = { start: Date.now() };
+  const existing = program.opts().diagnostics && timings[name];
+  const timing = { start: Date.now() };
 
-    if (existing) {
-      existing.push(timing);
-      return { name, index: existing.length - 1 };
-    }
-
-    timings[name] = [ timing ];
-    return { name, index: 0 };
+  if (existing) {
+    existing.push(timing);
+    return { name, index: existing.length - 1 };
   }
-  return undefined;
+
+  timings[name] = [ timing ];
+  return { name, index: 0 };
 };
 
 export const endTiming = (id: ITimingId | undefined): ITiming | undefined => {

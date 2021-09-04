@@ -1,6 +1,5 @@
 {
   "player": "afplay",
-  "trackOverlap": 1500,
   "layout": "composer",
   "infoLayout": "detail",
   "theme": {
