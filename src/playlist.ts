@@ -382,7 +382,7 @@ export const getCurrentTrack = (playlist: IPlayList, options: IPlayListOptions) 
     const parser = parseExtractor(options.next);
     if (parser) {
       const nextTrack =
-        _.find(sorted, (t) => !!extract({ current, ...t}, parser), current.index) ??      // Start with current
+        _.find(sorted, (t) => !!extract({ current, ...t}, parser), current?.index) ??    // Start with current
         _.find(sorted, (t) => !!extract({ current, ...t}, parser));                      // then wrap around
       if (nextTrack) {
         return nextTrack;
@@ -419,7 +419,7 @@ const browse = async (name: string, options: IPlayListOptions, nextTrack?: track
 
   theTrack = nextTrack ?? getCurrentTrack(playlist, options);
   if (!theTrack) {
-    warning(`Playlist ${name} empty`);
+    warning(`Playlist ${name} empty${options.where ? ' where ' + options.where : ''}`);
     return;
   }
 
@@ -472,7 +472,7 @@ const doPlayList = async (name: string, options: IPlayListOptions, plays: number
 
   theTrack = nextTrack ?? getCurrentTrack(playlist, options);
   if (!theTrack) {
-    warning(`Playlist ${name} empty`);
+    warning(`Playlist ${name} empty${options.where ? ' where ' + options.where : ''}`);
     return;
   }
   const settings = getSettings();
