@@ -37,6 +37,7 @@ export enum Operation {
   Join = 'Join',
   LessThan = 'LessThan',
   LessThanOrEquals = 'LessThanOrEquals',
+  LongDate = 'LongDate',
   Matches = 'Matches',
   Minus = 'Minus',
   Not = 'Not',
@@ -126,6 +127,7 @@ const unaryOperators: Record<string, Operation> = {
   ['not ']: Operation.Not,
   ['escape ']: Operation.Escape,
   ['fetch ']: Operation.Fetch,
+  ['longDate ']: Operation.LongDate,
   ['query ']: Operation.Fetch,
   ['shortDate ']: Operation.ShortDate,
   ['shortDur ']: Operation.ShortDur,
@@ -173,6 +175,7 @@ const operatorPriority: Record<Operation, number> = {
   [Operation.Join]: 4,
   [Operation.LessThan]: 3,
   [Operation.LessThanOrEquals]: 3,
+  [Operation.LongDate]: 6,
   [Operation.Matches]: 2,
   [Operation.Minus]: 4,
   [Operation.Not]: 6,
@@ -512,6 +515,13 @@ const opFunc: Record<Operation, OpFunc> = {
   [Operation.LessThanOrEquals]: (context, operands) =>
     doBinaryOperation(context, operands, (context, op1, op2) =>
       (op1 as any) <= (op2 as any)),
+
+  [Operation.LongDate]: (context, operands) =>
+    doUnaryOperation(context, operands, (context, op1) =>
+      op1 
+      ? dayjs(typeof op1 === 'number' ? op1 * 1000 : op1).format('MMMM D, YYYY')
+      :  ''
+      ),
 
   [Operation.Matches]: (context, operands) =>
     doBinaryOperation(context, operands, (context, op1, op2) =>

@@ -371,6 +371,7 @@ goodExtract(`not all (date dates > date dates[1])`, true);
 goodExtract(`dates join ' & '`, '1/1/2020 & 1/2/2020');
 goodExtract(`dates filter dates`, mockContext.dates);
 goodExtract(`dates filter (date dates > date 'Jan 1, 2020')`, ['1/2/2020']);
+goodExtract(`longDate '1/1/2020'`, 'January 1, 2020');
 goodExtract(`shortDate 'Jan 1, 2020'`, '2020-01-01');
 goodExtract(`shortDate '2021'`, '2021');
 goodExtract(`shortDate dates[0]`, '1/1/2020');

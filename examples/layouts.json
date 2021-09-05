@@ -205,7 +205,7 @@
         "extractor": "'Genre: ' + (genre join ', ')"
       },
       {
-        "extractor": "date && (shortDate date)"
+        "extractor": "date && (longDate date)"
       },
       {
         "extractor": "(disk || nDisks) && ('Disk ' + disk + ' of ' + nDisks)"
@@ -274,7 +274,7 @@
         "extractor": "'Album: ' + (album || 'None')"
       },
       {
-        "extractor": "copyright || ''"
+        "extractor": "date && (longDate date) || ''"
       }
     ],
     "prefix": "  ",
@@ -282,7 +282,7 @@
     "separator": ", ",
     "theming": {
       "chalk": [
-        "cyan",
+        "blueBright",
         "bold",
         "underline"
       ]
