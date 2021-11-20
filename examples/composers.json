@@ -550,7 +550,8 @@
   {
     "name": "Jacob Ludwig Felix Mendelssohn",
     "aliases": [
-      "Felix Mendelssohn"
+      "Felix Mendelssohn",
+      "Felix Mendelssohn & Anthony DiLorenzo"
     ],
     "born": "2/03/1809",
     "died": "11/04/1847",
@@ -786,7 +787,8 @@
       "George Frideric Handel & John Stanley",
       "Georg Friedrich Handel",
       "Georg Frideric Handel",
-      "George Frederick Handel"
+      "George Frederick Handel",
+      "George Frideric Handel & Anthony DiLorenzo"
     ],
     "born": "2/23/1685",
     "died": "4/14/1759",
@@ -1173,7 +1175,9 @@
   },
   {
     "name": "Johann Sebastian Bach",
-    "aliases": [],
+    "aliases": [
+      "Johann Sebastian Bach & Phil Snedecor"
+    ],
     "born": "3/21/1685",
     "died": "7/28/1750",
     "catalogs": [
@@ -2908,7 +2912,10 @@
     "died": "3/09/1706",
     "catalogs": [
       {
-        "symbol": "P"
+        "symbol": "P",
+        "aliases": [
+          "POP"
+        ]
       }
     ]
   },
@@ -3245,7 +3252,9 @@
   },
   {
     "name": "Heinrich Schutz",
-    "aliases": [],
+    "aliases": [
+      "Heinrich Schütz"
+    ],
     "born": "10/08/1585",
     "died": "11/01/1672",
     "catalogs": [
@@ -4508,9 +4517,14 @@
     "died": "2/26/1630"
   },
   {
-    "name": "Don Carlo Gesauldo",
+    "name": "Don Carlo Gesualdo",
     "aliases": [
-      "Carlo Gesualdo"
+      "Carlo Gesualdo",
+      "Anonymous & Carlo Gesualdo",
+      "Carlo Gesualdo & Anonymous",
+      "Carlo Gesualdo & Giovanni Battista Guarini",
+      "Giovanni Battista Guarini & Carlo Gesualdo",
+      "Ridolfo Arlotti & Carlo Gesualdo"
     ],
     "born": "1560",
     "died": "9/08/1613"
@@ -5113,7 +5127,9 @@
   },
   {
     "name": "Joseph-Nicholas-Pancrace Royer",
-    "aliases": [],
+    "aliases": [
+      "Joseph-Nicolas-Pancrace Royer"
+    ],
     "born": "1705",
     "died": "1755"
   },
@@ -5259,7 +5275,8 @@
   {
     "name": "Claude-Benigne Balbastre",
     "aliases": [
-      "Claude Balbastre"
+      "Claude Balbastre",
+      "Claude-Bénigne Balbastre"
     ],
     "born": "1727",
     "died": "1799"
@@ -6317,16 +6334,11 @@
     "died": "February 21, 1876"
   },
   {
-    "name": "Herman The Lame",
+    "name": "Hermann de Reichenau",
     "aliases": [
+      "Herman the Lame",
       "Herman The Lame & Innocent III"
     ],
-    "born": "July 18, 1013",
-    "died": "September 24, 1054"
-  },
-  {
-    "name": "Hermann de Reichenau",
-    "aliases": [],
     "born": "July 18, 1013",
     "died": "September 24, 1054"
   },
@@ -6914,7 +6926,9 @@
   },
   {
     "name": "John Francis Wade",
-    "aliases": [],
+    "aliases": [
+      "Phil Snedecor & John Francis Wade"
+    ],
     "born": "January 1, 1711",
     "died": "August 16, 1786"
   },
@@ -7032,7 +7046,10 @@
   },
   {
     "name": "Ludwig Senfl",
-    "aliases": [],
+    "aliases": [
+      "Anonymous & Ludwig Senfl",
+      "Anonymous, Ludwig Senfl & Costanzo Festa"
+    ],
     "born": "c 1500 ?",
     "died": "1543"
   },
@@ -7591,6 +7608,112 @@
     "aliases": [],
     "born": "July 15, 1956",
     "died": "",
+    "tags": []
+  },
+  {
+    "name": "Luzzasco Luzzaschi",
+    "aliases": [],
+    "born": "1545",
+    "died": "September 10, 1607",
+    "tags": []
+  },
+  {
+    "name": "Louis Marchand",
+    "aliases": [],
+    "born": "February 2, 1669",
+    "died": "February 17, 1732",
+    "tags": []
+  },
+  {
+    "name": "André Raison",
+    "aliases": [],
+    "born": "1650",
+    "died": "1719",
+    "tags": []
+  },
+  {
+    "name": "Louis-Nicholas Clérambault",
+    "aliases": [],
+    "born": "December 19, 1676",
+    "died": "October 26, 1749",
+    "tags": []
+  },
+  {
+    "name": "Hildegard von Bingen",
+    "aliases": [],
+    "born": "1098",
+    "died": "September 17, 1179",
+    "tags": []
+  },
+  {
+    "name": "Franz Xaver Gruber",
+    "aliases": [],
+    "born": "November 25, 1787",
+    "died": "June 7, 1863",
+    "tags": []
+  },
+  {
+    "name": "Leroy Anderson",
+    "aliases": [],
+    "born": "June 29, 1908",
+    "died": "May 18, 1975",
+    "tags": []
+  },
+  {
+    "name": "Pietro Yon",
+    "aliases": [],
+    "born": " August 8, 1886",
+    "died": "November 22, 1943",
+    "tags": []
+  },
+  {
+    "name": "Elgar Howarth",
+    "aliases": [
+      "Traditional & Elgar Howarth"
+    ],
+    "born": "November 4, 1935",
+    "died": "",
+    "tags": []
+  },
+  {
+    "name": "Ralph Carmichael",
+    "aliases": [
+      "Traditional & Ralph Carmichael"
+    ],
+    "born": "May 27, 1927",
+    "died": "October 18, 2021",
+    "tags": []
+  },
+  {
+    "name": "Robert Ward",
+    "aliases": [
+      "Traditional & Robert Ward"
+    ],
+    "born": "September 13, 1917",
+    "died": "April 3, 2013",
+    "tags": []
+  },
+  {
+    "name": "Franz Tunder",
+    "aliases": [
+      "Anonymous & Franz Tunder"
+    ],
+    "born": "1614",
+    "died": "November 5, 1667",
+    "tags": []
+  },
+  {
+    "name": "Nikolaus Hasse",
+    "aliases": [],
+    "born": "c 1617",
+    "died": "8 March 1672",
+    "tags": []
+  },
+  {
+    "name": "Peter Hasse",
+    "aliases": [],
+    "born": "c 1585",
+    "died": "June 1640",
     "tags": []
   }
 ]

@@ -15,7 +15,8 @@
     "pretest": "npm run build",
     "test": "jest",
     "debug": "SEINN_CEOL_DEBUG=1 node --inspect dist/seinn-ceol.js",
-    "lint": "./node_modules/.bin/eslint src/**/*.ts --fix --max-warnings 0"
+    "lint": "./node_modules/.bin/eslint src/**/*.ts --fix --max-warnings 0",
+    "examples": "cd examples; for i in *; do cp ~/.seinn-ceol/$i .; done"
   },
   "repository": {
     "type": "git",

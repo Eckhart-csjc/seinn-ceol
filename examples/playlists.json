@@ -15,7 +15,26 @@
         "layout": "albumHeader"
       }
     ],
-    "current": "/Users/eckhart/Music/iTunes/iTunes Media/Music/Hilliard Ensemble/Perotin/08 Beata viscera.m4a"
+    "current": "/Users/eckhart/Music/iTunes/iTunes Media/Music/Academy of Ancient Music, Christopher Hogwood & Stephen Preston/Vivaldi_ L'Estro Armonico - 6 Flute Concertos/1-18 Concerto for Flute and Strings in G, Op. 10, No. 6, R. 437_ I. Allegro.m4a"
+  },
+  {
+    "name": "unplayed",
+    "order": "composersByBirth",
+    "where": "!plays",
+    "layout": "track",
+    "events": [
+      {
+        "condition": "composerDetail.name != previousTrack.composerDetail.name || composer != previousTrack.composer",
+        "action": "layout",
+        "layout": "composerHeader"
+      },
+      {
+        "condition": "album != previousTrack.album",
+        "action": "layout",
+        "layout": "albumHeader"
+      }
+    ],
+    "current": "/Users/eckhart/Music/iTunes/iTunes Media/Music/Irmgard Schaller, Terence R. Charlston, Ingrid Seifert, Charles Medlam, Richard Gwilt & London Baroque/Vivaldi_ Trio Sonatas, Op. 1/1-06 Trio Sonata In e Minor, Op. 1, No. 2, RV 67_ I. (Grave).m4a"
   },
   {
     "name": "familyBach",
