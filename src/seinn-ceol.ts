@@ -85,6 +85,7 @@ program
 program
   .command('query <table>')
   .option('-c, --columns <column...>', 'columns to show (using query syntax)')
+  .option('-g, --gaps <column...>', 'find gaps in numeric field series')
   .option('-H, --headings <heading...>', 'overrides for default headings (any blank or not provided will still default)')
   .option('-j, --justification <justifications...>', 'overrides for column justification (left|center|right, can be abbreviated, default: left)')
   .option('-l, --layout <layout>', 'format columns and headings as defined in layout')

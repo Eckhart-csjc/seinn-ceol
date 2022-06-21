@@ -49,6 +49,7 @@ export const cmdQuery = (
     limit?: string;
     headings?: string[];
     justification?: string[];
+    gaps?: string[];
   }
 ) => {
   const tableHandler = getTableHandler(table);
@@ -109,6 +110,24 @@ export const cmdQuery = (
       out.nl();
     });
     printLn('');
+    options.gaps?.map((c) => {
+      const p = parseExtractor(c);
+      if (p) {
+        const values = _.compact(limited.map((item) => extract(item, p))).filter((v) => _.isNumber(v)) as number[];
+        if (values.length) {
+          const { lastSeen, gaps } = values.sort((a,b) => a > b ? 1 : a < b ? -1 : 0).reduce<{ lastSeen: number, gaps: string[] }>((a, v) => ({
+            lastSeen: v,
+            gaps: (v > a.lastSeen + 1) ?
+              ([ ...a.gaps, `${a.lastSeen + 1}` + ((v - a.lastSeen > 2) ? `-${v - 1}` : '') ])
+              : a.gaps,
+          }), { lastSeen: 0, gaps: [] }) as { lastSeen: number, gaps: string[] };
+          printLn(`Gaps in ${c}: ${gaps.join(', ') || 'none'}`);
+        } else {
+          error(`${c} results in only non-numeric values; cannot compute gaps`);
+        }
+      }
+      printLn('');
+    });
   }
   notification(pluralize(table.replace(/s$/, ''), limited.length, true));
 };

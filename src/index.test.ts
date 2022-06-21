@@ -337,7 +337,6 @@ goodExtract('not', 'nope');
 goodExtract('note', 'hello');
 goodExtract('not e', true);
 goodExtract('not not', false);
-goodExtract('date date', 18000);
 goodExtract('2 > 1', true);
 goodExtract('2 > 2', false);
 goodExtract('2 >= 2', true);
