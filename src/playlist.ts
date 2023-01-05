@@ -1,6 +1,7 @@
 import * as _ from 'lodash';
 
 import { ArrayFileHandler } from './array-file-handler';
+import { execWithProgress } from './asyncChild';
 import { getSettings } from './config';
 import * as diagnostics from './diagnostics';
 import { extract, IValueToken, parseExtractor, parseTags} from './extractor';
@@ -42,12 +43,14 @@ export interface IPlayList extends ITagable {
 enum PlayListAction {
   Layout = 'layout',      // Output the specified layout
   Headers = 'headers',    // Output the headers for the specified layout
+  Command = 'command',    // Execute a shell command
 }
 
 interface IPlayListEvent {
   condition: string;      // query that if results in truthiness, execute the action
   action: PlayListAction;
-  layout: string;
+  layout?: string;
+  command?: string;
 }
 
 interface IPlayListOptions {
@@ -147,6 +150,17 @@ const sortKeys = (playlist: IPlayList) => [
 const actionHandler: Record<PlayListAction, (context: object, event: IPlayListEvent) => void> = {
   [PlayListAction.Layout]: (context, event) => layout.displayColumns(context, event.layout),
   [PlayListAction.Headers]: (context, event) => layout.displayHeaders(event.layout),
+  [PlayListAction.Command]: (context, event) => {
+    if (event.command) {
+      const token = parseExtractor(event.command);
+      if (token) {
+        const cmd = extract(context, token);
+        if (cmd) {
+          void execWithProgress(`${cmd}`, () => {});
+        }
+      }
+    }
+  },
 };
 
 const checkEvent = (e: IPlayListEvent, context: object) => {
