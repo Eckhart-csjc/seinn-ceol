@@ -5,6 +5,11 @@
     "layout": "track",
     "events": [
       {
+        "condition": "composerDetail.name && composerDetail.name != previousTrack.composerDetail.name",
+        "action": "command",
+        "command": "'say \"[[volm 0.6]] ' + composerDetail.name + '\"'"
+      },
+      {
         "condition": "composerDetail.name != previousTrack.composerDetail.name || composer != previousTrack.composer",
         "action": "layout",
         "layout": "composerHeader"
@@ -15,7 +20,7 @@
         "layout": "albumHeader"
       }
     ],
-    "current": "/Users/eckhart/Music/iTunes/iTunes Media/Music/Academy of Ancient Music, Christopher Hogwood & Stephen Preston/Vivaldi_ L'Estro Armonico - 6 Flute Concertos/1-18 Concerto for Flute and Strings in G, Op. 10, No. 6, R. 437_ I. Allegro.m4a"
+    "current": "/Users/eckhart/Music/iTunes/iTunes Media/Music/Paul O'Dette/Dowland_ Complete Lute Works, Vol. 4/13 Coranto, P 100.m4a"
   },
   {
     "name": "unplayed",
@@ -24,6 +29,11 @@
     "layout": "track",
     "events": [
       {
+        "condition": "composerDetail.name && composerDetail.name != previousTrack.composerDetail.name",
+        "action": "command",
+        "command": "'say \"[[volm 0.6]] ' + composerDetail.name + '\"'"
+      },
+      {
         "condition": "composerDetail.name != previousTrack.composerDetail.name || composer != previousTrack.composer",
         "action": "layout",
         "layout": "composerHeader"
@@ -34,7 +44,7 @@
         "layout": "albumHeader"
       }
     ],
-    "current": "/Users/eckhart/Music/iTunes/iTunes Media/Music/Irmgard Schaller, Terence R. Charlston, Ingrid Seifert, Charles Medlam, Richard Gwilt & London Baroque/Vivaldi_ Trio Sonatas, Op. 1/1-06 Trio Sonata In e Minor, Op. 1, No. 2, RV 67_ I. (Grave).m4a"
+    "current": "/Users/eckhart/Music/iTunes/iTunes Media/Music/Compilations/Complete Fitzwilliam Virginal Book/298 Corranto CCLXVI.m4a"
   },
   {
     "name": "familyBach",
@@ -42,6 +52,11 @@
     "order": "composersByBirth",
     "layout": "track",
     "events": [
+      {
+        "condition": "composerDetail.name && composerDetail.name != previousTrack.composerDetail.name",
+        "action": "command",
+        "command": "'say \"[[volm 0.6]] ' + composerDetail.name + '\"'"
+      },
       {
         "condition": "composerDetail.name != previousTrack.composerDetail.name || composer != previousTrack.composer",
         "action": "layout",
@@ -61,6 +76,11 @@
     "order": "composersByBirth",
     "layout": "track",
     "events": [
+      {
+        "condition": "composerDetail.name && composerDetail.name != previousTrack.composerDetail.name",
+        "action": "command",
+        "command": "'say \"[[volm 0.6]] ' + composerDetail.name + '\"'"
+      },
       {
         "condition": "composerDetail.name != previousTrack.composerDetail.name || composer != previousTrack.composer",
         "action": "layout",

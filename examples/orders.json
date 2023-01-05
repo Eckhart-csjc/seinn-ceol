@@ -6,10 +6,9 @@
       { "query": "date composerDetail.died" },
       { "query": "composerDetail.name" },
       { "query": "opus" },
-      { "query": "album" },
       { "query": "opus && no" },
       { "include": "catalog" },
-      { "query": "(opus || catalogs[0].n) && (movement || 0)" },
+      { "query": "album" },
       { "query": "disk or 1" },
       { "query": "track" }
     ]

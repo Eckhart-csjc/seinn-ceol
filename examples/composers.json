@@ -146,7 +146,9 @@
   },
   {
     "name": "Reinhold Gliere",
-    "aliases": [],
+    "aliases": [
+      "Reinhold Glière"
+    ],
     "born": "1/11/1875",
     "died": "6/23/1956"
   },
@@ -353,7 +355,9 @@
   },
   {
     "name": "Witold Lutoslavski",
-    "aliases": [],
+    "aliases": [
+      "Witold Lutosławski"
+    ],
     "born": "1/25/1913"
   },
   {
@@ -868,7 +872,8 @@
   {
     "name": "Gioachino Antonio Rossini",
     "aliases": [
-      "Gioacchino Rossini"
+      "Gioacchino Rossini",
+      "Gioachino Rossini"
     ],
     "born": "2/29/1792",
     "died": "11/13/1868"
@@ -955,7 +960,9 @@
   },
   {
     "name": "Arthur William Foote",
-    "aliases": [],
+    "aliases": [
+      "Arthur Foote"
+    ],
     "born": "3/05/1853",
     "died": "4/08/1937"
   },
@@ -1095,7 +1102,8 @@
     "died": "6/25/1767",
     "catalogs": [
       {
-        "symbol": "TWV"
+        "symbol": "TWV",
+        "pattern": "\\bTWV\\.?\\s*(?<n>\\d*)((:|/)\\s*(?<suffix>[A-Za-z]*[0-9]+)\\b)?"
       }
     ]
   },
@@ -1176,7 +1184,11 @@
   {
     "name": "Johann Sebastian Bach",
     "aliases": [
-      "Johann Sebastian Bach & Phil Snedecor"
+      "Johann Sebastian Bach & Phil Snedecor",
+      "Antonio Vivaldi & Johann Sebastian Bach",
+      "Johann Ernst & Johann Sebastian Bach",
+      "Johann Sebastian Bach & Arcangelo Corelli",
+      "Johann Sebastian Bach & Giovanni Legrenzi"
     ],
     "born": "3/21/1685",
     "died": "7/28/1750",
@@ -1461,7 +1473,9 @@
   },
   {
     "name": "Eugene Francis Charles D'Albert",
-    "aliases": [],
+    "aliases": [
+      "Eugen d'Albert"
+    ],
     "born": "4/10/1864",
     "died": "3/03/1932"
   },
@@ -1605,7 +1619,9 @@
   },
   {
     "name": "Jan Adam Reincken",
-    "aliases": [],
+    "aliases": [
+      "Johann Adam Reinken"
+    ],
     "born": "4/23/1623",
     "died": "11/24/1722"
   },
@@ -1643,7 +1659,9 @@
   },
   {
     "name": "Edward Kennedy 'Duke' Ellington",
-    "aliases": [],
+    "aliases": [
+      "Manny Kurtz, Irving Mills & Duke Ellington"
+    ],
     "born": "4/29/1899",
     "died": "5/24/1974"
   },
@@ -2015,7 +2033,9 @@
   },
   {
     "name": "Isaak-Ignaz Moscheles",
-    "aliases": [],
+    "aliases": [
+      "Ignaz Moscheles"
+    ],
     "born": "5/23/1794",
     "died": "3/10/1870"
   },
@@ -2085,13 +2105,17 @@
   },
   {
     "name": "Mikhail Ivanovich Glinka",
-    "aliases": [],
+    "aliases": [
+      "Mikhail Glinka"
+    ],
     "born": "6/01/1804",
     "died": "2/15/1857"
   },
   {
     "name": "Sir Edward William Elgar",
-    "aliases": [],
+    "aliases": [
+      "Sir Edward Elgar"
+    ],
     "born": "6/02/1857",
     "died": "2/23/1934"
   },
@@ -2287,7 +2311,9 @@
   },
   {
     "name": "Eugene Ysaye",
-    "aliases": [],
+    "aliases": [
+      "Eugène Ysaÿe"
+    ],
     "born": "6/16/1858",
     "died": "5/12/1931"
   },
@@ -2698,7 +2724,9 @@
   },
   {
     "name": "Ernst von Dohnanyi",
-    "aliases": [],
+    "aliases": [
+      "Ernö Dohnányi"
+    ],
     "born": "7/27/1877",
     "died": "2/09/1960"
   },
@@ -3455,7 +3483,8 @@
   {
     "name": "Alexander Tikhonovich Gretchaninov",
     "aliases": [
-      "Alexander Tikhonovitch Gretchaninov"
+      "Alexander Tikhonovitch Gretchaninov",
+      "Alexander Gretchaninov"
     ],
     "born": "10/25/1864",
     "died": "1/03/1956"
@@ -3538,7 +3567,9 @@
   },
   {
     "name": "Karl Ditters von Dittersdorf",
-    "aliases": [],
+    "aliases": [
+      "Carl Ditters von Dittersdorf"
+    ],
     "born": "11/02/1739",
     "died": "10/24/1799",
     "catalogs": [
@@ -3830,7 +3861,8 @@
   {
     "name": "Joaquín Rodrigo",
     "aliases": [],
-    "born": "11/22/1901"
+    "born": "11/22/1901",
+    "died": "July 6, 1999"
   },
   {
     "name": "Lord Benjamin Britten",
@@ -4153,13 +4185,17 @@
   },
   {
     "name": "François-Adrien Boieldieu",
-    "aliases": [],
+    "aliases": [
+      "François-Adrien Boiëldieu"
+    ],
     "born": "12/16/1775",
     "died": "10/08/1834"
   },
   {
     "name": "Zóltan Kodaly",
-    "aliases": [],
+    "aliases": [
+      "Zoltán Kodály"
+    ],
     "born": "12/16/1882",
     "died": "3/06/1967"
   },
@@ -4495,9 +4531,18 @@
   },
   {
     "name": "William Byrd",
-    "aliases": [],
+    "aliases": [
+      "William Byrd & Anthony Holborne",
+      "William Byrd & James Harding",
+      "William Byrd & John Dowland"
+    ],
     "born": "1543",
-    "died": "7/04/1623"
+    "died": "7/04/1623",
+    "catalogs": [
+      {
+        "symbol": "MB"
+      }
+    ]
   },
   {
     "name": "Giovanni Gabrieli",
@@ -4571,7 +4616,9 @@
   },
   {
     "name": "Giles Farnaby",
-    "aliases": [],
+    "aliases": [
+      "Giles Farnaby & Richard Farnaby"
+    ],
     "born": "1565",
     "died": "11/25/1640",
     "catalogs": [
@@ -4886,7 +4933,9 @@
   },
   {
     "name": "Nikolaus Bruhns",
-    "aliases": [],
+    "aliases": [
+      "Nicolaus Bruhns"
+    ],
     "born": "1665",
     "died": "3/29/1697"
   },
@@ -6958,7 +7007,9 @@
   },
   {
     "name": "Walter Donaldson",
-    "aliases": [],
+    "aliases": [
+      "Walter Donaldson & Gus Kahn"
+    ],
     "born": "February 15, 1893",
     "died": "July 15, 1947"
   },
@@ -6995,12 +7046,6 @@
     "aliases": [],
     "born": "December 24, 1893",
     "died": "September 22, 1981"
-  },
-  {
-    "name": "Mykola Leontovych",
-    "aliases": [],
-    "born": "December 13, 1877",
-    "died": "December 13, 1877"
   },
   {
     "name": "Tony Williams",
@@ -7714,6 +7759,727 @@
     "aliases": [],
     "born": "c 1585",
     "died": "June 1640",
+    "tags": []
+  },
+  {
+    "name": "Cyriacus Wilche",
+    "aliases": [],
+    "born": "1620",
+    "died": "April 26, 1667",
+    "tags": []
+  },
+  {
+    "name": "Heinrich Bach",
+    "aliases": [],
+    "born": "September 16, 1615",
+    "died": "July 10, 1692",
+    "tags": []
+  },
+  {
+    "name": "Johann Christoph Bach",
+    "aliases": [],
+    "born": "December 6, 1642",
+    "died": "March 31, 1703",
+    "tags": []
+  },
+  {
+    "name": "Johann Ludwig Bach",
+    "aliases": [],
+    "born": "February 4, 1677",
+    "died": "May 1, 1731",
+    "tags": []
+  },
+  {
+    "name": "Johann Michael Bach",
+    "aliases": [
+      "Signor Pagh"
+    ],
+    "born": "August 9, 1648",
+    "died": "May 17, 1694",
+    "tags": []
+  },
+  {
+    "name": "Billie Holiday",
+    "aliases": [],
+    "born": "April 7, 1915",
+    "died": "July 17, 1959",
+    "tags": []
+  },
+  {
+    "name": "E.Y. \"Yip\" Harburg",
+    "aliases": [
+      "E.Y. \"Yip\" Harburg & John W. Green"
+    ],
+    "born": "April 8, 1896",
+    "died": "March 5, 1981",
+    "tags": []
+  },
+  {
+    "name": "Johnny Green",
+    "aliases": [
+      "Edward Heyman & Johnny Green"
+    ],
+    "born": "October 10, 1908",
+    "died": "May 15, 1989",
+    "tags": []
+  },
+  {
+    "name": "Fred E. Ahlert",
+    "aliases": [
+      "Roy Turk & Fred E. Ahlert"
+    ],
+    "born": "September 19, 1892",
+    "died": "October 20, 1953",
+    "tags": []
+  },
+  {
+    "name": "Gordon Jenkins",
+    "aliases": [],
+    "born": "May 12, 1910",
+    "died": "May 1, 1984",
+    "tags": []
+  },
+  {
+    "name": "Harold Arlen",
+    "aliases": [
+      "Harold Arlen & Ted Koehler"
+    ],
+    "born": "February 15, 1905",
+    "died": "April 23, 1986",
+    "tags": []
+  },
+  {
+    "name": "Herman Hupfeld",
+    "aliases": [],
+    "born": "February 1, 1894",
+    "died": "June 8, 1951",
+    "tags": []
+  },
+  {
+    "name": "Dorothy Parker",
+    "aliases": [
+      "Jack King & Dorothy Parker"
+    ],
+    "born": "August 22, 1893",
+    "died": "June 7, 1967",
+    "tags": []
+  },
+  {
+    "name": "Jimmy McHugh",
+    "aliases": [
+      "Jimmy McHugh & Dorothy Fields"
+    ],
+    "born": "July 10, 1894",
+    "died": "May 23, 1969",
+    "tags": []
+  },
+  {
+    "name": "Lewis Allan",
+    "aliases": [],
+    "born": "February 10, 1903",
+    "died": "October 1986",
+    "tags": []
+  },
+  {
+    "name": "Richard A. Whiting",
+    "aliases": [
+      "Richard A. Whiting & Neil Moret"
+    ],
+    "born": "November 12, 1891",
+    "died": "February 19, 1938",
+    "tags": []
+  },
+  {
+    "name": "Sam Coslow",
+    "aliases": [
+      "Sam Coslow & Arthur Johnston"
+    ],
+    "born": "December 27, 1902",
+    "died": "April 2, 1982",
+    "tags": []
+  },
+  {
+    "name": "Sammy Fain",
+    "aliases": [],
+    "born": "June 17, 1902",
+    "died": "December 6, 1989",
+    "tags": []
+  },
+  {
+    "name": "Sigmund Romberg",
+    "aliases": [
+      "Sigmund Romberg & Oscar Hammerstein II"
+    ],
+    "born": "July 29, 1887",
+    "died": "November 9, 1951",
+    "tags": []
+  },
+  {
+    "name": "Ivan Moody",
+    "aliases": [],
+    "born": "June 1, 1964",
+    "died": "",
+    "tags": []
+  },
+  {
+    "name": "Johann von Gardner",
+    "aliases": [],
+    "born": "December 22, 1898",
+    "died": "February 26, 1984",
+    "tags": []
+  },
+  {
+    "name": "Maxime Kovalevsky",
+    "aliases": [],
+    "born": "August 30, 1903",
+    "died": "June 13, 1988",
+    "tags": []
+  },
+  {
+    "name": "Nikolai Kedrov, Sr.",
+    "aliases": [
+      "Nikolai Kedrov & Sr."
+    ],
+    "born": "October 28, 1871",
+    "died": "February 2, 1940",
+    "tags": []
+  },
+  {
+    "name": "Roman Hurko",
+    "aliases": [],
+    "born": "October 21, 1962",
+    "died": "",
+    "tags": []
+  },
+  {
+    "name": "Vladimir Morosan",
+    "aliases": [],
+    "born": "c 1945 ?",
+    "died": "",
+    "tags": []
+  },
+  {
+    "name": "Alexander Ruggeri",
+    "aliases": [
+      "A. Ruggieri"
+    ],
+    "born": "1952",
+    "died": "2012",
+    "tags": []
+  },
+  {
+    "name": "Frederick T. Karam",
+    "aliases": [],
+    "born": "26 Mar 1926",
+    "died": "27 Mar 1978",
+    "tags": []
+  },
+  {
+    "name": "Georgi Izveko",
+    "aliases": [],
+    "born": "24 February 1874",
+    "died": "27 November 1937",
+    "tags": []
+  },
+  {
+    "name": "Maia Aprahamian",
+    "aliases": [],
+    "born": "Jan. 8, 1935",
+    "died": "",
+    "tags": []
+  },
+  {
+    "name": "Benny Goodman",
+    "aliases": [
+      "Benny Goodman, Chick Webb & Edgar Sampson"
+    ],
+    "born": "May 30, 1909",
+    "died": "June 13, 1986",
+    "tags": []
+  },
+  {
+    "name": "Jack Pettis",
+    "aliases": [
+      "Billy Meyers, Jack Pettis & Elmer Schoebel"
+    ],
+    "born": "February 10, 1902",
+    "died": "August 24, 1963",
+    "tags": []
+  },
+  {
+    "name": "Harry Revel",
+    "aliases": [],
+    "born": "21 December 1905",
+    "died": "3 November 1958",
+    "tags": []
+  },
+  {
+    "name": "Irving Berlin",
+    "aliases": [],
+    "born": "May 11, 1888",
+    "died": "September 22, 1989",
+    "tags": []
+  },
+  {
+    "name": "Irving Caesar",
+    "aliases": [
+      "Irving Caesar & Vincent Youmans"
+    ],
+    "born": "July 4, 1895",
+    "died": "December 18, 1996",
+    "tags": []
+  },
+  {
+    "name": "Ferdinand Joseph LaMothe",
+    "aliases": [
+      "Jelly Roll Morton"
+    ],
+    "born": "October 20, 1890",
+    "died": "July 10, 1941",
+    "tags": []
+  },
+  {
+    "name": "Turner Layton",
+    "aliases": [
+      "Layton Turner & Henry S. Creamer"
+    ],
+    "born": "2 July 1894",
+    "died": "6 Feb 1978",
+    "tags": []
+  },
+  {
+    "name": "Louis Alter",
+    "aliases": [],
+    "born": "June 18, 1902",
+    "died": "November 5, 1980",
+    "tags": []
+  },
+  {
+    "name": "Louis Prima",
+    "aliases": [],
+    "born": "December 7, 1910",
+    "died": "August 24, 1978",
+    "tags": []
+  },
+  {
+    "name": "Will Hudson",
+    "aliases": [
+      "Will Hudson & Irving Mills"
+    ],
+    "born": "March 8, 1908",
+    "died": "July 16, 1981",
+    "tags": []
+  },
+  {
+    "name": "Cole Porter",
+    "aliases": [],
+    "born": "June 9, 1891",
+    "died": "October 15, 1964",
+    "tags": []
+  },
+  {
+    "name": "Alexander Zhuk",
+    "aliases": [],
+    "born": "1907",
+    "died": "",
+    "tags": []
+  },
+  {
+    "name": "Hryhoriy Trokhymovych Kytasty",
+    "aliases": [
+      "Hryhoriy Trokhymovych Kytasty & O. Pidsucha",
+      "Hryhoriy Trokhymovych Kytasty & P. Karpenko-Krynycia"
+    ],
+    "born": "January 17, 1907",
+    "died": "April 6, 1984",
+    "tags": []
+  },
+  {
+    "name": "Kyrylo Hryhorovych Stetsenko",
+    "aliases": [],
+    "born": "May 12, 1882",
+    "died": "April 29, 1922",
+    "tags": []
+  },
+  {
+    "name": "Levko Mykolayovych Revutsky",
+    "aliases": [],
+    "born": "February 20, 1889",
+    "died": "March 30, 1977",
+    "tags": []
+  },
+  {
+    "name": "Mykhailo Orest Haivoronsky & R. Kupchynskyj",
+    "aliases": [],
+    "born": "September 15, 1892",
+    "died": "September 11, 1949",
+    "tags": []
+  },
+  {
+    "name": "Mykola Dmytrovych Leontovych",
+    "aliases": [
+      "Mykola Leontovych"
+    ],
+    "born": "December 13, 1877",
+    "died": "January 23, 1921",
+    "tags": []
+  },
+  {
+    "name": "Mykola Fomenko",
+    "aliases": [],
+    "born": "1894",
+    "died": "1961",
+    "tags": []
+  },
+  {
+    "name": "Mykola Lysenko",
+    "aliases": [
+      "Mykola Lysenko & Traditional",
+      "Mykola Vytaliyovych Lysenko"
+    ],
+    "born": "March 22, 1842",
+    "died": "November 6, 1912",
+    "tags": []
+  },
+  {
+    "name": "Myroslav Skoryk",
+    "aliases": [],
+    "born": "July 13, 1938",
+    "died": "June 1, 2020",
+    "tags": []
+  },
+  {
+    "name": "Ignat Chotkevych",
+    "aliases": [
+      "Ignat Chotkevych",
+      "c 1920 ?"
+    ],
+    "born": "c 1920 ?",
+    "died": "",
+    "tags": []
+  },
+  {
+    "name": "Levko Lepkyj",
+    "aliases": [],
+    "born": "c 1920 ?",
+    "died": "",
+    "tags": []
+  },
+  {
+    "name": "Stepan Fedorovitsj Kryvenky",
+    "aliases": [],
+    "born": "c 1920 ?",
+    "died": "",
+    "tags": []
+  },
+  {
+    "name": "Caroline Shaw",
+    "aliases": [],
+    "born": "August 1, 1982",
+    "died": "",
+    "tags": []
+  },
+  {
+    "name": "Gideon Klein",
+    "aliases": [],
+    "born": "December 6, 1919",
+    "died": "January 27, 1945",
+    "tags": []
+  },
+  {
+    "name": "Gaspar Cassadó",
+    "aliases": [],
+    "born": "October 5, 1897",
+    "died": "December 24, 1966",
+    "tags": []
+  },
+  {
+    "name": "György Ligeti",
+    "aliases": [],
+    "born": "May 28, 1923",
+    "died": "June 12, 2006",
+    "tags": []
+  },
+  {
+    "name": "Camillo Sivori",
+    "aliases": [],
+    "born": "October 25, 1815",
+    "died": "February 18, 1894",
+    "tags": []
+  },
+  {
+    "name": "Carlo Andrea Gambini",
+    "aliases": [],
+    "born": "October 22, 1819",
+    "died": "February 14, 1865",
+    "tags": []
+  },
+  {
+    "name": "Giovanni Serra",
+    "aliases": [],
+    "born": "1788",
+    "died": "1876",
+    "tags": []
+  },
+  {
+    "name": "Carlos Simon",
+    "aliases": [
+      "Christopher Terrell & Carlos Simon"
+    ],
+    "born": "1986",
+    "died": "",
+    "tags": []
+  },
+  {
+    "name": "George Walker",
+    "aliases": [],
+    "born": "June 27, 1922",
+    "died": "August 23, 2018",
+    "tags": []
+  },
+  {
+    "name": "Christian Colberg",
+    "aliases": [],
+    "born": "c 1955 ?",
+    "died": "",
+    "tags": []
+  },
+  {
+    "name": "Eva Sæhter",
+    "aliases": [],
+    "born": "c 1970 ?",
+    "died": "",
+    "tags": []
+  },
+  {
+    "name": "Fredrik Sjølin",
+    "aliases": [],
+    "born": "c 1981 ?",
+    "died": "",
+    "tags": []
+  },
+  {
+    "name": "Gjermund Haugen",
+    "aliases": [],
+    "born": "c 1960 ?",
+    "died": "",
+    "tags": []
+  },
+  {
+    "name": "Rune Tonsgaard Sorensen",
+    "aliases": [],
+    "born": "c 1980 ?",
+    "died": "",
+    "tags": []
+  },
+  {
+    "name": "Shulamit Ran",
+    "aliases": [],
+    "born": "October 21, 1949",
+    "died": "",
+    "tags": []
+  },
+  {
+    "name": "Fred Hersch",
+    "aliases": [],
+    "born": "October 21, 1955",
+    "died": "",
+    "tags": []
+  },
+  {
+    "name": "Philip Glass",
+    "aliases": [],
+    "born": "January 31, 1937",
+    "died": "",
+    "tags": []
+  },
+  {
+    "name": "Chen Yi",
+    "aliases": [],
+    "born": "April 4, 1953",
+    "died": "",
+    "tags": []
+  },
+  {
+    "name": "Alberto Ginastera",
+    "aliases": [],
+    "born": "April 11, 1916",
+    "died": "June 25, 1983",
+    "tags": []
+  },
+  {
+    "name": "Charles Huguenin",
+    "aliases": [],
+    "born": "c 1881 ?",
+    "died": "c 1964 ?",
+    "tags": []
+  },
+  {
+    "name": "Jean-Michel Damase",
+    "aliases": [],
+    "born": "January 27, 1928",
+    "died": "April 21, 2013",
+    "tags": []
+  },
+  {
+    "name": "Philip Wharton",
+    "aliases": [],
+    "born": "c 1970 ?",
+    "died": "",
+    "tags": []
+  },
+  {
+    "name": "Julián Peralta",
+    "aliases": [],
+    "born": "1974",
+    "died": "",
+    "tags": []
+  },
+  {
+    "name": "Franco Donatoni",
+    "aliases": [],
+    "born": "June 9, 1927",
+    "died": "August 17, 2000",
+    "tags": []
+  },
+  {
+    "name": "Gustav Strube",
+    "aliases": [],
+    "born": "March 3, 1867",
+    "died": "February 2, 1953",
+    "tags": []
+  },
+  {
+    "name": "Pierre Boulez",
+    "aliases": [],
+    "born": "March 26, 1925",
+    "died": "January 5, 2016",
+    "tags": []
+  },
+  {
+    "name": "Edmund Hooper",
+    "aliases": [],
+    "born": "1553",
+    "died": "July 14, 1621",
+    "tags": []
+  },
+  {
+    "name": "Edward Johnson",
+    "aliases": [],
+    "born": "1572",
+    "died": "1601",
+    "tags": []
+  },
+  {
+    "name": "Ferdinando Richardson",
+    "aliases": [],
+    "born": "1558",
+    "died": "1618",
+    "tags": []
+  },
+  {
+    "name": "Galeazzo Sabbatini",
+    "aliases": [],
+    "born": "1597",
+    "died": "1662",
+    "tags": []
+  },
+  {
+    "name": "Giovanni Picchi",
+    "aliases": [],
+    "born": "1571",
+    "died": "May 17, 1643",
+    "tags": []
+  },
+  {
+    "name": "Jehan Oystermayre",
+    "aliases": [],
+    "born": "c 1570 ?",
+    "died": "c 1620 ?",
+    "tags": []
+  },
+  {
+    "name": "John Blitheman",
+    "aliases": [],
+    "born": "1525",
+    "died": "May 23, 1591",
+    "tags": []
+  },
+  {
+    "name": "John Marchant",
+    "aliases": [],
+    "born": "c 1570 ?",
+    "died": "c 1620 ?",
+    "tags": []
+  },
+  {
+    "name": "John Munday",
+    "aliases": [],
+    "born": "1555",
+    "died": "June 29, 1630",
+    "tags": []
+  },
+  {
+    "name": "Martin Peerson",
+    "aliases": [],
+    "born": "1571",
+    "died": "December 1650",
+    "tags": []
+  },
+  {
+    "name": "Nicholas Strogers",
+    "aliases": [],
+    "born": "c 1530 ?",
+    "died": "1575",
+    "tags": []
+  },
+  {
+    "name": "Robert Johnson",
+    "aliases": [],
+    "born": "1583",
+    "died": "1633",
+    "tags": []
+  },
+  {
+    "name": "Robert Parsons",
+    "aliases": [],
+    "born": "1535",
+    "died": "1572",
+    "tags": []
+  },
+  {
+    "name": "Thomas Morley",
+    "aliases": [],
+    "born": "1557",
+    "died": "October 1602",
+    "tags": []
+  },
+  {
+    "name": "Thomas Oldfield",
+    "aliases": [],
+    "born": "c 1570 ?",
+    "died": "c 1620 ?",
+    "tags": []
+  },
+  {
+    "name": "Thomas Warrock",
+    "aliases": [],
+    "born": "1565",
+    "died": "1610",
+    "tags": []
+  },
+  {
+    "name": "William Inglot",
+    "aliases": [],
+    "born": "1554",
+    "died": "1621",
+    "tags": []
+  },
+  {
+    "name": "William Tisdale",
+    "aliases": [],
+    "born": "1570",
+    "died": "1604",
     "tags": []
   }
 ]
