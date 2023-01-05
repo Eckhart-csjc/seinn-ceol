@@ -147,26 +147,26 @@ const sortKeys = (playlist: IPlayList) => [
   ...(playlist.orderBy ?? []),
 ];
 
-const actionHandler: Record<PlayListAction, (context: object, event: IPlayListEvent) => void> = {
-  [PlayListAction.Layout]: (context, event) => layout.displayColumns(context, event.layout),
-  [PlayListAction.Headers]: (context, event) => layout.displayHeaders(event.layout),
-  [PlayListAction.Command]: (context, event) => {
+const actionHandler: Record<PlayListAction, (context: object, event: IPlayListEvent) => Promise<void>> = {
+  [PlayListAction.Layout]: async (context, event) => layout.displayColumns(context, event.layout),
+  [PlayListAction.Headers]: async (context, event) => layout.displayHeaders(event.layout),
+  [PlayListAction.Command]: async (context, event) => {
     if (event.command) {
       const token = parseExtractor(event.command);
       if (token) {
         const cmd = extract(context, token);
         if (cmd) {
-          void execWithProgress(`${cmd}`, () => {});
+          await execWithProgress(`${cmd}`, () => {});
         }
       }
     }
   },
 };
 
-const checkEvent = (e: IPlayListEvent, context: object) => {
+const checkEvent = async (e: IPlayListEvent, context: object) => {
   const token = parseExtractor(e.condition);
   if (token && extract(context, token)) {
-    actionHandler[e.action](context, e);
+    await actionHandler[e.action](context, e);
   }
 };
 
@@ -496,7 +496,7 @@ const doPlayList = async (name: string, options: IPlayListOptions, plays: number
       previousTrack,
       outputHeaders,
   }
-  playlist.events?.map((e) => checkEvent(e, context));
+  await Promise.all((playlist.events ?? []).map((e) => checkEvent(e, context)));
   if (outputHeaders) {
     layout.displayHeaders(playlist.layout ?? settings.layout);
     lastHeaderRow = getRowsPrinted();
