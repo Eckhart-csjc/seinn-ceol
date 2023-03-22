@@ -457,7 +457,7 @@ const opFunc: Record<Operation, OpFunc> = {
 
   [Operation.Date]: (context, operands) =>
     doUnaryOperation(context, operands, (context, op1) =>
-      new Date(dayjs(op1)).getTime() / 1000),
+      (op1 != null) ? new Date(dayjs(op1)).getTime() / 1000 : undefined),
 
   [Operation.DividedBy]: (context, operands) =>
     doBinaryOperation(context, operands, (context, op1, op2) =>
