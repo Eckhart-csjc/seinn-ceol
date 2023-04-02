@@ -30,6 +30,7 @@ export interface IComposer extends ITagable {
   born: string | number;       // Valid dayjs input
   died?: string | number;      // Valid dayjs input, or undefined is still living
   catalogs?: ICatalog[];       // Catalogs to look for in this composer's titles
+  language?: string;           // Language for pronouncing their name (e.g., fr_FR)
 }
 
 export interface IComposerUpdater extends Partial<IComposer> {

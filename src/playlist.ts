@@ -50,7 +50,7 @@ interface IPlayListEvent {
   condition: string;      // query that if results in truthiness, execute the action
   action: PlayListAction;
   layout?: string;
-  command?: string;
+  command?: string | Record<string,string>;
 }
 
 interface IPlayListOptions {
@@ -147,12 +147,25 @@ const sortKeys = (playlist: IPlayList) => [
   ...(playlist.orderBy ?? []),
 ];
 
+const selectCommand = (context: object, commands: Record<string,string>) => {
+  const selected = _.find(_.keys(commands), (k) => {
+    const token = parseExtractor(k);
+    return token ? !!extract(context, token) : false; // Find the first key that evaluates to true
+  });
+  return selected && commands[selected];
+};
+
 const actionHandler: Record<PlayListAction, (context: object, event: IPlayListEvent) => Promise<void>> = {
   [PlayListAction.Layout]: async (context, event) => layout.displayColumns(context, event.layout),
   [PlayListAction.Headers]: async (context, event) => layout.displayHeaders(event.layout),
   [PlayListAction.Command]: async (context, event) => {
-    if (event.command) {
-      const token = parseExtractor(event.command);
+    const command = event.command 
+    ? typeof event.command === 'string' 
+      ? event.command 
+      : selectCommand(context, event.command)
+    : undefined;
+    if (command) {
+      const token = parseExtractor(command);
       if (token) {
         const cmd = extract(context, token);
         if (cmd) {
