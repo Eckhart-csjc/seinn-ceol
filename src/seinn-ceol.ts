@@ -8,7 +8,7 @@ import { endTiming,startTiming } from './diagnostics';
 import * as keypress  from './keypress';
 import { cmdPlay } from './play';
 import * as playlist from './playlist';
-import { cmdQuery, cmdTag } from './query';
+import { cmdInput, cmdQuery, cmdTag } from './query';
 import { cmdShowStats, showDiagnostics } from './stats';
 import * as track from './track';
 import { ask, clearLine, printLn, quit,start } from './util';
@@ -64,6 +64,14 @@ program
   .command('info <track>')
   .description('get track information from a file')
   .action(track.cmdInfo)
+  ;
+
+program
+  .command('input <table> <prompt> <path>')
+  .option('-c, --copy <expression>', 'copy result of expression to clipboard (def = <prompt>)')
+  .option('-w, --where <filter>', 'filter rows to include')
+  .option('-j, --json', 'input as json (def = string)')
+  .action(cmdInput)
   ;
 
 program

@@ -267,3 +267,8 @@ export const eraseLine = () => {
   cursorTo(0);
   clearLine();
 };
+
+export const pbcopy = (data:string) => {
+    var proc = require('child_process').spawn('pbcopy');
+    proc.stdin.write(data); proc.stdin.end();
+}

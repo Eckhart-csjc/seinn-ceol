@@ -9,11 +9,13 @@ import * as playlist from './playlist';
 import { SegOut } from './segout';
 import * as track from './track';
 import {
+  ask,
   error,
   ISortable,
   Justification,
   notification,
   padOrTruncate,
+  pbcopy,
   printLn,
   sortBy,
 } from './util';
@@ -155,6 +157,47 @@ export const cmdTag = (
     tags: _.difference(_.union(i.tags ?? [], options.add ?? []), options.remove ?? []),
   }));
   tableHandler.update(updates);
+};
+
+export const cmdInput = async (
+  table: string,
+  prompt: string,
+  path: string,
+  options: {
+    copy?: string;
+    where?: string;
+    json?: boolean;
+  }
+) => {
+  const tableHandler = getTableHandler(table);
+  if (!tableHandler) {
+    error(`Unknown table: ${table}`);
+    return;
+  }
+  const items = tableHandler.filter(options.where);
+  const promptExtractor = parseExtractor(prompt);
+  const copyExtractor = options.copy ? parseExtractor(options.copy) : promptExtractor;
+  if (!promptExtractor || !copyExtractor) {
+    return;  // parse error already emitted
+  }
+  await items.reduce(async (acc, i) => {
+    await acc;
+    const copy = extract(i, copyExtractor);
+    if (copy) {
+      pbcopy(`${copy}`);
+    }
+    const { input } = await ask([
+      {
+        name: 'input',
+        type: 'input',
+        message: extract(i, promptExtractor),
+        default: _.get(i, path),
+      }
+    ]);
+    const data = options.json ? JSON.parse(input) : input;
+    _.set(i, path, data);
+    tableHandler.update([i]);
+  }, Promise.resolve());
 };
 
 const makeJustification = (justification?: string): Justification =>

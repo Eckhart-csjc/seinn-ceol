@@ -50,6 +50,7 @@ clearLine	src/util.ts	/^export const clearLine = (dir: Direction = 0) => process
 cmdAdd	src/track.ts	/^export const cmdAdd = async (tracks: string[], options: { noError: boolean; noWarn: boolean }) => {$/;"	v
 cmdAddAll	src/track.ts	/^export const cmdAddAll = async (directory: string, options: { noError: boolean; noWarn: boolean }) =>$/;"	v
 cmdInfo	src/track.ts	/^export const cmdInfo = async (track: string) => {$/;"	v
+cmdInput	src/query.ts	/^export const cmdInput = async ($/;"	v
 cmdPlay	src/play.ts	/^export const cmdPlay = async (track: ITrackHydrated | string): Promise<void> => { await doPlay(track); };$/;"	v
 cmdPlayList	src/playlist.ts	/^export const cmdPlayList = async (name: string, options: IPlayListOptions) => {$/;"	v
 cmdQuery	src/query.ts	/^export const cmdQuery = ($/;"	v
@@ -132,6 +133,7 @@ parseOrder	src/util.ts	/^export const parseOrder = (order: string): [ string, 'a
 parseRoman	src/track.ts	/^export const parseRoman = (val: string) => [...val].reduce<{prev: number; result: number}>((accum, c) => {$/;"	v
 parseSubMovement	src/track.ts	/^export const parseSubMovement = (title?: string): string|undefined => {$/;"	v
 parseTags	src/extractor.ts	/^export const parseTags = (input: string) => {$/;"	v
+pbcopy	src/util.ts	/^export const pbcopy = (data:string) => {$/;"	v
 play	src/players/afplay.ts	/^export const play = async (track: ITrackHydrated, earlyReturn: number = 0): Promise<boolean> => {$/;"	v
 print	src/util.ts	/^export const print = (text: string, theme?: Theming) =>$/;"	v
 printColumns	src/util.ts	/^export const printColumns = ($/;"	v

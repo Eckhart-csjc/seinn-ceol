@@ -199,6 +199,12 @@ const getValues = async (known: Partial<IComposer>, index: Record<string, ICompo
       askAnswered: true,
     },
     {
+      name: 'language',
+      type: 'input',
+      message: 'Language:',
+      askAnswered: true,
+    },
+    {
       name: 'tags',
       type: 'input',
       message: 'Tags:',
@@ -222,6 +228,7 @@ const getValues = async (known: Partial<IComposer>, index: Record<string, ICompo
     aliases: (known.name && known.name !== responses.name) ? _.uniq([ ...aliases, known.name]) : aliases,
     born: responses.born,
     died: responses.died,
+    language: responses.language,
     tags: parseTags(responses.tags),
   };
   switch (responses.action) {
