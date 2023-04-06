@@ -165,8 +165,12 @@ export const cmdInput = async (
   path: string,
   options: {
     copy?: string;
-    where?: string;
     json?: boolean;
+    limit?: string;
+    offset?: string;
+    order?: string;
+    orderBy?: string[];
+    where?: string;
   }
 ) => {
   const tableHandler = getTableHandler(table);
@@ -175,12 +179,20 @@ export const cmdInput = async (
     return;
   }
   const items = tableHandler.filter(options.where);
+  const keys = [
+    ...(options.order ? makeKeys(options.order) : []),
+    ...(options.orderBy ?? []),
+  ];
+  const sorted = sortBy<ISortable>(items, keys);     // Still want indexing
+  const limited = (options.offset || options.limit) ?
+    sorted.slice(parseInt(options.offset || '0', 10), parseInt(options.offset || '0', 10) + (parseInt(options.limit || '0', 10) || sorted.length)) :
+    sorted;
   const promptExtractor = parseExtractor(prompt);
   const copyExtractor = options.copy ? parseExtractor(options.copy) : promptExtractor;
   if (!promptExtractor || !copyExtractor) {
     return;  // parse error already emitted
   }
-  await items.reduce(async (acc, i) => {
+  await limited.reduce(async (acc, i) => {
     await acc;
     const copy = extract(i, copyExtractor);
     if (copy) {

@@ -49,7 +49,6 @@
     "capitalize": "^2.0.3",
     "chalk": "^4.1.0",
     "child-process-promise": "^2.2.1",
-    "clipboardy": "^3.0.0",
     "commander": "^6.2.0",
     "dayjs": "^1.9.8",
     "eslint-plugin-simple-import-sort": "^7.0.0",

@@ -69,8 +69,12 @@ program
 program
   .command('input <table> <prompt> <path>')
   .option('-c, --copy <expression>', 'copy result of expression to clipboard (def = <prompt>)')
-  .option('-w, --where <filter>', 'filter rows to include')
   .option('-j, --json', 'input as json (def = string)')
+  .option('--limit <limit>', 'limit output to n items')
+  .option('-O, --order <order>', 'use a named order from the orders file')
+  .option('-o, --orderBy <key...>', 'order items.  Each order is a query, optionally followed by a comma and sort order')
+  .option('--offset <offset>', 'start at offset (0 is first)')
+  .option('-w, --where <filter>', 'filter rows to include')
   .action(cmdInput)
   ;
 
