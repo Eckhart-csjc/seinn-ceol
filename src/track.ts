@@ -326,7 +326,7 @@ export const updateTracks = (updates: ITrackUpdater[]): ITrack[] => {
   return updated;
 };
 
-export const update = (updates: object[]): ITrack[] => updateTracks(updates as ITrackUpdater[]);
+export const update = (updates: ITrackUpdater[]): ITrack[] => updateTracks((updates as ITrack[]).map((t) => deHydrateTrack(t)) as ITrackUpdater[]);
 
 export const bumpPlays = (trackPath: string) => {
   const oldTrack = findTrack(trackPath);
@@ -405,6 +405,12 @@ export const hydrateTrack = (
       }, [] as ICatalogEntry[]),
     };
 };
+
+const deHydrateTrack = (t: ITrack) => _.omit(t, [
+  "unfilteredIndex",
+  "composerDetail",
+  "catalogs",
+]);
 
 export const sort = (sortKeys?: string[], whereClause?: string): ITrackHydrated[] => {
   const composerIndex = composer.indexComposers();

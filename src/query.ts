@@ -159,6 +159,31 @@ export const cmdTag = (
   tableHandler.update(updates);
 };
 
+export const cmdUpdate = (
+  table: string,
+  path: string,
+  value: string,
+  options: {
+    where?: string;
+    json?: boolean;
+  },
+) => {
+  const tableHandler = getTableHandler(table);
+  if (!tableHandler) {
+    error(`Unknown table: ${table}`);
+    return;
+  }
+  if (!options.where) {
+    error(`--where option is required (use 'true' if you really want to affect all ${table})`);
+    return;
+  }
+  const items = tableHandler.filter(options.where);
+  const val = options.json ? JSON.parse(value) : value;
+  const updates = items.map((i) => _.set(i, path, val));
+  tableHandler.update(updates);
+  printLn(`Updated ${updates.length} ${table}`);
+}
+
 export const cmdInput = async (
   table: string,
   prompt: string,

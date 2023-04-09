@@ -8,6 +8,7 @@
       { "query": "opus" },
       { "query": "opus && no" },
       { "include": "catalog" },
+      { "query": "date date" },
       { "query": "album" },
       { "query": "disk or 1" },
       { "query": "track" }

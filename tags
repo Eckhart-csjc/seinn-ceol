@@ -58,6 +58,7 @@ cmdRemoveDeleted	src/track.ts	/^export const cmdRemoveDeleted = async () => {$/;
 cmdResolveComposers	src/composer.ts	/^export const cmdResolveComposers = async () => {$/;"	v
 cmdShowStats	src/stats.ts	/^export const cmdShowStats = ($/;"	v
 cmdTag	src/query.ts	/^export const cmdTag = ($/;"	v
+cmdUpdate	src/query.ts	/^export const cmdUpdate = ($/;"	v
 composerIndexCacheStats	src/composer.ts	/^export const composerIndexCacheStats: diagnostics.ICacheStats = {$/;"	v
 cursorTo	src/util.ts	/^export const cursorTo = (x: number = 0, y?: number) => process.stdout.isTTY && process.stdout.cursorTo(x, y);$/;"	v
 debug	src/util.ts	/^export const debug = (...args: any[]) => {$/;"	v
@@ -164,7 +165,7 @@ suspend	src/keypress.ts	/^export const suspend = () => active = false;$/;"	v
 update	src/composer.ts	/^export const update = (updates: object[]) => updateComposers(updates as IComposerUpdater[]);$/;"	v
 update	src/layout.ts	/^export const update = (updates: object[]): ILayout[] => updateLayouts(updates as ILayout[]);$/;"	v
 update	src/playlist.ts	/^export const update = (updates: object[]): IPlayList[] => updatePlayLists(updates as IPlayList[]);$/;"	v
-update	src/track.ts	/^export const update = (updates: object[]): ITrack[] => updateTracks(updates as ITrackUpdater[]);$/;"	v
+update	src/track.ts	/^export const update = (updates: ITrackUpdater[]): ITrack[] => updateTracks((updates as ITrack[]).map((t) => deHydrateTrack(t)) as ITrackUpdater[]);$/;"	v
 updateComposer	src/composer.ts	/^export const updateComposer = (updates: IComposerUpdater): boolean => {$/;"	v
 updateComposers	src/composer.ts	/^export const updateComposers = (updates: IComposerUpdater[]): IComposer[] => {$/;"	v
 updateLayouts	src/layout.ts	/^export const updateLayouts = (updates: ILayout[]): ILayout[] => {$/;"	v

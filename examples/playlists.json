@@ -5,9 +5,32 @@
     "layout": "track",
     "events": [
       {
-        "condition": "composerDetail.name && composerDetail.name != previousTrack.composerDetail.name",
+        "condition": "composerDetail.name != previousTrack.composerDetail.name",
         "action": "command",
-        "command": "'say \"[[volm 0.6]] ' + composerDetail.name + '\"'"
+        "command": {
+          "composerDetail.language =~ /^cs_/": "'say --voice=Zuzana \"[[volm 0.8]] Hubda ' + ((composerDetail.name && ('od ' + composerDetail.name)) || 'neznámého skladatele') + '\"'",
+          "composerDetail.language =~ /^da_/": "'say --voice=Sara \"[[volm 0.8]] Musik af ' + (composerDetail.name  || 'en ukendt komponist') + '\"'",
+          "composerDetail.language =~ /^de_/": "'say --voice=Anna \"[[volm 0.8]] Musik ' + ((composerDetail.name && ('von ' + composerDetail.name)) || 'eines unbekannten Komponisten') + '\"'",
+          "composerDetail.language =~ /^en_/": "'say --voice=Tessa \"[[volm 0.8]] Music by ' + (composerDetail.name || 'an unknown composer') + '\"'",
+          "composerDetail.language =~ /^es_/": "'say --voice=Mónica \"[[volm 0.8]] Música de ' + (composerDetail.name || 'un compositor desconocido') + '\"'",
+          "composerDetail.language =~ /^et_/": "'say --voice=Satu \"[[volm 0.8]] ' + ((composerDetail.name && ('Muusika ' + composerDetail.name)) || 'tundmatu helilooja muusika') + '\"'",
+          "composerDetail.language =~ /^fi_/": "'say --voice=Satu \"[[volm 0.8]] ' + ((composerDetail.name && ('Musiikkia ' + composerDetail.name)) || 'tuntemattoman säveltäjän musiikkia') + '\"'",
+          "composerDetail.language =~ /^fr_/": "'say --voice=Amélie \"[[volm 0.8]] Musique ' + ((composerDetail.name && ('de ' + composerDetail.name)) || 'd\\'un composteur inconnu') + '\"'",
+          "composerDetail.language =~ /^hr_/": "'say --voice=Lana \"[[volm 0.8]] Glazba ' + (composerDetail.name || 'nepoznatog skladatelja') + '\"'",
+          "composerDetail.language =~ /^hu_/": "'say --voice=Tünde \"[[volm 0.8]] ' + ((composerDetail.name && ('Zenét ' + composerDetail.name)) || 'egy ismeretlen zeneszerző zenéje') + '\"'",
+          "composerDetail.language =~ /^it_/": "'say --voice=Alice \"[[volm 0.8]] Musica di ' + (composerDetail.name || 'autore ignoto') + '\"'",
+          "composerDetail.language =~ /^lv_/": "'say --voice=Satu \"[[volm 0.8]] ' + (composerDetail.name || 'nezināma komponista' + ' mūzika') + '\"'",
+          "composerDetail.language =~ /^nb_/": "'say --voice=Nora \"[[volm 0.8]] Musikk av ' + (composerDetail.name || 'en ukjent komponist') + '\"'",
+          "composerDetail.language =~ /^nl_/": "'say --voice=Ellen \"[[volm 0.8]] Musiek van ' + (composerDetail.name || 'een onbekende componist') + '\"'",
+          "composerDetail.language =~ /^pl_/": "'say --voice=Zosia \"[[volm 0.8]] Muzyka ' + (composerDetail.name || 'nieznanego kompozytora') + '\"'",
+          "composerDetail.language =~ /^pt_BR/": "'say --voice=Luciana \"[[volm 0.8]] Musica de ' + (composerDetail.name || 'compositor desconhecido') + '\"'",
+          "composerDetail.language =~ /^pt_/": "'say --voice=Joana \"[[volm 0.8]] Musica de ' + (composerDetail.name || 'compositor desconhecido') + '\"'",
+          "composerDetail.language =~ /^ro_/": "'say --voice=Ioana \"[[volm 0.8]] Muzica ' + (composerDetail.name || 'unui compozitor necunoscut') + '\"'",
+          "composerDetail.language =~ /^ru_/": "'say --voice=Milena \"[[volm 0.8]] Muzyka ' + (composerDetail.name || 'neizvestnogo kompozitora') + '\"'",
+          "composerDetail.language =~ /^sv_/": "'say --voice=Alva \"[[volm 0.8]] Musik av ' + (composerDetail.name || 'en okänd kompositör') + '\"'",
+          "composerDetail.language =~ /^uk_/": "'say --voice=Lesya \"[[volm 0.8]] Muzyka ' + (composerDetail.name || 'nevidomoho kompozytora') + '\"'",
+          "true": "'say --voice=Tessa \"[[volm 0.8]] Music by ' + (composerDetail.name || 'an unknown composer') + '\"'"
+        }
       },
       {
         "condition": "composerDetail.name != previousTrack.composerDetail.name || composer != previousTrack.composer",
@@ -20,7 +43,7 @@
         "layout": "albumHeader"
       }
     ],
-    "current": "/Users/eckhart/Music/iTunes/iTunes Media/Music/Paul O'Dette/Dowland_ Complete Lute Works, Vol. 4/13 Coranto, P 100.m4a"
+    "current": "/Users/eckhart/Music/iTunes/iTunes Media/Music/Compilations/Mozart - Don Giovanni/2-10 Don Giovanni, K. 527, Act 1 Scene 20_ _Ecco il birbo che t'ha offesa_ (Don Giovanni, Leporello, Don Ottavio, Donna Elvira, Donna Anna, Zerlina, Masetto).m4a"
   },
   {
     "name": "unplayed",
@@ -29,9 +52,9 @@
     "layout": "track",
     "events": [
       {
-        "condition": "composerDetail.name && composerDetail.name != previousTrack.composerDetail.name",
+        "condition": "composerDetail.name != previousTrack.composerDetail.name",
         "action": "command",
-        "command": "'say \"[[volm 0.6]] ' + composerDetail.name + '\"'"
+        "command": "'say --voice=Tessa \"[[volm 0.8]] Music by ' + (composerDetail.name || 'an unknown composer') + '\"'"
       },
       {
         "condition": "composerDetail.name != previousTrack.composerDetail.name || composer != previousTrack.composer",
@@ -44,7 +67,7 @@
         "layout": "albumHeader"
       }
     ],
-    "current": "/Users/eckhart/Music/iTunes/iTunes Media/Music/Compilations/Complete Fitzwilliam Virginal Book/298 Corranto CCLXVI.m4a"
+    "current": "/Users/eckhart/Music/iTunes/iTunes Media/Music/Norddeutscher Figuralchor & Joerg Straube/Bach_ Motets/2-08 _Unser Wandel Ist Im Himmel_, BWV-Anhang 165.m4a"
   },
   {
     "name": "familyBach",
@@ -53,9 +76,9 @@
     "layout": "track",
     "events": [
       {
-        "condition": "composerDetail.name && composerDetail.name != previousTrack.composerDetail.name",
+        "condition": "composerDetail.name != previousTrack.composerDetail.name",
         "action": "command",
-        "command": "'say \"[[volm 0.6]] ' + composerDetail.name + '\"'"
+        "command": "'say --voice=Tessa \"[[volm 0.8]] Music by ' + (composerDetail.name || 'an unknown composer') + '\"'"
       },
       {
         "condition": "composerDetail.name != previousTrack.composerDetail.name || composer != previousTrack.composer",
@@ -77,9 +100,9 @@
     "layout": "track",
     "events": [
       {
-        "condition": "composerDetail.name && composerDetail.name != previousTrack.composerDetail.name",
+        "condition": "composerDetail.name != previousTrack.composerDetail.name",
         "action": "command",
-        "command": "'say \"[[volm 0.6]] ' + composerDetail.name + '\"'"
+        "command": "'say --voice=Tessa \"[[volm 0.8]] Music by ' + (composerDetail.name || 'an unknown composer') + '\"'"
       },
       {
         "condition": "composerDetail.name != previousTrack.composerDetail.name || composer != previousTrack.composer",

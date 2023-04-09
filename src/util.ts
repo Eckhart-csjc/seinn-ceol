@@ -245,10 +245,11 @@ export const merge = (a: any, b: any): any => _.keys(b).reduce((accum, k) => {
   accum[k] = (b != null)
   ? (_.isArray(b[k])
     ? b[k]
-    : ((typeof b[k] === 'object')
-      ? merge(a[k], b[k])
-      : b[k]
-    )
+    : b[k] === null
+      ? undefined
+      : (a[k] && (typeof a[k] === 'object') && (typeof b[k] === 'object'))
+        ? merge(a[k], b[k])
+        : b[k]
   )
   : accum[k];
   return accum;

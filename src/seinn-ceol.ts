@@ -8,7 +8,7 @@ import { endTiming,startTiming } from './diagnostics';
 import * as keypress  from './keypress';
 import { cmdPlay } from './play';
 import * as playlist from './playlist';
-import { cmdInput, cmdQuery, cmdTag } from './query';
+import { cmdInput, cmdQuery, cmdTag, cmdUpdate } from './query';
 import { cmdShowStats, showDiagnostics } from './stats';
 import * as track from './track';
 import { ask, clearLine, printLn, quit,start } from './util';
@@ -139,6 +139,13 @@ program
   .option('-w, --where <filter>', 'apply tagging to only these items (required)')
   .description('add or remove tags')
   .action(cmdTag)
+  ;
+
+program
+  .command('update <table> <path> <value>')
+  .option('-j, --json', 'input as json (def = string)')
+  .option('-w, --where <filter>', 'apply updates to only these items (required)')
+  .action(cmdUpdate)
   ;
 
 const main = async () => {
