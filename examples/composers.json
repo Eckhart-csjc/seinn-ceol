@@ -3439,7 +3439,9 @@
     "name": "Anton Diabelli",
     "aliases": [],
     "born": "9/05/1781",
-    "died": "4/08/1858"
+    "died": "4/08/1858",
+    "index": 8,
+    "language": "de_DE"
   },
   {
     "name": "Amy Marcy Cheney Beach",
@@ -3489,13 +3491,17 @@
     "name": "William Boyce",
     "aliases": [],
     "born": "9/11/1711",
-    "died": "2/07/1779"
+    "died": "2/07/1779",
+    "index": 8,
+    "language": "en_GB"
   },
   {
     "name": "Daniel Friedrich Rudolph Kuhlau",
     "aliases": [],
     "born": "9/11/1786",
-    "died": "3/12/1832"
+    "died": "3/12/1832",
+    "index": 14,
+    "language": "de_DE"
   },
   {
     "name": "Arvo Part",
@@ -3530,13 +3536,17 @@
       {
         "symbol": "P"
       }
-    ]
+    ],
+    "index": 38,
+    "language": "de_DE"
   },
   {
     "name": "Maria Luigi Carlo Zenobio Salvatore Cherubini",
     "aliases": [],
     "born": "9/14/1760",
-    "died": "3/15/1842"
+    "died": "3/15/1842",
+    "index": 63,
+    "language": "it_IT"
   },
   {
     "name": "Jeno Hubay",
@@ -3554,13 +3564,17 @@
     "name": "Ignaz Jakob Holzbauer",
     "aliases": [],
     "born": "9/17/1711",
-    "died": "4/07/1783"
+    "died": "4/07/1783",
+    "index": 9,
+    "language": "de_DE"
   },
   {
     "name": "Giuseppe Saverio Raffaele Mercadante",
     "aliases": [],
     "born": "9/17/1795",
-    "died": "12/17/1870"
+    "died": "12/17/1870",
+    "index": 23,
+    "language": "it_IT"
   },
   {
     "name": "Charles Tomlinson Griffes",
@@ -3649,7 +3663,9 @@
     "name": "Justin Heinrich Knechtl",
     "aliases": [],
     "born": "9/30/1752",
-    "died": "12/01/1817"
+    "died": "12/01/1817",
+    "index": 54,
+    "language": "de_DE"
   },
   {
     "name": "Johan Severin Svendsen",
@@ -3673,7 +3689,9 @@
     "name": "Philip Cipriani Hambly Potter",
     "aliases": [],
     "born": "10/02/1792",
-    "died": "9/26/1871"
+    "died": "9/26/1871",
+    "index": 22,
+    "language": "en_GB"
   },
   {
     "name": "Kenneth Leighton",
@@ -3739,7 +3757,9 @@
       {
         "symbol": "Krebs-WV"
       }
-    ]
+    ],
+    "index": 11,
+    "language": "de_DE"
   },
   {
     "name": "Paul Creston",
@@ -3763,7 +3783,9 @@
     "name": "Bernhard Henrik Crusell",
     "aliases": [],
     "born": "10/15/1775",
-    "died": "7/28/1838"
+    "died": "7/28/1838",
+    "index": 0,
+    "language": "fi_FI"
   },
   {
     "name": "Friedrich Nietzsche",
@@ -3806,7 +3828,9 @@
     "name": "Baldassare Galuppi",
     "aliases": [],
     "born": "10/18/1706",
-    "died": "1/03/1785"
+    "died": "1/03/1785",
+    "index": 7,
+    "language": "it_IT"
   },
   {
     "name": "Charles Edward Ives",
@@ -3956,13 +3980,17 @@
       {
         "symbol": "MS"
       }
-    ]
+    ],
+    "index": 9,
+    "language": "it_IT"
   },
   {
     "name": "Henri-Jerome Bertini",
     "aliases": [],
     "born": "10/28/1798",
-    "died": "10/01/1876"
+    "died": "10/01/1876",
+    "index": 27,
+    "language": "fr_FR"
   },
   {
     "name": "Howard Hanson",
@@ -4008,7 +4036,9 @@
       {
         "symbol": "K"
       }
-    ]
+    ],
+    "index": 41,
+    "language": "de_DE"
   },
   {
     "name": "Douglas Lilburn",
@@ -4049,7 +4079,9 @@
     "name": "Jean-Baptiste Sebastien Breval",
     "aliases": [],
     "born": "11/06/1753",
-    "died": "3/18/1823"
+    "died": "3/18/1823",
+    "index": 57,
+    "language": "fr_FR"
   },
   {
     "name": "John Philip Sousa",
@@ -4079,13 +4111,17 @@
     "name": "Friedrich Witt",
     "aliases": [],
     "born": "11/08/1770",
-    "died": "1/03/1836"
+    "died": "1/03/1836",
+    "index": 79,
+    "language": "de_DE"
   },
   {
     "name": "Friedrich Wilhelm Michael Kalkbrenner",
     "aliases": [],
     "born": "11/08/1785",
-    "died": "6/10/1849"
+    "died": "6/10/1849",
+    "index": 12,
+    "language": "de_DE"
   },
   {
     "name": "Sir Arnold Edward Trevor Bax",
@@ -4150,7 +4186,9 @@
       {
         "symbol": "S"
       }
-    ]
+    ],
+    "index": 16,
+    "language": "de_DE"
   },
   {
     "name": "Johann Nepomuk Hummel",
@@ -4161,7 +4199,9 @@
       {
         "symbol": "S"
       }
-    ]
+    ],
+    "index": 5,
+    "language": "de_DE"
   },
   {
     "name": "Fanny Cacilia Mendelssohn Hensel",
@@ -4188,7 +4228,9 @@
     "name": "Rodolphe Kreutzer",
     "aliases": [],
     "born": "11/16/1766",
-    "died": "1/06/1831"
+    "died": "1/06/1831",
+    "index": 70,
+    "language": "fr_FR"
   },
   {
     "name": "Paul Hindemith",
@@ -4208,7 +4250,9 @@
     "name": "Prince Louis Ferdinand of Prussia Christian",
     "aliases": [],
     "born": "11/18/1772",
-    "died": "8/09/1806"
+    "died": "8/09/1806",
+    "index": 83,
+    "language": "de_DE"
   },
   {
     "name": "Carl Maria Friedrich Ernst, Freiherr von Weber",
@@ -4222,7 +4266,9 @@
       {
         "symbol": "J"
       }
-    ]
+    ],
+    "index": 15,
+    "language": "de_DE"
   },
   {
     "name": "Sir William Schwenck Gilbert",
@@ -4259,7 +4305,9 @@
       {
         "symbol": "L"
       }
-    ]
+    ],
+    "index": 2,
+    "language": "cs_CZ"
   },
   {
     "name": "Wilhelm Friedemann Bach",
@@ -4289,7 +4337,9 @@
       {
         "symbol": "KWV"
       }
-    ]
+    ],
+    "index": 7,
+    "language": "de_DE"
   },
   {
     "name": "Joaquín Rodrigo",
@@ -4325,7 +4375,9 @@
     "name": "Johann Friedrich Reichardt",
     "aliases": [],
     "born": "11/25/1752",
-    "died": "6/27/1814"
+    "died": "6/27/1814",
+    "index": 55,
+    "language": "de_DE"
   },
   {
     "name": "Sergei Ivanovich Taneyev",
@@ -4351,7 +4403,9 @@
       {
         "symbol": "W"
       }
-    ]
+    ],
+    "index": 50,
+    "language": "de_DE"
   },
   {
     "name": "Jean-Baptiste Lully",
@@ -4376,7 +4430,9 @@
     "name": "Peter Hansel",
     "aliases": [],
     "born": "11/29/1770",
-    "died": "9/18/1831"
+    "died": "9/18/1831",
+    "index": 80,
+    "language": "de_DE"
   },
   {
     "name": "Gaetano Donizetti",
@@ -4387,7 +4443,9 @@
       {
         "symbol": "In"
       }
-    ]
+    ],
+    "index": 25,
+    "language": "it_IT"
   },
   {
     "name": "Andres de Sola",
@@ -4413,7 +4471,9 @@
     "name": "Franz Xaver Richter",
     "aliases": [],
     "born": "12/01/1709",
-    "died": "9/12/1789"
+    "died": "9/12/1789",
+    "index": 3,
+    "language": "cs_CZ"
   },
   {
     "name": "Padre Antonio Francisco Javier Jose Soler",
@@ -4429,7 +4489,9 @@
       {
         "symbol": "M"
       }
-    ]
+    ],
+    "index": 31,
+    "language": "es_ES"
   },
   {
     "name": "Andre Campra",
@@ -4494,7 +4556,9 @@
     "name": "František Xaver Dusek",
     "aliases": [],
     "born": "12/08/1731",
-    "died": "2/12/1799"
+    "died": "2/12/1799",
+    "index": 34,
+    "language": "cs_CZ"
   },
   {
     "name": "Jean (Johan) Julius Christian Sibelius",
@@ -4528,7 +4592,9 @@
     "name": "Peter Joseph von Lindpaintner",
     "aliases": [],
     "born": "12/09/1791",
-    "died": "8/21/1856"
+    "died": "8/21/1856",
+    "index": 20,
+    "language": "de_DE"
   },
   {
     "name": "Charles-Emile Waldteufel",
@@ -4628,7 +4694,9 @@
       {
         "symbol": "Hess"
       }
-    ]
+    ],
+    "index": 81,
+    "language": "de_DE"
   },
   {
     "name": "François-Adrien Boieldieu",
@@ -4636,7 +4704,9 @@
       "François-Adrien Boiëldieu"
     ],
     "born": "12/16/1775",
-    "died": "10/08/1834"
+    "died": "10/08/1834",
+    "index": 1,
+    "language": "fr_FR"
   },
   {
     "name": "Zóltan Kodaly",
@@ -4650,7 +4720,9 @@
     "name": "Domenico Cimarosa",
     "aliases": [],
     "born": "12/17/1749",
-    "died": "1/11/1801"
+    "died": "1/11/1801",
+    "index": 48,
+    "language": "it_IT"
   },
   {
     "name": "Edward Alexander MacDowell",
@@ -4662,7 +4734,9 @@
     "name": "Franz Xaver Pokorny",
     "aliases": [],
     "born": "12/20/1728",
-    "died": "7/02/1794"
+    "died": "7/02/1794",
+    "index": 29,
+    "language": "cs_CZ"
   },
   {
     "name": "Henry Kimball Hadley",
@@ -4696,7 +4770,9 @@
       {
         "symbol": "K"
       }
-    ]
+    ],
+    "index": 22,
+    "language": "de_DE"
   },
   {
     "name": "Giovanni Bottesini",
@@ -4750,13 +4826,17 @@
     "name": "Jean-Noel Hamal",
     "aliases": [],
     "born": "12/23/1709",
-    "died": "11/26/1778"
+    "died": "11/26/1778",
+    "index": 4,
+    "language": "fr_BE"
   },
   {
     "name": "Johann Christoph Altnikol",
     "aliases": [],
     "born": "12/24/1719",
-    "died": "7/25/1759"
+    "died": "7/25/1759",
+    "index": 17,
+    "language": "de_DE"
   },
   {
     "name": "Orlando Gibbons",
@@ -4783,7 +4863,9 @@
     "name": "Franz Wilhelm Tausch",
     "aliases": [],
     "born": "12/26/1762",
-    "died": "2/09/1817"
+    "died": "2/09/1817",
+    "index": 66,
+    "language": "de_DE"
   },
   {
     "name": "Julius Rietz",
@@ -4795,7 +4877,9 @@
     "name": "Pavel Vranicky",
     "aliases": [],
     "born": "12/30/1756",
-    "died": "9/26/1808"
+    "died": "9/26/1808",
+    "index": 60,
+    "language": "cs_CZ"
   },
   {
     "name": "Andre-Charles-Prosper Messager",
@@ -5791,7 +5875,9 @@
     "name": "Johann Baptist Georg Neruda",
     "aliases": [],
     "born": "1701",
-    "died": "1780"
+    "died": "1780",
+    "index": 0,
+    "language": "cs_CZ"
   },
   {
     "name": "Giovanni Battista Sammartini",
@@ -5810,7 +5896,9 @@
     "name": "John Travers",
     "aliases": [],
     "born": "1703",
-    "died": "1758"
+    "died": "1758",
+    "index": 1,
+    "language": "en_GB"
   },
   {
     "name": "Johann Gottlieb Graun",
@@ -5824,13 +5912,17 @@
       {
         "symbol": "W"
       }
-    ]
+    ],
+    "index": 2,
+    "language": "de_DE"
   },
   {
     "name": "František Antonín Ignac Tuma",
     "aliases": [],
     "born": "1704",
-    "died": "1774"
+    "died": "1774",
+    "index": 3,
+    "language": "cs_CZ"
   },
   {
     "name": "Joseph-Nicholas-Pancrace Royer",
@@ -5838,25 +5930,33 @@
       "Joseph-Nicolas-Pancrace Royer"
     ],
     "born": "1705",
-    "died": "1755"
+    "died": "1755",
+    "index": 5,
+    "language": "fr_FR"
   },
   {
     "name": "Jean Barriere",
     "aliases": [],
     "born": "1705",
-    "died": "6/06/1747"
+    "died": "6/06/1747",
+    "index": 4,
+    "language": "fr_FR"
   },
   {
     "name": "Carlo Cecere",
     "aliases": [],
     "born": "1706",
-    "died": "1761"
+    "died": "1761",
+    "index": 6,
+    "language": "it_IT"
   },
   {
     "name": "Pietro Domenico Paradisi",
     "aliases": [],
     "born": "1707",
-    "died": "8/25/1791"
+    "died": "8/25/1791",
+    "index": 8,
+    "language": "it_IT"
   },
   {
     "name": "Christoph Schaffrath",
@@ -5867,49 +5967,65 @@
       {
         "symbol": "CSWV"
       }
-    ]
+    ],
+    "index": 0,
+    "language": "de_DE"
   },
   {
     "name": "Michel Corrette",
     "aliases": [],
     "born": "1709",
-    "died": "1795"
+    "died": "1795",
+    "index": 1,
+    "language": "fr_FR"
   },
   {
     "name": "Arvid Niclas von Hopken",
     "aliases": [],
     "born": "1710",
-    "died": "1778"
+    "died": "1778",
+    "index": 5,
+    "language": "de_DE"
   },
   {
     "name": "Johann Georg Rollig",
     "aliases": [],
     "born": "1710",
-    "died": "1790"
+    "died": "1790",
+    "index": 6,
+    "language": "de_DE"
   },
   {
     "name": "John Hebden",
     "aliases": [],
     "born": "1712",
-    "died": "1765"
+    "died": "1765",
+    "index": 10,
+    "language": "en_GB"
   },
   {
     "name": "Per Brant",
     "aliases": [],
     "born": "1714",
-    "died": "1767"
+    "died": "1767",
+    "index": 12,
+    "language": "sv_SE"
   },
   {
     "name": "Hinrich Philip Johnsen",
     "aliases": [],
     "born": "1716",
-    "died": "1779"
+    "died": "1779",
+    "index": 13,
+    "language": "sv_SE"
   },
   {
     "name": "Rudolf Straube",
     "aliases": [],
     "born": "1717",
-    "died": "1785"
+    "died": "1785",
+    "index": 14,
+    "language": "de_DE"
   },
   {
     "name": "Carl Heinrich Biber",
@@ -5923,61 +6039,81 @@
           "Ch"
         ]
       }
-    ]
+    ],
+    "index": 15,
+    "language": "de_DE"
   },
   {
     "name": "Anders Wesstrom",
     "aliases": [],
     "born": "1720",
-    "died": "1781"
+    "died": "1781",
+    "index": 18,
+    "language": "sv_SE"
   },
   {
     "name": "Thomas Vincent",
     "aliases": [],
     "born": "1720",
-    "died": "1783"
+    "died": "1783",
+    "index": 19,
+    "language": "en_GB"
   },
   {
     "name": "Pieter Hellendaal",
     "aliases": [],
     "born": "1721",
-    "died": "1799"
+    "died": "1799",
+    "index": 20,
+    "language": "nl_NL"
   },
   {
     "name": "John Garth",
     "aliases": [],
     "born": "1722",
-    "died": "1810"
+    "died": "1810",
+    "index": 21,
+    "language": "en_GB"
   },
   {
     "name": "Giovanni Battista Cirri",
     "aliases": [],
     "born": "1724",
-    "died": "1808"
+    "died": "1808",
+    "index": 23,
+    "language": "it_IT"
   },
   {
     "name": "Joseph Franz Xaver Dominik Stalder",
     "aliases": [],
     "born": "1725",
-    "died": "1765"
+    "died": "1765",
+    "index": 24,
+    "language": "de_DE"
   },
   {
     "name": "William Walond",
     "aliases": [],
     "born": "1725",
-    "died": "1770"
+    "died": "1770",
+    "index": 25,
+    "language": "en_GB"
   },
   {
     "name": "Josef Starzer",
     "aliases": [],
     "born": "1726",
-    "died": "1787"
+    "died": "1787",
+    "index": 26,
+    "language": "de_DE"
   },
   {
     "name": "Johann Wilhelm Hertel",
     "aliases": [],
     "born": "1727",
-    "died": "1789"
+    "died": "1789",
+    "index": 27,
+    "language": "de_DE"
   },
   {
     "name": "Claude-Benigne Balbastre",
@@ -5986,85 +6122,113 @@
       "Claude-Bénigne Balbastre"
     ],
     "born": "1727",
-    "died": "1799"
+    "died": "1799",
+    "index": 28,
+    "language": "fr_FR"
   },
   {
     "name": "John Burton",
     "aliases": [],
     "born": "1730",
-    "died": "1785"
+    "died": "1785",
+    "index": 32,
+    "language": "en_GB"
   },
   {
     "name": "Capel Bond",
     "aliases": [],
     "born": "1730",
-    "died": "2/14/1790"
+    "died": "2/14/1790",
+    "index": 33,
+    "language": "en_GB"
   },
   {
     "name": "Johann Christian Fischer",
     "aliases": [],
     "born": "1733",
-    "died": "1800"
+    "died": "1800",
+    "index": 35,
+    "language": "de_DE"
   },
   {
     "name": "Johann Philipp Christian Schulze",
     "aliases": [],
     "born": "1733",
-    "died": "1827"
+    "died": "1827",
+    "index": 36,
+    "language": "de_DE"
   },
   {
     "name": "Karl Leopold Rollig",
     "aliases": [],
     "born": "1735",
-    "died": "3/04/1804"
+    "died": "3/04/1804",
+    "index": 37,
+    "language": "de_DE"
   },
   {
     "name": "Constantin Reindl",
     "aliases": [],
     "born": "1738",
-    "died": "1799"
+    "died": "1799",
+    "index": 39,
+    "language": "de_DE"
   },
   {
     "name": "Jakub Golabek",
     "aliases": [],
     "born": "1739",
-    "died": "1789"
+    "died": "1789",
+    "index": 40,
+    "language": "pl_PL"
   },
   {
     "name": "Johann Schobert",
     "aliases": [],
     "born": "1740",
-    "died": "8/28/1767"
+    "died": "8/28/1767",
+    "index": 42,
+    "language": "de_DE"
   },
   {
     "name": "Anton Zimmermann",
     "aliases": [],
     "born": "1741",
-    "died": "1781"
+    "died": "1781",
+    "index": 43,
+    "language": "cs_CZ"
   },
   {
     "name": "Francesco Petrini",
     "aliases": [],
     "born": "1744",
-    "died": "1819"
+    "died": "1819",
+    "index": 44,
+    "language": "it_IT"
   },
   {
     "name": "Giuseppe Maria Gioachino Cambini",
     "aliases": [],
     "born": "1746",
-    "died": "12/29/1825"
+    "died": "12/29/1825",
+    "index": 45,
+    "language": "it_IT"
   },
   {
     "name": "Johann Abraham Peter Schulz",
     "aliases": [],
     "born": "1747",
-    "died": "1800"
+    "died": "1800",
+    "index": 46,
+    "language": "de_DE"
   },
   {
     "name": "Joseph Fiala",
     "aliases": [],
     "born": "1748",
-    "died": "1816"
+    "died": "1816",
+    "index": 47,
+    "language": "cs_CZ"
   },
   {
     "name": "Francesco Antonio Rosetti",
@@ -6082,31 +6246,41 @@
       {
         "symbol": "Kaul"
       }
-    ]
+    ],
+    "index": 49,
+    "language": "it_IT"
   },
   {
     "name": "John Marsh",
     "aliases": [],
     "born": "1752",
-    "died": "1828"
+    "died": "1828",
+    "index": 53,
+    "language": "en_GB"
   },
   {
     "name": "Johann Samuel Schroeter",
     "aliases": [],
     "born": "1752",
-    "died": "11/01/1788"
+    "died": "11/01/1788",
+    "index": 52,
+    "language": "de_DE"
   },
   {
     "name": "Etienne Solere",
     "aliases": [],
     "born": "1753",
-    "died": "1817"
+    "died": "1817",
+    "index": 56,
+    "language": "fr_FR"
   },
   {
     "name": "Bazvli Bohdanowicz",
     "aliases": [],
     "born": "1754",
-    "died": "1819"
+    "died": "1819",
+    "index": 58,
+    "language": "pl_PL"
   },
   {
     "name": "Franz Vincenz Krommer",
@@ -6117,31 +6291,41 @@
       {
         "symbol": "P"
       }
-    ]
+    ],
+    "index": 61,
+    "language": "cs_CZ"
   },
   {
     "name": "Mateo Antonio Perez Albeniz",
     "aliases": [],
     "born": "1760",
-    "died": "1831"
+    "died": "1831",
+    "index": 62,
+    "language": "es_ES"
   },
   {
     "name": "Jose Galles",
     "aliases": [],
     "born": "1761",
-    "died": "1836"
+    "died": "1836",
+    "index": 64,
+    "language": "es_ES"
   },
   {
     "name": "Jan Wanski",
     "aliases": [],
     "born": "1762",
-    "died": "1800"
+    "died": "1800",
+    "index": 65,
+    "language": "pl_PL"
   },
   {
     "name": "Bedřich Dionys Weber",
     "aliases": [],
     "born": "1766",
-    "died": "1842"
+    "died": "1842",
+    "index": 69,
+    "language": "cs_CZ"
   },
   {
     "name": "Franz Xaver Sussmayr",
@@ -6152,127 +6336,169 @@
       {
         "symbol": "SmWV"
       }
-    ]
+    ],
+    "index": 67,
+    "language": "de_DE"
   },
   {
     "name": "Leonhard von Call",
     "aliases": [],
     "born": "1767",
-    "died": "?"
+    "died": "?",
+    "index": 74,
+    "language": "de_DE"
   },
   {
     "name": "Filippo Gragnani",
     "aliases": [],
     "born": "1767",
-    "died": "1812"
+    "died": "1812",
+    "index": 72,
+    "language": "it_IT"
   },
   {
     "name": "Franz Alexander Possinger",
     "aliases": [],
     "born": "1767",
-    "died": "1827"
+    "died": "1827",
+    "index": 73,
+    "language": "de_DE"
   },
   {
     "name": "Carlos Baguer",
     "aliases": [],
     "born": "1768",
-    "died": "1808"
+    "died": "1808",
+    "index": 75,
+    "language": "es_ES"
   },
   {
     "name": "Johann Georg Heinrich Backofen",
     "aliases": [],
     "born": "1768",
-    "died": "1839"
+    "died": "1839",
+    "index": 76,
+    "language": "de_DE"
   },
   {
     "name": "Francesco Molino",
     "aliases": [],
     "born": "1768",
-    "died": "1847"
+    "died": "1847",
+    "index": 77,
+    "language": "it_IT"
   },
   {
     "name": "Hyacinthe Jadin",
     "aliases": [],
     "born": "1769",
-    "died": "1800"
+    "died": "1800",
+    "index": 78,
+    "language": "fr_FR"
   },
   {
     "name": "Thomas Bystrom",
     "aliases": [],
     "born": "1772",
-    "died": "1839"
+    "died": "1839",
+    "index": 82,
+    "language": "sv_SE"
   },
   {
     "name": "Carl Ludwig Lithander",
     "aliases": [],
     "born": "1773",
-    "died": "1843"
+    "died": "1843",
+    "index": 0,
+    "language": "et_ET"
   },
   {
     "name": "Thomas Busby",
     "aliases": [],
     "born": "1775",
-    "died": "5/28/1838"
+    "died": "5/28/1838",
+    "index": 1,
+    "language": "en_GB"
   },
   {
     "name": "William Russell",
     "aliases": [],
     "born": "1777",
-    "died": "1813"
+    "died": "1813",
+    "index": 2,
+    "language": "en_GB"
   },
   {
     "name": "Johann Evangelist Fuss",
     "aliases": [],
     "born": "1777",
-    "died": "1819"
+    "died": "1819",
+    "index": 3,
+    "language": "hu_HU"
   },
   {
     "name": "Fredrik Emanuel Lithander",
     "aliases": [],
     "born": "1777",
-    "died": "1823"
+    "died": "1823",
+    "index": 4,
+    "language": "sv_SE"
   },
   {
     "name": "Francizek Lessel",
     "aliases": [],
     "born": "1780",
-    "died": "1838"
+    "died": "1838",
+    "index": 6,
+    "language": "pl_PL"
   },
   {
     "name": "Dionisio Aguado",
     "aliases": [],
     "born": "1784",
-    "died": "1849"
+    "died": "1849",
+    "index": 10,
+    "language": "es_ES"
   },
   {
     "name": "Karol Kurpinski",
     "aliases": [],
     "born": "1785",
-    "died": "1857"
+    "died": "1857",
+    "index": 11,
+    "language": "pl_PL"
   },
   {
     "name": "George Frederick Pinto",
     "aliases": [],
     "born": "1786",
-    "died": "1806"
+    "died": "1806",
+    "index": 13,
+    "language": "en_GB"
   },
   {
     "name": "Archduke Of Austria Rudolph",
     "aliases": [],
     "born": "1788",
-    "died": "1831"
+    "died": "1831",
+    "index": 17,
+    "language": "de_DE"
   },
   {
     "name": "Luigi Legnani",
     "aliases": [],
     "born": "1790",
-    "died": "1877"
+    "died": "1877",
+    "index": 19,
+    "language": "it_IT"
   },
   {
     "name": "Anton Bernhard Furstenau",
     "aliases": [],
     "born": "1792",
-    "died": "1852"
+    "died": "1852",
+    "index": 21,
+    "language": "de_DE"
   },
   {
     "name": "Alois Beerhalter",
@@ -6727,7 +6953,9 @@
       "Fr. Louis Lambilotte"
     ],
     "born": "March 27, 1796",
-    "died": "February 27, 1855"
+    "died": "February 27, 1855",
+    "index": 24,
+    "language": "fr_BE"
   },
   {
     "name": "Adam de la Halle",
@@ -7218,7 +7446,9 @@
       "José Palomino"
     ],
     "born": "1755",
-    "died": "1810"
+    "died": "1810",
+    "index": 59,
+    "language": "es_ES"
   },
   {
     "name": "Conrad Paumann",
@@ -7258,7 +7488,9 @@
     "name": "Manuel Narro",
     "aliases": [],
     "born": "1729",
-    "died": "1776"
+    "died": "1776",
+    "index": 30,
+    "language": "es_ES"
   },
   {
     "name": "Marcin Mielczewski",
@@ -7584,7 +7816,9 @@
     "name": "Charles Wesley",
     "aliases": [],
     "born": "18 December 1707",
-    "died": "29 March 1788"
+    "died": "29 March 1788",
+    "index": 9,
+    "language": "en_GB"
   },
   {
     "name": "Paul David Hewson (Bono)",
@@ -7803,7 +8037,9 @@
       "Phil Snedecor & John Francis Wade"
     ],
     "born": "January 1, 1711",
-    "died": "August 16, 1786"
+    "died": "August 16, 1786",
+    "index": 7,
+    "language": "en_GB"
   },
   {
     "name": "John Stainer",
@@ -8064,14 +8300,18 @@
     "aliases": [],
     "born": "1767",
     "died": "July 14, 1808",
-    "tags": []
+    "tags": [],
+    "index": 71,
+    "language": "uk_UA"
   },
   {
     "name": "Dmitri Bortniansky",
     "aliases": [],
     "born": "October 28, 1751",
     "died": "October 10, 1825",
-    "tags": []
+    "tags": [],
+    "index": 51,
+    "language": "uk_UA"
   },
   {
     "name": "Episcop Lucian Moushitsky",
@@ -8155,7 +8395,9 @@
     "aliases": [],
     "born": "1766",
     "died": "May 5, 1813",
-    "tags": []
+    "tags": [],
+    "index": 68,
+    "language": "ru_RU"
   },
   {
     "name": "Stepan Smolensky",
@@ -8171,7 +8413,9 @@
     ],
     "born": "June 5, 1798",
     "died": "December 28, 1870",
-    "tags": []
+    "tags": [],
+    "index": 26,
+    "language": "ru_RU"
   },
   {
     "name": "Adrien Le Roy",
@@ -8581,7 +8825,9 @@
     "aliases": [],
     "born": "November 25, 1787",
     "died": "June 7, 1863",
-    "tags": []
+    "tags": [],
+    "index": 16,
+    "language": "de_DE"
   },
   {
     "name": "Leroy Anderson",
@@ -9117,7 +9363,9 @@
     "aliases": [],
     "born": "1788",
     "died": "1876",
-    "tags": []
+    "tags": [],
+    "index": 18,
+    "language": "it_IT"
   },
   {
     "name": "Carlos Simon",

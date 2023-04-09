@@ -409,7 +409,6 @@ export const hydrateTrack = (
 const deHydrateTrack = (t: ITrack) => _.omit(t, [
   "unfilteredIndex",
   "composerDetail",
-  "catalogs",
 ]);
 
 export const sort = (sortKeys?: string[], whereClause?: string): ITrackHydrated[] => {
