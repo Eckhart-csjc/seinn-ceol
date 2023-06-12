@@ -31,6 +31,7 @@ export interface IComposer extends ITagable {
   died?: string | number;      // Valid dayjs input, or undefined is still living
   catalogs?: ICatalog[];       // Catalogs to look for in this composer's titles
   language?: string;           // Language for pronouncing their name (e.g., fr_FR)
+  orderByTrackDate?: boolean;  // Use date from track in sort
 }
 
 export interface IComposerUpdater extends Partial<IComposer> {
