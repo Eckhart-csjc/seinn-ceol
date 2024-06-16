@@ -242,7 +242,7 @@ const getValues = async (known: Partial<IComposer>, index: Record<string, ICompo
   return undefined;
 };
 
-const isAnon = (name: string | undefined) => !name || name === 'Anonymous' || name === 'Traditional' || name === 'Traditionnel' || name === 'Unknown' || name === 'Composer Unknown';
+const isAnon = (name: string | undefined) => !name || name === 'Anonymous' || name.startsWith('Traditional') || name === 'Traditionnel' || name === 'Unknown' || name === 'Composer Unknown';
 
 export const cmdResolveComposers = async () => {
   const index = indexComposers();
