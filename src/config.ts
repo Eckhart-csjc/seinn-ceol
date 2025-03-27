@@ -1,6 +1,9 @@
 import { FileHandler } from './file-handler';
 import { IKey } from './keypress';
 
+// @ts-ignore
+const chalk = require('chalk');
+
 export interface IThemeSettings {
   chalk?: string[];
 };
