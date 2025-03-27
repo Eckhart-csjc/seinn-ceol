@@ -2,7 +2,7 @@ import { getSettings } from './config';
 import * as keypress from './keypress';
 import { displayColumns } from './layout';
 import { bumpPlays, findTrack, hydrateTrack, ITrackHydrated, makeTrack, } from './track';
-import { eraseLine, warning } from './util';
+import { warning } from './util';
 
 export interface IPlayer {
   play: (
@@ -51,7 +51,7 @@ export const doPlay = async (
   const playKeys = keypress.makeKeys([
     {
       name: 'info',
-      func: (key: keypress.IKey) =>  {
+      func: (_key: keypress.IKey) =>  {
         const infoLayout = getSettings().infoLayout;
         if (infoLayout) {
           const t = hydrateTrack(findTrack(track.trackPath) ?? track);   // Get most up to date

@@ -12,21 +12,17 @@ import * as keypress from './keypress';
 import { doPlay, stopPlaying } from './play';
 import { ITagable } from './query';
 import {
-  addProgressSuffix,
   ask,
   clearLine,
   cursorTo,
   error,
   makeProgressBar,
-  makeTime,
-  maybeQuote,
   merge,
   normalizePath,
   notification,
   print,
   printColumns,
   printLn,
-  removeProgressSuffix,
   sortBy,
   warning
 } from './util';
@@ -126,7 +122,7 @@ export const cmdAdd = async (tracks: string[], options: { noError: boolean; noWa
 const gatherFiles = (dir: string): string[] => {
   try {
     const entries = fs.readdirSync(dir);
-    return entries.reduce((accum, file, ndx) => {
+    return entries.reduce((accum, file) => {
       const fullName = path.resolve(dir, file);
       const stat = fs.statSync(fullName);
       return stat.isDirectory() ?
@@ -412,7 +408,6 @@ const deHydrateTrack = (t: ITrack) => _.omit(t, [
 ]);
 
 export const sort = (sortKeys?: string[], whereClause?: string): ITrackHydrated[] => {
-  const composerIndex = composer.indexComposers();
   const statSort = diagnostics.startTiming('Filter and sort tracks');
   const filtered = filter(whereClause);
   const result = sortKeys ? sortBy<ITrackHydrated>(filtered, sortKeys) : filtered;
@@ -443,7 +438,7 @@ export const resolveAnonymous = async (track: ITrack): Promise<void> => {
     case PLAY: {
       const playKeys = keypress.makeKeys([{
         name: 'stop',
-        func: (k: keypress.IKey) => stopPlaying(),
+        func: (_k: keypress.IKey) => stopPlaying(),
         help: 'stop playing'
       }]);
       keypress.addKeys(playKeys);

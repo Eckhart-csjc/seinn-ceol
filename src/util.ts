@@ -10,9 +10,7 @@ import { fixTTY } from './keypress';
 import { ITagable } from './query';
 import { showDiagnostics } from './stats';
 
-const chalk = require('chalk');
 const inquirer = require('inquirer');
-const pluralize = require('pluralize');
 
 export type Justification = 'left' | 'center' | 'right';
 export interface ISortable extends ITagable {
@@ -93,7 +91,7 @@ export const printColumns = (
     widths.map((w) => Math.floor(w * process.stdout.columns / totalWidth)) :
     widths;
   const just = finalWidths.map(
-    (w,ndx) => justification ? justification[ndx] ?? 'left' : 'left'
+    (_w,ndx) => justification ? justification[ndx] ?? 'left' : 'left'
   );
   const theme = getTheme();
   output.forEach((row, rownum) =>
@@ -151,7 +149,6 @@ export const makeTime = (milli: number) => {
 export const makeProgressBar = (width: number, pct: number, text: string = '') => {
   const body = padOrTruncate(text + barSuffix, width, 'center');
   const ticks = Math.floor(Math.max(0,Math.min(width, Math.floor(width * pct))));
-  const togo = width - ticks;
   const theme = getTheme();
   const ticksBar = applyThemeSetting(body.slice(0, ticks),
     barSuffix ?

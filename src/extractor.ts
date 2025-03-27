@@ -440,43 +440,43 @@ const doLazyBinaryOperation = (context: object, operands: IValueToken[], fnc: La
 
 const opFunc: Record<Operation, OpFunc> = {
   [Operation.All]: (context, operands) =>
-    doUnaryArrayOperation(context, operands, (context, op1) =>
+    doUnaryArrayOperation(context, operands, (_context, op1) =>
       op1?.reduce((accum, elem) => accum && !!elem, true)),
 
   [Operation.And]: (context, operands) =>
-    doLazyBinaryOperation(context, operands, (context, op1, op2) =>
+    doLazyBinaryOperation(context, operands, (_context, op1, op2) =>
       op1() && op2()),
 
   [Operation.Any]: (context, operands) =>
-    doUnaryArrayOperation(context, operands, (context, op1) =>
+    doUnaryArrayOperation(context, operands, (_context, op1) =>
       op1?.reduce((accum, elem) => accum || !!elem, false)),
 
   [Operation.Count]: (context, operands) =>
-    doUnaryArrayOperation(context, operands, (context, op1) =>
+    doUnaryArrayOperation(context, operands, (_context, op1) =>
       _.isArray(op1) ? op1.length : (_.isNil(op1) ? 0 : 1)),
 
   [Operation.Date]: (context, operands) =>
-    doUnaryOperation(context, operands, (context, op1) =>
+    doUnaryOperation(context, operands, (_context, op1) =>
       (op1 != null) ? new Date(dayjs(op1)).getTime() / 1000 : undefined),
 
   [Operation.DividedBy]: (context, operands) =>
-    doBinaryOperation(context, operands, (context, op1, op2) =>
+    doBinaryOperation(context, operands, (_context, op1, op2) =>
       (op1 as any) / (op2 as any)),
 
   [Operation.Duration]: (context, operands) =>
-    doUnaryOperation(context, operands, (context, op1) =>
+    doUnaryOperation(context, operands, (_context, op1) =>
       (parseDuration(`${op1}`) ?? 0) / 1000),
 
   [Operation.Equals]: (context, operands) =>
-    doBinaryOperation(context, operands, (context, op1, op2) =>
+    doBinaryOperation(context, operands, (_context, op1, op2) =>
       _.isEqual(op1, op2)),
 
   [Operation.Escape]: (context, operands) =>
-    doUnaryOperation(context, operands, (context, op1) =>
+    doUnaryOperation(context, operands, (_context, op1) =>
       escapeRegExp(`${op1}`)),
 
   [Operation.Fetch]: (context, operands) =>
-    doUnaryOperation(context, operands, (context, op1) => {
+    doUnaryOperation(context, operands, (_context, op1) => {
       const table = `${op1}`;
       const cached = fetchCache[table];
       if (cached) {
@@ -493,62 +493,62 @@ const opFunc: Record<Operation, OpFunc> = {
     }),
 
   [Operation.Filter]: (context, operands) =>
-    doBinaryArrayOperation(context, operands, (context, op1, op2) =>
-      ((array2) => op1?.filter((elem, ndx) => !!array2[ndx]))(pack(op2))),
+    doBinaryArrayOperation(context, operands, (_context, op1, op2) =>
+      ((array2) => op1?.filter((_elem, ndx) => !!array2[ndx]))(pack(op2))),
 
   [Operation.GreaterThan]: (context, operands) =>
-    doBinaryOperation(context, operands, (context, op1, op2) =>
+    doBinaryOperation(context, operands, (_context, op1, op2) =>
       (op1 as any) > (op2 as any)),
 
   [Operation.GreaterThanOrEquals]: (context, operands) =>
-    doBinaryOperation(context, operands, (context, op1, op2) =>
+    doBinaryOperation(context, operands, (_context, op1, op2) =>
       (op1 as any) >= (op2 as any)),
 
   [Operation.Join]: (context, operands) =>
-    doBinaryArrayOperation(context, operands, (context, op1, op2) =>
+    doBinaryArrayOperation(context, operands, (_context, op1, op2) =>
       op1?.join(`${op2 ?? ''}`)),
 
   [Operation.LessThan]: (context, operands) =>
-    doBinaryOperation(context, operands, (context, op1, op2) =>
+    doBinaryOperation(context, operands, (_context, op1, op2) =>
       (op1 as any) < (op2 as any)),
 
   [Operation.LessThanOrEquals]: (context, operands) =>
-    doBinaryOperation(context, operands, (context, op1, op2) =>
+    doBinaryOperation(context, operands, (_context, op1, op2) =>
       (op1 as any) <= (op2 as any)),
 
   [Operation.LongDate]: (context, operands) =>
-    doUnaryOperation(context, operands, (context, op1) =>
+    doUnaryOperation(context, operands, (_context, op1) =>
       op1 
       ? dayjs(typeof op1 === 'number' ? op1 * 1000 : op1).format('MMMM D, YYYY')
       :  ''
       ),
 
   [Operation.Matches]: (context, operands) =>
-    doBinaryOperation(context, operands, (context, op1, op2) =>
+    doBinaryOperation(context, operands, (_context, op1, op2) =>
       !!`${op1}`.match(op2 as any)),
 
   [Operation.Minus]: (context, operands) =>
-    doBinaryOperation(context, operands, (context, op1, op2) =>
+    doBinaryOperation(context, operands, (_context, op1, op2) =>
       (op1 as any) - (op2 as any)),
 
   [Operation.Not]: (context, operands) =>
-    doUnaryOperation(context, operands, (context, op1) =>
+    doUnaryOperation(context, operands, (_context, op1) =>
       !op1),
 
   [Operation.NotEquals]: (context, operands) =>
-    doBinaryOperation(context, operands, (context, op1, op2) =>
+    doBinaryOperation(context, operands, (_context, op1, op2) =>
       !_.isEqual(op1, op2)),
 
   [Operation.Or]: (context, operands) =>
-    doLazyBinaryOperation(context, operands, (context, op1, op2) =>
+    doLazyBinaryOperation(context, operands, (_context, op1, op2) =>
       op1() || op2()),
 
   [Operation.Plus]: (context, operands) =>
-    doBinaryOperation(context, operands, (context, op1, op2) =>
+    doBinaryOperation(context, operands, (_context, op1, op2) =>
       (op1 as any) + (op2 as any)),
 
   [Operation.ShortDate]: (context, operands) =>
-    doUnaryOperation(context, operands, (context, op1) =>
+    doUnaryOperation(context, operands, (_context, op1) =>
       op1 ?
         (
           (typeof op1 === 'string' && op1.length <= 8) ?
@@ -559,14 +559,14 @@ const opFunc: Record<Operation, OpFunc> = {
       ),
 
   [Operation.ShortDur]: (context, operands) =>
-    doUnaryOperation(context, operands, (context, op1) =>
+    doUnaryOperation(context, operands, (_context, op1) =>
       op1 ?
         makeTime((typeof op1 === 'number' ? op1 : parseInt(`${op1}`,10)) * 1000) :
         ''
       ),
 
   [Operation.ShortTime]: (context, operands) =>
-    doUnaryOperation(context, operands, (context, op1) => {
+    doUnaryOperation(context, operands, (_context, op1) => {
       if (op1) {
         const dt = dayjs(typeof op1 === 'number' ? op1 * 1000 : op1);
         const now = dayjs();
@@ -580,7 +580,7 @@ const opFunc: Record<Operation, OpFunc> = {
     }),
 
   [Operation.Times]: (context, operands) =>
-    doBinaryOperation(context, operands, (context, op1, op2) =>
+    doBinaryOperation(context, operands, (_context, op1, op2) =>
       (op1 as any) * (op2 as any)),
 
   [Operation.Where]: (context, operands) => {
@@ -606,25 +606,25 @@ const extractors: Record<TokenType, (context: object, token: IToken) => unknown>
   [TokenType.BinaryOperation]: (context, token: IBinaryOperationToken) =>
     (extract(context, token.operator) as OpFunc)(context, token.operands),
 
-  [TokenType.BinaryOperator]: (context, token: IBinaryOperatorToken) =>
+  [TokenType.BinaryOperator]: (_context, token: IBinaryOperatorToken) =>
     opFunc[token.operator],
 
   [TokenType.Identifier] : (context, token: IIdentifierToken) =>
     _.get(context, token.name),
 
-  [TokenType.NumericLiteral]: (context, token: INumericLiteralToken) =>
+  [TokenType.NumericLiteral]: (_context, token: INumericLiteralToken) =>
     token.value,
 
-  [TokenType.Regex]: (context, token: IRegexToken) =>
+  [TokenType.Regex]: (_context, token: IRegexToken) =>
     new RegExp(token.value, token.flags),
 
-  [TokenType.StringLiteral]: (context, token: IStringLiteralToken) =>
+  [TokenType.StringLiteral]: (_context, token: IStringLiteralToken) =>
     token.value,
 
   [TokenType.UnaryOperation]: (context, token: IUnaryOperationToken) =>
     (extract(context, token.operator) as OpFunc)(context, [token.operand]),
 
-  [TokenType.UnaryOperator]: (context, token: IUnaryOperatorToken) =>
+  [TokenType.UnaryOperator]: (_context, token: IUnaryOperatorToken) =>
     opFunc[token.operator],
 };
 

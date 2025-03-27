@@ -5,9 +5,7 @@ import { getSettings, Theming } from './config';
 import { extract, parseExtractor } from './extractor';
 import { ITagable } from './query';
 import { SegOut } from './segout';
-import * as track from './track';
 import {
-  addProgressSuffix,
   eraseLine,
   Justification,
   makeString,

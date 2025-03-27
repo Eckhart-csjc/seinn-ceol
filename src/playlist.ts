@@ -157,7 +157,7 @@ const selectCommand = (context: object, commands: Record<string,string>) => {
 
 const actionHandler: Record<PlayListAction, (context: object, event: IPlayListEvent) => Promise<void>> = {
   [PlayListAction.Layout]: async (context, event) => layout.displayColumns(context, event.layout),
-  [PlayListAction.Headers]: async (context, event) => layout.displayHeaders(event.layout),
+  [PlayListAction.Headers]: async (_context, event) => layout.displayHeaders(event.layout),
   [PlayListAction.Command]: async (context, event) => {
     const command = event.command 
     ? typeof event.command === 'string' 
@@ -183,7 +183,7 @@ const checkEvent = async (e: IPlayListEvent, context: object) => {
   }
 };
 
-const doFindNext = (key: IKey) => {
+const doFindNext = (_key: IKey) => {
   if (findParser && currentPlaylist && theTrack) {
     const sorted = track.sort(sortKeys(currentPlaylist), currentPlaylist.where);
     const current =  _.findIndex(sorted, (t) => t.trackPath === theTrack?.trackPath);
@@ -230,12 +230,12 @@ const doFind = async (key: IKey, backward: boolean) => {
 const doFindBackward = async (key: IKey) => doFind(key, true);
 const doFindForward = async (key: IKey) => doFind(key, false);
 
-const doNext = (key: IKey) => {
+const doNext = (_key: IKey) => {
   afterTrackAction = AfterTrackAction.Next;
   stopPlaying();
 };
 
-const doPauseAfter = (key: IKey) => {
+const doPauseAfter = (_key: IKey) => {
   if (afterTrackAction !== AfterTrackAction.Pause) {
     if (isPlaying()) {
       if (afterTrackAction === AfterTrackAction.Quit) {
@@ -247,12 +247,12 @@ const doPauseAfter = (key: IKey) => {
   }
 };
 
-const doPrevious = (key: IKey) => {
+const doPrevious = (_key: IKey) => {
   afterTrackAction = AfterTrackAction.Previous;
   stopPlaying();
 };
 
-const doShuffle = (key: IKey) => {
+const doShuffle = (_key: IKey) => {
   shuffleMode = !shuffleMode;
   afterTrackAction = shuffleMode ? AfterTrackAction.Shuffle : AfterTrackAction.Next;
   notification(`Shuffle ${shuffleMode ? 'on' : 'off'}`);
@@ -261,7 +261,7 @@ const doShuffle = (key: IKey) => {
   }
 };
 
-const doResume = (key: IKey) => {
+const doResume = (_key: IKey) => {
   if ([AfterTrackAction.Pause, AfterTrackAction.Quit].includes(afterTrackAction)) {
     if (isPlaying()) {
       removeProgressSuffix(makeAfterMsg(afterTrackAction === AfterTrackAction.Pause ? 'pause' : 'quit'));
@@ -272,7 +272,7 @@ const doResume = (key: IKey) => {
   }
 };
 
-const doStop = (key: IKey) => {
+const doStop = (_key: IKey) => {
   if (isPlaying()) {
     afterTrackAction = AfterTrackAction.Pause;
     stopPlaying();
@@ -281,7 +281,7 @@ const doStop = (key: IKey) => {
   }
 };
 
-const doQuitAfter = (key: IKey) => {
+const doQuitAfter = (_key: IKey) => {
   if (afterTrackAction !== AfterTrackAction.Quit) {
     if (isPlaying()) {
       if (afterTrackAction === AfterTrackAction.Pause) {
@@ -352,7 +352,7 @@ const afterTrack = async (name: string, options: IPlayListOptions,  plays: numbe
       cursorTo(0);
       print(padOrTruncate(' Paused', process.stdout.columns, 'center'), 'paused');
       cursorTo(0);
-      await new Promise((resolve, reject) => setTimeout(resolve, 500));
+      await new Promise((resolve, _reject) => setTimeout(resolve, 500));
       return afterTrack(name, options, plays);
     }
 

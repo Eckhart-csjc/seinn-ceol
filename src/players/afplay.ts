@@ -59,7 +59,7 @@ const makePlayKeys = async () => keypress.makeKeys([
   ),
 ]);
 
-function doPause(key: IKey) {
+function doPause(_key: IKey) {
   if (playState.beginPause) {
     return;
   }
@@ -68,12 +68,12 @@ function doPause(key: IKey) {
   addProgressSuffix(PAUSED);
 }
 
-function doQuit(key: IKey) {
+function doQuit(_key: IKey) {
   playState.beginPause = 0;
   void killPlayer();
 }
 
-function doResume(key: IKey) {
+function doResume(_key: IKey) {
   if (!playState.beginPause) {
     return;
   }
@@ -82,7 +82,7 @@ function doResume(key: IKey) {
   playState.beginPause = 0;
 }
 
-function doRewind(key: IKey) {
+function doRewind(_key: IKey) {
   playState.rewind = true;
   void killPlayer();
 }
@@ -150,7 +150,7 @@ const doPlay = async (track: ITrackHydrated, earlyReturn: number = 0, offset: nu
     ((track.duration ?? 0) * 1000) - offset - earlyReturn
   );
   if (playState.beginPause) {
-    await new Promise<void>((resolve, reject) => {
+    await new Promise<void>((resolve, _reject) => {
       const timer = setInterval(async () => {
         if (playState.beginPause) {
           return;                   // Still paused

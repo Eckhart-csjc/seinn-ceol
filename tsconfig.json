@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "es2017",
+    "target": "esnext",
     "lib": [
       "esnext"
     ],
@@ -16,11 +16,10 @@
     "inlineSourceMap": true,
     "inlineSources": true,
     "strictNullChecks": true,
-    "noImplicitAny": true,
     "noImplicitThis": true,
     "noImplicitReturns": true,
-    "noUnusedParameters": false,
-    "noUnusedLocals": false,
+    "noUnusedParameters": true,
+    "noUnusedLocals": true,
     "resolveJsonModule": true,
     "jsx": "react",
     "plugins": [

@@ -4,7 +4,6 @@ import { program } from 'commander';
 
 import * as composer from './composer';
 import { getSettings } from './config';
-import { endTiming,startTiming } from './diagnostics';
 import * as keypress  from './keypress';
 import { cmdPlay } from './play';
 import * as playlist from './playlist';

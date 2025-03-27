@@ -73,12 +73,12 @@ export const cmdQuery = (
     const colp = columns.map((c) => parseExtractor(c));
     const rows = [
       columns.map((c, ndx) => options.headings?.[ndx] || c),
-      ...limited.map((i) => columns.map((c,cndx) => colp[cndx] ? queryMakeString(extract(i, colp[cndx]!)) : '#ERR')),
+      ...limited.map((i) => columns.map((_c,cndx) => colp[cndx] ? queryMakeString(extract(i, colp[cndx]!)) : '#ERR')),
     ];
     const maxs = rows.reduce<number[]>((acc, r) =>
-      columns.map((c, ndx) => Math.max(acc[ndx] ?? 0, r[ndx]?.length ?? 0)),
+      columns.map((_c, ndx) => Math.max(acc[ndx] ?? 0, r[ndx]?.length ?? 0)),
     [] as number[]);
-    const justification = columns.map((c, ndx) => makeJustification(options.justification?.[ndx]));
+    const justification = columns.map((_c, ndx) => makeJustification(options.justification?.[ndx]));
     const theme = config.getTheme();
     const theLayout = options.layout ? layout.getLayout(options.layout) : undefined;
     const out = new SegOut();
@@ -117,7 +117,7 @@ export const cmdQuery = (
       if (p) {
         const values = _.compact(limited.map((item) => extract(item, p))).filter((v) => _.isNumber(v)) as number[];
         if (values.length) {
-          const { lastSeen, gaps } = values.sort((a,b) => a > b ? 1 : a < b ? -1 : 0).reduce<{ lastSeen: number, gaps: string[] }>((a, v) => ({
+          const { gaps } = values.sort((a,b) => a > b ? 1 : a < b ? -1 : 0).reduce<{ lastSeen: number, gaps: string[] }>((a, v) => ({
             lastSeen: v,
             gaps: (v > a.lastSeen + 1) ?
               ([ ...a.gaps, `${a.lastSeen + 1}` + ((v - a.lastSeen > 2) ? `-${v - 1}` : '') ])

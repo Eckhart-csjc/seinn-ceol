@@ -188,7 +188,7 @@ const getValues = async (known: Partial<IComposer>, index: Record<string, ICompo
       type: 'input',
       message: 'Born:',
       default: known.born,
-      validate: (val: string) => (!!val && dayjs(val).year != NaN) ? true : 'Invalid date',
+      validate: (val: string) => (!!val && !_.isNaN(dayjs(val).year)) ? true : 'Invalid date',
       askAnswered: true,
     },
     {
@@ -196,7 +196,7 @@ const getValues = async (known: Partial<IComposer>, index: Record<string, ICompo
       type: 'input',
       message: 'Died (blank if still living):',
       default: known.died,
-      validate: (val: string) => (!val || dayjs(val).year != NaN) ? true : 'Invalid date',
+      validate: (val: string) => (!val || !_.isNaN(dayjs(val).year)) ? true : 'Invalid date',
       askAnswered: true,
     },
     {

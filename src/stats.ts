@@ -7,10 +7,7 @@ import { extract, IValueToken, parseCacheStats, parseExtractor } from './extract
 import * as layout from './layout';
 import * as playlist from './playlist';
 import * as track from './track';
-import { clearLine, error, makeString, makeTime, notification, padOrTruncate, parseOrder, print, printColumns, printLn } from './util';
-
-const capitalize = require('capitalize');
-const pluralize = require('pluralize');
+import { clearLine, makeString, makeTime, notification, parseOrder, printColumns } from './util';
 
 interface IGroupStats {
   name: string;
@@ -43,7 +40,6 @@ export const cmdShowStats = (
   const groups: IValueToken[] = (options.groupBy ?? [] as string[])
     .map((g) => parseExtractor(g))
     .filter((g) => !!g) as IValueToken[];
-  const composerIndex = composer.indexComposers();
   const order = options.order ?? [] as string[];
   const orderBy = [
     ...order,
@@ -53,7 +49,7 @@ export const cmdShowStats = (
     return [ orders[o] ?? 'name', ad ?? (o === 'name' ? 'asc' : 'desc') ];
   });
   const stats = tracks.reduce<IGroupStats>(
-    (accum, t, ndx) => addStats(
+    (accum, t) => addStats(
       accum,
       t,
       groups
@@ -235,7 +231,7 @@ const formatGroup = (
     .slice(0, limit[0] || Infinity)
     .map((s, index) => ({ ...s, index: index + 1 }))
     .reduce(
-      (accum, group, ndx, arry) => [
+      (accum, group, _ndx, arry) => [
         ...accum,
         ...formatGroup(group, orderBy.slice(1), limit.slice(1), indent + indexPad + 1, `${arry.length}`.length)
       ],
